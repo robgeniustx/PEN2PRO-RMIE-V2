@@ -1,0 +1,1 @@
+export default function SeoPreviewCard({ seo = {} }) { return <div className='p-3 bg-slate-900 rounded border border-blue-600'><div>{seo.seo_title}</div><div>{seo.meta_description}</div><div>{(seo.keywords||[]).join(', ')}</div><div>{seo.slug}</div><p className='text-xs text-amber-400'>SEO rankings are never guaranteed.</p></div>; }

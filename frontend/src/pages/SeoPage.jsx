@@ -1,0 +1,1 @@
+import { mockWebsiteBuilder } from '../data/mockWebsiteBuilder'; import SeoPreviewCard from '../components/website/SeoPreviewCard'; export default function SeoPage(){return <div className='min-h-screen bg-slate-950 text-white p-4'><SeoPreviewCard seo={mockWebsiteBuilder.seo}/></div>}

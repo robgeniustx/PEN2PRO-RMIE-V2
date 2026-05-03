@@ -1,0 +1,1 @@
+import { mockWebsiteBuilder } from '../data/mockWebsiteBuilder'; import LandingPagePreview from '../components/website/LandingPagePreview'; export default function LandingPageBuilderPage(){return <div className='min-h-screen bg-slate-950 text-white p-4'><LandingPagePreview data={mockWebsiteBuilder.landing_page}/></div>}

@@ -1,0 +1,1 @@
+export default function WebsiteCopyCard({ copy = {} }) { return <div className='grid gap-3 md:grid-cols-2'>{Object.entries(copy).map(([k,v])=><div key={k} className='p-3 bg-slate-900 rounded border border-blue-600'><h3 className='font-bold capitalize'>{k}</h3><p>{v}</p></div>)}</div>; }
