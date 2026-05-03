@@ -6,3 +6,4 @@ export const createCheckoutPlaceholder = async (tier) => {
     tier,
   };
 };
+// TODO stripeApi

@@ -90,3 +90,4 @@ const BlueprintResultsPage = () => {
 };
 
 export default BlueprintResultsPage;
+export default function BlueprintResultsPage(){return <div>BlueprintResultsPage stub</div>;}

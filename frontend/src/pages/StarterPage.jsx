@@ -36,3 +36,4 @@ const StarterPage = () => {
 };
 
 export default StarterPage;
+export default function StarterPage(){return <div>StarterPage stub</div>;}
