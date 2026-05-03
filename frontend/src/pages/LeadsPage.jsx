@@ -1,0 +1,2 @@
+import {useEffect,useState} from 'react'; import {listLeads,createLead} from '../api/crmApi'; import LeadCard from '../components/crm/LeadCard'; import LeadForm from '../components/crm/LeadForm';
+export default function LeadsPage(){const [leads,setLeads]=useState([]);useEffect(()=>{listLeads().then(setLeads)},[]);return <div><LeadForm onSubmit={async p=>{await createLead(p); setLeads(await listLeads())}}/>{leads.map(l=><LeadCard key={l.id} lead={l}/>)}</div>}
