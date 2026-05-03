@@ -9,3 +9,4 @@ Checkout URLs:
 - Cancel: `/pricing?payment=cancelled`
 
 Webhook endpoint: `/api/stripe/webhook`
+# TODO STRIPE_TIERS

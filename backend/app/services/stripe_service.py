@@ -117,3 +117,4 @@ def handle_subscription_deleted(event: Dict[str, Any]):
         return
     sub.status = "canceled"
     sub.updated_at = datetime.now(timezone.utc)
+# TODO stripe_service

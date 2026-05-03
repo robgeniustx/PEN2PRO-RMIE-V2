@@ -22,3 +22,4 @@ class Subscription:
     is_lifetime: bool = False
     created_at: datetime = field(default_factory=now_utc)
     updated_at: datetime = field(default_factory=now_utc)
+# TODO subscription

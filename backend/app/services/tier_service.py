@@ -37,3 +37,4 @@ def has_access(user_id=None, customer_email=None, requested_tier="free") -> bool
             current_tier = sub.tier
             break
     return can_access(current_tier, requested_tier)
+# TODO tier_service
