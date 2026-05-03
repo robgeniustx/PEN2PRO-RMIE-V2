@@ -1,0 +1,1 @@
+export default function SocialAnalyticsPage(){return <div className='p-4 bg-slate-950 min-h-screen text-white'><h1>Social Analytics (Stub)</h1><p>posts created: 12</p><p>platforms planned: 5</p><p>content ready: 9</p><p>scripts generated: 4</p><p>TODO: connect real analytics later.</p></div>}
