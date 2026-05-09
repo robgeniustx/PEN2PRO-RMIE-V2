@@ -1,31 +1,7 @@
-import { useMemo } from "react";
-import { useLocation } from "react-router-dom";
-import { isTestTierAccessEnabled, normalizeTier, tierFromUrl } from "../utils/tierAccess";
+import { useMemo } from 'react';
+import { socialTierAccess } from '../utils/tierAccess';
 
-export function useTier(defaultTier = "free") {
-  const location = useLocation();
-  return useMemo(() => {
-    const queryTier = tierFromUrl(location.search);
-    if (queryTier !== "free") return queryTier;
-    if (isTestTierAccessEnabled()) return "founders";
-    // TODO: Replace with authenticated subscription tier from backend profile/session.
-    return normalizeTier(defaultTier);
-  }, [defaultTier, location.search]);
+export function useTier(tier = 'free') {
+  const effectiveTier = import.meta.env.VITE_ALLOW_TEST_TIER_ACCESS === 'true' ? (tier || 'founders') : (tier || 'free');
+  return useMemo(() => ({ tier: effectiveTier, access: socialTierAccess[effectiveTier] || socialTierAccess.free }), [effectiveTier]);
 }
-import { DEFAULT_TIER, TIER_CONFIG } from "../data/tierConfig";
-import { getTierFromSearch, resolveTier } from "../utils/tierAccess";
-
-export const useTier = () => {
-  const location = useLocation();
-
-  return useMemo(() => {
-    const queryTier = getTierFromSearch(location.search);
-    const tier = resolveTier(queryTier);
-    return {
-      tier,
-      tierConfig: TIER_CONFIG[tier] || TIER_CONFIG[DEFAULT_TIER],
-      requestedTier: queryTier,
-    };
-  }, [location.search]);
-};
-// TODO useTier

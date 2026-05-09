@@ -1,23 +1,26 @@
 from fastapi import FastAPI
 
-from app.routes.stripe_routes import router as stripe_router
+from app.routes.social import router as social_router
 
-app = FastAPI(title="PEN2PRO RMIE Live API")
+app = FastAPI(title="PEN2PRO RMIE Live")
+app.include_router(social_router)
 
 
 @app.get("/api/health")
-async def health_check():
+def health():
     return {"status": "ok"}
 
 
 @app.post("/api/intake")
-async def intake_placeholder():
-    return {"message": "Intake route ready"}
+def intake():
+    return {"status": "stub"}
 
 
 @app.post("/api/blueprints/generate")
-async def blueprint_generate_placeholder():
-    return {"message": "Blueprint generation route ready"}
+def blueprints_generate():
+    return {"status": "stub"}
 
 
-app.include_router(stripe_router, prefix="/api/stripe", tags=["stripe"])
+@app.post("/api/stripe/create-checkout-session")
+def stripe_checkout():
+    return {"status": "stub"}
