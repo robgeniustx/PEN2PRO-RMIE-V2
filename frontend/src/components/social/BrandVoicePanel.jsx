@@ -1,0 +1,1 @@
+export default function BrandVoicePanel({ brandVoice }) { if (!brandVoice) return null; return <div className='bg-slate-900 border border-orange-400 rounded-xl p-4 text-white'><div>Tone: {brandVoice.tone}</div><div>Audience: {brandVoice.audience}</div></div>; }
