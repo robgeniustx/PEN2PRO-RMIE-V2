@@ -1,4 +1,7 @@
 class BaseAgent:
+    name='Base Agent'
+    description=''
+    tier_required='free'
     name = "base_agent"
     description = "Base agent"
     tier_required = "free"

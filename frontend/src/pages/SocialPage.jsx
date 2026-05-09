@@ -1,3 +1,5 @@
+import {Link} from 'react-router-dom';
+export default function SocialPage(){const tier='pro'; return <div><Link to={`/leads?tier=${tier}`}>Save Interested People as Leads</Link></div>}
 import { useState } from 'react'; import { useSearchParams } from 'react-router-dom';
 import { generateSocialEngine } from '../api/socialApi'; import { mockSocialEngine } from '../data/mockSocialCalendar';
 export default function SocialPage(){const [params]=useSearchParams();const [data,setData]=useState(mockSocialEngine);const [tier,setTier]=useState(params.get('tier')||'free');

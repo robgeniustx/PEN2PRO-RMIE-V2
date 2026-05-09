@@ -1,0 +1,1 @@
+export default function PipelineSummary({summary}){return <div className='grid grid-cols-2 gap-2'>{Object.entries(summary||{}).map(([k,v])=><div key={k} className='bg-slate-900 p-2 rounded'><b>{k}</b>: {String(v)}</div>)}</div>}
