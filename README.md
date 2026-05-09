@@ -1,10 +1,15 @@
 # PEN2PRO RMIE Live
 
-Phase 4 Social Media Marketing Engine is implemented with backend routes and frontend pages:
-- /social
-- /social-calendar
-- /social-posts
-- /social-scripts
-- /social-analytics (stub)
+PEN2PRO RMIE Live now includes **Phase 5 CRM**:
 
-No social auto-posting. No social credential collection. No guaranteed viral/follower/sales claims.
+- Lead tracking
+- Follow-up drafting
+- Pipeline summary
+- Customer records
+- Tier-gated AI helpers
+
+## Current safety boundaries
+
+- No real email/SMS/DM sending
+- No scraping or spam automation
+- No external CRM integrations yet

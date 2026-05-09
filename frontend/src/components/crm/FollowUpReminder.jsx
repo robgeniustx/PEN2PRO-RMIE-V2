@@ -1,1 +1,1 @@
-// TODO FollowUpReminder
+export default function FollowUpReminder({item,onComplete}){return <div className='bg-slate-900 p-3 rounded'><p>{item.message}</p><button onClick={()=>onComplete?.(item.id)}>Mark complete</button></div>}
