@@ -1,0 +1,1 @@
+export default function ProductCategoryCard({ item }) { return <div className='bg-slate-900 p-3 rounded border border-cyan-500'><p className='font-bold'>{item.category}</p><p>{item.audience_fit}</p></div> }

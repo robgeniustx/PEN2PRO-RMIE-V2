@@ -1,0 +1,1 @@
+export default function CtaSectionCard({ items=[] }) { return <div className='space-y-2'>{items.map((i,idx)=><div key={idx} className='p-3 bg-slate-900 rounded border border-blue-600'>{i.headline} - {i.cta}</div>)}</div>; }

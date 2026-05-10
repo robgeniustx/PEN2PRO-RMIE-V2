@@ -1,1 +1,2 @@
-// TODO LandingPagePreview
+import { useState } from 'react';
+export default function LandingPagePreview({ data = {} }) { const [copied,setCopied]=useState(''); const copy=(k,v)=>navigator.clipboard.writeText(v||'').then(()=>{setCopied(k);setTimeout(()=>setCopied(''),1000);}); return <div className='space-y-3'>{['hero_headline','hero_subheadline','primary_cta','problem_section','offer_section','contact_section'].map(k=><div key={k} className='p-3 bg-slate-900 rounded border border-blue-600'><div className='font-bold'>{k}</div><div>{data[k]||'—'}</div><button onClick={()=>copy(k,data[k])} className='text-amber-400 text-sm'>Copy {copied===k?'Copied':''}</button></div>)}</div>; }

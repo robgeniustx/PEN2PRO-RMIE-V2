@@ -1,1 +1,1 @@
-// TODO DocumentVaultCard
+export default function DocumentVaultCard({doc,onEdit,onDelete}){return <div className='p-3 border rounded'><h4>{doc.title}</h4><p>{doc.document_type} • {doc.status}</p><p>{doc.description}</p><button onClick={()=>onEdit?.(doc)}>Edit</button><button onClick={()=>onDelete?.(doc.id)}>Delete</button></div>}

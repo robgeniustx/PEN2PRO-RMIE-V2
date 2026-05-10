@@ -1,1 +1,2 @@
-// TODO SocialScriptCard
+import { useState } from 'react';
+export default function SocialScriptCard({ script }) { const [copied, setCopied] = useState(false); const onCopy=async()=>{await navigator.clipboard.writeText(script.script||'');setCopied(true);setTimeout(()=>setCopied(false),1200)}; return <div className='bg-slate-900 border border-blue-500 rounded-xl p-4 text-white'><div>{script.hook}</div><div>{script.scene_direction}</div><div>{script.script}</div><div>{script.cta}</div><button className='text-blue-400' onClick={onCopy}>Copy</button>{copied && <span className='text-xs ml-2'>Copied</span>}</div>; }
