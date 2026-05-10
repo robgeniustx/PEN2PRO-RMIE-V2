@@ -1,1 +1,1 @@
-// TODO LeadCard
+export default function LeadCard({lead,onFollowUp}){return <div className='bg-slate-900 p-4 rounded border border-blue-500'><h3>{lead.name}</h3><p>{lead.status} • {lead.source}</p><p>{lead.notes}</p><button onClick={()=>onFollowUp?.(lead)} className='text-orange-400'>Follow up</button></div>}
