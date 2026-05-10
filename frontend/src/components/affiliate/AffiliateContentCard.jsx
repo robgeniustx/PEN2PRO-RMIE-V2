@@ -1,0 +1,2 @@
+import { useState } from 'react'
+export default function AffiliateContentCard({ title, text }) { const [c,setC]=useState(false); const copy=async()=>{await navigator.clipboard.writeText(text||'');setC(true);setTimeout(()=>setC(false),1200)}; return <div className='bg-slate-900 p-4 rounded border border-cyan-500'><h3 className='font-bold text-orange-400'>{title}</h3><pre className='whitespace-pre-wrap'>{text}</pre><button className='text-xs text-cyan-400' onClick={copy}>{c?'Copied':'Copy'}</button></div> }
