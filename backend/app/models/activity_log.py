@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from sqlalchemy import Integer, String, Text, DateTime, func
 from sqlalchemy.orm import Mapped, mapped_column
 from app.db import Base
@@ -10,3 +11,6 @@ class ActivityLog(Base):
     description: Mapped[str] = mapped_column(Text)
     metadata: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+=======
+# TODO activity_log
+>>>>>>> main

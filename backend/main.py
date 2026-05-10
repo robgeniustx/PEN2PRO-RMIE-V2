@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+<<<<<<< HEAD
 from app.db import Base, engine
 from app.routes import automation, tasks, activity
 from app.models import agent_command, agent_approval, daily_report, agent_run, task, activity_log
@@ -9,3 +10,27 @@ def health(): return {'status':'ok'}
 app.include_router(automation.router, prefix='/api/automation', tags=['automation'])
 app.include_router(tasks.router, prefix='/api/tasks', tags=['tasks'])
 app.include_router(activity.router, prefix='/api/activity', tags=['activity'])
+=======
+
+from app.routes.stripe_routes import router as stripe_router
+
+app = FastAPI(title="PEN2PRO RMIE Live API")
+
+
+@app.get("/api/health")
+async def health_check():
+    return {"status": "ok"}
+
+
+@app.post("/api/intake")
+async def intake_placeholder():
+    return {"message": "Intake route ready"}
+
+
+@app.post("/api/blueprints/generate")
+async def blueprint_generate_placeholder():
+    return {"message": "Blueprint generation route ready"}
+
+
+app.include_router(stripe_router, prefix="/api/stripe", tags=["stripe"])
+>>>>>>> main

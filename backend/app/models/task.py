@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from datetime import datetime
 from sqlalchemy import Integer, String, Text, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
@@ -15,3 +16,6 @@ class Task(Base, TimestampMixin):
     due_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     source: Mapped[str | None] = mapped_column(String(32), nullable=True)
+=======
+# TODO task
+>>>>>>> main

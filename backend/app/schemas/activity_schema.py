@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from datetime import datetime
 from pydantic import BaseModel
 
@@ -10,3 +11,6 @@ class ActivityLogResponse(ActivityLogCreate):
     id: int
     created_at: datetime
     class Config: from_attributes = True
+=======
+# TODO activity_schema
+>>>>>>> main

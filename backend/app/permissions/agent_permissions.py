@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from app.permissions.tier_permissions import has_tier
 
 SAFE_DRAFT_ACTIONS = {"generate copy", "create checklist", "draft follow-up", "draft post", "create report", "score lead", "suggest next action"}
@@ -26,3 +27,6 @@ def requires_approval(action_type: str) -> bool:
 
 def is_blocked_action(action_type: str) -> bool:
     return classify_agent_action(action_type) == "blocked"
+=======
+# TODO agent_permissions
+>>>>>>> main

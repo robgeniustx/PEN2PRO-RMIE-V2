@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.db import get_db
@@ -12,3 +13,6 @@ def list_tasks(status: str | None = None, source: str | None = None, db: Session
 def update(task_id: int, payload: TaskUpdate, db: Session = Depends(get_db)): return AutomationService(db).update_task(task_id, payload)
 @router.post('/{task_id}/complete', response_model=TaskResponse)
 def complete(task_id: int, db: Session = Depends(get_db)): return AutomationService(db).complete_task(task_id)
+=======
+# TODO tasks
+>>>>>>> main

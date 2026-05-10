@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from sqlalchemy import Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 from app.db import Base
@@ -12,3 +13,6 @@ class AgentRun(Base, TimestampMixin):
     input_payload: Mapped[str | None] = mapped_column(Text, nullable=True)
     output_payload: Mapped[str | None] = mapped_column(Text, nullable=True)
     error_message: Mapped[str | None] = mapped_column(Text, nullable=True)
+=======
+# TODO agent_run
+>>>>>>> main
