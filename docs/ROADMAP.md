@@ -1,2 +1,2 @@
-# Roadmap
-- Phase 9: Autonomous Agent Operations foundation added in draft/recommendation mode.
+Phase 8 implemented: Credit & Funding Readiness module with tier-gated educational workflows.
+Future: autonomous operations remains stubbed.

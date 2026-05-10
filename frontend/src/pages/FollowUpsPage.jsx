@@ -1,1 +1,2 @@
-export default function FollowUpsPage(){return <div>FollowUpsPage stub</div>;}
+import {useEffect,useState} from 'react'; import {getDueFollowUps,completeFollowUp,listFollowUps} from '../api/crmApi'; import FollowUpReminder from '../components/crm/FollowUpReminder'; import FollowUpWriter from '../components/crm/FollowUpWriter';
+export default function FollowUpsPage(){const[d,setD]=useState([]);const[drafts,setDrafts]=useState([]);useEffect(()=>{getDueFollowUps().then(setD);listFollowUps({status:'draft'}).then(setDrafts)},[]); return <div>{d.map(x=><FollowUpReminder key={x.id} item={x} onComplete={async id=>{await completeFollowUp(id); setD(await getDueFollowUps())}}/>)}<h3>Drafts</h3>{drafts.map(x=><div key={x.id}>{x.message}</div>)}<FollowUpWriter/></div>}

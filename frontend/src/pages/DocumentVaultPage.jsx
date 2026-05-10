@@ -1,1 +1,2 @@
-export default function DocumentVaultPage(){return <div>DocumentVaultPage stub</div>;}
+import { useEffect, useState } from 'react';import { listDocumentRecords } from '../api/creditApi';import DocumentVaultCard from '../components/credit/DocumentVaultCard';
+export default function DocumentVaultPage(){const [docs,setDocs]=useState([]);useEffect(()=>{listDocumentRecords().then(setDocs)},[]);return <div className='bg-slate-950 text-white p-4'><h1>Document Vault (Placeholder)</h1><p>Future secure upload placeholder. No real file upload configured.</p>{docs.map(d=><DocumentVaultCard key={d.id} doc={d}/>)}</div>}

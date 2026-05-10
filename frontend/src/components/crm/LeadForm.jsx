@@ -1,0 +1,1 @@
+import {useState} from 'react'; export default function LeadForm({onSubmit}){const [name,setName]=useState(''); return <form onSubmit={e=>{e.preventDefault();onSubmit?.({name,status:'new'});setName('')}}><input value={name} onChange={e=>setName(e.target.value)} placeholder='Lead name'/><button>Add Lead</button></form>}

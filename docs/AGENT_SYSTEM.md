@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-# Agent System
-Phase 9 adds a safe autonomous operations foundation with command, approvals, task queue, activity log, and daily reports.
-=======
 # TODO AGENT_SYSTEM
->>>>>>> main
+
+Added Credit Readiness Agent and Funding Readiness Agent (Elite tier required). Both return fallback content when OpenAI key is missing.
+main

@@ -1,2 +1,1 @@
-export const canAccessAutomation=(tier)=>['pro','elite','founders'].includes((tier||'free').toLowerCase());
-export const automationAccessByTier=(tier)=>({tier,canAccess:canAccessAutomation(tier)});
+export const creditFundingAccessByTier = {free:'upgrade_only',pro:'preview_only',elite:'full',founders:'full_plus_placeholders'};

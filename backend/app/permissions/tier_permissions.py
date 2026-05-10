@@ -1,15 +1,9 @@
-<<<<<<< HEAD
-TIER_ORDER = ["free", "pro", "elite", "founders"]
-
-def normalize_tier(tier: str | None) -> str:
-    return (tier or "free").lower()
-
-def has_tier(min_tier: str, tier: str | None) -> bool:
-    t = normalize_tier(tier)
-    return TIER_ORDER.index(t) >= TIER_ORDER.index(min_tier)
-
-def can_access_automation(tier: str | None) -> bool:
-    return has_tier("pro", tier)
-=======
 # TODO tier_permissions
->>>>>>> main
+
+CREDIT_FUNDING_PERMISSIONS = {
+    'free': {'credit_funding': 'upgrade_only'},
+    'pro': {'credit_funding': 'preview_only'},
+    'elite': {'credit_funding': 'full'},
+    'founders': {'credit_funding': 'full_plus_placeholders'},
+}
+main

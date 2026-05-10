@@ -1,1 +1,1 @@
-// TODO BrandKitCard
+export default function BrandKitCard({ brand = {} }) { return <div className='p-3 bg-slate-900 rounded border border-blue-600'><div>Colors: {(brand.colors||[]).join(' ')}</div><div>Logo: {brand.logo_direction}</div><div>Typography: {brand.typography}</div><div>Image style: {brand.image_style}</div><div>Voice: {brand.voice_tone}</div></div>; }

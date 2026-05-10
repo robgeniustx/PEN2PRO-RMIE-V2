@@ -1,1 +1,11 @@
-// TODO creditApi
+import { mockCreditReadiness, mockDocumentRecords, mockDisputeWorkspace } from '../data/mockCreditReadiness';
+const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+const safe = async (fn, fallback) => { try { return await fn(); } catch { return fallback; } };
+export const generateCreditReadiness = (payload) => safe(async()=> (await fetch(`${API}/api/credit/readiness`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})).json(), mockCreditReadiness);
+export const generateVendorGuidance = (payload) => safe(async()=> (await fetch(`${API}/api/credit/vendor-guidance`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})).json(), {status:'mock_fallback',vendor_credit_guidance:mockCreditReadiness.vendor_credit_guidance});
+export const generateDisputeWorkspace = (payload) => safe(async()=> (await fetch(`${API}/api/credit/dispute-workspace`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})).json(), mockDisputeWorkspace);
+export const createDocumentRecord=(payload)=>safe(async()=> (await fetch(`${API}/api/credit/documents`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})).json(), mockDocumentRecords[0]);
+export const listDocumentRecords=()=>safe(async()=> (await fetch(`${API}/api/credit/documents`)).json(), mockDocumentRecords);
+export const getDocumentRecord=(id)=>safe(async()=> (await fetch(`${API}/api/credit/documents/${id}`)).json(), mockDocumentRecords[0]);
+export const updateDocumentRecord=(id,payload)=>safe(async()=> (await fetch(`${API}/api/credit/documents/${id}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})).json(), {...mockDocumentRecords[0],...payload});
+export const deleteDocumentRecord=(id)=>safe(async()=> (await fetch(`${API}/api/credit/documents/${id}`,{method:'DELETE'})).json(), {status:'deleted'});

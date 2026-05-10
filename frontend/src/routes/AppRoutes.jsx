@@ -1,10 +1,4 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import AutomationPage from '../pages/AutomationPage';
-import AgentCommandCenterPage from '../pages/AgentCommandCenterPage';
-import ApprovalsPage from '../pages/ApprovalsPage';
-import DailyReportPage from '../pages/DailyReportPage';
-import TasksPage from '../pages/TasksPage';
-import LiveOperationsPage from '../pages/LiveOperationsPage';
-import DashboardPage from '../pages/DashboardPage';
-export default function AppRoutes(){return <Routes><Route path='/' element={<DashboardPage/>}/><Route path='/automation' element={<AutomationPage/>}/><Route path='/agent-command-center' element={<AgentCommandCenterPage/>}/><Route path='/approvals' element={<ApprovalsPage/>}/><Route path='/daily-report' element={<DailyReportPage/>}/><Route path='/tasks' element={<TasksPage/>}/><Route path='/live' element={<LiveOperationsPage/>}/></Routes>}
+import CreditReadinessPage from '../pages/CreditReadinessPage';import BusinessCreditPage from '../pages/BusinessCreditPage';import FundingReadinessPage from '../pages/FundingReadinessPage';import DocumentVaultPage from '../pages/DocumentVaultPage';
+const Stub=({name})=><div>{name}</div>;
+export default function AppRoutes(){return <Routes><Route path='/' element={<Stub name='home'/>}/><Route path='/starter' element={<Stub name='starter'/>}/><Route path='/blueprint/:id' element={<Stub name='blueprint'/>}/><Route path='/pricing' element={<Stub name='pricing'/>}/><Route path='/payment-success' element={<Stub name='success'/>}/><Route path='/social' element={<Stub name='social'/>}/><Route path='/crm' element={<Stub name='crm'/>}/><Route path='/website-builder' element={<Stub name='website'/>}/><Route path='/affiliate' element={<Stub name='affiliate'/>}/><Route path='/credit-readiness' element={<CreditReadinessPage/>}/><Route path='/business-credit' element={<BusinessCreditPage/>}/><Route path='/funding-readiness' element={<FundingReadinessPage/>}/><Route path='/document-vault' element={<DocumentVaultPage/>}/></Routes>}

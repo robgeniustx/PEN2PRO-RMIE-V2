@@ -1,8 +1,9 @@
 # PEN2PRO RMIE Live
+codex/implement-phase-9-for-autonomous-agent-operations
 
-<<<<<<< HEAD
+HEAD
 Phase 9 implemented Autonomous Agent Operations foundation (safe draft mode).
-=======
+
 ## Local setup
 Backend:
 ```bash
@@ -29,4 +30,9 @@ stripe listen --forward-to localhost:8000/api/stripe/webhook
 ```
 
 Core flow: Idea → Offer → Blueprint → Upgrade Prompt → Stripe Checkout → Paid Tier Access.
->>>>>>> main
+main
+
+Includes Phase 8 Credit & Funding Readiness module.
+- Educational only. No guarantees for credit repair, score increases, vendor approvals, or funding approvals.
+- No SSN/full DOB/full account numbers collected in this module.
+main

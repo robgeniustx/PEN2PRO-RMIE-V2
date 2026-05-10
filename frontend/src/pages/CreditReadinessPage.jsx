@@ -1,3 +1,2 @@
-import React from 'react';
-import SafetyBoundaryNotice from '../components/automation/SafetyBoundaryNotice';
-export default function CreditReadinessPage(){return <div className='min-h-screen bg-slate-950 text-white p-4'><SafetyBoundaryNotice /><h1 className='text-2xl font-bold mt-4'>CreditReadinessPage</h1></div>}
+import { useState } from 'react';import { generateCreditReadiness } from '../api/creditApi';import CreditReadinessChecklist from '../components/credit/CreditReadinessChecklist';import SafetyNotice from '../components/credit/SafetyNotice';
+export default function CreditReadinessPage(){const [data,setData]=useState(null);return <div className='bg-slate-950 text-white p-4'><h1>Credit & Funding Readiness</h1><button className='bg-blue-500 px-3 py-1' onClick={async()=>setData(await generateCreditReadiness({tier:'elite'}))}>Run Readiness</button>{data&&<><p>Score: {data.readiness_score}</p><CreditReadinessChecklist checklist={data.checklist}/><ul>{data.next_steps?.map((s,i)=><li key={i}>{s}</li>)}</ul></>}<SafetyNotice/></div>}
