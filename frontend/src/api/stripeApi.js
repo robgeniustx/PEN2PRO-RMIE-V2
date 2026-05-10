@@ -26,10 +26,6 @@ export async function getStripeSession(sessionId) {
   }
 }
 
-// TODO: Deprecated compatibility helper. Remove once all callers use createCheckoutSession.
-export function createCheckoutPlaceholder(tier) {
-  return { tier, error: "Deprecated placeholder" };
-}
 export const createCheckoutPlaceholder = async (tier) => {
   // TODO: Replace this stub with real Stripe Checkout session creation in a future phase.
   return {
