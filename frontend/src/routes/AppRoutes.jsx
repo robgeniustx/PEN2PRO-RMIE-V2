@@ -1,8 +1,9 @@
-import { Routes, Route } from 'react-router-dom'
-import AffiliatePage from '../pages/AffiliatePage'
-import AffiliateProductsPage from '../pages/AffiliateProductsPage'
-import AffiliateContentPage from '../pages/AffiliateContentPage'
-import AffiliateFunnelPage from '../pages/AffiliateFunnelPage'
-import AffiliateTrackerPage from '../pages/AffiliateTrackerPage'
-
-export default function AppRoutes(){return <Routes><Route path='/affiliate' element={<AffiliatePage/>}/><Route path='/affiliate-products' element={<AffiliateProductsPage/>}/><Route path='/affiliate-content' element={<AffiliateContentPage/>}/><Route path='/affiliate-funnel' element={<AffiliateFunnelPage/>}/><Route path='/affiliate-tracker' element={<AffiliateTrackerPage/>}/></Routes>}
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import WebsiteBuilderPage from '../pages/WebsiteBuilderPage'; import LandingPageBuilderPage from '../pages/LandingPageBuilderPage'; import SeoPage from '../pages/SeoPage'; import BrandKitPage from '../pages/BrandKitPage';
+const Placeholder = ({name}) => <div>{name}</div>;
+export default function AppRoutes(){return <BrowserRouter><Routes><Route path='/' element={<Placeholder name='home'/>}/><Route path='/starter' element={<Placeholder name='starter'/>}/><Route path='/blueprint/:id' element={<Placeholder name='blueprint'/>}/><Route path='/pricing' element={<Placeholder name='pricing'/>}/><Route path='/payment-success' element={<Placeholder name='payment-success'/>}/><Route path='/social' element={<Placeholder name='social'/>}/><Route path='/crm' element={<Placeholder name='crm'/>}/><Route path='/leads' element={<Placeholder name='leads'/>}/><Route path='/pipeline' element={<Placeholder name='pipeline'/>}/><Route path='/website-builder' element={<WebsiteBuilderPage/>}/><Route path='/landing-page' element={<LandingPageBuilderPage/>}/><Route path='/seo' element={<SeoPage/>}/><Route path='/brand-kit' element={<BrandKitPage/>}/></Routes></BrowserRouter>}
+import {Routes,Route} from 'react-router-dom'; import CrmPage from '../pages/CrmPage'; import LeadsPage from '../pages/LeadsPage'; import CustomersPage from '../pages/CustomersPage'; import FollowUpsPage from '../pages/FollowUpsPage'; import PipelinePage from '../pages/PipelinePage';
+export default function AppRoutes(){return <Routes><Route path='/crm' element={<CrmPage/>}/><Route path='/leads' element={<LeadsPage/>}/><Route path='/customers' element={<CustomersPage/>}/><Route path='/follow-ups' element={<FollowUpsPage/>}/><Route path='/pipeline' element={<PipelinePage/>}/></Routes>}
+import { Routes, Route } from 'react-router-dom';
+import SocialPage from '../pages/SocialPage'; import SocialCalendarPage from '../pages/SocialCalendarPage'; import SocialPostsPage from '../pages/SocialPostsPage'; import SocialScriptsPage from '../pages/SocialScriptsPage'; import SocialAnalyticsPage from '../pages/SocialAnalyticsPage';
+export default function AppRoutes(){return <Routes><Route path='/' element={<div/>} /><Route path='/starter' element={<div/>}/><Route path='/blueprint/:id' element={<div/>}/><Route path='/pricing' element={<div/>}/><Route path='/dashboard' element={<div/>}/><Route path='/payment-success' element={<div/>}/><Route path='/social' element={<SocialPage/>}/><Route path='/social-calendar' element={<SocialCalendarPage/>}/><Route path='/social-posts' element={<SocialPostsPage/>}/><Route path='/social-scripts' element={<SocialScriptsPage/>}/><Route path='/social-analytics' element={<SocialAnalyticsPage/>}/></Routes>}
