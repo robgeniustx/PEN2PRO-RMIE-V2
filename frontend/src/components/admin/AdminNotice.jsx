@@ -1,0 +1,1 @@
+export default function AdminNotice() { return <div className="rounded border border-blue-500 bg-slate-900 p-3 text-sm text-slate-200">Admin analytics are internal platform metrics. Do not expose sensitive user data. Full admin authentication will be added in a future phase.</div> }

@@ -5,3 +5,6 @@ Backend required:
 
 Frontend required:
 `VITE_API_BASE_URL`, `VITE_STRIPE_PUBLISHABLE_KEY`, `VITE_ALLOW_TEST_TIER_ACCESS`.
+
+- `ADMIN_DASHBOARD_ENABLED` (backend): enables admin endpoints in production.
+- `VITE_ADMIN_DASHBOARD_ENABLED` (frontend): enables admin routes in UI.

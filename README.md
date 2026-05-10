@@ -26,3 +26,6 @@ stripe listen --forward-to localhost:8000/api/stripe/webhook
 ```
 
 Core flow: Idea → Offer → Blueprint → Upgrade Prompt → Stripe Checkout → Paid Tier Access.
+
+## Phase 10 Admin Analytics
+Includes internal analytics event tracking, admin metrics endpoints, and frontend admin dashboard pages.
