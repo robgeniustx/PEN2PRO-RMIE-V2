@@ -1,4 +1,23 @@
-import { Routes, Route } from 'react-router-dom';
-import CreditReadinessPage from '../pages/CreditReadinessPage';import BusinessCreditPage from '../pages/BusinessCreditPage';import FundingReadinessPage from '../pages/FundingReadinessPage';import DocumentVaultPage from '../pages/DocumentVaultPage';
-const Stub=({name})=><div>{name}</div>;
-export default function AppRoutes(){return <Routes><Route path='/' element={<Stub name='home'/>}/><Route path='/starter' element={<Stub name='starter'/>}/><Route path='/blueprint/:id' element={<Stub name='blueprint'/>}/><Route path='/pricing' element={<Stub name='pricing'/>}/><Route path='/payment-success' element={<Stub name='success'/>}/><Route path='/social' element={<Stub name='social'/>}/><Route path='/crm' element={<Stub name='crm'/>}/><Route path='/website-builder' element={<Stub name='website'/>}/><Route path='/affiliate' element={<Stub name='affiliate'/>}/><Route path='/credit-readiness' element={<CreditReadinessPage/>}/><Route path='/business-credit' element={<BusinessCreditPage/>}/><Route path='/funding-readiness' element={<FundingReadinessPage/>}/><Route path='/document-vault' element={<DocumentVaultPage/>}/></Routes>}
+import { Routes, Route } from "react-router-dom";
+
+import HomePage from "../pages/HomePage";
+import LoginPage from "../pages/LoginPage";
+import DashboardPage from "../pages/DashboardPage";
+import PricingPage from "../pages/PricingPage";
+import FoundersPage from "../pages/FundingReadinessPage";
+
+export default function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/login-signup" element={<LoginPage />} />
+      <Route path="/signup" element={<LoginPage />} />
+
+      <Route path="/dashboard" element={<DashboardPage />} />
+      <Route path="/pricing" element={<PricingPage />} />
+      <Route path="/founders" element={<FoundersPage />} />
+    </Routes>
+  );
+}
