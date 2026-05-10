@@ -1,0 +1,1 @@
+export default function SafetyNotice(){return <p className='text-sm text-orange-300'>This tool is educational and organizational. It does not guarantee credit repair, score increases, funding approval, or vendor credit approval.</p>}
