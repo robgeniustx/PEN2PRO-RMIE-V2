@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from datetime import date, datetime
 from pydantic import BaseModel
 
@@ -52,6 +51,3 @@ class DailyReportResponse(BaseModel):
     metrics_snapshot: str | None = None
     created_at: datetime
     class Config: from_attributes = True
-=======
-# TODO agent_schema
->>>>>>> main

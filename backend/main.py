@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+
+from app.routes.stripe_routes import router as stripe_router
 from app.routes.credit import router as credit_router
 from app.routes.funding import router as funding_router
 

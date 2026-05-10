@@ -1,5 +1,13 @@
-__pycache__/
-*.py[cod]
 node_modules/
 frontend/node_modules/
-.DS_Store
+frontend/dist/
+backend/.venv/
+__pycache__/
+*.pyc
+.env
+frontend/.env
+backend/.env
+
+__pycache__/
+*.py[cod]
+main
