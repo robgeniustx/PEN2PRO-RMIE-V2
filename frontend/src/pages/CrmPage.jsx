@@ -1,2 +1,4 @@
+import { Link } from 'react-router-dom';
+export default function CrmPage(){const tier='pro'; return <Link to={`/website-builder?tier=${tier}`} className='text-amber-400'>Create a Landing Page for This Offer</Link>;}
 import {useEffect,useState} from 'react'; import {getPipelineSummary,getDueFollowUps,listLeads} from '../api/crmApi'; import PipelineSummary from '../components/crm/PipelineSummary'; import FollowUpWriter from '../components/crm/FollowUpWriter';
 export default function CrmPage(){const[s,setS]=useState({});const[d,setD]=useState([]);const[l,setL]=useState([]);useEffect(()=>{getPipelineSummary().then(setS);getDueFollowUps().then(setD);listLeads().then(setL)},[]);return <div className='p-4 text-white bg-slate-950 min-h-screen'><h1>CRM Dashboard</h1><PipelineSummary summary={s}/><h2>Due Follow-Ups</h2>{d.map(x=><div key={x.id}>{x.message}</div>)}<h2>Recent Leads</h2>{l.slice(0,3).map(x=><div key={x.id}>{x.name}</div>)}<FollowUpWriter/></div>}
