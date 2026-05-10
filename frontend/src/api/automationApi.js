@@ -1,0 +1,20 @@
+import { mockAutomation } from '../data/mockAutomation';
+const base = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+async function safeFetch(path, opts={}) { try { const r=await fetch(`${base}${path}`,opts); if(!r.ok) throw new Error(); return await r.json(); } catch { return null; } }
+export const createAgentCommand=(payload)=>safeFetch('/api/automation/commands',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(r=>r||mockAutomation.commands[0]);
+export const listAgentCommands=()=>safeFetch('/api/automation/commands').then(r=>r||mockAutomation.commands);
+export const getAgentCommand=(id)=>safeFetch(`/api/automation/commands/${id}`).then(r=>r||mockAutomation.commands[0]);
+export const runAgentCommand=(id)=>safeFetch(`/api/automation/commands/${id}/run`,{method:'POST'}).then(r=>r||mockAutomation.commands[1]);
+export const cancelAgentCommand=(id)=>safeFetch(`/api/automation/commands/${id}/cancel`,{method:'POST'});
+export const createApprovalRequest=(payload)=>safeFetch('/api/automation/approvals',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(r=>r||mockAutomation.approvals[0]);
+export const listApprovalRequests=()=>safeFetch('/api/automation/approvals').then(r=>r||mockAutomation.approvals);
+export const approveAction=(id)=>safeFetch(`/api/automation/approvals/${id}/approve`,{method:'POST'});
+export const rejectAction=(id)=>safeFetch(`/api/automation/approvals/${id}/reject`,{method:'POST'});
+export const createTask=(payload)=>safeFetch('/api/tasks',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(r=>r||mockAutomation.tasks[1]);
+export const listTasks=()=>safeFetch('/api/tasks').then(r=>r||mockAutomation.tasks);
+export const updateTask=(id,payload)=>safeFetch(`/api/tasks/${id}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+export const completeTask=(id)=>safeFetch(`/api/tasks/${id}/complete`,{method:'POST'});
+export const listActivityLogs=()=>safeFetch('/api/activity').then(r=>r||mockAutomation.activity);
+export const logActivity=(payload)=>safeFetch('/api/activity/log',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+export const generateDailyReport=()=>safeFetch('/api/automation/daily-report',{method:'POST'}).then(r=>r||mockAutomation.dailyReport);
+export const getLatestDailyReport=()=>safeFetch('/api/automation/daily-report/latest').then(r=>r||mockAutomation.dailyReport);
