@@ -1,1 +1,1 @@
-// TODO AffiliateNicheCard
+export default function AffiliateNicheCard({ niche }) { if(!niche) return null; return <div className='bg-slate-900 p-4 rounded border border-cyan-500'><h3 className='text-cyan-400 font-bold'>{niche.recommended_niche}</h3><p>{niche.audience}</p><p>{niche.problem_solved}</p></div> }

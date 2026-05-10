@@ -1,1 +1,1 @@
-// TODO AffiliateFunnelCard
+export default function AffiliateFunnelCard({ funnel }) { if(!funnel) return null; return <div className='bg-slate-900 p-4 rounded border border-cyan-500'><h3 className='text-cyan-400 font-bold'>{funnel.funnel_name}</h3><p>{funnel.traffic_source}</p><p>{funnel.cta}</p></div> }

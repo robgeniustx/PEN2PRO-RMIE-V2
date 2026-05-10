@@ -84,3 +84,4 @@ def blueprints_generate():
 @app.post("/api/stripe/create-checkout-session")
 def stripe_checkout():
     return {"status": "stub"}
+main
