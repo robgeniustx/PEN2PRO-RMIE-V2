@@ -1,1 +1,2 @@
-export default function FundingReadinessPage(){return <div>FundingReadinessPage stub</div>;}
+import { useState } from 'react';import { generateFundingReadiness } from '../api/fundingApi';import FundingReadinessScore from '../components/credit/FundingReadinessScore';import SafetyNotice from '../components/credit/SafetyNotice';
+export default function FundingReadinessPage(){const [data,setData]=useState(null);return <div className='bg-slate-950 text-white p-4'><h1>Funding Readiness</h1><button className='bg-orange-500 px-3 py-1' onClick={async()=>setData(await generateFundingReadiness({tier:'elite'}))}>Check Funding Readiness</button><FundingReadinessScore data={data}/>{data&&<ul>{data.funding_path_options?.map((p,i)=><li key={i}>{p}</li>)}</ul>}<SafetyNotice/></div>}

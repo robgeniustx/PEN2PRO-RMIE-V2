@@ -1,1 +1,2 @@
-export default function BusinessCreditPage(){return <div>BusinessCreditPage stub</div>;}
+import { mockCreditReadiness } from '../data/mockCreditReadiness';import CreditReadinessChecklist from '../components/credit/CreditReadinessChecklist';import SafetyNotice from '../components/credit/SafetyNotice';
+export default function BusinessCreditPage(){return <div className='bg-slate-950 text-white p-4'><h1>Business Credit Foundations</h1><CreditReadinessChecklist checklist={mockCreditReadiness.checklist}/><ul>{mockCreditReadiness.vendor_credit_guidance.map((v,i)=><li key={i}>{v}</li>)}</ul><SafetyNotice/></div>}
