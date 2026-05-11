@@ -1,0 +1,2 @@
+import { useEffect,useState } from 'react';import { getAdminMetrics } from '../api/adminApi';import FeatureUsageTable from '../components/admin/FeatureUsageTable';
+export default function AdminFeatureUsagePage(){const [m,setM]=useState(null);useEffect(()=>{getAdminMetrics().then(setM);},[]);if(!m)return <div>Loading...</div>;return <main className='min-h-screen bg-slate-950 text-white p-4'><h1>Feature Usage</h1><FeatureUsageTable data={m.top_features}/></main>}

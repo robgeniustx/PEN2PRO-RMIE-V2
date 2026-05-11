@@ -1,0 +1,1 @@
+export default function RecentActivityTable({data=[]}){return <div className='overflow-auto'><table className='w-full text-sm'><thead><tr><th>Event</th><th>Category</th><th>Tier</th><th>Page</th></tr></thead><tbody>{data.map((r,i)=><tr key={i}><td>{r.event_name}</td><td>{r.event_category||'-'}</td><td>{r.tier||'-'}</td><td>{r.page_path||'-'}</td></tr>)}</tbody></table></div>}

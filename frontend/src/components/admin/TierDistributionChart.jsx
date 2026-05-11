@@ -1,0 +1,2 @@
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+export default function TierDistributionChart({data={}}){const rows=Object.entries(data).map(([name,value])=>({name,value})); if(!rows.length)return <p>No tier data.</p>; return <div className='h-64'><ResponsiveContainer><PieChart><Pie data={rows} dataKey='value' nameKey='name'>{rows.map((_,i)=><Cell key={i} fill={['#22d3ee','#f59e0b','#60a5fa','#f97316'][i%4]} />)}</Pie><Tooltip/></PieChart></ResponsiveContainer></div>}

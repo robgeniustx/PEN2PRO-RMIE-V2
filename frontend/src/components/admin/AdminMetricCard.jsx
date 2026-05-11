@@ -1,0 +1,1 @@
+export default function AdminMetricCard({label,value,description}){return <div className="rounded-xl border border-cyan-500/40 bg-slate-900 p-4"><p className="text-slate-300">{label}</p><p className="text-2xl font-bold text-cyan-300">{value}</p>{description&&<p className="text-xs text-amber-300">{description}</p>}</div>}

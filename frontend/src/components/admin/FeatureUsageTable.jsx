@@ -1,0 +1,1 @@
+export default function FeatureUsageTable({data=[]}){return <table className='w-full text-sm'><thead><tr><th>Feature</th><th>Module</th><th>Usage</th><th>Tier</th></tr></thead><tbody>{data.map((f,i)=><tr key={i}><td>{f.feature_name}</td><td>{f.module_name}</td><td>{f.usage_count}</td><td>{f.tier||'-'}</td></tr>)}</tbody></table>}
