@@ -1,1 +1,1 @@
-export default function BrandKitPage(){return <div>BrandKitPage stub</div>;}
+import { mockWebsiteBuilder } from '../data/mockWebsiteBuilder'; import BrandKitCard from '../components/website/BrandKitCard'; export default function BrandKitPage(){return <div className='min-h-screen bg-slate-950 text-white p-4'><BrandKitCard brand={mockWebsiteBuilder.brand_direction}/></div>}

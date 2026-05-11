@@ -1,0 +1,58 @@
+services:
+  # Backend API
+  - type: web
+    name: pen2pro-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: FRONTEND_URL
+        value: https://pen2pro.com
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL_BLUEPRINT
+        value: gpt-4o-mini
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: STRIPE_PRICE_PRO_MONTHLY
+        sync: false
+      - key: STRIPE_PRICE_ELITE_MONTHLY
+        sync: false
+      - key: STRIPE_PRICE_FOUNDERS_LIFETIME
+        sync: false
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: ADMIN_ACCESS_KEY
+        sync: false
+      - key: ENVIRONMENT
+        value: production
+      - key: ADMIN_DASHBOARD_ENABLED
+        value: "true"
+
+  # Frontend
+  - type: web
+    name: pen2pro-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://pen2pro-api.onrender.com
+      - key: VITE_STRIPE_PUBLISHABLE_KEY
+        sync: false
+      - key: VITE_ALLOW_TEST_TIER_ACCESS
+        value: "false"
+      - key: VITE_ADMIN_DASHBOARD_ENABLED
+        value: "true"
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

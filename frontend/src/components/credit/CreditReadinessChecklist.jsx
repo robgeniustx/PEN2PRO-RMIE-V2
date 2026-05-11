@@ -1,1 +1,1 @@
-// TODO CreditReadinessChecklist
+export default function CreditReadinessChecklist({checklist=[]}){if(!checklist.length) return <div>No checklist items yet.</div>; return <ul>{checklist.map((c,i)=><li key={i}>{c.completed?'✅':'⬜'} {c.item}</li>)}</ul>}

@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PEN2PRO — Turn Your Idea Into Income</title>
+    <meta name="description" content="PEN2PRO is the AI-powered business roadmap and monetization platform that helps entrepreneurs, veterans, and creators build real income from real ideas." />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CSS CDN Play -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+              display: ['Space Grotesk', 'Inter', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                orange:  '#FF8A00',
+                'orange-light': '#FFC107',
+                'orange-dark':  '#E07000',
+                blue:    '#1E88E5',
+                'blue-dark':  '#0D47A1',
+                'blue-light': '#42A5F5',
+                navy:    '#0A0F1E',
+                'navy-card':   '#0D1528',
+                'navy-border': '#1A2D50',
+                'navy-hover':  '#122040',
+              }
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      /* ── PEN2PRO Brand System — matches official logo & brand sheet ── */
+      :root {
+        /* Core brand palette from logo */
+        --orange:       #FF8A00;   /* Energy Orange — primary CTA */
+        --orange-light: #FFC107;   /* Gold — secondary highlights */
+        --orange-dark:  #E07000;
+        --blue:         #1E88E5;   /* Electric Blue — links & badges */
+        --blue-dark:    #0D47A1;   /* Deep Blue — accents */
+        --blue-light:   #42A5F5;
+        /* Layout */
+        --navy:   #0A0F1E;         /* Dark Navy — page background */
+        --card:   #0D1528;         /* Card background */
+        --border: #1A2D50;         /* Card borders */
+        --hover:  #122040;
+        /* Text */
+        --text:   #F1F5F9;
+        --muted:  #64748B;
+        /* Legacy aliases so existing components still compile */
+        --gold:       #FFC107;
+        --gold-light: #FFD54F;
+        --teal:       #1E88E5;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { background-color: var(--navy); color: var(--text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+      .font-display { font-family: 'Space Grotesk', 'Inter', sans-serif; }
+
+      /* ── Gradients ── */
+      .gradient-orange { background: linear-gradient(135deg, #FF8A00 0%, #FFC107 60%, #FF8A00 100%); }
+      .gradient-blue   { background: linear-gradient(135deg, #0D47A1 0%, #1E88E5 100%); }
+      .gradient-brand  { background: linear-gradient(135deg, #FF8A00 0%, #FFC107 40%, #1E88E5 100%); }
+
+      /* gradient-text: orange→blue matching the wordmark style */
+      .gradient-text {
+        background: linear-gradient(135deg, #FF8A00, #FFC107, #1E88E5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Legacy aliases */
+      .gradient-gold { background: linear-gradient(135deg, #FF8A00 0%, #FFC107 60%, #FF8A00 100%); }
+
+      /* ── Glows ── */
+      .glow-orange { box-shadow: 0 0 30px rgba(255, 138, 0, 0.35), 0 4px 20px rgba(255, 138, 0, 0.18); }
+      .glow-blue   { box-shadow: 0 0 30px rgba(30, 136, 229, 0.3), 0 4px 20px rgba(30, 136, 229, 0.15); }
+      .glow-gold   { box-shadow: 0 0 30px rgba(255, 138, 0, 0.35), 0 4px 20px rgba(255, 138, 0, 0.18); }
+      .glow-teal   { box-shadow: 0 0 30px rgba(30, 136, 229, 0.3), 0 4px 20px rgba(30, 136, 229, 0.15); }
+
+      /* ── Cards ── */
+      .card-glass {
+        background: rgba(13, 21, 40, 0.85);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+      }
+
+      /* ── Animations ── */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes pulse-ring {
+        0%   { transform: scale(1);    opacity: 0.6; }
+        100% { transform: scale(1.35); opacity: 0; }
+      }
+      .animate-fade-up          { animation: fadeUp 0.7s ease-out forwards; }
+      .animate-fade-up-delay    { animation: fadeUp 0.7s ease-out 0.15s both; }
+      .animate-fade-up-delay-2  { animation: fadeUp 0.7s ease-out 0.3s both; }
+
+      /* ── Buttons ── */
+      /* Primary — Energy Orange (matches logo bolt) */
+      .btn-gold, .btn-orange {
+        background: linear-gradient(135deg, #FF8A00, #FFC107);
+        color: #0A0F1E;
+        font-weight: 800;
+        transition: all 0.2s ease;
+      }
+      .btn-gold:hover, .btn-orange:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 30px rgba(255, 138, 0, 0.45);
+      }
+
+      /* Secondary — Electric Blue */
+      .btn-blue {
+        background: linear-gradient(135deg, #0D47A1, #1E88E5);
+        color: #FFFFFF;
+        font-weight: 700;
+        transition: all 0.2s ease;
+      }
+      .btn-blue:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 30px rgba(30, 136, 229, 0.4);
+      }
+
+      /* Outline */
+      .btn-outline {
+        border: 1.5px solid var(--border);
+        color: #94A3B8;
+        transition: all 0.2s ease;
+      }
+      .btn-outline:hover {
+        border-color: var(--orange);
+        color: var(--orange);
+      }
+
+      /* ── Countdown boxes ── */
+      .countdown-box {
+        background: rgba(13, 21, 40, 0.9);
+        border: 1px solid rgba(255, 138, 0, 0.3);
+      }
+
+      /* ── Form elements ── */
+      input, select, textarea {
+        background: #0D1528 !important;
+        border: 1px solid #1A2D50 !important;
+        color: #F1F5F9 !important;
+        border-radius: 0.75rem;
+      }
+      input:focus, select:focus, textarea:focus {
+        border-color: #FF8A00 !important;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255, 138, 0, 0.18) !important;
+      }
+      input::placeholder, textarea::placeholder { color: #3D5070; }
+
+      /* ── Scrollbar ── */
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: var(--navy); }
+      ::-webkit-scrollbar-thumb { background: #1A2D50; border-radius: 3px; }
+
+      /* ── PEN2PRO Wordmark — matches logo exactly ── */
+      .brand-pen  { color: #FFFFFF; font-weight: 900; letter-spacing: -0.02em; }
+      .brand-2    { color: #FF8A00; font-weight: 900; }
+      .brand-pro  { color: #1E88E5; font-weight: 900; letter-spacing: -0.02em; }
+      .brand-rmie { color: #FFC107; font-size: 0.65em; letter-spacing: 0.15em; font-weight: 600; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

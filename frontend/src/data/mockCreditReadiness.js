@@ -1,1 +1,4 @@
-// TODO mockCreditReadiness
+export const mockCreditReadiness = {status:'mock_fallback',readiness_score:55,readiness_level:'moderate',checklist:[{item:'ein',completed:true}],missing_foundations:['business phone'],vendor_credit_guidance:['No vendor credit approval is guaranteed.'],education_notes:['Educational only, not credit repair.'],next_steps:['Verify all facts before disputes or applications.'],warnings:['No guaranteed credit repair or funding approval.']};
+export const mockFundingReadiness = {status:'mock_fallback',readiness_score:50,readiness_level:'moderate',strengths:['Defined funding goal'],gaps:['Missing tax returns'],recommended_next_steps:['Prepare documents'],document_checklist:['Tax returns'],funding_path_options:['Community bank'],warnings:['No guaranteed funding approval.']};
+export const mockDocumentRecords = [{id:1,document_type:'ein_letter',title:'IRS EIN Letter',status:'needed',description:'Add once available'}];
+export const mockDisputeWorkspace = {status:'success',organizer_summary:'Organizer only.',evidence_checklist:['ID','Statement'],draft_letter_outline:['Facts'],warnings:['No guaranteed result'],next_steps:['Verify facts first']};

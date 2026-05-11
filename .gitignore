@@ -7,3 +7,7 @@ __pycache__/
 .env
 frontend/.env
 backend/.env
+
+__pycache__/
+*.py[cod]
+main
