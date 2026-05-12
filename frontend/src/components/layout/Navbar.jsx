@@ -8,6 +8,7 @@ export default function Navbar() {
 
   const navLinks = [
     { label: "Roadmap", path: "/starter" },
+    { label: "Voice Agent", path: "/voice-agent" },
     { label: "Pricing", path: "/pricing" },
     { label: "Funding", path: "/funding" },
     { label: "Credit", path: "/credit-repair" },

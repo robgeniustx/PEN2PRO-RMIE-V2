@@ -13,6 +13,7 @@ import AdminDashboardPage from "../pages/AdminDashboardPage";
 import AdminWaitlistPage from "../pages/AdminWaitlistPage";
 import PaymentSuccessPage from "../pages/PaymentSuccessPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import VoiceAgentPage from "../pages/VoiceAgentPage";
 
 export default function AppRoutes() {
   return (
@@ -37,6 +38,10 @@ export default function AppRoutes() {
       <Route path="/credit-repair" element={<CreditReadinessPage />} />
       <Route path="/credit-readiness" element={<CreditReadinessPage />} />
       <Route path="/affiliate" element={<AffiliatePage />} />
+
+      {/* Voice Agent Studio */}
+      <Route path="/voice-agent" element={<VoiceAgentPage />} />
+      <Route path="/voice" element={<VoiceAgentPage />} />
 
       {/* Dashboard */}
       <Route path="/dashboard" element={<DashboardPage />} />
