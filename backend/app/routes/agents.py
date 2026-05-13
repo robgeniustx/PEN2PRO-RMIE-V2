@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from app.agents.registry import AGENTS
+from app.agents.registry import AGENTS, get_agent
 
 router = APIRouter(prefix="/api/agents", tags=["agents"])
 
@@ -13,7 +13,7 @@ TIER_LEVELS = {
 
 @router.post("/{agent_key}/run")
 def run_agent(agent_key: str, payload: dict):
-    agent = AGENTS.get(agent_key)
+    agent = get_agent(agent_key)
 
     if not agent:
         raise HTTPException(status_code=404, detail="Agent not found")
