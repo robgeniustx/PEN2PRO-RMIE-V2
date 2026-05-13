@@ -14,6 +14,7 @@ from app.routes.waitlist import router as waitlist_router
 from app.routes.auth import router as auth_router
 from app.routes.blueprints import router as blueprints_router
 from app.routes.voice import router as voice_router
+from app.routes.agents import router as agents_router
 
 # RMIE Vector Knowledge + Enhanced Blueprint (MongoDB Atlas + Voyage AI)
 from app.routes.rmie_knowledge import router as rmie_knowledge_router
@@ -203,6 +204,7 @@ app.include_router(funding_router,    prefix="/api/funding",     tags=["Funding"
 app.include_router(waitlist_router,   prefix="/api/waitlist",    tags=["Waitlist"])
 app.include_router(auth_router,       prefix="/api/auth",        tags=["Auth"])
 app.include_router(voice_router,       prefix="/api/voice",       tags=["Voice Coach"])
+app.include_router(agents_router)
 app.include_router(rmie_knowledge_router, prefix="/api/rmie",     tags=["RMIE Vector Knowledge"])
 
 # ─── Routers — BusinessOS Phase 2 ────────────────────────────────────────────
