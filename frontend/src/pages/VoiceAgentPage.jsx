@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Navbar from "../components/layout/Navbar";
 
 // ── Industry data ─────────────────────────────────────────────────────────────
 const INDUSTRIES = [
@@ -147,6 +148,11 @@ const PLANS = [
 ];
 
 export default function VoiceAgentPage() {
+  // Scroll to top every time this page mounts
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+
   const [bizName, setBizName] = useState("");
   const [bizEmail, setBizEmail] = useState("");
   const [bizPhone, setBizPhone] = useState("");
@@ -207,6 +213,9 @@ export default function VoiceAgentPage() {
 
   return (
     <div style={{ background: "#0A0F1E", minHeight: "100vh", color: "#F1F5F9" }}>
+
+      {/* ── NAVBAR ── */}
+      <Navbar />
 
       {/* ── HERO ── */}
       <div style={{ position: "relative", overflow: "hidden" }}>

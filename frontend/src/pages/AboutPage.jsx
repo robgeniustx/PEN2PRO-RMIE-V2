@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
@@ -37,8 +38,99 @@ const MISSION_POINTS = [
 ];
 
 export default function AboutPage() {
+  useEffect(() => {
+    // ── Page title ──
+    document.title = "About PEN2PRO | Built From Setbacks — AI Business Roadmap for Entrepreneurs & Veterans";
+
+    // ── Meta helper ──
+    const setMeta = (name, content, prop = false) => {
+      const attr = prop ? "property" : "name";
+      let el = document.querySelector(`meta[${attr}="${name}"]`);
+      if (!el) { el = document.createElement("meta"); el.setAttribute(attr, name); document.head.appendChild(el); }
+      el.setAttribute("content", content);
+    };
+
+    setMeta("description", "PEN2PRO was built by Robert Green after coming home from prison and having job offers rescinded. A second-chance engine that turns ideas into real business roadmaps for entrepreneurs, veterans, returning citizens, and working-class builders.");
+    setMeta("keywords", "PEN2PRO, RMIE, AI business roadmap, business plan for returning citizens, veteran entrepreneur, free business roadmap, business funding guidance, AI business plan generator, Houston entrepreneur, business plan generator, second chance business, business roadmap tool, Rapid Monetization Intelligence Engine, XLR8 Trade Academy, small business roadmap, entrepreneur tools for returning citizens, business plan for veterans, business startup guide");
+    setMeta("author", "Robert Earl Green Jr.");
+    setMeta("robots", "index, follow");
+
+    // ── Open Graph ──
+    setMeta("og:type", "website", true);
+    setMeta("og:title", "About PEN2PRO | Built From Setbacks — AI Business Roadmap for Everyone", true);
+    setMeta("og:description", "Robert Green built PEN2PRO from lived experience. After having job offers rescinded, he built his own path. Now RMIE helps you do the same — real roadmaps, real strategy, real execution.", true);
+    setMeta("og:url", "https://pen2pro.com/about", true);
+    setMeta("og:site_name", "PEN2PRO", true);
+
+    // ── Twitter Card ──
+    setMeta("twitter:card", "summary_large_image");
+    setMeta("twitter:title", "About PEN2PRO | Built From Setbacks — AI Business Roadmap");
+    setMeta("twitter:description", "PEN2PRO RMIE — built by Robert Green from lived experience. Realistic business roadmaps for veterans, returning citizens, entrepreneurs, and anyone ready to build.");
+
+    // ── Structured data (JSON-LD) ──
+    const existingLd = document.getElementById("about-ld");
+    if (!existingLd) {
+      const ld = document.createElement("script");
+      ld.id = "about-ld";
+      ld.type = "application/ld+json";
+      ld.text = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        "name": "About PEN2PRO",
+        "description": "PEN2PRO is an AI-powered business roadmap platform built by veteran entrepreneur Robert Earl Green Jr. to help overlooked builders turn ideas into income.",
+        "url": "https://pen2pro.com/about",
+        "publisher": {
+          "@type": "Organization",
+          "name": "PEN2PRO",
+          "url": "https://pen2pro.com",
+          "founder": { "@type": "Person", "name": "Robert Earl Green Jr." }
+        }
+      });
+      document.head.appendChild(ld);
+    }
+
+    return () => {
+      document.title = "PEN2PRO — Turn Your Idea Into Income";
+      const ld = document.getElementById("about-ld");
+      if (ld) ld.remove();
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#0A0F1E] text-white">
+    <div className="relative min-h-screen bg-[#0A0F1E] text-white overflow-hidden">
+
+      {/* ── RADIANT BACKGROUND ORBS ── */}
+      <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
+        {/* Blue orb — top left */}
+        <div
+          className="absolute -top-48 -left-48 h-[700px] w-[700px] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(30,136,229,0.22) 0%, transparent 65%)", filter: "blur(40px)" }}
+        />
+        {/* Orange orb — mid right */}
+        <div
+          className="absolute top-[30%] -right-48 h-[600px] w-[600px] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(255,138,0,0.18) 0%, transparent 65%)", filter: "blur(50px)" }}
+        />
+        {/* Deep blue orb — bottom center */}
+        <div
+          className="absolute bottom-0 left-1/3 h-[500px] w-[500px] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(13,71,161,0.25) 0%, transparent 65%)", filter: "blur(50px)" }}
+        />
+        {/* Small accent orb — story section */}
+        <div
+          className="absolute top-[60%] -left-24 h-[350px] w-[350px] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(255,193,7,0.10) 0%, transparent 65%)", filter: "blur(40px)" }}
+        />
+        {/* Grid overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: "linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+      </div>
+
       <Navbar />
 
       {/* ── HERO ── */}

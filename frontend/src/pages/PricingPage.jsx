@@ -3,6 +3,156 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
+// ── Ecosystem Module Pricing ────────────────────────────────────────────────
+const MODULES = [
+  {
+    id: "rmie",
+    icon: "🧠",
+    name: "RMIE",
+    subtitle: "Rapid Monetization Intelligence Engine",
+    color: "#1E88E5",
+    includedIn: "All Plans",
+    tiers: [
+      {
+        name: "Free",
+        price: "$0",
+        period: "",
+        features: ["1 starter blueprint", "Basic business strategy", "7-day action plan preview", "Waitlist access"],
+      },
+      {
+        name: "Pro",
+        price: "$47",
+        period: "/mo",
+        features: ["Full blueprint engine", "Industry-specific strategy", "30/60/90-day plans", "Credit & funding readiness checklist", "Sales script + outreach plan"],
+      },
+      {
+        name: "Elite",
+        price: "$97",
+        period: "/mo",
+        features: ["Everything in Pro", "Advanced AI depth", "Financial projections", "Premium knowledge base access", "Done-with-you guidance"],
+      },
+      {
+        name: "Founders",
+        price: "$497",
+        period: " one-time",
+        features: ["Lifetime RMIE access", "All future blueprint updates", "Early feature access", "Founder badge"],
+      },
+    ],
+  },
+  {
+    id: "voice",
+    icon: "🎙️",
+    name: "P2P AI Voice Agent",
+    subtitle: "AI-Powered Business Phone & Appointment System",
+    color: "#FF8A00",
+    includedIn: "Pro & Above",
+    tiers: [
+      {
+        name: "Starter",
+        price: "$49",
+        period: "/mo",
+        features: ["100 min/mo AI calls", "Appointment booking", "Basic lead capture", "Call summaries"],
+      },
+      {
+        name: "Pro",
+        price: "$149",
+        period: "/mo",
+        features: ["500 min/mo AI calls", "CRM auto-update from calls", "Lead qualification scripts", "Custom agent persona"],
+      },
+      {
+        name: "Elite",
+        price: "$299",
+        period: "/mo",
+        features: ["Unlimited AI call minutes", "Multi-agent support", "Advanced analytics dashboard", "Missed-call text-back", "Custom voice & branding"],
+      },
+      {
+        name: "Founder",
+        price: "$889",
+        period: " one-time",
+        features: ["Lifetime access", "Discounted usage rates", "All future AI Voice features", "Priority onboarding"],
+      },
+    ],
+  },
+  {
+    id: "website",
+    icon: "🌐",
+    name: "Website Builder",
+    subtitle: "Launch-Ready Business Websites, Funnels & Landing Pages",
+    color: "#7C3AED",
+    includedIn: "Pro & Above",
+    tiers: [
+      {
+        name: "Basic",
+        price: "Free",
+        period: "",
+        features: ["1 landing page draft", "1 funnel draft", "PEN2PRO-hosted subdomain", "Lead capture form"],
+      },
+      {
+        name: "Builder",
+        price: "$27",
+        period: "/mo",
+        features: ["Unlimited pages & funnels", "Custom domain support", "SEO tools", "Form builder", "Basic e-commerce"],
+      },
+      {
+        name: "Pro",
+        price: "In BusinessOS Pro",
+        period: "",
+        features: ["Everything in Builder", "Memberships & courses", "Unlimited blogs", "Video hosting", "Full e-commerce"],
+      },
+    ],
+  },
+  {
+    id: "command",
+    icon: "⚡",
+    name: "P2P Command Center",
+    subtitle: "CRM, Pipelines, Messaging, Invoicing & Automation",
+    color: "#10B981",
+    includedIn: "Pro & Above",
+    tiers: [
+      {
+        name: "Basic",
+        price: "Free",
+        period: "",
+        features: ["10 contacts", "1 sales pipeline", "Basic messaging", "1 form & calendar"],
+      },
+      {
+        name: "Starter",
+        price: "$39",
+        period: "/mo",
+        features: ["Unlimited contacts & pipelines", "Email & SMS marketing", "Workflows & automations", "Invoices & payments", "Reputation management"],
+      },
+      {
+        name: "Pro",
+        price: "In BusinessOS Pro",
+        period: "",
+        features: ["Everything in Starter", "Multi-channel inbox", "Team roles & collaboration", "Advanced reporting", "Social media planner"],
+      },
+    ],
+  },
+  {
+    id: "domain",
+    icon: "🔍",
+    name: "Domain Finder",
+    subtitle: "Business Name Discovery & Domain Registration",
+    color: "#06B6D4",
+    includedIn: "All Plans",
+    tiers: [
+      {
+        name: "Free",
+        price: "$0",
+        period: "",
+        features: ["Unlimited domain searches", "Availability checker", "Multi-TLD results", "Affiliate purchase links"],
+      },
+      {
+        name: "Pro",
+        price: "In Pro+",
+        period: "",
+        features: ["AI brand name suggestions", "Logo name matching", "Social handle availability", "One-click domain checkout"],
+      },
+    ],
+  },
+];
+
 const LAUNCH_DATE = new Date("2026-06-10T00:00:00Z");
 
 function useCountdown() {
@@ -198,9 +348,44 @@ const PLANS = [
 
 export default function PricingPage() {
   const t = useCountdown();
+  const [activeModule, setActiveModule] = useState("rmie");
+  const mod = MODULES.find((m) => m.id === activeModule);
 
   return (
-    <div className="min-h-screen bg-[#0A0F1E] text-white">
+    <div className="relative min-h-screen bg-[#0A0F1E] text-white overflow-hidden">
+
+      {/* ── RADIANT BACKGROUND ORBS ── */}
+      <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
+        {/* Blue orb — top center */}
+        <div
+          className="absolute -top-56 left-1/2 -translate-x-1/2 h-[750px] w-[750px] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(30,136,229,0.20) 0%, transparent 65%)", filter: "blur(45px)" }}
+        />
+        {/* Orange orb — mid left */}
+        <div
+          className="absolute top-[35%] -left-48 h-[550px] w-[550px] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(255,138,0,0.16) 0%, transparent 65%)", filter: "blur(55px)" }}
+        />
+        {/* Deep blue orb — bottom right */}
+        <div
+          className="absolute bottom-0 -right-40 h-[600px] w-[600px] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(13,71,161,0.22) 0%, transparent 65%)", filter: "blur(50px)" }}
+        />
+        {/* Gold accent — upper right */}
+        <div
+          className="absolute -top-20 -right-20 h-[400px] w-[400px] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(255,193,7,0.10) 0%, transparent 65%)", filter: "blur(40px)" }}
+        />
+        {/* Grid overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: "linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+      </div>
+
       <Navbar />
 
       {/* ── HERO ── */}
@@ -303,6 +488,134 @@ export default function PricingPage() {
                 </Link>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ECOSYSTEM MODULE PRICING ── */}
+      <section className="border-t border-[#1A2D50] px-5 py-20">
+        <div className="mx-auto max-w-7xl">
+          {/* Header */}
+          <div className="mb-4 text-center">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold text-[#FF8A00] uppercase tracking-widest">
+              ⚡ Individual Module Pricing
+            </div>
+            <h2 className="mb-3 font-display text-3xl font-black md:text-4xl">
+              Every Tool in the PEN2PRO Ecosystem
+            </h2>
+            <p className="mx-auto max-w-2xl text-slate-400 text-sm leading-relaxed">
+              Use standalone modules or get everything bundled in a BusinessOS plan above. Each tool is built to work together — or independently.
+            </p>
+          </div>
+
+          {/* Module Tab Selector */}
+          <div className="mb-10 flex flex-wrap justify-center gap-2">
+            {MODULES.map((m) => (
+              <button
+                key={m.id}
+                onClick={() => setActiveModule(m.id)}
+                className={`flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-bold transition-all ${
+                  activeModule === m.id
+                    ? "border-transparent text-white shadow-lg"
+                    : "border-[#1A2D50] text-slate-400 hover:text-white hover:border-slate-500 bg-[#0F1520]"
+                }`}
+                style={activeModule === m.id ? { background: m.color, boxShadow: `0 0 20px ${m.color}40` } : {}}
+              >
+                <span>{m.icon}</span>
+                <span>{m.name}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Active Module Detail */}
+          {mod && (
+            <div
+              key={mod.id}
+              className="rounded-3xl border border-[#1A2D50] bg-[#0D1528] p-6 md:p-8"
+              style={{ boxShadow: `0 0 60px ${mod.color}18` }}
+            >
+              {/* Module Header */}
+              <div className="mb-6 flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl">{mod.icon}</span>
+                    <div>
+                      <h3 className="font-display text-2xl font-black text-white">{mod.name}</h3>
+                      <p className="text-sm text-slate-400">{mod.subtitle}</p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold text-white self-start md:self-auto"
+                  style={{ background: `${mod.color}30`, border: `1px solid ${mod.color}50`, color: mod.color }}
+                >
+                  Included in: {mod.includedIn}
+                </div>
+              </div>
+
+              {/* Tier Cards */}
+              <div className={`grid gap-4 ${mod.tiers.length === 4 ? "sm:grid-cols-2 xl:grid-cols-4" : "sm:grid-cols-2 md:grid-cols-3"}`}>
+                {mod.tiers.map((tier, i) => (
+                  <div
+                    key={tier.name}
+                    className={`rounded-2xl border p-5 flex flex-col transition-all ${
+                      i === mod.tiers.length - 1
+                        ? "border-opacity-60"
+                        : "border-[#1A2D50]"
+                    }`}
+                    style={
+                      i === mod.tiers.length - 1
+                        ? { borderColor: `${mod.color}60`, background: `${mod.color}08` }
+                        : { background: "#0A0F1E" }
+                    }
+                  >
+                    <p className="mb-1 text-xs font-bold uppercase tracking-widest" style={{ color: mod.color }}>
+                      {tier.name}
+                    </p>
+                    <div className="mb-4 flex items-end gap-1">
+                      <span className="font-display text-2xl font-black text-white leading-none">{tier.price}</span>
+                      {tier.period && <span className="mb-0.5 text-xs text-slate-400">{tier.period}</span>}
+                    </div>
+                    <ul className="flex-1 space-y-2">
+                      {tier.features.map((f) => (
+                        <li key={f} className="flex items-start gap-2 text-xs text-slate-300">
+                          <span className="mt-0.5 shrink-0 text-[10px]" style={{ color: mod.color }}>✓</span>
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+
+              {/* Module CTA */}
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-[#1A2D50] pt-6">
+                <p className="text-xs text-slate-500">
+                  All standalone plans can be upgraded or combined into a BusinessOS bundle for maximum savings.
+                </p>
+                <Link
+                  to={`/waitlist?module=${mod.id}`}
+                  className="shrink-0 rounded-xl px-6 py-2.5 text-sm font-black text-white transition-all hover:opacity-90"
+                  style={{ background: mod.color, boxShadow: `0 4px 20px ${mod.color}40` }}
+                >
+                  Join Waitlist — {mod.name}
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {/* Bundle Savings Banner */}
+          <div className="mt-8 rounded-2xl border border-[#1A2D50] bg-[#0F1520] px-6 py-5 text-center"
+            style={{ background: "linear-gradient(135deg, rgba(30,136,229,0.06) 0%, rgba(255,138,0,0.06) 100%)" }}>
+            <p className="text-sm font-semibold text-white mb-1">
+              💡 Save More with a BusinessOS Bundle
+            </p>
+            <p className="text-xs text-slate-400 mb-4">
+              BusinessOS Pro at $89/mo includes RMIE + Command Center + Website Builder + Domain Finder + Basic Voice Agent — versus $142+/mo buying standalone.
+            </p>
+            <Link to="/pricing#pro" className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-black text-[#0A0F1E] btn-gold">
+              See Bundle Plans ↑
+            </Link>
           </div>
         </div>
       </section>
