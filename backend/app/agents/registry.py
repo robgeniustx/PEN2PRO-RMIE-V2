@@ -25,3 +25,8 @@ AGENTS = {
     "credit_readiness": CreditReadinessAgent(),
     "funding_readiness": FundingReadinessAgent(),
 }
+
+
+
+def get_agent(agent_key: str):
+    return AGENTS.get(agent_key)

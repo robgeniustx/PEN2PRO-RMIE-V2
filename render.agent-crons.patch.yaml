@@ -1,0 +1,25 @@
+services:
+  - type: cron
+    name: pen2pro-daily-followups
+    runtime: python
+    schedule: "0 13 * * *"
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "python -m backend.app.jobs.daily_followups"
+  - type: cron
+    name: pen2pro-score-leads
+    runtime: python
+    schedule: "30 13 * * *"
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "python -m backend.app.jobs.score_leads"
+  - type: cron
+    name: pen2pro-weekly-content-calendars
+    runtime: python
+    schedule: "0 14 * * 1"
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "python -m backend.app.jobs.weekly_content_calendars"
+  - type: cron
+    name: pen2pro-weekly-affiliate-refresh
+    runtime: python
+    schedule: "30 14 * * 1"
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "python -m backend.app.jobs.weekly_affiliate_refresh"
