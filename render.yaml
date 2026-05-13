@@ -56,3 +56,28 @@ services:
       - type: rewrite
         source: /*
         destination: /index.html
+
+  # Scheduled jobs
+  - type: cron
+    name: pen2pro-daily-followups
+    runtime: python
+    rootDir: backend
+    schedule: "0 9 * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m app.jobs.daily_followups
+
+  - type: cron
+    name: pen2pro-lead-scoring
+    runtime: python
+    rootDir: backend
+    schedule: "*/30 * * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m app.jobs.score_leads
+
+  - type: cron
+    name: pen2pro-content-calendar-refresh
+    runtime: python
+    rootDir: backend
+    schedule: "0 6 * * 1"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m app.jobs.refresh_content_calendars
