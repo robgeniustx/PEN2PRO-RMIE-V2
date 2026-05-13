@@ -25,8 +25,8 @@ class CheckoutRequest(BaseModel):
 @router.post("/create-checkout-session")
 async def create_checkout_session_route(payload: CheckoutRequest):
     tier = payload.tier.lower()
-    if tier not in {"pro", "elite", "founders"}:
-        raise HTTPException(status_code=400, detail="Invalid tier")
+    if tier not in {"pro", "elite", "founders", "agency"}:
+        raise HTTPException(status_code=400, detail="Invalid tier. Must be one of: pro, elite, founders, agency")
     try:
         return create_checkout_session(tier=tier, customer_email=payload.customer_email)
     except StripeConfigError as exc:

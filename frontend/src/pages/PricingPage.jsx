@@ -3,332 +3,326 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
-const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 const LAUNCH_DATE = new Date("2026-06-10T00:00:00Z");
 
 function useCountdown() {
-  const [timeLeft, setTimeLeft] = useState({});
+  const [t, setT] = useState({});
   useEffect(() => {
-    function calc() {
+    const calc = () => {
       const diff = LAUNCH_DATE - Date.now();
-      if (diff <= 0) return setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      setTimeLeft({
+      if (diff <= 0) return setT({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      setT({
         days: Math.floor(diff / 86400000),
         hours: Math.floor((diff % 86400000) / 3600000),
         minutes: Math.floor((diff % 3600000) / 60000),
         seconds: Math.floor((diff % 60000) / 1000),
       });
-    }
+    };
     calc();
     const id = setInterval(calc, 1000);
     return () => clearInterval(id);
   }, []);
-  return timeLeft;
+  return t;
 }
 
-const plans = [
+function CountBox({ val, label }) {
+  return (
+    <div className="flex flex-col items-center rounded-xl bg-[#0F1520] border border-[#1A2D50] px-4 py-3 min-w-[64px]">
+      <span className="font-display text-2xl font-black tabular-nums" style={{ color: "#FF8A00" }}>
+        {String(val ?? 0).padStart(2, "0")}
+      </span>
+      <span className="mt-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-500">{label}</span>
+    </div>
+  );
+}
+
+const PLANS = [
   {
     id: "free",
     name: "Free Forever",
     price: "$0",
     period: "",
     badge: null,
-    highlight: false,
-    description: "Start your journey with a free business roadmap.",
-    features: [
-      "1 AI business roadmap",
-      "Basic business blueprint",
-      "7-day action plan",
-      "Business idea validation",
-      "Credit readiness checklist",
-      "Community access",
-    ],
-    locked: [],
-    cta: "Start Free",
+    popular: false,
+    color: "#1E88E5",
+    desc: "Start your business journey with a free AI roadmap.",
+    cta: "Start Free Roadmap",
     ctaLink: "/starter",
-    ctaAction: null,
+    features: [
+      "1 RMIE starter blueprint",
+      "10 contacts",
+      "1 sales pipeline",
+      "1 landing page draft",
+      "1 basic funnel draft",
+      "1 basic form",
+      "1 basic calendar",
+      "Limited CRM dashboard",
+      "Limited AI message generation",
+      "Basic niche marketing plan preview",
+    ],
+    locked: ["Invoices", "Advanced automations", "AI Voice Agent", "Advanced reporting", "Unlimited tools"],
   },
   {
     id: "pro",
-    name: "Pro",
-    price: "$47",
+    name: "PEN2PRO Pro",
+    price: "$89",
     period: "/mo",
-    badge: "Most Popular",
-    highlight: false,
-    description: "Full AI suite for serious founders ready to launch.",
-    features: [
-      "Unlimited AI roadmaps",
-      "90-day growth plan",
-      "Sales script generator",
-      "Outreach sequence automation",
-      "Financial projections",
-      "AI marketing copy",
-      "Credit & funding resource matching",
-      "Priority support",
-    ],
-    locked: true,
+    badge: null,
+    popular: false,
+    color: "#1E88E5",
+    desc: "The complete small business operating system.",
     cta: "Join Waitlist — Pro",
     ctaLink: "/waitlist?tier=pro",
-    ctaAction: null,
+    features: [
+      "RMIE strategy engine",
+      "Full business roadmap",
+      "Website builder",
+      "Domain search + affiliate link",
+      "Unlimited websites & funnels",
+      "Unlimited contacts",
+      "Unlimited sales pipelines",
+      "Full CRM dashboard",
+      "Calendar & scheduling",
+      "Payments & invoices",
+      "Proposals & estimates",
+      "Reputation management",
+      "Multi-channel messaging",
+      "Email marketing",
+      "2-way text/email conversation",
+      "Missed-call text-back",
+      "Social media planner",
+      "Branding boards",
+      "Workflows & automations",
+      "Up to 3 users",
+      "Basic AI Voice Agent",
+      "Niche marketing plan generator",
+    ],
+    locked: [],
   },
   {
     id: "elite",
-    name: "Elite",
-    price: "$97",
+    name: "PEN2PRO Elite",
+    price: "$247",
     period: "/mo",
-    badge: "Best Results",
-    highlight: false,
-    description: "Done-with-you strategy for founders going all in.",
-    features: [
-      "Everything in Pro",
-      "Done-with-you strategy sessions",
-      "Vendor introductions",
-      "Launch support & accountability",
-      "Custom branding checklist",
-      "Business credit building guide",
-      "SBA & CDFI funding prep",
-      "1-on-1 coaching access",
-    ],
-    locked: true,
+    badge: "Most Popular",
+    popular: true,
+    color: "#FF8A00",
+    desc: "Advanced AI, unlimited everything, and Voice Agent.",
     cta: "Join Waitlist — Elite",
     ctaLink: "/waitlist?tier=elite",
-    ctaAction: null,
-  },
-  {
-    id: "founders",
-    name: "Founders Lifetime",
-    price: "$497",
-    period: " one-time",
-    badge: "Limited — 200 Spots",
-    highlight: true,
-    description: "Lock in lifetime access before the June 10 launch.",
     features: [
-      "Everything in Elite — forever",
-      "Lifetime updates, no monthly fees",
-      "Founders-only community",
-      "Early access to all new features",
-      "Direct line to the PEN2PRO team",
-      "Credit & funding done-with-you",
-      "Exclusive partner discounts",
-      "First-access to affiliate program",
+      "Everything in Pro",
+      "Advanced RMIE strategy engine",
+      "Advanced business plan generation",
+      "Advanced niche marketing plans",
+      "Unlimited domains & blogs",
+      "Unlimited memberships & courses",
+      "Unlimited video hosting",
+      "Unlimited communities",
+      "Unlimited certificates",
+      "Expert nurture campaigns",
+      "Advanced workflows & automations",
+      "Advanced pipeline reporting",
+      "AI follow-up & sales assistant",
+      "AI content & funnel assistant",
+      "AI review response assistant",
+      "AI proposal/estimate generator",
+      "AI profit/loss insight",
+      "Up to 10 users",
+      "Advanced P2P AI Voice Agent",
+      "Call summaries & lead qualification",
+      "Appointment booking via AI",
+      "CRM updates from calls",
+      "Text-to-pay",
+      "Priority support",
     ],
-    locked: false,
-    cta: "Secure Founders Access",
-    ctaLink: null,
-    ctaAction: "stripe",
-  },
-];
-
-const faqs = [
-  {
-    q: "When does PEN2PRO launch?",
-    a: "PEN2PRO officially launches June 10, 2026. Founders Lifetime members get immediate early access to all tools as they are built.",
+    locked: [],
   },
   {
-    q: "Is the Free plan really free forever?",
-    a: "Yes. The Free plan gives you one AI roadmap and your 7-day action plan at no cost, no credit card required.",
+    id: "founder",
+    name: "PEN2PRO Founder",
+    price: "$1,497",
+    period: " one-time",
+    badge: "Limited Spots",
+    popular: false,
+    color: "#D4A017",
+    desc: "Lifetime access. Early adopter benefits. Founder status.",
+    cta: "Become a Founder",
+    ctaLink: "/waitlist?tier=founders",
+    features: [
+      "Lifetime access to RMIE",
+      "Lifetime access to P2P Command Center core",
+      "Lifetime access to Website/Funnel Builder core",
+      "Lifetime access to Niche Marketing Planner",
+      "Lifetime access to Branding Boards",
+      "Lifetime access to Proposals & Estimates",
+      "Lifetime access to Invoices",
+      "Lifetime access to core automations",
+      "Founder badge & recognition",
+      "Early access to new modules",
+      "Discounted AI Voice Agent usage",
+      "Discounted SMS/email/phone usage",
+      "Priority founder updates",
+    ],
+    locked: [],
+    note: "AI, SMS, email, phone, and video usage are usage-based and not unlimited.",
   },
   {
-    q: "What is a Founders Lifetime membership?",
-    a: "It is a one-time payment of $497 that locks in full Elite-level access for life — no monthly fees, ever. Limited to 200 spots total.",
-  },
-  {
-    q: "Can I upgrade later?",
-    a: "Yes. You can upgrade from Free to Pro, Pro to Elite, or any tier to Founders at any time. Founders pricing will not be available after launch.",
-  },
-  {
-    q: "Do you offer refunds?",
-    a: "Yes. If you are not satisfied within 14 days of purchase, contact support and we will issue a full refund — no questions asked.",
-  },
-  {
-    q: "Is my payment secure?",
-    a: "All payments are processed by Stripe. PEN2PRO never stores your card details.",
+    id: "agency",
+    name: "BusinessOS Agency",
+    price: "$397",
+    period: "/mo",
+    badge: "Agency",
+    popular: false,
+    color: "#7C3AED",
+    desc: "Everything in Elite plus multi-client agency management.",
+    cta: "Join Waitlist — Agency",
+    ctaLink: "/waitlist?tier=agency",
+    features: [
+      "Everything in Elite",
+      "Multi-business accounts",
+      "Agency dashboard",
+      "Client workspace management",
+      "Snapshot templates",
+      "Industry templates",
+      "White-label-ready structure",
+      "Sub-account management",
+      "Client reporting",
+      "Advanced API placeholder",
+      "Team roles & permissions",
+      "Priority support",
+    ],
+    locked: [],
   },
 ];
 
 export default function PricingPage() {
-  const countdown = useCountdown();
-  const [stripeLoading, setStripeLoading] = useState(false);
-  const [stripeError, setStripeError] = useState("");
-  const [openFaq, setOpenFaq] = useState(null);
-
-  async function handleFoundersCheckout() {
-    setStripeLoading(true);
-    setStripeError("");
-    try {
-      const res = await fetch(`${API}/api/stripe/create-checkout-session`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tier: "founders", price_id: "founders_lifetime" }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || "Checkout failed");
-      if (data.url) window.location.href = data.url;
-      else throw new Error("No checkout URL returned");
-    } catch (err) {
-      setStripeError(err.message);
-      setStripeLoading(false);
-    }
-  }
+  const t = useCountdown();
 
   return (
-    <div className="min-h-screen" style={{ background: "#080C14" }}>
+    <div className="min-h-screen bg-[#0A0F1E] text-white">
       <Navbar />
 
-      {/* Countdown Banner */}
-      <div className="border-b border-[#1A2235] py-4" style={{ background: "#0F1520" }}>
-        <div className="mx-auto max-w-7xl px-5">
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-            <p className="text-sm font-semibold text-white">
-              PEN2PRO launches <span style={{ color: "#D4A017" }}>June 10, 2026</span> — Pro and Elite open at launch
-            </p>
-            <div className="flex items-center gap-3">
-              {["days", "hours", "minutes", "seconds"].map((unit) => (
-                <div key={unit} className="countdown-box text-center">
-                  <div className="text-xl font-black" style={{ color: "#D4A017" }}>
-                    {String(countdown[unit] ?? 0).padStart(2, "0")}
-                  </div>
-                  <div className="text-xs text-slate-500 capitalize">{unit}</div>
-                </div>
-              ))}
-            </div>
+      {/* ── HERO ── */}
+      <section className="px-5 py-20 text-center">
+        <div className="mx-auto max-w-3xl">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold text-[#FF8A00] uppercase tracking-widest">
+            ⚡ PEN2PRO BusinessOS Pricing
           </div>
-        </div>
-      </div>
-
-      <div className="mx-auto max-w-7xl px-5 py-20">
-        {/* Header */}
-        <div className="text-center mb-16 animate-fade-up">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#D4A017]/30 bg-[#D4A017]/10 px-4 py-1.5 text-xs font-semibold text-[#D4A017] mb-6">
-            PRICING
-          </div>
-          <h1 className="font-display text-4xl font-black text-white md:text-5xl">
-            Simple, <span className="gradient-text">honest</span> pricing
+          <h1 className="mb-4 font-display text-4xl font-black leading-tight md:text-6xl">
+            Pick Your Plan.
+            <br />
+            <span style={{ background: "linear-gradient(90deg,#1E88E5,#FF8A00)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              Build Your Business.
+            </span>
           </h1>
-          <p className="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">
-            Start free. Upgrade when you're ready to go all in. Lock in Founders pricing before June 10.
+          <p className="mb-8 text-lg text-slate-400">
+            Start free. Upgrade when you're ready. All plans include PEN2PRO RMIE access.
           </p>
-        </div>
 
-        {/* Stripe Error */}
-        {stripeError && (
-          <div className="mb-8 mx-auto max-w-xl rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-center text-sm text-red-400">
-            {stripeError} — Try again or{" "}
-            <Link to="/waitlist" style={{ color: "#D4A017" }}>join the waitlist</Link>.
+          {/* Countdown */}
+          <div className="mb-2 text-sm font-semibold text-slate-400">🚀 Full launch in</div>
+          <div className="flex justify-center gap-3">
+            <CountBox val={t.days} label="Days" />
+            <CountBox val={t.hours} label="Hrs" />
+            <CountBox val={t.minutes} label="Min" />
+            <CountBox val={t.seconds} label="Sec" />
           </div>
-        )}
+        </div>
+      </section>
 
-        {/* Pricing Grid */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 mb-20">
-          {plans.map((plan) => (
-            <div
-              key={plan.id}
-              className={`relative flex flex-col rounded-2xl border p-6 transition-all ${
-                plan.highlight
-                  ? "border-[#D4A017] shadow-[0_0_40px_rgba(212,160,23,0.15)]"
-                  : "border-[#1A2235]"
-              }`}
-              style={{ background: "#0F1520" }}
-            >
-              {/* Badge */}
-              {plan.badge && (
-                <div
-                  className={`absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-1 text-xs font-black ${
-                    plan.highlight
-                      ? "gradient-gold text-[#080C14]"
-                      : "bg-[#1A2235] text-slate-300"
-                  }`}
-                >
-                  {plan.badge}
-                </div>
-              )}
-
-              <div className="mb-6">
-                <h2 className="font-display text-lg font-bold text-white mb-1">{plan.name}</h2>
-                <p className="text-xs text-slate-500 mb-4">{plan.description}</p>
-                <div className="flex items-end gap-1">
-                  <span className="font-display text-4xl font-black text-white">{plan.price}</span>
-                  <span className="mb-1 text-sm text-slate-400">{plan.period}</span>
-                </div>
-              </div>
-
-              <ul className="space-y-2.5 mb-8 flex-1">
-                {plan.features.map((f, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                    <span style={{ color: "#D4A017" }} className="mt-0.5 text-xs">✓</span>
-                    {f}
-                  </li>
-                ))}
-                {plan.locked && (
-                  <li className="flex items-center gap-2 text-xs text-slate-600 pt-2 border-t border-[#1A2235]">
-                    <span>🔒</span> Unlocks at launch — June 10, 2026
-                  </li>
+      {/* ── PLANS ── */}
+      <section className="px-5 pb-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {PLANS.map((plan) => (
+              <div
+                key={plan.id}
+                id={plan.id}
+                className={`relative flex flex-col rounded-2xl border bg-[#0F1520] p-7 transition-all ${
+                  plan.popular
+                    ? "border-[#FF8A00]/60 shadow-[0_0_40px_rgba(255,138,0,0.12)]"
+                    : "border-[#1A2D50]"
+                }`}
+              >
+                {/* Badge */}
+                {plan.badge && (
+                  <div
+                    className="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-1 text-xs font-black text-white"
+                    style={{ background: plan.color }}
+                  >
+                    {plan.badge}
+                  </div>
                 )}
-              </ul>
 
-              {plan.ctaAction === "stripe" ? (
-                <button
-                  onClick={handleFoundersCheckout}
-                  disabled={stripeLoading}
-                  className="btn-gold w-full py-3 text-sm font-bold"
-                >
-                  {stripeLoading ? "Redirecting..." : plan.cta}
-                </button>
-              ) : (
+                {/* Plan Header */}
+                <div className="mb-5">
+                  <p className="mb-1 text-xs font-bold uppercase tracking-widest" style={{ color: plan.color }}>
+                    {plan.name}
+                  </p>
+                  <div className="flex items-end gap-1">
+                    <span className="font-display text-4xl font-black text-white">{plan.price}</span>
+                    {plan.period && <span className="mb-1 text-slate-400 text-sm">{plan.period}</span>}
+                  </div>
+                  <p className="mt-2 text-sm text-slate-400">{plan.desc}</p>
+                </div>
+
+                {/* Features */}
+                <ul className="mb-6 flex-1 space-y-2">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-sm text-slate-300">
+                      <span className="mt-0.5 shrink-0" style={{ color: plan.color }}>✓</span>
+                      {f}
+                    </li>
+                  ))}
+                  {plan.locked && plan.locked.map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-sm text-slate-600 line-through">
+                      <span className="mt-0.5 shrink-0 text-slate-700">✗</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Note */}
+                {plan.note && (
+                  <p className="mb-4 rounded-lg border border-[#1A2235] bg-[#0A0F1E] px-3 py-2 text-xs text-slate-500">
+                    ⚠️ {plan.note}
+                  </p>
+                )}
+
+                {/* CTA */}
                 <Link
                   to={plan.ctaLink}
-                  className={`block w-full rounded-xl py-3 text-center text-sm font-bold transition-all ${
-                    plan.locked
-                      ? "border border-[#1A2235] text-slate-400 hover:border-[#D4A017]/50 hover:text-[#D4A017]"
-                      : plan.id === "free"
-                      ? "btn-outline"
-                      : "btn-gold"
+                  className={`block w-full rounded-xl py-3.5 text-center text-sm font-black transition-all ${
+                    plan.popular
+                      ? "text-[#0A0F1E] btn-gold"
+                      : "border border-[#1A2D50] text-slate-300 hover:text-white hover:border-slate-500"
                   }`}
                 >
                   {plan.cta}
                 </Link>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* FAQ */}
-        <div className="max-w-2xl mx-auto">
-          <h2 className="font-display text-2xl font-bold text-white text-center mb-10">
-            Frequently asked questions
-          </h2>
-          <div className="space-y-3">
-            {faqs.map((faq, i) => (
-              <div
-                key={i}
-                className="rounded-xl border border-[#1A2235] overflow-hidden"
-                style={{ background: "#0F1520" }}
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="flex w-full items-center justify-between px-5 py-4 text-left text-sm font-semibold text-white hover:text-[#D4A017] transition-colors"
-                >
-                  {faq.q}
-                  <span className="ml-3 text-lg">{openFaq === i ? "−" : "+"}</span>
-                </button>
-                {openFaq === i && (
-                  <div className="px-5 pb-4 text-sm text-slate-400 leading-7">
-                    {faq.a}
-                  </div>
-                )}
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Bottom CTA */}
-        <div className="mt-20 text-center">
-          <p className="text-slate-400 mb-4">Not sure which plan is right for you?</p>
-          <Link to="/waitlist" className="btn-gold px-8 py-3 text-sm font-bold">
-            Join the Waitlist — It's Free
-          </Link>
+      {/* ── FAQ STRIP ── */}
+      <section className="border-t border-[#1A2D50] px-5 py-14 text-center">
+        <div className="mx-auto max-w-xl">
+          <p className="mb-4 text-slate-400 text-sm">
+            Questions? All plans start with a free roadmap. Join the waitlist to lock in early-access pricing.
+          </p>
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <Link to="/waitlist" className="rounded-xl px-6 py-3 text-sm font-black text-[#0A0F1E] btn-gold">
+              Join the Waitlist
+            </Link>
+            <Link to="/starter" className="rounded-xl border border-[#1A2D50] px-6 py-3 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
+              Start Free Roadmap
+            </Link>
+          </div>
         </div>
-      </div>
+      </section>
 
       <Footer />
     </div>

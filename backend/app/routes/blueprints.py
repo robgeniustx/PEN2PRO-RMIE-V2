@@ -129,6 +129,7 @@ _SAMPLE = {
 class BlueprintRequest(BaseModel):
     business_idea: str
     category: Optional[str] = ""
+    industry_id: Optional[str] = ""   # e.g. "pressure-washing", "hvac", "attorney-law-firm"
     target_customer: Optional[str] = ""
     budget: Optional[str] = ""
     timeline: Optional[str] = ""
@@ -136,17 +137,29 @@ class BlueprintRequest(BaseModel):
     name: Optional[str] = ""
     email: Optional[str] = ""
     referral: Optional[str] = ""
+    city: Optional[str] = ""
+    state: Optional[str] = ""
 
 
 def _build_user_prompt(req: BlueprintRequest) -> str:
+    # Pull in niche-specific guidance if an industry_id is provided
+    niche_context = ""
+    if req.industry_id:
+        from app.data.niche_guides import get_niche_prompt_addition
+        niche_addition = get_niche_prompt_addition(req.industry_id)
+        if niche_addition:
+            niche_context = f"\n\n--- INDUSTRY-SPECIFIC CONTEXT ---\n{niche_addition}\n--- END INDUSTRY CONTEXT ---\n"
+
     return f"""Generate a complete PEN2PRO business roadmap for the following:
 
 Business Idea: {req.business_idea}
-Category: {req.category or "General Business"}
+Category: {req.category or req.industry_id or "General Business"}
 Target Customer: {req.target_customer or "Not specified"}
+Location: {req.city or "Houston"}, {req.state or "TX"}
 Starting Budget: {req.budget or "Under $1,000"}
 Timeline Goal: {req.timeline or "90 days"}
 Biggest Challenge: {req.challenge or "Not specified"}
+{niche_context}
 
 Respond with a JSON object matching this exact structure:
 {{
@@ -252,8 +265,21 @@ async def generate_blueprint(req: BlueprintRequest):
         # Return rich sample — never crash
         result = dict(_SAMPLE)
         result["business_idea"] = req.business_idea
-        result["category"] = req.category or "General Business"
+        result["category"] = req.category or req.industry_id or "General Business"
+        result["industry_id"] = req.industry_id or ""
         result["is_sample"] = True
         return result
 
     return await _call_openai(req)
+
+
+@router.get("/niche-preview/{industry_id}")
+def niche_roadmap_preview(industry_id: str):
+    """Return a preview of what niche guidance is loaded for a given industry."""
+    from app.data.niche_guides import get_niche_prompt_addition
+    content = get_niche_prompt_addition(industry_id)
+    return {
+        "industry_id": industry_id,
+        "has_niche_guide": bool(content),
+        "preview": content[:500] + "..." if len(content) > 500 else content,
+    }

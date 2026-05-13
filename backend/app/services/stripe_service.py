@@ -21,9 +21,6 @@ def _is_configured() -> bool:
     required = [
         "STRIPE_SECRET_KEY",
         "STRIPE_WEBHOOK_SECRET",
-        "STRIPE_PRICE_PRO_MONTHLY",
-        "STRIPE_PRICE_ELITE_MONTHLY",
-        "STRIPE_PRICE_FOUNDERS_LIFETIME",
         "FRONTEND_URL",
     ]
     return all(os.getenv(k) for k in required)
@@ -33,11 +30,12 @@ def _get_price_id(tier: str) -> str:
     mapping = {
         "pro": os.getenv("STRIPE_PRICE_PRO_MONTHLY", ""),
         "elite": os.getenv("STRIPE_PRICE_ELITE_MONTHLY", ""),
-        "founders": os.getenv("STRIPE_PRICE_FOUNDERS_LIFETIME", ""),
+        "founders": os.getenv("STRIPE_PRICE_FOUNDERS_LIFETIME", os.getenv("STRIPE_PRICE_FOUNDER_ONETIME", "")),
+        "agency": os.getenv("STRIPE_PRICE_AGENCY_MONTHLY", ""),
     }
     price_id = mapping.get(tier)
     if not price_id:
-        raise StripeConfigError("Stripe is not configured. Add Stripe environment variables.")
+        raise StripeConfigError(f"Stripe price ID not configured for tier: {tier}. Add the environment variable.")
     return price_id
 
 
