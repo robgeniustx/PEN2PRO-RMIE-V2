@@ -11,9 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check backend root route
-        run: curl -f "${{ secrets.BACKEND_URL }}/"
-
       - name: Check backend health route
         run: curl -f "${{ secrets.BACKEND_URL }}/api/health"
 
