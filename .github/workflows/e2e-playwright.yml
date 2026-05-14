@@ -13,10 +13,6 @@ jobs:
     name: Run Playwright Browser Tests
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: frontend
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,11 +24,16 @@ jobs:
 
       - name: Install frontend dependencies
         run: npm install
+        working-directory: frontend
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
+        working-directory: frontend
+
+      - name: List test file
+        run: ls -la tests/e2e
 
       - name: Run Playwright tests
-        run: npx playwright test ../tests/e2e/pen2pro-smoke.spec.js
+        run: ./frontend/node_modules/.bin/playwright test tests/e2e/pen2pro-smoke.spec.js
         env:
           FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
