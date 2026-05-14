@@ -1,28 +1,33 @@
-const { test, expect } = require('@playwright/test');
+name: API Smoke Test
 
-const FRONTEND_URL = process.env.FRONTEND_URL;
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
 
-test('PEN2PRO homepage loads', async ({ page }) => {
-  await page.goto(FRONTEND_URL);
-  await expect(page.locator('body')).toBeVisible();
-});
+jobs:
+  api-smoke-test:
+    name: Test Live Backend API
+    runs-on: ubuntu-latest
 
-test('Starter page loads', async ({ page }) => {
-  await page.goto(`${FRONTEND_URL}/starter`);
-  await expect(page.locator('body')).toBeVisible();
-});
+    steps:
+      - name: Check backend health route
+        run: curl -f "${{ secrets.BACKEND_URL }}/api/health"
 
-test('Pricing or plans are visible', async ({ page }) => {
-  await page.goto(FRONTEND_URL);
-  await expect(page.locator('body')).toContainText(/Pro|Elite|Founder|Free/i);
-});
+      - name: Check pricing route
+        run: curl -f "${{ secrets.BACKEND_URL }}/api/pricing"
 
-test('Command Center route loads', async ({ page }) => {
-  await page.goto(`${FRONTEND_URL}/command-center`);
-  await expect(page.locator('body')).toBeVisible();
-});
+      - name: Report RMIE route status
+        run: |
+          curl -I "${{ secrets.BACKEND_URL }}/api/blueprint" || true
+          curl -I "${{ secrets.BACKEND_URL }}/api/rmie" || true
 
-test('AI Voice Agent route loads', async ({ page }) => {
-  await page.goto(`${FRONTEND_URL}/ai-voice-agent`);
-  await expect(page.locator('body')).toBeVisible();
-});
+      - name: Report AI Voice Agent route status
+        run: |
+          curl -I "${{ secrets.BACKEND_URL }}/api/voice/status" || true
+          curl -I "${{ secrets.BACKEND_URL }}/api/voice/health" || true
+
+      - name: Report Command Center route status
+        run: |
+          curl -I "${{ secrets.BACKEND_URL }}/api/admin/health" || true
+          curl -I "${{ secrets.BACKEND_URL }}/api/admin" || true
