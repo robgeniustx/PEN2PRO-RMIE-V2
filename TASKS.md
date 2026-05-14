@@ -27,7 +27,7 @@ _Nothing in progress yet_
 - [ ] **P1-15** Create stub pages for website-builder sub-routes (templates, editor, domains)
 
 #### 💰 PRICING
-- [ ] **P1-16** Upgrade PricingPage.jsx — add BusinessOS tiers (Free, Pro $89, Elite $247, Founder $1,497, Agency $397)
+- [ ] **P1-16** Upgrade PricingPage.jsx — add BusinessOS tiers (Free, Pro $89, Elite $247, Founder $1,497, Elite $499)
 
 #### 🔒 UPGRADE MODALS
 - [ ] **P1-17** Create UpgradeModal / LockedFeatureCard component for locked plan features

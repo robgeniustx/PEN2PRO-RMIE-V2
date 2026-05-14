@@ -16,7 +16,7 @@ const CATEGORIES = [
   "Child Care / Tutoring",
   "Bookkeeping / Tax Prep",
   "Real Estate / Property Mgmt",
-  "Staffing / Temp Agency",
+  "Staffing / Temp Firm",
   "E-commerce / Reselling",
   "Digital Marketing / Social Media",
   "Graphic Design / Branding",

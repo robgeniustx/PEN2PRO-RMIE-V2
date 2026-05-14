@@ -689,7 +689,7 @@ First 10 Clients:
 """,
 
     "insurance-company": """
-INDUSTRY: Insurance Agency / Brokerage
+INDUSTRY: Insurance Firm / Brokerage
 
 IMPORTANT DISCLAIMER: Always include — "All quotes are subject to underwriting approval. This communication does not constitute a policy offer or guarantee of coverage."
 
@@ -698,7 +698,7 @@ Startup Checklist:
 - Appointment with multiple carriers (independent agent model preferred)
 - E&O (errors & omissions) insurance
 - Business entity (LLC)
-- Agency management software: EZLynx, Applied Epic, Vertafore, or HawkSoft
+- Firm management software: EZLynx, Applied Epic, Vertafore, or HawkSoft
 - HIPAA compliance if handling health insurance
 
 Revenue Model:
