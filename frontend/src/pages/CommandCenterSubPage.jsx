@@ -4,6 +4,7 @@
  */
 import { Link, useLocation } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
+import { hasTierAccess, getEffectiveTier } from "../utils/tierAccess";
 
 const PAGE_MAP = {
   "/command-center/customers":   { icon: "👥", title: "Customers",      desc: "Manage your full customer list, contact history, notes, and tags." },
@@ -27,6 +28,9 @@ const PAGE_MAP = {
 export default function CommandCenterSubPage() {
   const loc = useLocation();
   const page = PAGE_MAP[loc.pathname] || { icon: "🖥️", title: "Command Center", desc: "This section is coming soon." };
+  const userTier = localStorage.getItem("pen2pro_user") ? JSON.parse(localStorage.getItem("pen2pro_user") || "{}").tier : "starter";
+  const hasAccess = hasTierAccess(userTier, "pro");
+  const effectiveTier = getEffectiveTier(userTier);
 
   return (
     <div className="min-h-screen bg-[#0A0F1E] text-white">
@@ -45,6 +49,17 @@ export default function CommandCenterSubPage() {
             <Link to="/waitlist" className="rounded-xl border border-[#1A2D50] px-8 py-4 text-base font-semibold text-slate-300 hover:text-white transition-colors">
               Join the Waitlist
             </Link>
+          </div>
+        ) : hasAccess ? (
+          <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-10">
+            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/20 text-4xl">✅</div>
+            <p className="mb-2 font-bold text-white">Access enabled for Command Center.</p>
+            <p className="mb-8 text-sm text-slate-300">Tier check passed with <span className="font-semibold text-emerald-300">{effectiveTier}</span>. You can test this module locally.</p>
+            <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <Link to="/command-center/dashboard" className="rounded-xl px-6 py-3 text-sm font-black text-[#0A0F1E] btn-gold">
+                Open Command Center
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-10">
