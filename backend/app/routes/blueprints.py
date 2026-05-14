@@ -1,9 +1,11 @@
+import copy
 import json
 import os
 import pathlib
+import re
 from typing import Optional
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from pydantic import BaseModel
 
 router = APIRouter()
@@ -12,7 +14,7 @@ router = APIRouter()
 _PROMPT_PATH = pathlib.Path(__file__).parent.parent / "prompts" / "blueprint_prompt.md"
 _SYSTEM_PROMPT = _PROMPT_PATH.read_text() if _PROMPT_PATH.exists() else "You are a senior business strategist."
 
-# ─── Sample fallback roadmap (returned when no API key) ─────────────────────
+# ─── Sample fallback roadmap (returned when no API key or AI call fails) ──────
 _SAMPLE = {
     "is_sample": True,
     "business_idea": "General Business",
@@ -129,7 +131,7 @@ _SAMPLE = {
 class BlueprintRequest(BaseModel):
     business_idea: str
     category: Optional[str] = ""
-    industry_id: Optional[str] = ""   # e.g. "pressure-washing", "hvac", "attorney-law-firm"
+    industry_id: Optional[str] = ""
     target_customer: Optional[str] = ""
     budget: Optional[str] = ""
     timeline: Optional[str] = ""
@@ -141,8 +143,117 @@ class BlueprintRequest(BaseModel):
     state: Optional[str] = ""
 
 
+def _clean_words(value: str) -> list[str]:
+    words = re.findall(r"[A-Za-z0-9]+", value or "")
+    return [word.capitalize() for word in words if len(word) > 2][:4]
+
+
+def _industry_label(req: BlueprintRequest) -> str:
+    raw = req.category or req.industry_id or req.business_idea or "Business"
+    return raw.replace("-", " ").replace("_", " ").title()
+
+
+def _customized_fallback(req: BlueprintRequest, error: Optional[str] = None) -> dict:
+    """Return a unique, input-aware fallback instead of the same canned plan.
+
+    This prevents the frontend from showing the exact same roadmap when OpenAI is
+    not configured, when the model errors, or when a temporary network issue occurs.
+    """
+    result = copy.deepcopy(_SAMPLE)
+
+    idea = (req.business_idea or "New Business").strip()
+    category = _industry_label(req)
+    city = (req.city or "Houston").strip()
+    state = (req.state or "TX").strip()
+    customer = (req.target_customer or f"customers in {city} who need {category.lower()} help").strip()
+    budget = (req.budget or "Under $1,000").strip()
+    timeline = (req.timeline or "90 days").strip()
+    challenge = (req.challenge or "getting consistent leads and turning them into paying customers").strip()
+
+    words = _clean_words(idea) or _clean_words(category) or ["Pro"]
+    root = "".join(words[:2]) or "Launch"
+
+    result.update(
+        {
+            "is_sample": True,
+            "business_idea": idea,
+            "category": category,
+            "industry_id": req.industry_id or "",
+            "fallback_reason": "OpenAI API key missing or AI generation failed",
+        }
+    )
+    if error:
+        result["ai_error"] = error
+
+    result["snapshot"] = {
+        "names": [f"{root} Pros", f"{city} {words[0]} Co.", f"{root} Solutions"],
+        "value_proposition": f"A practical {category.lower()} business that helps {customer} get reliable results without confusion or wasted time.",
+        "target_customer": customer,
+        "problem": f"{customer.capitalize()} need a dependable provider, but they do not know who to trust or what a fair price should be.",
+        "revenue_model": f"Sell a clear starter offer first, then upsell recurring or premium {category.lower()} packages.",
+        "startup_low": "$500",
+        "startup_realistic": "$2,500",
+        "startup_stretch": "$7,500",
+    }
+
+    result["offer_structure"] = {
+        "core": f"{idea} delivered with a simple quote, fast scheduling, and professional follow-up.",
+        "tiers": [
+            {"name": "Starter", "price": "$99–$249", "includes": f"Entry-level {category.lower()} service for one customer or project"},
+            {"name": "Growth", "price": "$299–$799", "includes": f"Full {category.lower()} service plus follow-up and review request"},
+            {"name": "Premium", "price": "$999+", "includes": f"Priority scheduling, recurring support, and premium {category.lower()} deliverables"},
+        ],
+        "entry_price": "$99",
+        "entry_why": f"A controlled intro offer helps you validate demand in {city} while protecting room for upsells.",
+    }
+
+    result["seven_days"] = [
+        f"Day 1: Write the exact offer for {idea}. Define who it serves, what is included, and the starting price.",
+        f"Day 2: Pick one business name from: {', '.join(result['snapshot']['names'])}. Check domain and social handle availability.",
+        f"Day 3: Build a one-page service menu for {category}. Include starter, growth, and premium pricing.",
+        f"Day 4: Create a lead list of 30 {customer} in {city}. Use Google Maps, Facebook Groups, LinkedIn, and referrals.",
+        f"Day 5: Send 20 direct outreach messages. Lead with the problem you solve: {challenge}.",
+        f"Day 6: Post 3 pieces of proof-based content: before/after, customer pain point, and founder story.",
+        f"Day 7: Follow up with every lead. Offer 5 intro spots tied to your {timeline} launch goal.",
+    ]
+
+    result["thirty_day_plan"] = [
+        f"Week 1: Validate {idea} with 2 paid customers or serious prospects. Keep spending within {budget}.",
+        f"Week 2: Collect feedback, tighten pricing, and build a repeatable quote-to-close process.",
+        f"Week 3: Set up Google Business Profile, email, simple landing page, invoice tool, and CRM pipeline.",
+        f"Week 4: Push referrals and reviews. Goal: 5 paying customers or a qualified pipeline worth $2,500+.",
+    ]
+
+    result["ninety_day_plan"] = [
+        f"Month 1 ($0–$2,500): Validate the {category.lower()} offer, get first customers, and prove demand in {city}.",
+        f"Month 2 ($2,500–$7,500): Turn delivery into a checklist, add follow-ups, and build recurring customer offers.",
+        f"Month 3 ($7,500–$15,000): Add automation, paid lead testing, subcontractor support, and premium packages.",
+    ]
+
+    result["sales_script"] = {
+        "cold_dm": f"Hey [Name] — I’m launching {idea} in {city}. I’m helping {customer} with {challenge}. I have 5 intro spots this week. Want details?",
+        "follow_up": f"Just following up — I still have a few {category.lower()} intro spots open in {city}. Want me to send the simple starter option?",
+        "phone_opener": f"Hey [Name], this is [Your Name] with {root} Pros. I help with {idea}. Can I ask one quick question about what you need?",
+        "objection": "I understand. The reason I’m offering the intro price is to make it easy to test the service without a big commitment.",
+        "close": "Would morning or afternoon be better for me to send the quote and lock in your spot?",
+    }
+
+    result["marketing"] = {
+        "primary_platform": f"Google Business Profile + Facebook Groups in {city}",
+        "secondary_platform": "TikTok, Instagram Reels, and LinkedIn depending on the customer type",
+        "post_frequency": "Post once daily for the first 30 days, then 4–5 times weekly.",
+        "content_pillars": [
+            f"Proof that {idea} solves a real customer problem",
+            f"Educational tips for {customer}",
+            f"Founder story, behind-the-scenes work, and customer wins in {city}",
+        ],
+        "paid_ads": "Do not run paid ads until the offer converts organically. Start with $10–$25/day only after proof.",
+    }
+
+    return result
+
+
 def _build_user_prompt(req: BlueprintRequest) -> str:
-    # Pull in niche-specific guidance if an industry_id is provided
     niche_context = ""
     if req.industry_id:
         from app.data.niche_guides import get_niche_prompt_addition
@@ -183,7 +294,7 @@ Respond with a JSON object matching this exact structure:
     "entry_price": "$X",
     "entry_why": "..."
   }},
-  "seven_days": ["Day 1: ...", "Day 2: ...", ..., "Day 7: ..."],
+  "seven_days": ["Day 1: ...", "Day 2: ...", "Day 3: ...", "Day 4: ...", "Day 5: ...", "Day 6: ...", "Day 7: ..."],
   "thirty_day_plan": ["Week 1: ...", "Week 2: ...", "Week 3: ...", "Week 4: ..."],
   "ninety_day_plan": ["Month 1 ($X–$X): ...", "Month 2 ($X–$X): ...", "Month 3 ($X–$X): ..."],
   "sales_script": {{
@@ -193,11 +304,11 @@ Respond with a JSON object matching this exact structure:
     "objection": "...",
     "close": "..."
   }},
-  "branding": ["item1", "item2", ...],
+  "branding": ["item1", "item2"],
   "entity_legal": ["1. ...", "2. ...", "3. ...", "4. ...", "5. ..."],
   "credit_funding": {{
     "personal": ["item1", "item2", "item3", "item4"],
-    "business": ["Step 1: ...", "Step 2: ...", ..., "Step 7: ..."]
+    "business": ["Step 1: ...", "Step 2: ...", "Step 3: ...", "Step 4: ...", "Step 5: ...", "Step 6: ...", "Step 7: ..."]
   }},
   "marketing": {{
     "primary_platform": "...",
@@ -233,7 +344,7 @@ async def _call_openai(req: BlueprintRequest) -> dict:
                 },
                 json={
                     "model": model,
-                    "temperature": 0.7,
+                    "temperature": 0.85,
                     "max_tokens": 3000,
                     "response_format": {"type": "json_object"},
                     "messages": [
@@ -247,28 +358,18 @@ async def _call_openai(req: BlueprintRequest) -> dict:
             data = json.loads(content)
             data["is_sample"] = False
             data["business_idea"] = req.business_idea
-            data["category"] = req.category
+            data["category"] = req.category or req.industry_id or "General Business"
+            data["industry_id"] = req.industry_id or ""
             return data
     except Exception as exc:
-        # On any error, return sample with error flag
-        result = dict(_SAMPLE)
-        result["is_sample"] = True
-        result["ai_error"] = str(exc)
-        result["business_idea"] = req.business_idea
-        return result
+        return _customized_fallback(req, str(exc))
 
 
 @router.post("/generate")
 async def generate_blueprint(req: BlueprintRequest):
     api_key = os.getenv("OPENAI_API_KEY", "")
     if not api_key:
-        # Return rich sample — never crash
-        result = dict(_SAMPLE)
-        result["business_idea"] = req.business_idea
-        result["category"] = req.category or req.industry_id or "General Business"
-        result["industry_id"] = req.industry_id or ""
-        result["is_sample"] = True
-        return result
+        return _customized_fallback(req)
 
     return await _call_openai(req)
 
