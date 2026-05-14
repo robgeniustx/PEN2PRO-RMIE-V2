@@ -16,7 +16,7 @@ const standaloneTools = [
 const plans = [
   {
     id: "starter",
-    name: "STARTER",
+    name: "RMIE FREE",
     price: "$0",
     period: "Forever",
     position: "For founders getting started.",
@@ -33,7 +33,7 @@ const plans = [
   },
   {
     id: "pro",
-    name: "PRO",
+    name: "RMIE PRO",
     price: "$249",
     period: "/mo",
     badge: "MOST POPULAR",
@@ -59,10 +59,10 @@ const plans = [
   },
   {
     id: "elite",
-    name: "ELITE",
+    name: "RMIE ELITE",
     price: "$599",
     period: "/mo",
-    position: "For scaling teams that need deeper automation and support.",
+    position: "For operators, agencies, and scaling teams.",
     cta: "Go Elite",
     ctaLink: "/waitlist?tier=elite",
     features: [
@@ -81,39 +81,7 @@ const plans = [
       "Concierge support",
     ],
   },
-  {
-    id: "agency",
-    name: "AGENCY",
-    price: "$397",
-    period: "/mo",
-    position: "For agencies managing multiple clients and campaigns.",
-    cta: "Join Agency",
-    ctaLink: "/waitlist?tier=agency",
-    features: [
-      "Client account management",
-      "Agency reporting dashboard",
-      "Advanced automations",
-      "Team collaboration",
-      "Priority support",
-    ],
-  },
-  {
-    id: "founders",
-    name: "FOUNDERS",
-    price: "$1,497",
-    period: " one-time",
-    position: "Lifetime access for early members who want long-term leverage.",
-    cta: "Become a Founder",
-    ctaLink: "/waitlist?tier=founders",
-    features: [
-      "Lifetime ecosystem access",
-      "Founder-only benefits",
-      "Early feature access",
-      "Priority onboarding",
-      "Exclusive founder community",
-      "Locked pricing benefits",
-    ],
-  },
+
 ];
 
 function useCountdown() {
