@@ -474,15 +474,15 @@ First 5 Clients:
     },
 
     # ══════════════════════════════════════════════════════════════════
-    # 10. AI DEVELOPER / AI AGENCY
+    # 10. AI DEVELOPER / AI FIRM
     # ══════════════════════════════════════════════════════════════════
     {
-        "title": "AI Developer / AI Agency — Service Model & Pricing",
+        "title": "AI Developer / AI Firm — Service Model & Pricing",
         "category": "startup",
         "industry": "ai-developer",
         "tier": "pro",
         "content": """
-Industry: AI Development / AI Agency
+Industry: AI Development / AI Firm
 
 Service Offerings:
 - Custom AI chatbots for businesses: $1,500–$10,000 build + $200–$1,000/mo maintenance
@@ -513,7 +513,7 @@ First Clients:
 - Post "I built this AI chatbot in 2 days" demos on LinkedIn and TikTok
 - Target industries with repetitive customer service workflows (dental, auto dealers, real estate)
 """,
-        "tags": ["AI", "developer", "chatbot", "voice agent", "LLM", "automation", "agency"],
+        "tags": ["AI", "developer", "chatbot", "voice agent", "LLM", "automation", "firm"],
     },
 
     # ══════════════════════════════════════════════════════════════════
@@ -661,15 +661,15 @@ High-Value Niches:
     },
 
     # ══════════════════════════════════════════════════════════════════
-    # 14. INSURANCE COMPANY / AGENCY
+    # 14. INSURANCE COMPANY / FIRM
     # ══════════════════════════════════════════════════════════════════
     {
-        "title": "Insurance Agency — Licensing, Products & Revenue Model",
+        "title": "Insurance Firm — Licensing, Products & Revenue Model",
         "category": "startup",
         "industry": "insurance-company",
         "tier": "free",
         "content": """
-Industry: Independent Insurance Agency
+Industry: Independent Insurance Firm
 
 Startup Path:
 1. Get licensed in your state (Property & Casualty and/or Life & Health)
@@ -682,7 +682,7 @@ Startup Costs:
 - Pre-licensing course: $50–$200
 - State exam fee: $50–$100
 - E&O insurance (errors & omissions): $500–$2,500/yr
-- CRM / agency management system (EZLynx, HawkSoft, Applied Epic): $50–$300/mo
+- CRM / firm management system (EZLynx, HawkSoft, Applied Epic): $50–$300/mo
 - Website: $50–$200/mo
 - Total realistic startup: $2,000–$6,000
 
@@ -704,7 +704,7 @@ Client Acquisition:
 Best Niche:
 - Commercial insurance (trucking, contractors) — higher premiums, bigger commissions
 """,
-        "tags": ["insurance", "agent", "licensing", "P&C", "life insurance", "agency"],
+        "tags": ["insurance", "agent", "licensing", "P&C", "life insurance", "firm"],
     },
 
     # ══════════════════════════════════════════════════════════════════

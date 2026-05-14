@@ -129,6 +129,105 @@ def profit_loss(req: BusinessRequest): return {"Revenue assumptions": "Monthly r
 @app.post('/api/payments/text-to-pay')
 def text_to_pay(): return {"Payment request message": "Hi {{customer_name}}, use this secure payment link for invoice {{invoice_amount}}.", "Customer name placeholder": "{{customer_name}}", "Invoice amount placeholder": "{{invoice_amount}}", "Stripe connector note": "Live payments require Stripe.", "SMS connector note": "Live SMS requires Twilio or equivalent."}
 
+
+
+@app.post("/api/website-builder/generate")
+def website_builder_generate(req: BusinessRequest):
+    require_feature(req.tier or "free", "website_builder")
+    return {"database_status":"not_connected_or_mock_mode","website_plan":{"headline":f"{req.business_idea} for {req.target_customer or 'local customers'}","pages":["Home","Services","About","Contact"],"funnel":"Lead magnet -> booking -> follow-up"}}
+
+@app.post("/api/domain/search")
+def domain_search(req: BusinessRequest):
+    require_feature(req.tier or "free", "domain_search_affiliate")
+    seed=(req.business_idea or 'brand').lower().replace(' ','')[:14]
+    return {"domains":[f"{seed}.com",f"{seed}hq.com"],"affiliate_link":"https://example-registrar.test/ref/pen2pro","connector_note":"Live domain availability requires Namecheap, GoDaddy, Enom, or another domain API."}
+
+@app.get('/api/funnels')
+def funnels(tier:str='free'):
+    require_feature(tier, 'unlimited_websites_funnels')
+    return {"items":["Lead capture funnel","Appointment funnel"],"database_status":"not_connected_or_mock_mode"}
+
+@app.get('/api/crm/dashboard')
+def crm_dashboard(tier:str='free'): require_feature(tier,'crm_dashboard'); return {"open_leads":12,"pipeline_value":"$18,400","database_status":"not_connected_or_mock_mode","connector_note":"Live CRM persistence requires database models."}
+@app.get('/api/crm/contacts')
+def crm_contacts(tier:str='free'): require_feature(tier,'unlimited_contacts'); return {"contacts":[{"name":"Sample Lead","stage":"New"}],"database_status":"not_connected_or_mock_mode"}
+@app.get('/api/crm/pipelines')
+def crm_pipelines(tier:str='free'): require_feature(tier,'unlimited_sales_pipelines'); return {"stages":["New lead","Qualified","Proposal","Closed"],"database_status":"not_connected_or_mock_mode"}
+@app.get('/api/calendar/scheduling')
+def calendar_sched(tier:str='free'): require_feature(tier,'calendar_scheduling'); return {"available_slots":["Mon 10:00","Tue 14:00"]}
+@app.get('/api/payments/invoices')
+def payment_invoices(tier:str='free'): require_feature(tier,'payments_invoices'); return {"invoices":[{"id":"INV-1001","status":"draft"}],"connector_note":"Live payments require Stripe."}
+@app.post('/api/proposals-estimates')
+def proposals_estimates(req:BusinessRequest): require_feature(req.tier or 'free','proposals_estimates'); return {"proposal":"Scope + timeline + pricing for %s"%req.business_idea}
+@app.get('/api/reputation')
+def reputation(tier:str='free'): require_feature(tier,'reputation_management'); return {"review_workflow":"Request review 24h after delivery"}
+@app.get('/api/messaging/multichannel')
+def messaging_multi(tier:str='free'): require_feature(tier,'multi_channel_messaging'); return {"channels":["SMS","Email","Web chat"]}
+@app.post('/api/email-marketing/campaign')
+def email_campaign(req:BusinessRequest): require_feature(req.tier or 'free','email_marketing'); return {"campaign":"Welcome + nurture series","connector_note":"Live email marketing requires SendGrid, Mailgun, Resend, Postmark, or SMTP."}
+@app.get('/api/conversations')
+def conversations(tier:str='free'): require_feature(tier,'two_way_conversations'); return {"threads":[{"channel":"sms","last_message":"Thanks, send invoice."}]}
+@app.get('/api/voice/missed-call-text-back')
+def missed_call(tier:str='free'): require_feature(tier,'missed_call_text_back'); return {"message_template":"Sorry we missed your call. Reply to book.","connector_note":"Live SMS requires Twilio or equivalent."}
+@app.post('/api/social/planner')
+def social_planner(req:BusinessRequest): require_feature(req.tier or 'free','social_media_planner'); return {"weekly_posts":["Pain point post","Proof post","Offer post"]}
+@app.post('/api/branding/board')
+def branding_board(req:BusinessRequest): require_feature(req.tier or 'free','branding_boards'); return {"brand_voice":"Direct, credible, outcome-focused"}
+@app.get('/api/workflows/automations')
+def workflows_auto(tier:str='free'): require_feature(tier,'workflows_automations'); return {"automations":["Lead follow-up","No-show recovery"],"database_status":"not_connected_or_mock_mode"}
+@app.get('/api/users/pro-limit')
+def pro_limit(tier:str='free'): require_feature(tier,'three_users'); return {"user_limit":3}
+@app.post('/api/marketing/niche-plan')
+def niche_plan(req:BusinessRequest): require_feature(req.tier or 'free','niche_marketing_plan'); return {"plan":"Niche message, offer, channels, and KPI cadence."}
+
+@app.post('/api/marketing/elite/niche-plan')
+def elite_niche(req:BusinessRequest): require_feature(req.tier or 'free','advanced_niche_marketing_plans'); return {"plan":"Advanced niche expansion plan with channel mix and monetization ladders."}
+@app.get('/api/domains/elite')
+def elite_domains(tier:str='free'): require_feature(tier,'unlimited_domains_blogs'); return {"domains":["brand.com","brand.ai"],"connector_note":"Live domain availability requires Namecheap, GoDaddy, Enom, or another domain API."}
+@app.get('/api/blogs/elite')
+def elite_blogs(tier:str='free'): require_feature(tier,'unlimited_domains_blogs'); return {"blogs":["SEO cluster 1","SEO cluster 2"]}
+@app.get('/api/memberships-courses')
+def memberships(tier:str='free'): require_feature(tier,'unlimited_memberships_courses'); return {"products":["Starter course","Premium membership"]}
+@app.get('/api/video-hosting')
+def video_hosting(tier:str='free'): require_feature(tier,'unlimited_video_hosting'); return {"status":"mock_ready","connector_note":"Live video hosting requires storage/provider integration."}
+@app.get('/api/communities')
+def communities(tier:str='free'): require_feature(tier,'unlimited_communities'); return {"communities":["Founders community"]}
+@app.get('/api/certificates')
+def certificates(tier:str='free'): require_feature(tier,'unlimited_certificates'); return {"templates":["Completion certificate"]}
+@app.post('/api/campaigns/expert-nurture')
+def expert_nurture(req:BusinessRequest): require_feature(req.tier or 'free','expert_nurture_campaigns'); return {"sequence":["Authority email","Case study","CTA"]}
+@app.get('/api/workflows/advanced')
+def workflows_adv(tier:str='free'): require_feature(tier,'advanced_workflows_automations'); return {"automations":["Pipeline velocity optimizer","Lead-score routing"]}
+@app.get('/api/reports/pipeline-advanced')
+def pipe_adv(tier:str='free'): require_feature(tier,'advanced_pipeline_reporting'); return {"metrics":["Stage conversion","Velocity","Rep close rate"]}
+@app.post('/api/ai/follow-up-sales-assistant')
+def ai_follow(req:BusinessRequest): require_feature(req.tier or 'free','ai_follow_up_sales_assistant'); return {"assistant_output":"Personalized follow-up cadence and script."}
+@app.post('/api/ai/content-funnel-assistant')
+def ai_content(req:BusinessRequest): require_feature(req.tier or 'free','ai_content_funnel_assistant'); return {"assistant_output":"Content angles + funnel hooks."}
+@app.post('/api/ai/review-response-assistant')
+def ai_review(req:BusinessRequest): require_feature(req.tier or 'free','ai_review_response_assistant'); return {"assistant_output":"Professional review response drafts."}
+@app.post('/api/ai/proposal-estimate-generator')
+def ai_prop(req:BusinessRequest): require_feature(req.tier or 'free','ai_proposal_estimate_generator'); return {"assistant_output":"Proposal with scope, milestones, and estimate."}
+@app.get('/api/users/elite-limit')
+def elite_limit(tier:str='free'): require_feature(tier,'ten_users'); return {"user_limit":10}
+@app.post('/api/voice-agent/call-summary')
+def call_summary(req:BusinessRequest): require_feature(req.tier or 'free','call_summaries_lead_qualification'); return {"summary":"Caller qualified, requested callback within 2 hours."}
+@app.post('/api/voice-agent/lead-qualification')
+def lead_qual(req:BusinessRequest): require_feature(req.tier or 'free','call_summaries_lead_qualification'); return {"qualification":"High intent, budget aligned."}
+@app.post('/api/voice-agent/book-appointment')
+def book_appt(req:BusinessRequest): require_feature(req.tier or 'free','appointment_booking_via_ai'); return {"appointment":"Booked Tue 2:00 PM"}
+@app.post('/api/voice-agent/update-crm-from-call')
+def update_crm(req:BusinessRequest): require_feature(req.tier or 'free','crm_updates_from_calls'); return {"status":"crm_updated_mock","database_status":"not_connected_or_mock_mode"}
+@app.get('/api/support/priority')
+def priority_support(tier:str='free'): require_feature(tier,'priority_support'); return {"support_sla":"Priority queue enabled"}
+
+@app.get('/api/founders/access')
+def founders_access(tier:str='free'): require_feature(tier,'lifetime_access'); return {"status":"lifetime_access_active","future_features":True,"founder_badge":True}
+@app.post('/api/founders/roadmap')
+def founders_roadmap(req:BusinessRequest): require_feature(req.tier or 'free','founder_only_roadmap'); out=strategist_response(req,elite=True); out['Founder-level strategy']='Long-horizon moat building and portfolio expansion.'; return out
+@app.get('/api/founders/benefits')
+def founders_benefits(tier:str='free'): require_feature(tier,'future_features'); return {"benefits":["Lifetime full-system access","Founder-only roadmap","Future feature access"]}
+
 # keep existing routers
 app.include_router(blueprints_router, prefix="/api/blueprints", tags=["RMIE"])
 app.include_router(stripe_router, prefix="/api/stripe", tags=["Stripe"])

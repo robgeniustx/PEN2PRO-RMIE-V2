@@ -25,7 +25,7 @@ Email: robertg@xlr8pressurewashing.com
 - Pro: $89/month
 - Elite: $247/month (Most Popular)
 - Founder: $1,497 one-time
-- Agency: $397/month
+- Founders: launch pricing TBD
 
 ## Current Phase: PHASE 1
 Build only: routes, nav, landing pages, pricing update, industry constants.
