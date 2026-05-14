@@ -5,9 +5,6 @@ on:
     branches: [main]
   workflow_dispatch:
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   api-smoke-test:
     name: Test Live Backend API
@@ -15,38 +12,19 @@ jobs:
 
     steps:
       - name: Check backend root route
-        run: |
-          curl -f "$BACKEND_URL/" || exit 1
-        env:
-          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+        run: curl -f "${{ secrets.BACKEND_URL }}/"
 
       - name: Check backend health route
-        run: |
-          curl -f "$BACKEND_URL/api/health" || exit 1
-        env:
-          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+        run: curl -f "${{ secrets.BACKEND_URL }}/api/health"
 
       - name: Check pricing route
-        run: |
-          curl -f "$BACKEND_URL/api/pricing" || exit 1
-        env:
-          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+        run: curl -f "${{ secrets.BACKEND_URL }}/api/pricing"
 
       - name: Check RMIE or blueprint route
-        run: |
-          curl -f "$BACKEND_URL/api/blueprint" || curl -f "$BACKEND_URL/api/rmie" || exit 1
-        env:
-          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+        run: curl -f "${{ secrets.BACKEND_URL }}/api/blueprint" || curl -f "${{ secrets.BACKEND_URL }}/api/rmie"
 
       - name: Check AI Voice Agent route
-        run: |
-          curl -f "$BACKEND_URL/api/voice/status" || curl -f "$BACKEND_URL/api/voice/health" || exit 1
-        env:
-          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+        run: curl -f "${{ secrets.BACKEND_URL }}/api/voice/status" || curl -f "${{ secrets.BACKEND_URL }}/api/voice/health"
 
       - name: Check Command Center route
-        run: |
-          curl -f "$BACKEND_URL/api/admin/health" || curl -f "$BACKEND_URL/api/admin" || exit 1
-        env:
-          BACKEND_URL: ${{ secrets.BACKEND_URL }}
-        run: python -m compileall .
+        run: curl -f "${{ secrets.BACKEND_URL }}/api/admin/health" || curl -f "${{ secrets.BACKEND_URL }}/api/admin"
