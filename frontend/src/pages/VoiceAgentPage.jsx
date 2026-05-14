@@ -506,7 +506,7 @@ export default function VoiceAgentPage() {
               <button
                 onClick={() => openModal(plan)}
                 style={{
-                  width: "100%", padding: 13, border: "none", cursor: "pointer", borderRadius: 10,
+                  width: "100%", padding: 13, cursor: "pointer", borderRadius: 10,
                   fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: "0.88rem",
                   letterSpacing: "0.03em", transition: "all .2s",
                   background: plan.featured ? "linear-gradient(135deg, #0D47A1, #1E88E5)" : "transparent",
