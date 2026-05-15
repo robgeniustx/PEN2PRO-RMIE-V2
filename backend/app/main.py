@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routes import health, auth, users, stripe_routes, pricing
+from app.routes import health, auth, users, stripe_routes, pricing, agents
 
 app = FastAPI(
     title="PEN2PRO RMIE API",
@@ -27,6 +27,7 @@ app.include_router(auth.router, prefix="/api/auth", tags=["Auth"])
 app.include_router(users.router, prefix="/api/users", tags=["Users"])
 app.include_router(stripe_routes.router, prefix="/api/stripe", tags=["Stripe"])
 app.include_router(pricing.router, prefix="/api/pricing", tags=["Pricing"])
+app.include_router(agents.router)
 
 
 @app.get("/")

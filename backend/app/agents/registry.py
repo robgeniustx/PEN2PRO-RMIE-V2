@@ -10,6 +10,7 @@ from app.agents.affiliate_content_agent import AffiliateContentAgent
 from app.agents.affiliate_funnel_agent import AffiliateFunnelAgent
 from app.agents.credit_readiness_agent import CreditReadinessAgent
 from app.agents.funding_readiness_agent import FundingReadinessAgent
+from app.agents.main_builder_agent import MainBuilderAgent
 
 AGENTS = {
     "caption": CaptionAgent(),
@@ -24,6 +25,7 @@ AGENTS = {
     "affiliate_funnel": AffiliateFunnelAgent(),
     "credit_readiness": CreditReadinessAgent(),
     "funding_readiness": FundingReadinessAgent(),
+    "main_builder": MainBuilderAgent(),
 }
 
 
