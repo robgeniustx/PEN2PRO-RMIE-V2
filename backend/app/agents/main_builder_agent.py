@@ -181,6 +181,72 @@ class MainBuilderAgent:
             "error_count": len(errors),
         }
 
+    def _build_combined_launch_plan(self, request: str, execution_results: dict):
+        plan = {
+            "title": "PEN2PRO Combined Launch Plan",
+            "request": request,
+            "summary": "Main Builder combined the available agent outputs into one launch-ready execution plan.",
+            "sections": [],
+            "next_steps": [],
+        }
+
+        if not execution_results:
+            plan["sections"].append({
+                "title": "Recommended Plan",
+                "items": [
+                    "Clarify the idea.",
+                    "Build the starter offer.",
+                    "Create the first landing page.",
+                    "Start outreach.",
+                    "Track progress in the dashboard.",
+                ],
+            })
+            return plan
+
+        section_map = {
+            "intake": "Intake Summary",
+            "blueprint": "Business Blueprint",
+            "brand": "Brand Direction",
+            "offer": "Offer Strategy",
+            "website": "Website Strategy",
+            "seo": "SEO Direction",
+            "content": "Content Plan",
+            "social_strategy": "Social Media Strategy",
+            "short_video_script": "Short Video Scripts",
+            "ad": "Ad Angles",
+            "outreach": "Outreach Plan",
+            "funding_readiness": "Funding Readiness",
+            "credit_readiness": "Credit Readiness",
+            "compliance": "Compliance Checklist",
+            "task": "Execution Tasks",
+            "progress": "Progress Tracking",
+            "report": "Report Summary",
+            "monetization": "Monetization Strategy",
+        }
+
+        for agent_key, wrapper in execution_results.items():
+            if wrapper.get("status") != "ok":
+                continue
+
+            result = wrapper.get("result", {})
+            title = section_map.get(agent_key, agent_key.replace("_", " ").title())
+
+            plan["sections"].append({
+                "agent": agent_key,
+                "title": title,
+                "data": result,
+            })
+
+        plan["next_steps"] = [
+            "Review the blueprint and offer direction.",
+            "Choose the first offer to launch.",
+            "Build or refine the landing page.",
+            "Start outreach to the first 25 prospects.",
+            "Track completed steps inside the dashboard.",
+        ]
+
+        return plan
+
     def run(self, payload: dict):
         request = self._request_text(payload)
         tier = payload.get("tier", "free")
@@ -204,6 +270,7 @@ class MainBuilderAgent:
             "execution_enabled": should_execute,
             "execution_summary": self._summarize_execution(execution_results) if should_execute else None,
             "execution_results": execution_results,
+            "combined_launch_plan": self._build_combined_launch_plan(request, execution_results) if should_execute else None,
             "next_actions": [
                 "Review the combined agent outputs.",
                 "Use execution_results to build the user-facing launch plan.",
