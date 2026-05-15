@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { createCheckoutSession } from "../api/stripeApi";
 
 const API_BASE =
   import.meta.env.VITE_API_BASE_URL ||
@@ -142,12 +143,38 @@ function CountBox({ val, label }) {
 }
 
 function PlanCard({ plan }) {
+  const [checkoutError, setCheckoutError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const isFeatured = plan.id === "pro";
   const isFounders = plan.id === "founders";
-  const ctaLink =
-    plan.id === "free"
-      ? "/starter"
-      : `/waitlist?tier=${encodeURIComponent(plan.id)}`;
+
+  const handlePlanClick = async () => {
+    setCheckoutError("");
+
+    if (plan.id === "free" || !plan.stripe_tier) {
+      window.location.href = "/starter";
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const result = await createCheckoutSession({ tier: plan.stripe_tier });
+
+      if (result?.checkout_url) {
+        window.location.href = result.checkout_url;
+        return;
+      }
+
+      setCheckoutError(result?.error || "Checkout is not configured yet.");
+    } catch (error) {
+      console.error("Pricing checkout error:", error);
+      setCheckoutError("Unable to start checkout. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div
@@ -206,9 +233,11 @@ function PlanCard({ plan }) {
         ))}
       </ul>
 
-      <Link
-        to={ctaLink}
-        className={`mt-6 block rounded-xl py-3 text-center text-sm font-black transition ${
+      <button
+        type="button"
+        onClick={handlePlanClick}
+        disabled={loading}
+        className={`mt-6 block w-full rounded-xl py-3 text-center text-sm font-black transition disabled:cursor-not-allowed disabled:opacity-60 ${
           isFeatured
             ? "bg-[#2d9cff] text-[#081226]"
             : isFounders
@@ -216,8 +245,14 @@ function PlanCard({ plan }) {
               : "border border-[#1A2D50] text-slate-200 hover:border-slate-400"
         }`}
       >
-        {plan.cta || "Get Started"}
-      </Link>
+        {loading ? "Starting Checkout..." : plan.cta || "Get Started"}
+      </button>
+
+      {checkoutError ? (
+        <p className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-200">
+          {checkoutError}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -400,7 +435,7 @@ export default function PricingPage() {
       <section className="px-5 pb-16">
         <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-4">
           {pricing.plans.map((plan) => (
-            <PlanCard key={plan.id} plan={plan} />
+            <div key={plan.id} data-founders-checkout={plan.id === "founders" ? "true" : undefined}><PlanCard plan={plan} /></div>
           ))}
         </div>
       </section>
@@ -444,12 +479,16 @@ export default function PricingPage() {
             ))}
           </div>
 
-          <Link
-            to="/waitlist?tier=founders"
+          <button
+            type="button"
+            onClick={() => {
+              const foundersCard = document.querySelector("[data-founders-checkout]");
+              if (foundersCard) foundersCard.scrollIntoView({ behavior: "smooth", block: "center" });
+            }}
             className="mx-auto mt-8 inline-flex rounded-xl bg-[#d4af37] px-8 py-3 text-sm font-black text-[#081226] shadow-[0_0_35px_rgba(212,175,55,0.35)] transition hover:scale-[1.02]"
           >
             Claim Founders Lifetime
-          </Link>
+          </button>
         </div>
       </section>
 
