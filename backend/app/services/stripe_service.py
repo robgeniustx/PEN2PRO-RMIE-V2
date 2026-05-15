@@ -30,7 +30,11 @@ def _get_price_id(tier: str) -> str:
     mapping = {
         "pro": os.getenv("STRIPE_PRICE_PRO_MONTHLY", ""),
         "elite": os.getenv("STRIPE_PRICE_ELITE_MONTHLY", ""),
-        "founders": os.getenv("STRIPE_PRICE_FOUNDERS", ""),
+        "founders": (
+            os.getenv("STRIPE_PRICE_FOUNDERS", "")
+            or os.getenv("STRIPE_PRICE_FOUNDERS_LIFETIME", "")
+            or os.getenv("STRIPE_PRICE_FOUNDER_ONETIME", "")
+        ),
     }
     price_id = mapping.get(tier)
     if not price_id:
