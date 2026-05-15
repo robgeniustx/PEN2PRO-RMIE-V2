@@ -27,3 +27,6 @@ frontend/.local/
 
 # Local frontend env files
 frontend/.env.local
+
+# Local frontend env files
+frontend/.env.local
