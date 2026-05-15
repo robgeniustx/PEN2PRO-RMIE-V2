@@ -30,6 +30,7 @@ import VoiceAgentSubPage from "../pages/VoiceAgentSubPage";
 import WebsiteBuilderLandingPage from "../pages/WebsiteBuilderLandingPage";
 import WebsiteBuilderSubPage from "../pages/WebsiteBuilderSubPage";
 import DomainSearchPage from "../pages/DomainSearchPage";
+import AgentCommandCenterPage from "../pages/AgentCommandCenterPage";
 
 export default function AppRoutes() {
   return (
@@ -83,6 +84,8 @@ export default function AppRoutes() {
       <Route path="/command-center/domains" element={<CommandCenterSubPage />} />
       <Route path="/command-center/settings" element={<CommandCenterSubPage />} />
       <Route path="/command-center/upgrade" element={<CommandCenterSubPage />} />
+      <Route path="/command-center/agents" element={<AgentCommandCenterPage />} />
+      <Route path="/agent-command-center" element={<AgentCommandCenterPage />} />
 
       {/* ── P2P AI Voice Agent ── */}
       <Route path="/voice-agent" element={<VoiceAgentPage />} />
