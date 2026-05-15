@@ -34,12 +34,12 @@ const plans = [
   {
     id: "pro",
     name: "RMIE PRO",
-    price: "$249",
+    price: "$299",
     period: "/mo",
     badge: "MOST POPULAR",
     highlight: true,
     position: "For growing businesses ready to automate operations and scale.",
-    valueLine: "Over $525/mo in standalone value.",
+    valueLine: "Over $526/mo in standalone value.",
     cta: "Upgrade to Pro",
     ctaLink: "/waitlist?tier=pro",
     features: [
@@ -60,7 +60,7 @@ const plans = [
   {
     id: "elite",
     name: "RMIE ELITE",
-    price: "$599",
+    price: "$349",
     period: "/mo",
     position: "For operators, agencies, and scaling teams.",
     cta: "Go Elite",
@@ -116,7 +116,7 @@ function CountBox({ val, label }) {
 export default function PricingPage() {
   const t = useCountdown();
   const totalValue = standaloneTools.reduce((sum, tool) => sum + tool.price, 0);
-  const savings = totalValue - 249;
+  const savings = totalValue - 299;
 
   return (
     <div className="min-h-screen overflow-hidden bg-[#0A0F1E] text-white">
@@ -159,7 +159,7 @@ export default function PricingPage() {
           <div className="rounded-2xl border border-[#2d9cff66] bg-[linear-gradient(160deg,#101a2f,#132a4f)] p-6 shadow-[0_0_45px_rgba(45,156,255,0.2)]">
             <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-[#87c8ff]">Inside RMIE</p>
             <p className="mb-2 font-display text-4xl font-black">RMIE Pro</p>
-            <p className="mb-4 text-3xl font-black text-white">ONLY $249/mo</p>
+            <p className="mb-4 text-3xl font-black text-white">ONLY $299/mo</p>
             <span className="inline-flex rounded-full border border-emerald-300/40 bg-emerald-500/15 px-3 py-1 text-xs font-bold text-emerald-300">Save ${savings}/month</span>
             <p className="mt-4 text-slate-200">Everything connected. Everything automated. One ecosystem.</p>
           </div>
