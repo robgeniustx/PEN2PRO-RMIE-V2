@@ -35,11 +35,18 @@ class MainBuilderAgent:
         "task",
     ]
 
+    MAX_EXECUTION_AGENTS = 8
+
     def validate_input(self, payload: dict) -> bool:
         if not isinstance(payload, dict):
             return False
 
-        request = payload.get("request") or payload.get("prompt") or payload.get("task") or payload.get("business_idea")
+        request = (
+            payload.get("request")
+            or payload.get("prompt")
+            or payload.get("task")
+            or payload.get("business_idea")
+        )
         return isinstance(request, str) and len(request.strip()) > 0
 
     def _request_text(self, payload: dict) -> str:
@@ -70,6 +77,7 @@ class MainBuilderAgent:
 
         seen = set()
         ordered = []
+
         for agent in matched:
             if agent not in seen:
                 ordered.append(agent)
@@ -92,13 +100,97 @@ class MainBuilderAgent:
                 "Marketing and outreach actions",
                 "Task list for next execution step",
             ],
-            "safety_note": "Main Builder returns a structured work order first. Code changes should still be reviewed before applying.",
+            "safety_note": "Main Builder can run safe agents, but production code changes should still be reviewed before applying.",
+        }
+
+    def _build_agent_payload(self, payload: dict, request: str):
+        return {
+            **payload,
+            "request": request,
+            "business_idea": payload.get("business_idea") or request,
+            "idea": payload.get("idea") or payload.get("business_idea") or request,
+            "goal": payload.get("goal") or "launch and get first paying customers",
+            "audience": payload.get("audience") or "target customers",
+            "industry": payload.get("industry") or "general business",
+            "tier": payload.get("tier", "free"),
+            "admin_test": payload.get("admin_test", False),
+        }
+
+    def _execute_agents(self, recommended_agents, payload: dict, request: str):
+        from app.agents.registry import get_agent
+
+        execution_results = {}
+        agent_payload = self._build_agent_payload(payload, request)
+
+        for agent_key in recommended_agents[: self.MAX_EXECUTION_AGENTS]:
+            if agent_key == "main_builder":
+                continue
+
+            agent = get_agent(agent_key)
+
+            if not agent:
+                execution_results[agent_key] = {
+                    "status": "skipped",
+                    "reason": "Agent not registered",
+                }
+                continue
+
+            try:
+                if not agent.validate_input(agent_payload):
+                    execution_results[agent_key] = {
+                        "status": "skipped",
+                        "reason": "Agent validation failed",
+                    }
+                    continue
+
+                execution_results[agent_key] = {
+                    "status": "ok",
+                    "agent_name": getattr(agent, "name", agent_key),
+                    "result": agent.run(agent_payload),
+                }
+            except Exception as exc:
+                execution_results[agent_key] = {
+                    "status": "error",
+                    "error": str(exc),
+                }
+
+        return execution_results
+
+    def _summarize_execution(self, execution_results):
+        completed = [
+            key for key, value in execution_results.items()
+            if value.get("status") == "ok"
+        ]
+
+        skipped = [
+            key for key, value in execution_results.items()
+            if value.get("status") == "skipped"
+        ]
+
+        errors = [
+            key for key, value in execution_results.items()
+            if value.get("status") == "error"
+        ]
+
+        return {
+            "completed_agents": completed,
+            "skipped_agents": skipped,
+            "error_agents": errors,
+            "completed_count": len(completed),
+            "skipped_count": len(skipped),
+            "error_count": len(errors),
         }
 
     def run(self, payload: dict):
         request = self._request_text(payload)
         tier = payload.get("tier", "free")
         recommended_agents = self._detect_agents(request)
+        should_execute = payload.get("execute", True) is True
+
+        execution_results = {}
+
+        if should_execute:
+            execution_results = self._execute_agents(recommended_agents, payload, request)
 
         return {
             "status": "ok",
@@ -109,11 +201,14 @@ class MainBuilderAgent:
             "recommended_agents": recommended_agents,
             "execution_order": recommended_agents,
             "work_order": self._build_work_order(request, recommended_agents, payload),
+            "execution_enabled": should_execute,
+            "execution_summary": self._summarize_execution(execution_results) if should_execute else None,
+            "execution_results": execution_results,
             "next_actions": [
-                "Run the intake agent to normalize the request.",
-                "Run the highest-priority specialist agents in execution_order.",
-                "Combine outputs into one user-facing action plan.",
+                "Review the combined agent outputs.",
+                "Use execution_results to build the user-facing launch plan.",
+                "Turn high-value outputs into dashboard cards, roadmap tasks, and exportable reports.",
                 "Ask for approval before applying production code changes.",
             ],
-            "message": "Main Builder Agent coordinator is connected successfully.",
+            "message": "Main Builder Agent execution chain is connected successfully.",
         }
