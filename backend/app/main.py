@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routes import health, auth
+from app.routes import health, auth, users
 
 app = FastAPI(
     title="PEN2PRO RMIE API",
@@ -24,6 +24,7 @@ app.add_middleware(
 
 app.include_router(health.router)
 app.include_router(auth.router, prefix="/api/auth", tags=["Auth"])
+app.include_router(users.router, prefix="/api/users", tags=["Users"])
 
 
 @app.get("/")
