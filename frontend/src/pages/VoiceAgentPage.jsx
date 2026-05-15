@@ -534,23 +534,22 @@ export default function VoiceAgentPage() {
           <div style={{ position: "relative" }}>
             <div style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#FFC107", marginBottom: 10 }}>⭐ Limited — Founder Access</div>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 900, fontSize: "1.7rem", color: "#F1F5F9", marginBottom: 10, lineHeight: 1.15 }}>
-              PEN2PRO Founder<br /><span style={{ color: "#FFC107" }}>Lifetime Add-On</span>
+              Founders Lifetime<br /><span style={{ color: "#FFC107" }}>$1,899 for life</span>
             </h2>
             <p style={{ fontSize: "0.87rem", color: "#94A3B8", lineHeight: 1.65, maxWidth: 480 }}>
-              One-time investment. Lifetime access to PEN2PRO Founder benefits, early RMIE tools, preferred pricing
-              on all AI agent add-ons, and priority platform updates as the ecosystem grows.
+              Everything you need to launch your business from idea to income and scale with a 10M strategist framework over the next 12 months. Only 200 Founders spots available.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 18 }}>
-              {["Lifetime Access", "Early RMIE Tools", "Preferred Pricing", "Priority Updates"].map(p => (
+              {["Lifetime Access", "Everything in Elite", "Only 200 Spots", "10M Strategist Framework"].map(p => (
                 <span key={p} style={{ fontSize: "0.74rem", fontWeight: 600, color: "#FFC107", background: "rgba(255,193,7,0.1)", border: "1px solid rgba(255,193,7,0.2)", padding: "4px 12px", borderRadius: 99 }}>{p}</span>
               ))}
             </div>
           </div>
           <div style={{ textAlign: "center", position: "relative" }}>
-            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "3.6rem", color: "#FFC107", lineHeight: 1, marginBottom: 4, fontWeight: 900 }}>$0</div>
-            <div style={{ fontSize: "0.75rem", color: "#475569", marginBottom: 18 }}>One-time payment. No renewals.</div>
+            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "3.6rem", color: "#FFC107", lineHeight: 1, marginBottom: 4, fontWeight: 900 }}>$1,899</div>
+            <div style={{ fontSize: "0.75rem", color: "#475569", marginBottom: 18 }}>For life. No monthly renewal.</div>
             <button
-              onClick={() => openModal({ name: "Founder Lifetime", price: "$0", key: "founder" })}
+              onClick={() => openModal({ name: "Founders Lifetime", price: "$1,899 for life", key: "founders" })}
               style={{
                 background: "linear-gradient(135deg, #FF8A00, #FFC107)",
                 color: "#0A0F1E", border: "none", cursor: "pointer",
@@ -558,7 +557,7 @@ export default function VoiceAgentPage() {
                 fontSize: "0.88rem", padding: "13px 28px", borderRadius: 10,
                 transition: "all .2s", whiteSpace: "nowrap",
               }}>
-              Secure Founder Access →
+              Claim Founders Lifetime →
             </button>
           </div>
         </div>

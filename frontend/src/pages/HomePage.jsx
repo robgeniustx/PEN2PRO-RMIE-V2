@@ -48,7 +48,7 @@ const TIERS = [
   { name: "Free Forever", price: "$0", per: "", badge: "", borderColor: "#1A2235", features: ["1 AI Business Roadmap", "Basic strategy output", "Brand name suggestions", "LLC setup checklist", "Waitlist access"], cta: "Start Free Roadmap", href: "/starter", ctaClass: "border border-[#1A2235] text-slate-300 hover:border-yellow-500 hover:text-yellow-400" },
   { name: "Pro", price: "$299", per: "/mo", badge: "Most Popular", borderColor: "#D4A017", features: ["Unlimited roadmaps", "Full 90-day execution plan", "Sales scripts & outreach", "Credit readiness checklist", "PDF/email export", "AI business refinement"], cta: "Join Waitlist → Pro", href: "/waitlist?tier=pro", ctaClass: "border border-yellow-500/60 text-yellow-400" },
   { name: "Elite", price: "$349", per: "/mo", badge: "Best Value", borderColor: "#00C9B1", features: ["Everything in Pro", "Financial projections", "Funding partner resources", "Done-with-you guidance", "Vendor & credit center", "White-glove strategy"], cta: "Join Waitlist → Elite", href: "/waitlist?tier=elite", ctaClass: "border border-teal-400/60 text-teal-400" },
-  { name: "Founders Lifetime", price: "$0", per: " one-time", badge: "200 Spots Only", borderColor: "#D4A017", features: ["Lifetime access", "All Pro + Elite features", "All future features free", "Founder pricing locked forever", "Direct founder support line"], cta: "Become a Founder", href: "/waitlist?tier=founders", ctaClass: "btn-gold text-[#080C14]" },
+  { name: "Founders Lifetime", price: "$1,899", per: " for life", badge: "200 Spots Only", borderColor: "#D4A017", features: ["Lifetime PEN2PRO access", "Everything in Elite", "P2P Command Center", "P2P AI Voice Agent", "Website Builder", "12-month 10M strategist framework"], cta: "Claim Founders Lifetime", href: "/waitlist?tier=founders", ctaClass: "btn-gold text-[#080C14]" },
 ];
 
 export default function HomePage() {
@@ -108,7 +108,7 @@ export default function HomePage() {
       {/* STATS */}
       <section className="border-y border-[#1A2235] bg-[#0F1520] px-5 py-8">
         <div className="mx-auto max-w-5xl grid grid-cols-2 gap-6 md:grid-cols-4 text-center">
-          {[["2,847+","Roadmaps Generated"],["$0","Required to Start"],["7 Days","To First Plan"],["June 10","Official Launch"]].map(([v,l]) => (
+          {[["2,847+","Roadmaps Generated"],["$0","Required to Start"],["7 Days","To First Plan"],["June 15","Official Launch"]].map(([v,l]) => (
             <div key={l}>
               <p className="font-display text-3xl font-black" style={{ color: '#D4A017' }}>{v}</p>
               <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500">{l}</p>
