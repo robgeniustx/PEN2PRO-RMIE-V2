@@ -106,7 +106,7 @@ const PLANS = [
   {
     tier: "Tier 02",
     name: "Pro Voice Agent",
-    price: "$149",
+    price: "$99",
     period: "/mo",
     desc: "For service businesses that want appointment-ready automation and qualified leads on demand.",
     key: "pro",
@@ -127,7 +127,7 @@ const PLANS = [
   {
     tier: "Tier 03",
     name: "Elite Voice Agent",
-    price: "$299",
+    price: "$249",
     period: "/mo",
     desc: "For serious businesses that want full lead handling, multi-agent routing, and CRM-style follow-up.",
     key: "elite",
@@ -547,10 +547,10 @@ export default function VoiceAgentPage() {
             </div>
           </div>
           <div style={{ textAlign: "center", position: "relative" }}>
-            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "3.6rem", color: "#FFC107", lineHeight: 1, marginBottom: 4, fontWeight: 900 }}>$889</div>
+            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "3.6rem", color: "#FFC107", lineHeight: 1, marginBottom: 4, fontWeight: 900 }}>$0</div>
             <div style={{ fontSize: "0.75rem", color: "#475569", marginBottom: 18 }}>One-time payment. No renewals.</div>
             <button
-              onClick={() => openModal({ name: "Founder Lifetime", price: "$889.99 one-time", key: "founder" })}
+              onClick={() => openModal({ name: "Founder Lifetime", price: "$0", key: "founder" })}
               style={{
                 background: "linear-gradient(135deg, #FF8A00, #FFC107)",
                 color: "#0A0F1E", border: "none", cursor: "pointer",

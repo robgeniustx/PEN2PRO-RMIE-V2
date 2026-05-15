@@ -27,9 +27,9 @@ export default function UpgradePrompt() {
 import { createCheckoutPlaceholder } from "../../api/stripeApi";
 
 const plans = [
-  { tier: "pro", price: "$89/mo", points: ["Full roadmap", "Social content", "Export", "Complete checklist"] },
-  { tier: "elite", price: "$149/mo", points: ["$100M Strategist Mode", "Outreach strategy", "Ads strategy", "CRM follow-up plan", "Landing page strategy", "Advanced guidance"] },
-  { tier: "founders", price: "$899 lifetime", points: ["All Elite features", "Lifetime access", "Future agent modules", "Priority access"] },
+  { tier: "pro", price: "$299/mo", points: ["Full roadmap", "Social content", "Export", "Complete checklist"] },
+  { tier: "elite", price: "$349/mo", points: ["$100M Strategist Mode", "Outreach strategy", "Ads strategy", "CRM follow-up plan", "Landing page strategy", "Advanced guidance"] },
+  { tier: "founders", price: "$0", points: ["All Elite features", "Lifetime access", "Future agent modules", "Priority access"] },
 ];
 
 const UpgradePrompt = ({ compact = false }) => {
