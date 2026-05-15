@@ -21,3 +21,6 @@ frontend/.env
 .env
 backend/.env
 frontend/.env
+
+# Local frontend runtime files
+frontend/.local/
