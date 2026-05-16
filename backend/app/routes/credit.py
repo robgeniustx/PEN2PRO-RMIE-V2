@@ -1,3 +1,4 @@
+from __future__ import annotations
 from fastapi import APIRouter, HTTPException
 from app.schemas.credit_schema import CreditReadinessRequest, DocumentRecordCreate, DisputeWorkspaceRequest
 from app.services import credit_service

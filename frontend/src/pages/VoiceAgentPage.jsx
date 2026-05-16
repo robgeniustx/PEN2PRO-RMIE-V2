@@ -150,7 +150,7 @@ const PLANS = [
 export default function VoiceAgentPage() {
   // Scroll to top every time this page mounts
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, []);
 
   const [bizName, setBizName] = useState("");

@@ -3,12 +3,12 @@ P2P AI Voice Agent API Routes
 Call management, script management, dashboard metrics, and Twilio webhook handling.
 """
 import uuid
-import hmac
-import hashlib
+import json
 from datetime import datetime, timezone
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Request, Header, Query
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from app.services.voice_agent_service import (
@@ -23,12 +23,45 @@ from app.services.voice_agent_service import (
     generate_call_summary,
     generate_follow_up_message,
     get_script_for_industry,
+    get_settings,
+    update_settings,
+    simulate_call,
+    update_call,
+    get_elevenlabs_status,
+    parse_elevenlabs_webhook_event,
 )
 import os
 
 router = APIRouter(prefix="/voice-agent", tags=["Voice Agent"])
 
 TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN", "")
+
+
+def _elevenlabs_webhook_secret() -> str:
+    return os.getenv("ELEVENLABS_WEBHOOK_SECRET") or os.getenv("WEBHOOK_SECRET") or ""
+
+
+def _construct_elevenlabs_event(raw_body: bytes, signature: str | None) -> dict:
+    secret = _elevenlabs_webhook_secret()
+    if not secret:
+        return json.loads(raw_body.decode("utf-8") or "{}")
+    if not signature:
+        raise HTTPException(status_code=401, detail="Missing ElevenLabs signature")
+    try:
+        from elevenlabs.client import ElevenLabs
+
+        elevenlabs = ElevenLabs(api_key=os.getenv("ELEVENLABS_API_KEY"))
+        return elevenlabs.webhooks.construct_event(
+            rawBody=raw_body.decode("utf-8"),
+            sig_header=signature,
+            secret=secret,
+        )
+    except HTTPException:
+        raise
+    except ImportError as exc:
+        raise HTTPException(status_code=500, detail="Install elevenlabs Python SDK to verify signed webhooks") from exc
+    except Exception as exc:
+        raise HTTPException(status_code=401, detail="Invalid ElevenLabs signature") from exc
 
 
 # ---------------------------------------------------------------------------
@@ -39,6 +72,35 @@ TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN", "")
 async def voice_dashboard():
     """Return Voice Agent dashboard metrics."""
     return get_dashboard_metrics()
+
+
+@router.get("/settings")
+def voice_settings():
+    return get_settings()
+
+
+@router.get("/elevenlabs/status")
+def elevenlabs_status():
+    return get_elevenlabs_status()
+
+
+@router.patch("/settings")
+def patch_voice_settings(payload: dict):
+    return update_settings(payload)
+
+
+@router.post("/simulate-call")
+async def run_simulated_call(payload: dict):
+    return await simulate_call(payload)
+
+
+@router.post("/webhook/elevenlabs")
+async def elevenlabs_webhook(request: Request):
+    raw_body = await request.body()
+    signature = request.headers.get("elevenlabs-signature") or request.headers.get("ElevenLabs-Signature")
+    event = _construct_elevenlabs_event(raw_body, signature)
+    result = parse_elevenlabs_webhook_event(event)
+    return JSONResponse(content=result, status_code=200)
 
 
 # ---------------------------------------------------------------------------
@@ -105,9 +167,8 @@ async def summarize_call(call_id: str):
     transcript = call.get("transcript", "")
     if not transcript:
         raise HTTPException(status_code=400, detail="No transcript available for this call")
-    summary = await generate_call_summary(transcript)
-    call["summary"] = summary
-    call["updated_at"] = datetime.now(timezone.utc).isoformat()
+    summary = await generate_call_summary(call)
+    update_call(call_id, {"summary": summary["summary"]})
     return {"call_id": call_id, "summary": summary}
 
 
@@ -182,7 +243,6 @@ async def twilio_incoming_call(request: Request):
     called_number = form.get("To", "")
     call_sid = form.get("CallSid", str(uuid.uuid4()))
 
-    # Log the incoming call
     call_data = {
         "id": call_sid,
         "caller_number": caller_number,
@@ -196,8 +256,7 @@ async def twilio_incoming_call(request: Request):
         "created_at": datetime.now(timezone.utc).isoformat(),
         "updated_at": datetime.now(timezone.utc).isoformat(),
     }
-    from app.services.voice_agent_service import _CALLS
-    _CALLS[call_sid] = call_data
+    create_call(call_data)
 
     # Return TwiML — in production this would route to your AI voice agent
     twiml = f"""<?xml version="1.0" encoding="UTF-8"?>
@@ -225,13 +284,7 @@ async def twilio_call_status(request: Request):
     call_status = form.get("CallStatus", "completed")
     duration = int(form.get("CallDuration", 0))
 
-    from app.services.voice_agent_service import _CALLS
-    if call_sid in _CALLS:
-        _CALLS[call_sid].update({
-            "status": call_status,
-            "duration_seconds": duration,
-            "updated_at": datetime.now(timezone.utc).isoformat(),
-        })
+    update_call(call_sid, {"status": call_status, "duration_seconds": duration})
 
     return {"received": True}
 

@@ -7,3 +7,11 @@ Frontend required:
 
 - `ADMIN_DASHBOARD_ENABLED` (backend): enables admin endpoints in production.
 - `VITE_ADMIN_DASHBOARD_ENABLED` (frontend): enables admin routes in UI.
+
+AI Voice Agent / ElevenLabs:
+- `ELEVENLABS_API_KEY` (backend): ElevenLabs API key stored in Render.
+- `ELEVENLABS_WEBHOOK_SECRET` (backend): HMAC secret from the ElevenLabs webhook configuration.
+- `ELEVENLABS_AGENT_ID` (backend, optional): ElevenLabs agent id used for environment/status checks.
+
+Configure the ElevenLabs webhook URL to:
+`https://<your-backend-render-service>.onrender.com/api/voice-agent/webhook/elevenlabs`

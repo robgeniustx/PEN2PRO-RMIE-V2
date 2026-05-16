@@ -7,7 +7,7 @@ import WaitlistPage from "../pages/WaitlistPage";
 import PricingPage from "../pages/PricingPage";
 import StarterPage from "../pages/StarterPage";
 import BlueprintResultsPage from "../pages/BlueprintResultsPage";
-import DashboardPage from "../pages/DashboardPage";
+import DashboardWorkspacePage from "../pages/DashboardWorkspacePage";
 import FundingReadinessPage from "../pages/FundingReadinessPage";
 import CreditReadinessPage from "../pages/CreditReadinessPage";
 import AffiliatePage from "../pages/AffiliatePage";
@@ -63,7 +63,8 @@ export default function AppRoutes() {
       <Route path="/affiliate" element={<AffiliatePage />} />
 
       {/* ── Dashboard ── */}
-      <Route path="/dashboard" element={<DashboardPage />} />
+      <Route path="/dashboard" element={<DashboardWorkspacePage />} />
+      <Route path="/dashboard/:moduleKey" element={<DashboardWorkspacePage />} />
 
       {/* ── P2P Command Center ── */}
       <Route path="/command-center" element={<CommandCenterPage />} />
@@ -119,6 +120,9 @@ export default function AppRoutes() {
       <Route path="/accelerator" element={<Navigate to="/rmie" replace />} />
       <Route path="/features" element={<Navigate to="/#features" replace />} />
       <Route path="/crm" element={<Navigate to="/command-center" replace />} />
+      <Route path="/contacts" element={<Navigate to="/dashboard/contacts" replace />} />
+      <Route path="/lead-inbox" element={<Navigate to="/dashboard/lead-inbox" replace />} />
+      <Route path="/pipeline" element={<Navigate to="/dashboard/pipeline" replace />} />
 
       {/* ── 404 ── */}
       <Route path="*" element={<NotFoundPage />} />

@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 P2P AI Voice Agent — in-memory service layer.
 Handles call records, scripts, dashboard metrics, CRM sync, and AI summaries.
@@ -6,7 +7,7 @@ Ready for MongoDB migration — replace list stores with Motor collections.
 import os
 import uuid
 from datetime import datetime, timezone
-from typing import List, Optional
+from typing import Any, List
 
 from app.models.call_record import CallRecord
 from app.models.voice_script import VoiceScript, ScriptStep
@@ -14,6 +15,28 @@ from app.models.voice_script import VoiceScript, ScriptStep
 # ─── In-memory stores (replace with MongoDB in Phase 3) ───────────────────────
 _CALL_RECORDS: List[CallRecord] = []
 _SCRIPTS: List[VoiceScript] = []
+_SETTINGS = {
+    "business_name": "PEN2PRO",
+    "agent_name": "PEN2PRO Intake Agent",
+    "industry": "pressure-washing",
+    "voice_provider": "demo",
+    "phone_number": "",
+    "transfer_number": "",
+    "timezone": "America/Chicago",
+    "business_hours_start": "08:00",
+    "business_hours_end": "18:00",
+    "after_hours_enabled": True,
+    "missed_call_text_back": True,
+    "crm_sync_enabled": True,
+    "booking_enabled": True,
+    "status": "demo_ready",
+}
+
+ELEVENLABS_EVENT_TYPES = {
+    "post_call_transcription",
+    "post_call_audio",
+    "call_initiation_failure",
+}
 
 
 # ─── Industry script modes ────────────────────────────────────────────────────
@@ -317,44 +340,135 @@ def get_script_for_industry(industry_id: str) -> dict:
 
 
 # ─── Call records ──────────────────────────────────────────────────────────────
-def create_call(data: dict) -> CallRecord:
-    call = CallRecord(id=str(uuid.uuid4()), **data)
+def _serialize_call(call: CallRecord) -> dict[str, Any]:
+    return call.model_dump(mode="json")
+
+
+def _serialize_script(script: VoiceScript) -> dict[str, Any]:
+    return script.model_dump(mode="json")
+
+
+def _seed_voice_agent_data() -> None:
+    if _SCRIPTS:
+        return
+    pressure = get_script_for_industry("pressure-washing")
+    create_script(
+        {
+            "name": "Pressure Washing Quote Intake",
+            "industry": "pressure-washing",
+            "script_mode": "quote-intake",
+            "greeting": pressure["greeting"],
+            "steps": [
+                {"order": 1, "type": "greeting", "text": pressure["greeting"]},
+                {"order": 2, "type": "qualify", "text": "Ask property type, surface, city, urgency, and budget range."},
+                {"order": 3, "type": "close", "text": pressure["cta"]},
+            ],
+            "is_active": True,
+        }
+    )
+    create_call(
+        {
+            "caller_number": "+17135550192",
+            "caller_name": "Maria Johnson",
+            "direction": "inbound",
+            "status": "completed",
+            "duration_seconds": 264,
+            "summary": "Maria requested a commercial pressure washing estimate for an apartment complex.",
+            "transcript": "Caller needs exterior cleaning for an apartment complex in Houston. She asked for pricing and earliest availability.",
+            "lead_captured": True,
+            "appointment_booked": True,
+            "follow_up_sent": False,
+            "call_reason": "commercial bid request",
+            "script_mode": "quote-intake",
+        }
+    )
+    create_call(
+        {
+            "caller_number": "+18325550341",
+            "caller_name": "David Ellis",
+            "direction": "inbound",
+            "status": "missed",
+            "duration_seconds": 0,
+            "summary": "Missed call. Text-back workflow queued.",
+            "lead_captured": False,
+            "appointment_booked": False,
+            "follow_up_sent": True,
+            "call_reason": "missed call",
+            "script_mode": "after-hours",
+        }
+    )
+
+
+def create_call(data: dict) -> dict:
+    payload = dict(data)
+    call_id = payload.pop("id", None) or str(uuid.uuid4())
+    call = CallRecord(id=call_id, **payload)
     _CALL_RECORDS.append(call)
-    return call
+    return _serialize_call(call)
 
 
 def list_calls(status: str = None, direction: str = None) -> list:
+    _seed_voice_agent_data()
     results = _CALL_RECORDS
     if status:
         results = [c for c in results if c.status == status]
     if direction:
         results = [c for c in results if c.direction == direction]
-    return sorted(results, key=lambda c: c.created_at, reverse=True)
+    return [_serialize_call(c) for c in sorted(results, key=lambda c: c.created_at, reverse=True)]
 
 
-def get_call(call_id: str) -> CallRecord | None:
+def get_call(call_id: str) -> dict | None:
+    _seed_voice_agent_data()
+    call = next((c for c in _CALL_RECORDS if c.id == call_id), None)
+    return _serialize_call(call) if call else None
+
+
+def _get_call_model(call_id: str) -> CallRecord | None:
+    _seed_voice_agent_data()
     return next((c for c in _CALL_RECORDS if c.id == call_id), None)
 
 
+def update_call(call_id: str, payload: dict) -> dict | None:
+    call = _get_call_model(call_id)
+    if not call:
+        return None
+    for key, value in payload.items():
+        if hasattr(call, key):
+            setattr(call, key, value)
+    call.updated_at = datetime.now(timezone.utc)
+    return _serialize_call(call)
+
+
+def upsert_call(data: dict) -> dict:
+    call_id = data.get("id")
+    if call_id and _get_call_model(call_id):
+        return update_call(call_id, data) or {}
+    return create_call(data)
+
+
 # ─── Voice scripts ─────────────────────────────────────────────────────────────
-def create_script(data: dict) -> VoiceScript:
+def create_script(data: dict) -> dict:
     script = VoiceScript(id=str(uuid.uuid4()), **data)
     _SCRIPTS.append(script)
-    return script
+    return _serialize_script(script)
 
 
 def list_scripts(industry: str = None) -> list:
+    _seed_voice_agent_data()
     if industry:
-        return [s for s in _SCRIPTS if s.industry == industry]
-    return _SCRIPTS
+        return [_serialize_script(s) for s in _SCRIPTS if s.industry == industry]
+    return [_serialize_script(s) for s in _SCRIPTS]
 
 
-def get_script(script_id: str) -> VoiceScript | None:
-    return next((s for s in _SCRIPTS if s.id == script_id), None)
+def get_script(script_id: str) -> dict | None:
+    _seed_voice_agent_data()
+    script = next((s for s in _SCRIPTS if s.id == script_id), None)
+    return _serialize_script(script) if script else None
 
 
 # ─── Dashboard metrics ─────────────────────────────────────────────────────────
 def get_dashboard_metrics() -> dict:
+    _seed_voice_agent_data()
     total = len(_CALL_RECORDS)
     missed = sum(1 for c in _CALL_RECORDS if c.status == "missed")
     leads = sum(1 for c in _CALL_RECORDS if c.lead_captured)
@@ -377,16 +491,17 @@ def get_dashboard_metrics() -> dict:
         "estimated_recovered_revenue": leads * 250,  # $250 avg lead value placeholder
         "call_answer_rate": round((total - missed) / total * 100, 1) if total else 0,
         "lead_capture_rate": round(leads / total * 100, 1) if total else 0,
-        "recent_calls": [c.model_dump() for c in list_calls()[:10]],
+        "recent_calls": list_calls()[:10],
         "top_call_reasons": [{"reason": r, "count": n} for r, n in top_reasons],
         "active_scripts": sum(1 for s in _SCRIPTS if s.is_active),
+        "settings": get_settings(),
     }
 
 
 # ─── CRM sync ──────────────────────────────────────────────────────────────────
 def sync_call_to_crm(call_id: str) -> dict:
     """Mark call as synced — in Phase 3 this writes to Command Center."""
-    call = get_call(call_id)
+    call = _get_call_model(call_id)
     if not call:
         return {"success": False, "error": "Call not found"}
     call.synced_to_crm = True
@@ -468,3 +583,178 @@ async def generate_follow_up_message(lead_data: dict) -> dict:
         "channel": channel,
         "is_demo": not bool(os.getenv("OPENAI_API_KEY")),
     }
+
+
+def get_settings() -> dict:
+    settings = dict(_SETTINGS)
+    if os.getenv("ELEVENLABS_API_KEY"):
+        settings["voice_provider"] = "elevenlabs"
+        settings["elevenlabs_enabled"] = True
+    else:
+        settings["elevenlabs_enabled"] = False
+    settings["elevenlabs_webhook_secret_configured"] = bool(
+        os.getenv("ELEVENLABS_WEBHOOK_SECRET") or os.getenv("WEBHOOK_SECRET")
+    )
+    return settings
+
+
+def update_settings(payload: dict) -> dict:
+    allowed = set(_SETTINGS)
+    for key, value in payload.items():
+        if key in allowed:
+            _SETTINGS[key] = value
+    _SETTINGS["updated_at"] = datetime.now(timezone.utc).isoformat()
+    return get_settings()
+
+
+async def simulate_call(payload: dict) -> dict:
+    industry = payload.get("industry") or _SETTINGS["industry"]
+    business_name = payload.get("business_name") or _SETTINGS["business_name"]
+    caller_name = payload.get("caller_name") or "Demo Caller"
+    caller_number = payload.get("caller_number") or "+17135550100"
+    call_reason = payload.get("call_reason") or "quote request"
+    transcript = payload.get("transcript") or (
+        f"{caller_name} called {business_name} about {call_reason}. "
+        "The caller wants pricing, availability, and a follow-up appointment."
+    )
+    script = get_script_for_industry(industry)
+    lead_captured = bool(payload.get("lead_captured", True))
+    appointment_booked = bool(payload.get("appointment_booked", False))
+    call = create_call(
+        {
+            "caller_number": caller_number,
+            "caller_name": caller_name,
+            "direction": payload.get("direction", "inbound"),
+            "status": payload.get("status", "completed"),
+            "duration_seconds": int(payload.get("duration_seconds", 180)),
+            "transcript": transcript,
+            "lead_captured": lead_captured,
+            "appointment_booked": appointment_booked,
+            "call_reason": call_reason,
+            "script_mode": payload.get("script_mode", script.get("script_mode", "general")),
+        }
+    )
+    summary = await generate_call_summary(call)
+    model = _get_call_model(call["id"])
+    if model:
+        model.summary = summary["summary"]
+        model.updated_at = datetime.now(timezone.utc)
+    follow_up = await generate_follow_up_message(
+        {
+            "name": caller_name,
+            "service": call_reason,
+            "business_name": business_name,
+            "channel": "sms",
+        }
+    )
+    return {
+        "call": get_call(call["id"]),
+        "script": script,
+        "summary": summary,
+        "follow_up": follow_up,
+        "crm_sync": sync_call_to_crm(call["id"]) if _SETTINGS.get("crm_sync_enabled") else {"success": False, "reason": "crm_sync_disabled"},
+    }
+
+
+def get_elevenlabs_status() -> dict:
+    return {
+        "provider": "elevenlabs",
+        "api_key_configured": bool(os.getenv("ELEVENLABS_API_KEY")),
+        "webhook_secret_configured": bool(os.getenv("ELEVENLABS_WEBHOOK_SECRET") or os.getenv("WEBHOOK_SECRET")),
+        "agent_id_configured": bool(os.getenv("ELEVENLABS_AGENT_ID")),
+        "webhook_path": "/api/voice-agent/webhook/elevenlabs",
+        "supported_events": sorted(ELEVENLABS_EVENT_TYPES),
+    }
+
+
+def parse_elevenlabs_webhook_event(event: dict) -> dict:
+    event_type = event.get("type", "unknown")
+    data = event.get("data") or {}
+    conversation_id = data.get("conversation_id") or data.get("id") or str(uuid.uuid4())
+    transcript_items = data.get("transcript") or []
+    transcript = _transcript_to_text(transcript_items)
+    metadata = data.get("metadata") or {}
+    analysis = data.get("analysis") or {}
+    duration = metadata.get("call_duration_secs") or metadata.get("duration_seconds") or 0
+    summary = analysis.get("transcript_summary") or data.get("summary") or ""
+    call_successful = analysis.get("call_successful") or data.get("status") or "completed"
+    caller = _extract_caller(data, metadata)
+    call_reason = _extract_call_reason(analysis, data)
+    call_record = {
+        "id": conversation_id,
+        "caller_number": caller.get("caller_number"),
+        "caller_name": caller.get("caller_name"),
+        "direction": "inbound",
+        "status": "completed" if call_successful in {"success", "done", "completed"} else str(call_successful),
+        "duration_seconds": int(duration or 0),
+        "summary": summary or f"ElevenLabs {event_type} received for conversation {conversation_id}.",
+        "transcript": transcript,
+        "lead_captured": _analysis_bool(analysis, "lead_captured"),
+        "appointment_booked": _analysis_bool(analysis, "appointment_booked"),
+        "follow_up_sent": False,
+        "call_reason": call_reason,
+        "script_mode": "elevenlabs",
+        "recording_url": data.get("recording_url") or data.get("audio_url"),
+    }
+    saved_call = upsert_call(call_record)
+    follow_up = None
+    if saved_call.get("lead_captured"):
+        follow_up = {
+            "recommended_channel": "sms",
+            "message": f"Follow up with {saved_call.get('caller_name') or saved_call.get('caller_number') or 'the caller'} about {saved_call.get('call_reason') or 'their request'}.",
+        }
+    return {
+        "received": True,
+        "event_type": event_type,
+        "conversation_id": conversation_id,
+        "call": saved_call,
+        "follow_up": follow_up,
+        "crm_sync": sync_call_to_crm(saved_call["id"]) if saved_call and _SETTINGS.get("crm_sync_enabled") else None,
+    }
+
+
+def _transcript_to_text(transcript_items: list) -> str:
+    lines = []
+    for item in transcript_items:
+        role = item.get("role", "speaker")
+        message = item.get("message") or item.get("text") or ""
+        if message:
+            lines.append(f"{role}: {message}")
+    return "\n".join(lines)
+
+
+def _extract_caller(data: dict, metadata: dict) -> dict:
+    phone_data = data.get("phone_call") or metadata.get("phone_call") or {}
+    dynamic = data.get("conversation_initiation_client_data", {}).get("dynamic_variables", {})
+    return {
+        "caller_number": (
+            phone_data.get("external_number")
+            or phone_data.get("caller_number")
+            or data.get("caller_number")
+            or dynamic.get("phone")
+        ),
+        "caller_name": dynamic.get("user_name") or dynamic.get("name") or data.get("caller_name"),
+    }
+
+
+def _extract_call_reason(analysis: dict, data: dict) -> str:
+    collected = analysis.get("data_collection_results") or {}
+    for key in ["call_reason", "service_interest", "intent", "reason"]:
+        value = collected.get(key)
+        if isinstance(value, dict):
+            return str(value.get("value") or value.get("result") or key)
+        if value:
+            return str(value)
+    return data.get("status") or "ElevenLabs post-call transcription"
+
+
+def _analysis_bool(analysis: dict, key: str) -> bool:
+    collected = analysis.get("data_collection_results") or {}
+    value = collected.get(key)
+    if isinstance(value, dict):
+        value = value.get("value") or value.get("result")
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        return value.lower() in {"true", "yes", "y", "1", "captured", "booked"}
+    return False

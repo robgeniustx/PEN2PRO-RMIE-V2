@@ -1,3 +1,4 @@
+from __future__ import annotations
 from app.permissions.tier_permissions import has_tier
 
 SAFE_DRAFT_ACTIONS = {"generate copy", "create checklist", "draft follow-up", "draft post", "create report", "score lead", "suggest next action"}

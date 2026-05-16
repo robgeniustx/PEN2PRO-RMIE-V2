@@ -21,6 +21,7 @@ from app.routes.command_center import router as command_center_router
 from app.routes.voice_agent import router as voice_agent_router
 from app.routes.website_builder import router as website_builder_router
 from app.routes.domain_search import router as domain_router
+from app.routes.dashboard import router as dashboard_router
 
 try:
     from app.routes.customers import router as customers_router
@@ -244,6 +245,7 @@ app.include_router(command_center_router, prefix="/api", tags=["Command Center"]
 app.include_router(voice_agent_router, prefix="/api", tags=["Voice Agent"])
 app.include_router(website_builder_router, prefix="/api", tags=["Website Builder"])
 app.include_router(domain_router, prefix="/api", tags=["Domain Search"])
+app.include_router(dashboard_router)
 if _has_customers:
     app.include_router(customers_router, prefix="/api/customers", tags=["Customers"])
 
