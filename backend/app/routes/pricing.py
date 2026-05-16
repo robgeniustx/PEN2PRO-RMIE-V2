@@ -34,6 +34,7 @@ PLANS = [
             "P2P Command Center access",
             "CRM basics",
             "Website Builder access",
+            "P2P AI Voice (Basic)",
             "Marketing and monetization roadmap",
             "Progress tracking",
             "Email and PDF export",
@@ -51,7 +52,7 @@ PLANS = [
         "features": [
             "Everything in Pro",
             "Advanced RMIE strategy engine",
-            "P2P AI Voice Agent access",
+            "P2P AI Voice Agent advanced access",
             "Advanced automations",
             "Funding readiness tools",
             "Advanced CRM and pipeline tools",

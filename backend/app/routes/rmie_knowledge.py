@@ -620,7 +620,7 @@ def _build_sample_response(
             {"name": "Jobber", "cost": "$49/mo", "best_for": "Service businesses — scheduling + invoicing + CRM", "url": "getjobber.com"},
         ],
         "ai_voice_agent_recommendations": [
-            {"name": "P2P AI Voice Agent (PEN2PRO)", "use_case": "Answer calls 24/7, capture leads, book appointments", "cost": "Included with Elite/Founders plan", "url": "/accelerator"},
+            {"name": "P2P AI Voice (Basic)", "use_case": "Answer calls, capture leads, and route follow-ups", "cost": "Included with Pro plan", "url": "/voice-agent"},
             {"name": "Synthflow", "use_case": "AI phone answering + lead qualification", "cost": "$29/mo", "url": "synthflow.ai"},
         ],
         "thirty_day_action_plan": [
