@@ -19,6 +19,7 @@ from app.routes.agents import router as agents_router
 from app.routes.rmie_knowledge import router as rmie_knowledge_router
 from app.routes.command_center import router as command_center_router
 from app.routes.voice_agent import router as voice_agent_router
+from app.routes.voice_agent_twilio import router as voice_agent_twilio_router
 from app.routes.website_builder import router as website_builder_router
 from app.routes.domain_search import router as domain_router
 from app.routes.dashboard import router as dashboard_router
@@ -243,6 +244,7 @@ app.include_router(agents_router)
 app.include_router(rmie_knowledge_router, prefix="/api/rmie", tags=["RMIE Vector Knowledge"])
 app.include_router(command_center_router, prefix="/api", tags=["Command Center"])
 app.include_router(voice_agent_router, prefix="/api", tags=["Voice Agent"])
+app.include_router(voice_agent_twilio_router)
 app.include_router(website_builder_router, prefix="/api", tags=["Website Builder"])
 app.include_router(domain_router, prefix="/api", tags=["Domain Search"])
 app.include_router(dashboard_router)

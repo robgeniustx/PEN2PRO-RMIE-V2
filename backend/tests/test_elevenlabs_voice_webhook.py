@@ -1,6 +1,7 @@
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 BACKEND_ROOT = Path(__file__).resolve().parents[1]
@@ -46,7 +47,8 @@ class ElevenLabsVoiceWebhookTest(unittest.TestCase):
             },
         }
 
-        response = self.client.post("/api/voice-agent/webhook/elevenlabs", json=payload)
+        with patch.dict("os.environ", {"ELEVENLABS_WEBHOOK_SECRET": "", "WEBHOOK_SECRET": ""}):
+            response = self.client.post("/api/voice-agent/webhook/elevenlabs", json=payload)
 
         self.assertEqual(response.status_code, 200)
         body = response.json()
