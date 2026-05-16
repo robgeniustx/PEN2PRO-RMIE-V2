@@ -255,6 +255,58 @@ button { cursor: pointer; font-family: inherit; }
   margin-bottom: 18px;
 }
 
+.p2p-command-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 320px);
+  gap: 16px;
+  align-items: stretch;
+  border: 1px solid #1a2d50;
+  border-radius: 8px;
+  background: #0f1520;
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+.p2p-command-hero p {
+  color: #00c9b1;
+  font-size: 12px;
+  font-weight: 900;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.p2p-command-hero h2 {
+  color: #ffffff;
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+.p2p-command-hero span {
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.p2p-command-score {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+  border: 1px solid #1a2235;
+  border-radius: 8px;
+  background: #080c14;
+  padding: 14px;
+}
+
+.p2p-command-score strong {
+  color: #d4a017;
+  font-size: 20px;
+}
+
+.p2p-command-score span {
+  color: #64748b;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
 .p2p-metric,
 .p2p-panel {
   border: 1px solid #1a2235;
@@ -328,6 +380,209 @@ button { cursor: pointer; font-family: inherit; }
 
 .p2p-table-wrap {
   overflow-x: auto;
+}
+
+.p2p-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.p2p-record-card,
+.p2p-kanban section,
+.p2p-payment-console article,
+.p2p-voice-console article,
+.p2p-website-console article,
+.p2p-flow-list article {
+  border: 1px solid #1a2235;
+  border-radius: 8px;
+  background: #080c14;
+}
+
+.p2p-record-card {
+  padding: 14px;
+}
+
+.p2p-record-card header,
+.p2p-record-card footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.p2p-record-card header {
+  margin-bottom: 12px;
+}
+
+.p2p-record-card header strong {
+  color: #ffffff;
+}
+
+.p2p-record-card header span {
+  border: 1px solid #00c9b155;
+  border-radius: 999px;
+  color: #7dd3fc;
+  font-size: 11px;
+  padding: 3px 7px;
+  text-transform: capitalize;
+}
+
+.p2p-record-card p {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 8px;
+  color: #cbd5e1;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.p2p-record-card small {
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.p2p-record-card b {
+  color: #f8fafc;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.p2p-record-card footer {
+  border-top: 1px solid #1a2235;
+  margin-top: 12px;
+  padding-top: 12px;
+}
+
+.p2p-record-card button,
+.p2p-kanban button {
+  border: 1px solid #263247;
+  border-radius: 8px;
+  background: #111827;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 7px 9px;
+}
+
+.p2p-kanban {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(180px, 1fr));
+  gap: 12px;
+  overflow-x: auto;
+}
+
+.p2p-kanban section {
+  min-height: 210px;
+  padding: 12px;
+}
+
+.p2p-kanban h3 {
+  display: flex;
+  justify-content: space-between;
+  color: #ffffff;
+  font-size: 13px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.p2p-kanban h3 span {
+  color: #d4a017;
+}
+
+.p2p-kanban article {
+  border: 1px solid #263247;
+  border-radius: 8px;
+  background: #101827;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.p2p-kanban article strong,
+.p2p-kanban article p {
+  display: block;
+}
+
+.p2p-kanban article p {
+  color: #94a3b8;
+  font-size: 12px;
+  margin: 7px 0 10px;
+}
+
+.p2p-payment-console,
+.p2p-voice-console,
+.p2p-website-console,
+.p2p-flow-list {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.p2p-payment-console {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.p2p-voice-console,
+.p2p-website-console {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.p2p-payment-console article,
+.p2p-voice-console article,
+.p2p-website-console article,
+.p2p-flow-list article {
+  padding: 14px;
+}
+
+.p2p-payment-console span,
+.p2p-voice-console span,
+.p2p-website-console span,
+.p2p-flow-list span {
+  display: block;
+  color: #64748b;
+  font-size: 12px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.p2p-payment-console strong,
+.p2p-voice-console strong,
+.p2p-website-console strong,
+.p2p-flow-list strong {
+  color: #ffffff;
+  overflow-wrap: anywhere;
+}
+
+.p2p-voice-console a,
+.p2p-website-console a {
+  display: grid;
+  place-items: center;
+  min-height: 56px;
+  border: 1px solid #d4a01766;
+  border-radius: 8px;
+  background: #d4a01710;
+  color: #f8fafc;
+  font-weight: 900;
+  text-align: center;
+}
+
+.p2p-field-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  grid-column: 1 / -1;
+}
+
+.p2p-field-preview span {
+  border: 1px solid #263247;
+  border-radius: 999px;
+  background: #111827;
+  color: #cbd5e1;
+  padding: 7px 10px;
+}
+
+.p2p-flow-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .p2p-table {
@@ -478,9 +733,15 @@ button { cursor: pointer; font-family: inherit; }
     margin: 10px 0 0;
   }
 
+  .p2p-command-hero,
   .p2p-metrics,
   .p2p-content-grid,
-  .p2p-plan-scope {
+  .p2p-plan-scope,
+  .p2p-card-grid,
+  .p2p-payment-console,
+  .p2p-voice-console,
+  .p2p-website-console,
+  .p2p-flow-list {
     grid-template-columns: 1fr;
   }
 }
