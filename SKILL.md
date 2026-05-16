@@ -308,7 +308,7 @@ That kind of rejection can break a person. For a moment, it almost did. After a 
 
 If the system would not give him a path, he would build one.
 
-That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, XLR8 Pressure Washing Services, XLR8 Trade Academy, and now PEN2PRO.
+That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO.
 
 PEN2PRO is Robert's way of sharing the success, the heartbreak, the lessons, the failures, and the strategies with the world. It is built for people with ideas but no structure. People with skills but no roadmap. People with ambition but limited resources. People who have been overlooked, underestimated, or counted out.
 
@@ -321,8 +321,6 @@ This is not just software. This is a second-chance engine, a business builder, a
 **Section: Who Robert Green Is**
 
 Robert Earl Green Jr. is a service-connected veteran, father, entrepreneur, author, mentor, credible messenger, and founder of:
-- XLR8 Pressure Washing Services LLC — Houston, TX
-- XLR8 Trade Academy — trade education and workforce development
 - PEN2PRO RMIE — AI-powered business development ecosystem
 
 **Section: Who PEN2PRO Is For**
@@ -639,4 +637,4 @@ Do not just explain. Make the code changes. Inspect first. Build safely. Deliver
 ---
 
 *This prompt was created for Robert Earl Green Jr. | PEN2PRO RMIE | pen2pro.com*
-*Brand: PEN2PRO | XLR8 Pressure Washing Services LLC | XLR8 Trade Academy*
+*Brand: PEN2PRO*

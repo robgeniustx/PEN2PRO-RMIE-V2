@@ -51,7 +51,7 @@ export default function AboutPage() {
     };
 
     setMeta("description", "PEN2PRO was built by Robert Green after coming home from prison and having job offers rescinded. A second-chance engine that turns ideas into real business roadmaps for entrepreneurs, veterans, returning citizens, and working-class builders.");
-    setMeta("keywords", "PEN2PRO, RMIE, AI business roadmap, business plan for returning citizens, veteran entrepreneur, free business roadmap, business funding guidance, AI business plan generator, Houston entrepreneur, business plan generator, second chance business, business roadmap tool, Rapid Monetization Intelligence Engine, XLR8 Trade Academy, small business roadmap, entrepreneur tools for returning citizens, business plan for veterans, business startup guide");
+    setMeta("keywords", "PEN2PRO, RMIE, AI business roadmap, business plan for returning citizens, veteran entrepreneur, free business roadmap, business funding guidance, AI business plan generator, Houston entrepreneur, business plan generator, second chance business, business roadmap tool, Rapid Monetization Intelligence Engine, small business roadmap, entrepreneur tools for returning citizens, business plan for veterans, business startup guide");
     setMeta("author", "Robert Earl Green Jr.");
     setMeta("robots", "index, follow");
 
@@ -178,7 +178,7 @@ export default function AboutPage() {
               If the system would not give him a path, he would build one.
             </p>
             <p>
-              That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, XLR8 Pressure Washing Services, XLR8 Trade Academy, and now PEN2PRO.
+              That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO.
             </p>
             <p>
               PEN2PRO is Robert's way of sharing the success, the heartbreak, the lessons, the failures, and the strategies with the world. It is built for people with ideas but no structure. People with skills but no roadmap. People with ambition but limited resources. People who have been overlooked, underestimated, or counted out.
@@ -203,7 +203,7 @@ export default function AboutPage() {
                 Service-Connected Veteran · Entrepreneur · Author · Mentor
               </p>
               <p className="text-sm text-[#FF8A00] font-semibold mt-0.5">
-                Founder — PEN2PRO · XLR8 Pressure Washing Services · XLR8 Trade Academy
+                Founder — PEN2PRO
               </p>
             </div>
           </div>

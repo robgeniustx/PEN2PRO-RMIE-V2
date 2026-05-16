@@ -248,7 +248,7 @@ DASHBOARD_MODULES = [
         ],
         [
             {"id": 701, "agent_name": "PEN2PRO Intake Agent", "phone_number": "Not connected", "mode": "Lead qualification", "status": "setup_required"},
-            {"id": 702, "agent_name": "XLR8 Quote Agent", "phone_number": "Not connected", "mode": "Estimate intake", "status": "draft"},
+            {"id": 702, "agent_name": "Commercial Quote Agent", "phone_number": "Not connected", "mode": "Estimate intake", "status": "draft"},
         ],
         [{"key": "configure_agent", "label": "Configure Agent", "method": "POST"}, {"key": "test_call", "label": "Test Call", "method": "POST"}],
         [{"key": "agent_name", "label": "Agent name", "type": "text", "required": True}, {"key": "voice_provider", "label": "Provider", "type": "select", "options": ["Twilio", "Vapi", "Retell", "Bland", "ElevenLabs"], "required": True}],
@@ -388,7 +388,7 @@ DASHBOARD_MODULES = [
         ],
         [
             {"id": 1401, "name": "PEN2PRO Launch Site", "domain": "pen2pro.com", "pages": 8, "status": "published"},
-            {"id": 1402, "name": "XLR8 Pressure Washing", "domain": "xlr8pressurewashing.com", "pages": 5, "status": "draft"},
+            {"id": 1402, "name": "Commercial Service Website", "domain": "examplebusiness.com", "pages": 5, "status": "draft"},
         ],
         [{"key": "create_site", "label": "Create Website", "method": "POST"}, {"key": "publish", "label": "Publish", "method": "POST"}],
         [{"key": "business_idea", "label": "Business / site purpose", "type": "text", "required": True}, {"key": "domain", "label": "Domain", "type": "text", "required": False}],
@@ -408,7 +408,7 @@ DASHBOARD_MODULES = [
         ],
         [
             {"id": 1501, "domain": "pen2pro.com", "provider": "Registrar", "renewal": "2027-01-10", "status": "connected"},
-            {"id": 1502, "domain": "xlr8pressurewashing.com", "provider": "Registrar", "renewal": "2026-11-18", "status": "dns_review"},
+            {"id": 1502, "domain": "examplebusiness.com", "provider": "Registrar", "renewal": "2026-11-18", "status": "dns_review"},
         ],
         [{"key": "search_domain", "label": "Search Domain", "method": "GET"}, {"key": "connect_domain", "label": "Connect", "method": "POST"}],
         [{"key": "query", "label": "Domain idea", "type": "text", "required": True}],

@@ -59,7 +59,7 @@ export default function DomainSearchPage() {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. XLR8 Services, Green Built, TrueShine..."
+                placeholder="e.g. Green Built, TrueShine, LaunchWise..."
                 className="mb-4 w-full rounded-xl border border-[#1A2D50] bg-[#0A0F1E] px-4 py-3 text-sm text-white placeholder-slate-600 outline-none focus:border-[#1E88E5] transition-colors"
               />
               <label className="mb-2 block text-sm font-semibold text-slate-300">

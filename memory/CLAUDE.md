@@ -2,7 +2,7 @@
 
 ## Owner
 Robert Earl Green Jr. — Houston TX, entrepreneur, veteran, founder.
-Email: robertg@xlr8pressurewashing.com
+Email:
 
 ## Platform
 **PEN2PRO BusinessOS** — "Build the business. Run the business. Automate the business."
@@ -16,9 +16,6 @@ Email: robertg@xlr8pressurewashing.com
 | RMIE | Rapid Monetization Intelligence Engine |
 | P2P Command Center | The CRM hub — NEVER "P2P-CRM" publicly |
 | P2P AI Voice Agent | The AI call/booking module |
-| XLR8 | Always XLR8 (not xlr8 or XLR-8) |
-| XLR8 Pressure Washing Services LLC | Robert's cleaning business |
-| XLR8 Trade Academy | Robert's education platform |
 
 ## Pricing Tiers
 - Free: $0/month

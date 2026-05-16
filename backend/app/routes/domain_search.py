@@ -142,7 +142,7 @@ def business_name_ideas(
 ):
     """Generate business name ideas for a given industry."""
     industry_starters = {
-        "pressure-washing": ["ProWash", "ClearPath", "BrightSurface", "XLR8 Wash", "Apex Clean"],
+        "pressure-washing": ["ProWash", "ClearPath", "BrightSurface", "Apex Wash", "Apex Clean"],
         "hvac": ["ComfortPro", "ClimateFirst", "AirMasters", "CoolEdge", "ThermalPro"],
         "plumbing": ["FlowPro", "PipeMasters", "QuickFlow", "DrainRight", "WaterWorks"],
         "roofing": ["ApexRoof", "ShieldTop", "RoofRight", "PeakPro", "CrestRoofing"],

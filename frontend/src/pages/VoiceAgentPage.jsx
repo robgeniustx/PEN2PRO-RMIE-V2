@@ -310,7 +310,7 @@ export default function VoiceAgentPage() {
             </p>
 
             {[
-              { id: "biz-name", label: "Business Name", type: "text", placeholder: "e.g. XLR8 Pressure Washing", value: bizName, set: setBizName },
+              { id: "biz-name", label: "Business Name", type: "text", placeholder: "e.g. PEN2PRO Voice Intake", value: bizName, set: setBizName },
               { id: "biz-email", label: "Email Address", type: "email", placeholder: "you@yourbusiness.com", value: bizEmail, set: setBizEmail },
               { id: "biz-phone", label: "Phone Number", type: "tel", placeholder: "(832) 555-0100", value: bizPhone, set: setBizPhone },
             ].map(f => (

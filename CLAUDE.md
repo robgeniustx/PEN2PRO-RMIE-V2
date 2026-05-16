@@ -164,7 +164,7 @@ After a day of moping, frustration, and feeling the weight of the setback, Rober
 
 That mindset eventually turned into business ownership, mentorship, authorship, community work, and the creation of PEN2PRO.
 
-Robert is a service-connected veteran, father, entrepreneur, author, mentor, credible messenger, and founder of XLR8 Pressure Washing Services, XLR8 Trade Academy, and PEN2PRO.
+Robert is a service-connected veteran, father, entrepreneur, author, mentor, credible messenger, and founder of PEN2PRO.
 
 PEN2PRO was created to share both the success and the heartbreak — the wins, losses, setbacks, lessons, and strategies — with people who need a real roadmap, not motivational fluff.
 
@@ -226,7 +226,7 @@ That kind of rejection can break a person. For a moment, it almost did.
 
 After a day of moping, frustration, and asking why doors kept closing, Robert made a decision. He picked his head up and took off running. If the system would not give him a path, he would build one.
 
-That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, XLR8 Pressure Washing Services, XLR8 Trade Academy, and now PEN2PRO.
+That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO.
 
 PEN2PRO is Robert’s way of sharing the success, the heartbreak, the lessons, the failures, and the strategies with the world. It is built for people who have ideas but need structure. People with skills but no roadmap. People with ambition but limited resources. People who have been overlooked, underestimated, or counted out.
 
@@ -544,7 +544,7 @@ That kind of rejection can break a person. For a moment, it almost did. After a 
 
 If the system would not give him a path, he would build one.
 
-That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, XLR8 Pressure Washing Services, XLR8 Trade Academy, and now PEN2PRO.
+That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO.
 
 PEN2PRO is Robert’s way of sharing the success, the heartbreak, the lessons, the failures, and the strategies with the world. It is built for people with ideas but no structure. People with skills but no roadmap. People with ambition but limited resources. People who have been overlooked, underestimated, or counted out.
 
