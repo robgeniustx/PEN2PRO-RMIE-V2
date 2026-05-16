@@ -1,4 +1,4 @@
-export const TIER_ORDER = ["starter", "free", "pro", "elite", "founders"];
+export const TIER_ORDER = ["free", "starter", "pro", "elite", "founders"];
 
 export const creditFundingAccessByTier = {
   starter: "upgrade_only",

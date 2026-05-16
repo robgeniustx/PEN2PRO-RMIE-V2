@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
   { label: "RMIE",            path: "/rmie" },
-  { label: "Command Center",  path: "/command-center" },
+  { label: "Command Center",  path: "/dashboard" },
   { label: "Voice Agent",     path: "/voice-agent" },
   { label: "Website Builder", path: "/website-builder" },
   { label: "Domain Finder",   path: "/domain-search" },

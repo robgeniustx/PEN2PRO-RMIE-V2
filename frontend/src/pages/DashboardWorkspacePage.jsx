@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getDashboardModule, listDashboardModules } from "../api/dashboardApi";
+import {
+  createDashboardRecord,
+  dashboardExportUrl,
+  deleteDashboardRecord,
+  getDashboardModule,
+  listDashboardModules,
+} from "../api/dashboardApi";
 import { DASHBOARD_NAV, normalizePlan, userCanAccess } from "../data/dashboardModules";
 
 function getStoredUser() {
@@ -89,7 +95,7 @@ function AccessBanner({ module, user }) {
   );
 }
 
-function ModuleTable({ module }) {
+function ModuleTable({ module, onDelete }) {
   return (
     <div className="p2p-table-wrap">
       <table className="p2p-table">
@@ -111,7 +117,14 @@ function ModuleTable({ module }) {
                   </span>
                 </td>
               ))}
-              <td><button className="p2p-icon-button">Open</button></td>
+              <td>
+                <button className="p2p-icon-button" type="button">Open</button>
+                {module.access?.unlocked && (
+                  <button className="p2p-icon-button danger" type="button" onClick={() => onDelete(row.id)}>
+                    Delete
+                  </button>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -120,7 +133,7 @@ function ModuleTable({ module }) {
   );
 }
 
-function ModuleForm({ module, onCreate }) {
+function ModuleForm({ module, onCreate, busy }) {
   const fields = module.form_schema || [];
   if (!fields.length) {
     return (
@@ -165,8 +178,25 @@ function ModuleForm({ module, onCreate }) {
           </label>
         ))}
       </div>
-      <button className="p2p-primary">Save {module.label.replace(/s$/, "")}</button>
+      <button className="p2p-primary" disabled={busy || !module.access?.unlocked}>
+        {busy ? "Saving..." : `Save ${module.label.replace(/s$/, "")}`}
+      </button>
     </form>
+  );
+}
+
+function PlanScope({ module }) {
+  const scope = module.plan_scope || {};
+  if (!Object.keys(scope).length) return null;
+  return (
+    <section className="p2p-plan-scope">
+      {["pro", "elite", "founders"].map((plan) => scope[plan] && (
+        <article key={plan}>
+          <strong>{plan}</strong>
+          <span>{scope[plan]}</span>
+        </article>
+      ))}
+    </section>
   );
 }
 
@@ -207,6 +237,7 @@ export default function DashboardWorkspacePage() {
   const [module, setModule] = useState(null);
   const [records, setRecords] = useState([]);
   const [notice, setNotice] = useState("");
+  const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     const nextUser = getStoredUser();
@@ -230,6 +261,36 @@ export default function DashboardWorkspacePage() {
   const visibleModule = useMemo(() => ({ ...activeModule, records }), [activeModule, records]);
   const actionButtons = activeModule.actions || [];
 
+  async function handleCreate(nextRecord) {
+    if (!activeModule.access?.unlocked) {
+      setNotice(`${activeModule.label} requires ${activeModule.required_plan}. Upgrade or use admin access to save records.`);
+      return;
+    }
+    setBusy(true);
+    try {
+      const payload = await createDashboardRecord(activeModule.key, nextRecord, user);
+      setRecords(payload.records || [payload.record, ...records]);
+      setNotice(`${activeModule.label} record saved to the Command Center backend.`);
+    } catch (error) {
+      setNotice(error.message || "Unable to save this Command Center record.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handleDelete(recordId) {
+    setBusy(true);
+    try {
+      const payload = await deleteDashboardRecord(activeModule.key, recordId, user);
+      setRecords(payload.records || records.filter((record) => record.id !== recordId));
+      setNotice(`${activeModule.label} record deleted.`);
+    } catch (error) {
+      setNotice(error.message || "Unable to delete this Command Center record.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <div className="p2p-dashboard">
       <Sidebar modules={modules} activeKey={activeModule.key} user={user} />
@@ -247,6 +308,7 @@ export default function DashboardWorkspacePage() {
         </header>
 
         <AccessBanner module={activeModule} user={user} />
+        <PlanScope module={activeModule} />
         {notice && <div className="p2p-inline-notice">{notice}</div>}
 
         <section className="p2p-metrics">
@@ -278,16 +340,16 @@ export default function DashboardWorkspacePage() {
           <div className="p2p-panel wide">
             <div className="p2p-panel-head">
               <h2>{activeModule.label} Records</h2>
-              <button className="p2p-secondary">Export CSV</button>
+              <a className="p2p-secondary" href={dashboardExportUrl(activeModule.key, user)}>
+                Export CSV
+              </a>
             </div>
-            <ModuleTable module={visibleModule} />
+            <ModuleTable module={visibleModule} onDelete={handleDelete} />
           </div>
           <ModuleForm
             module={activeModule}
-            onCreate={(nextRecord) => {
-              setRecords((current) => [nextRecord, ...current]);
-              setNotice(`${activeModule.label} record added locally. Next step is persisting it through ${activeModule.endpoints?.create || "/api/dashboard"}.`);
-            }}
+            busy={busy}
+            onCreate={handleCreate}
           />
           <ApiPanel module={activeModule} />
         </section>

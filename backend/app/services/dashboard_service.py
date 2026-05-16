@@ -2,6 +2,12 @@ from __future__ import annotations
 
 from copy import deepcopy
 from datetime import datetime, timezone
+import csv
+import io
+import json
+import os
+from pathlib import Path
+import uuid
 from typing import Any
 
 
@@ -30,6 +36,7 @@ def _module(
     form_schema: list[dict[str, Any]],
     endpoints: dict[str, str],
     metrics: list[dict[str, Any]] | None = None,
+    plan_scope: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     return {
         "key": key,
@@ -43,6 +50,7 @@ def _module(
         "form_schema": form_schema,
         "endpoints": endpoints,
         "metrics": metrics or [],
+        "plan_scope": plan_scope or {},
         "updated_at": _now(),
     }
 
@@ -84,6 +92,12 @@ DASHBOARD_MODULES = [
             {"label": "Tasks due", "value": 5},
             {"label": "Plan health", "value": "Active"},
         ],
+        {
+            "free": "Dashboard preview, limited contacts, lead inbox, and basic tasks.",
+            "pro": "Customer CRM, estimates, invoices, payments, P2P AI Voice (Basic), and website records.",
+            "elite": "Advanced automations, funnels, domains, reputation, reports, and voice workflows.",
+            "founders": "Everything unlocked for life with owner/admin controls.",
+        },
     ),
     _module(
         "contacts",
@@ -238,8 +252,8 @@ DASHBOARD_MODULES = [
         "ai-voice-agent",
         "AI Voice Agent",
         "ai",
-        "elite",
-        "AI phone assistant for intake, qualification, booking, summaries, and CRM updates.",
+        "pro",
+        "P2P AI Voice (Basic) for intake, missed-call response, lead capture, and upgrade-ready call workflows.",
         [
             {"key": "agent_name", "label": "Agent", "type": TEXT},
             {"key": "phone_number", "label": "Number", "type": TEXT},
@@ -253,6 +267,12 @@ DASHBOARD_MODULES = [
         [{"key": "configure_agent", "label": "Configure Agent", "method": "POST"}, {"key": "test_call", "label": "Test Call", "method": "POST"}],
         [{"key": "agent_name", "label": "Agent name", "type": "text", "required": True}, {"key": "voice_provider", "label": "Provider", "type": "select", "options": ["Twilio", "Vapi", "Retell", "Bland", "ElevenLabs"], "required": True}],
         {"list": "/api/voice-agent/dashboard", "create": "/api/voice-agent/settings"},
+        None,
+        {
+            "pro": "Basic voice setup, test call workflow, missed-call response, and lead intake.",
+            "elite": "Call summaries, qualification, appointment booking, CRM updates, and advanced routing.",
+            "founders": "Best available voice model access, priority setup, and full future voice features.",
+        },
     ),
     _module(
         "estimates",
@@ -313,6 +333,12 @@ DASHBOARD_MODULES = [
         [{"key": "create_payment_link", "label": "Create Link", "method": "POST"}, {"key": "text_to_pay", "label": "Text to Pay", "method": "POST"}],
         [{"key": "customer", "label": "Customer", "type": "text", "required": True}, {"key": "amount", "label": "Amount", "type": "number", "required": True}],
         {"list": "/api/payments/invoices", "create": "/api/payments/text-to-pay"},
+        None,
+        {
+            "pro": "Customer-specific payment links, deposits, invoice balances, and Stripe-ready records.",
+            "elite": "Text-to-pay, payment recovery automations, and pipeline-to-payment workflows.",
+            "founders": "Full payment operations access for life.",
+        },
     ),
     _module(
         "automations",
@@ -378,7 +404,7 @@ DASHBOARD_MODULES = [
         "websites",
         "Websites",
         "marketing",
-        "elite",
+        "pro",
         "Website builder projects, landing pages, SEO sections, and publishing status.",
         [
             {"key": "name", "label": "Website", "type": TEXT},
@@ -393,6 +419,12 @@ DASHBOARD_MODULES = [
         [{"key": "create_site", "label": "Create Website", "method": "POST"}, {"key": "publish", "label": "Publish", "method": "POST"}],
         [{"key": "business_idea", "label": "Business / site purpose", "type": "text", "required": True}, {"key": "domain", "label": "Domain", "type": "text", "required": False}],
         {"list": "/api/website-builder/projects", "create": "/api/website-builder/generate"},
+        None,
+        {
+            "pro": "Starter website projects, service pages, SEO basics, and publishing readiness.",
+            "elite": "Advanced websites, funnels, domains, blogs, and multi-site growth workflows.",
+            "founders": "Lifetime access to all website, funnel, and domain-builder capabilities.",
+        },
     ),
     _module(
         "domains",
@@ -553,6 +585,12 @@ DASHBOARD_MODULES = [
         [{"key": "upgrade", "label": "Upgrade", "method": "POST"}, {"key": "manage_billing", "label": "Manage Billing", "method": "POST"}],
         [{"key": "plan", "label": "Plan", "type": "select", "options": ["free", "pro", "elite", "founders"], "required": True}],
         {"list": "/api/pricing", "create": "/api/stripe/create-checkout-session"},
+        None,
+        {
+            "pro": "Pro customer payment status, subscription upgrade path, and billing records.",
+            "elite": "Elite subscription, advanced usage, voice, automation, and payment operations.",
+            "founders": "Lifetime access, founder status, and full billing controls.",
+        },
     ),
     _module(
         "admin",
@@ -578,6 +616,136 @@ DASHBOARD_MODULES = [
 ]
 
 
+STORE_PATH = Path(
+    os.getenv(
+        "DASHBOARD_RECORD_STORE",
+        str(Path(__file__).resolve().parents[2] / ".local" / "dashboard_records.json"),
+    )
+)
+
+
+def _module_by_key(module_key: str) -> dict[str, Any] | None:
+    return next((item for item in DASHBOARD_MODULES if item["key"] == module_key), None)
+
+
+def _load_store() -> dict[str, list[dict[str, Any]]]:
+    if not STORE_PATH.exists():
+        return {}
+    try:
+        payload = json.loads(STORE_PATH.read_text())
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return payload if isinstance(payload, dict) else {}
+
+
+def _save_store(store: dict[str, list[dict[str, Any]]]) -> None:
+    STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    STORE_PATH.write_text(json.dumps(store, indent=2, sort_keys=True))
+
+
+def get_module_records(module_key: str) -> list[dict[str, Any]]:
+    module = _module_by_key(module_key)
+    if not module:
+        return []
+    store = _load_store()
+    return deepcopy(store.get(module_key) or module["records"])
+
+
+def create_module_record(module_key: str, payload: dict[str, Any], user_plan: str = "free", user_role: str = "member") -> dict[str, Any] | None:
+    module = _module_by_key(module_key)
+    if not module or not access_payload(module, user_plan, user_role)["unlocked"]:
+        return None
+    store = _load_store()
+    records = store.get(module_key) or deepcopy(module["records"])
+    record = _normalize_record(module_key, payload)
+    records.insert(0, record)
+    store[module_key] = records
+    _save_store(store)
+    return record
+
+
+def update_module_record(module_key: str, record_id: str, payload: dict[str, Any], user_plan: str = "free", user_role: str = "member") -> dict[str, Any] | None:
+    module = _module_by_key(module_key)
+    if not module or not access_payload(module, user_plan, user_role)["unlocked"]:
+        return None
+    store = _load_store()
+    records = store.get(module_key) or deepcopy(module["records"])
+    for index, record in enumerate(records):
+        if str(record.get("id")) == str(record_id):
+            records[index] = {**record, **payload, "updated_at": _now()}
+            store[module_key] = records
+            _save_store(store)
+            return records[index]
+    return None
+
+
+def delete_module_record(module_key: str, record_id: str, user_plan: str = "free", user_role: str = "member") -> bool:
+    module = _module_by_key(module_key)
+    if not module or not access_payload(module, user_plan, user_role)["unlocked"]:
+        return False
+    store = _load_store()
+    records = store.get(module_key) or deepcopy(module["records"])
+    next_records = [record for record in records if str(record.get("id")) != str(record_id)]
+    if len(next_records) == len(records):
+        return False
+    store[module_key] = next_records
+    _save_store(store)
+    return True
+
+
+def export_module_csv(module_key: str) -> str | None:
+    module = _module_by_key(module_key)
+    if not module:
+        return None
+    records = get_module_records(module_key)
+    columns = ["id", *[column["key"] for column in module["columns"]], "status", "created_at", "updated_at"]
+    output = io.StringIO()
+    writer = csv.DictWriter(output, fieldnames=list(dict.fromkeys(columns)), extrasaction="ignore")
+    writer.writeheader()
+    writer.writerows(records)
+    return output.getvalue()
+
+
+def _normalize_record(module_key: str, payload: dict[str, Any]) -> dict[str, Any]:
+    record = {key: value for key, value in payload.items() if value not in (None, "")}
+    record["id"] = record.get("id") or str(uuid.uuid4())
+    record["status"] = record.get("status") or _default_status(module_key)
+    record["created_at"] = record.get("created_at") or _now()
+    record["updated_at"] = _now()
+    _apply_customer_payment_defaults(module_key, record)
+    return record
+
+
+def _default_status(module_key: str) -> str:
+    if module_key in {"payments", "invoices", "estimates"}:
+        return "draft"
+    if module_key in {"contacts", "lead-inbox", "pipeline"}:
+        return "new"
+    return "active"
+
+
+def _apply_customer_payment_defaults(module_key: str, record: dict[str, Any]) -> None:
+    if module_key == "payments":
+        record.setdefault("customer", record.get("name", "Customer"))
+        record.setdefault("method", "Stripe link")
+        record["amount"] = _coerce_money(record.get("amount"))
+    if module_key == "invoices":
+        record.setdefault("number", f"INV-{str(record['id'])[:8].upper()}")
+        record.setdefault("customer", record.get("name", "Customer"))
+        record["balance"] = _coerce_money(record.get("balance") or record.get("amount"))
+    if module_key == "estimates":
+        record.setdefault("number", f"EST-{str(record['id'])[:8].upper()}")
+        record.setdefault("customer", record.get("name", "Customer"))
+        record["amount"] = _coerce_money(record.get("amount"))
+
+
+def _coerce_money(value: Any) -> float:
+    try:
+        return float(value or 0)
+    except (TypeError, ValueError):
+        return 0.0
+
+
 def list_dashboard_modules(user_plan: str = "free", user_role: str = "member") -> dict[str, Any]:
     return {
         "user_plan": normalize_plan(user_plan),
@@ -587,11 +755,13 @@ def list_dashboard_modules(user_plan: str = "free", user_role: str = "member") -
 
 
 def get_dashboard_module(module_key: str, user_plan: str = "free", user_role: str = "member") -> dict[str, Any] | None:
-    module = next((item for item in DASHBOARD_MODULES if item["key"] == module_key), None)
+    module = _module_by_key(module_key)
     if not module:
         return None
     result = deepcopy(module)
+    result["records"] = get_module_records(module_key)
     result["access"] = access_payload(module, user_plan, user_role)
+    result["metrics"] = result["metrics"] or module_metrics(result)
     return result
 
 
@@ -602,8 +772,27 @@ def module_summary(module: dict[str, Any], user_plan: str, user_role: str) -> di
         "section": module["section"],
         "required_plan": module["required_plan"],
         "description": module["description"],
+        "plan_scope": module.get("plan_scope", {}),
         "access": access_payload(module, user_plan, user_role),
     }
+
+
+def module_metrics(module: dict[str, Any]) -> list[dict[str, Any]]:
+    records = module.get("records", [])
+    money_total = 0.0
+    for row in records:
+        for key in ("amount", "balance", "value"):
+            if key in row:
+                money_total += _coerce_money(row.get(key))
+                break
+    metrics = [
+        {"label": "Records", "value": len(records)},
+        {"label": "Required Plan", "value": module.get("required_plan", "free")},
+        {"label": "Live Store", "value": "Local JSON"},
+    ]
+    if money_total:
+        metrics.insert(1, {"label": "Customer Value", "value": f"${money_total:,.0f}"})
+    return metrics
 
 
 def access_payload(module: dict[str, Any], user_plan: str, user_role: str) -> dict[str, Any]:

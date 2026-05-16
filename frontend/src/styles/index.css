@@ -189,6 +189,34 @@ button { cursor: pointer; font-family: inherit; }
   white-space: nowrap;
 }
 
+.p2p-plan-scope {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 18px;
+}
+
+.p2p-plan-scope article {
+  border: 1px solid #1a2d50;
+  border-radius: 8px;
+  background: #0f1520;
+  padding: 12px;
+}
+
+.p2p-plan-scope strong {
+  display: block;
+  color: #d4a017;
+  font-size: 12px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.p2p-plan-scope span {
+  color: #cbd5e1;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .p2p-access-banner span {
   color: #cbd5e1;
   font-size: 14px;
@@ -337,6 +365,12 @@ button { cursor: pointer; font-family: inherit; }
   padding: 7px 10px;
 }
 
+.p2p-icon-button.danger {
+  border-color: #7f1d1d;
+  color: #fecaca;
+  margin-left: 6px;
+}
+
 .p2p-form-grid {
   display: grid;
   gap: 12px;
@@ -445,7 +479,8 @@ button { cursor: pointer; font-family: inherit; }
   }
 
   .p2p-metrics,
-  .p2p-content-grid {
+  .p2p-content-grid,
+  .p2p-plan-scope {
     grid-template-columns: 1fr;
   }
 }

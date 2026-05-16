@@ -23,8 +23,6 @@ import AboutPage from "../pages/AboutPage";
 import BusinessOSPage from "../pages/BusinessOSPage";
 import RMIEPage from "../pages/RMIEPage";
 import CommandCenterPage from "../pages/CommandCenterPage";
-import CommandCenterDashboardPage from "../pages/CommandCenterDashboardPage";
-import CommandCenterSubPage from "../pages/CommandCenterSubPage";
 import VoiceAgentDashboardPage from "../pages/VoiceAgentDashboardPage";
 import VoiceAgentSubPage from "../pages/VoiceAgentSubPage";
 import WebsiteBuilderLandingPage from "../pages/WebsiteBuilderLandingPage";
@@ -68,23 +66,23 @@ export default function AppRoutes() {
 
       {/* ── P2P Command Center ── */}
       <Route path="/command-center" element={<CommandCenterPage />} />
-      <Route path="/command-center/dashboard" element={<CommandCenterDashboardPage />} />
-      <Route path="/command-center/customers" element={<CommandCenterSubPage />} />
-      <Route path="/command-center/leads" element={<CommandCenterSubPage />} />
-      <Route path="/command-center/opportunities" element={<CommandCenterSubPage />} />
-      <Route path="/command-center/pipeline" element={<CommandCenterSubPage />} />
-      <Route path="/command-center/quotes" element={<CommandCenterSubPage />} />
-      <Route path="/command-center/invoices" element={<CommandCenterSubPage />} />
-      <Route path="/command-center/calendar" element={<CommandCenterSubPage />} />
-      <Route path="/command-center/reputation" element={<CommandCenterSubPage />} />
-      <Route path="/command-center/reports" element={<CommandCenterSubPage />} />
-      <Route path="/command-center/automations" element={<CommandCenterSubPage />} />
-      <Route path="/command-center/funnels" element={<CommandCenterSubPage />} />
-      <Route path="/command-center/forms" element={<CommandCenterSubPage />} />
-      <Route path="/command-center/websites" element={<CommandCenterSubPage />} />
-      <Route path="/command-center/domains" element={<CommandCenterSubPage />} />
-      <Route path="/command-center/settings" element={<CommandCenterSubPage />} />
-      <Route path="/command-center/upgrade" element={<CommandCenterSubPage />} />
+      <Route path="/command-center/dashboard" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/command-center/customers" element={<Navigate to="/dashboard/contacts" replace />} />
+      <Route path="/command-center/leads" element={<Navigate to="/dashboard/lead-inbox" replace />} />
+      <Route path="/command-center/opportunities" element={<Navigate to="/dashboard/pipeline" replace />} />
+      <Route path="/command-center/pipeline" element={<Navigate to="/dashboard/pipeline" replace />} />
+      <Route path="/command-center/quotes" element={<Navigate to="/dashboard/estimates" replace />} />
+      <Route path="/command-center/invoices" element={<Navigate to="/dashboard/invoices" replace />} />
+      <Route path="/command-center/calendar" element={<Navigate to="/dashboard/calendar" replace />} />
+      <Route path="/command-center/reputation" element={<Navigate to="/dashboard/reputation" replace />} />
+      <Route path="/command-center/reports" element={<Navigate to="/dashboard/reports" replace />} />
+      <Route path="/command-center/automations" element={<Navigate to="/dashboard/automations" replace />} />
+      <Route path="/command-center/funnels" element={<Navigate to="/dashboard/funnels" replace />} />
+      <Route path="/command-center/forms" element={<Navigate to="/dashboard/lead-inbox" replace />} />
+      <Route path="/command-center/websites" element={<Navigate to="/dashboard/websites" replace />} />
+      <Route path="/command-center/domains" element={<Navigate to="/dashboard/domains" replace />} />
+      <Route path="/command-center/settings" element={<Navigate to="/dashboard/settings" replace />} />
+      <Route path="/command-center/upgrade" element={<Navigate to="/pricing" replace />} />
       <Route path="/command-center/agents" element={<AgentCommandCenterPage />} />
       <Route path="/agent-command-center" element={<AgentCommandCenterPage />} />
 
@@ -101,7 +99,7 @@ export default function AppRoutes() {
       {/* ── Website Builder ── */}
       <Route path="/website-builder" element={<WebsiteBuilderLandingPage />} />
       <Route path="/website-builder/templates" element={<WebsiteBuilderSubPage />} />
-      <Route path="/website-builder/editor" element={<WebsiteBuilderSubPage />} />
+      <Route path="/website-builder/editor" element={<WebsiteBuilderPage />} />
       <Route path="/website-builder/domains" element={<WebsiteBuilderSubPage />} />
 
       {/* ── Domain Finder ── */}
