@@ -4,6 +4,7 @@
  */
 import { Link, useLocation } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 import { hasTierAccess, getEffectiveTier } from "../utils/tierAccess";
 
 const PAGE_MAP = {
@@ -86,6 +87,7 @@ export default function CommandCenterSubPage() {
           <Link to="/pricing" className="hover:text-[#FF8A00] transition-colors">Pricing</Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

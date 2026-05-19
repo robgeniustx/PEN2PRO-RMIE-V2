@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 
 const METRIC_CARDS = [
   { label: "Total Contacts",        value: "1,248",  delta: "+34 this week",  color: "#1E88E5", icon: "👥" },
@@ -176,6 +177,7 @@ export default function CommandCenterDashboardPage() {
           <Link to="/pricing" className="rounded-lg border border-[#1A2D50] px-4 py-2 text-slate-400 hover:text-white transition-colors">💰 Pricing</Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
