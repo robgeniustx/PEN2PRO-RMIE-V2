@@ -10,7 +10,7 @@ const TIER_INFO = {
     color: "#D4A017",
     next: [
       "Check your email for your PEN2PRO confirmation and receipt.",
-      "You'll receive early access to all platform features starting June 10, 2026.",
+      "You'll receive early access to all platform features starting June 15, 2026.",
       "Join the Founders-only community for insider updates and direct access to the PEN2PRO team.",
     ],
   },
@@ -20,7 +20,7 @@ const TIER_INFO = {
     color: "#00C9B1",
     next: [
       "Check your email for your confirmation and account activation details.",
-      "Pro access unlocks fully on June 10, 2026 — unlimited roadmaps, outreach automation, and more.",
+      "Pro access unlocks fully on June 15, 2026 — unlimited roadmaps, outreach automation, and more.",
       "In the meantime, generate a free roadmap and start planning your launch.",
     ],
   },
@@ -30,7 +30,7 @@ const TIER_INFO = {
     color: "#D4A017",
     next: [
       "Check your email for your confirmation and Elite member details.",
-      "Elite access — including done-with-you strategy sessions — activates June 10, 2026.",
+      "Elite access — including done-with-you strategy sessions — activates June 15, 2026.",
       "Reach out to our team at support@pen2pro.com with any questions.",
     ],
   },
@@ -40,7 +40,7 @@ const TIER_INFO = {
     color: "#D4A017",
     next: [
       "Check your email for your confirmation and receipt.",
-      "Your access activates on June 10, 2026 at launch.",
+      "Your access activates on June 15, 2026 at launch.",
       "Generate a free business roadmap while you wait.",
     ],
   },

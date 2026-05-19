@@ -52,7 +52,7 @@ const TIERS = [
 ];
 
 export default function HomePage() {
-  const cd = useCountdown("2026-06-10T09:00:00");
+  const cd = useCountdown("2026-06-15T09:00:00");
 
   return (
     <div className="min-h-screen bg-[#080C14]">
@@ -66,7 +66,7 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-4xl">
           <div className="animate-fade-up mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2" style={{ borderColor: 'rgba(212,160,23,0.3)', background: 'rgba(212,160,23,0.08)' }}>
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#D4A017' }}>Launching June 10, 2026 — Waitlist Open Now</span>
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#D4A017' }}>Launching June 15, 2026 — Waitlist Open Now</span>
           </div>
 
           <h1 className="animate-fade-up-delay font-display text-5xl font-black leading-tight tracking-tight text-white md:text-7xl">
@@ -90,7 +90,7 @@ export default function HomePage() {
 
           {/* Countdown */}
           <div className="mt-14 flex flex-col items-center">
-            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Official Launch Countdown — June 10, 2026</p>
+            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Official Launch Countdown — June 15, 2026</p>
             <div className="flex items-center gap-3">
               <CountBox val={cd.d} label="Days" />
               <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
@@ -238,7 +238,7 @@ export default function HomePage() {
               Generate My Free Roadmap →
             </Link>
             <Link to="/waitlist" className="rounded-2xl border border-[#1A2235] px-8 py-4 text-base font-semibold text-slate-400 hover:border-yellow-500 hover:text-yellow-400 transition">
-              Join Waitlist for June 10
+              Join Waitlist for June 15
             </Link>
           </div>
         </div>
