@@ -1,33 +1,65 @@
-name: API Smoke Test
+const { test, expect } = require("@playwright/test");
 
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+const BASE = process.env.FRONTEND_URL || "http://localhost:5173";
 
-jobs:
-  api-smoke-test:
-    name: Test Live Backend API
-    runs-on: ubuntu-latest
+const PUBLIC_ROUTES = [
+  { path: "/",              title: "PEN2PRO" },
+  { path: "/about",         title: "PEN2PRO" },
+  { path: "/pricing",       title: "PEN2PRO" },
+  { path: "/waitlist",      title: "PEN2PRO" },
+  { path: "/starter",       title: "PEN2PRO" },
+  { path: "/login",         title: "PEN2PRO" },
+  { path: "/pro",           title: "PEN2PRO" },
+  { path: "/elite",         title: "PEN2PRO" },
+  { path: "/founders",      title: "PEN2PRO" },
+  { path: "/affiliate",     title: "PEN2PRO" },
+  { path: "/funding",       title: "PEN2PRO" },
+  { path: "/credit-repair", title: "PEN2PRO" },
+  { path: "/command-center", title: "PEN2PRO" },
+];
 
-    steps:
-      - name: Check backend health route
-        run: curl -f "${{ secrets.BACKEND_URL }}/api/health"
+test.describe("PEN2PRO smoke tests", () => {
+  for (const route of PUBLIC_ROUTES) {
+    test(`${route.path} loads without error`, async ({ page }) => {
+      const response = await page.goto(`${BASE}${route.path}`, { waitUntil: "domcontentloaded" });
+      expect(response?.status()).toBeLessThan(400);
+      await expect(page).toHaveTitle(new RegExp(route.title, "i"));
+      await expect(page.locator("body")).not.toContainText("Cannot GET");
+      await expect(page.locator("body")).not.toContainText("404 | Not Found");
+    });
+  }
 
-      - name: Check pricing route
-        run: curl -f "${{ secrets.BACKEND_URL }}/api/pricing"
+  test("/ renders brand name PEN2PRO", async ({ page }) => {
+    await page.goto(BASE, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("body")).toContainText("PEN2PRO");
+  });
 
-      - name: Report RMIE route status
-        run: |
-          curl -I "${{ secrets.BACKEND_URL }}/api/blueprint" || true
-          curl -I "${{ secrets.BACKEND_URL }}/api/rmie" || true
+  test("/ has at least one CTA button", async ({ page }) => {
+    await page.goto(BASE, { waitUntil: "domcontentloaded" });
+    const cta = page.locator("a, button").filter({ hasText: /roadmap|waitlist|get started|start/i }).first();
+    await expect(cta).toBeVisible();
+  });
 
-      - name: Report AI Voice Agent route status
-        run: |
-          curl -I "${{ secrets.BACKEND_URL }}/api/voice/status" || true
-          curl -I "${{ secrets.BACKEND_URL }}/api/voice/health" || true
+  test("nav links are present on home page", async ({ page }) => {
+    await page.goto(BASE, { waitUntil: "domcontentloaded" });
+    const nav = page.locator("nav");
+    await expect(nav).toBeVisible();
+  });
 
-      - name: Report Command Center route status
-        run: |
-          curl -I "${{ secrets.BACKEND_URL }}/api/admin/health" || true
-          curl -I "${{ secrets.BACKEND_URL }}/api/admin" || true
+  test("/pricing has upgrade buttons", async ({ page }) => {
+    await page.goto(`${BASE}/pricing`, { waitUntil: "domcontentloaded" });
+    const upgradeBtn = page.locator("a, button").filter({ hasText: /upgrade|get started|pro|elite|founder/i }).first();
+    await expect(upgradeBtn).toBeVisible();
+  });
+
+  test("/about has founder story content", async ({ page }) => {
+    await page.goto(`${BASE}/about`, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("body")).toContainText(/robert|pen2pro|mission/i);
+  });
+
+  test("unknown route renders 404 page not blank", async ({ page }) => {
+    await page.goto(`${BASE}/this-route-does-not-exist`, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("body")).not.toBeEmpty();
+    await expect(page.locator("body")).toContainText(/not found|404|home/i);
+  });
+});
