@@ -1,22 +1,22 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 import SafetyBoundaryNotice from "../components/automation/SafetyBoundaryNotice";
 import AgentCommandForm from "../components/automation/AgentCommandForm";
 
 function PlanSection({ section }) {
   return (
-    <div className="rounded-xl border border-slate-700 bg-slate-950/70 p-4">
-      <div className="mb-3 flex items-center justify-between gap-3">
-        <h3 className="text-lg font-black text-white">
-          {section.title}
-        </h3>
-        {section.agent ? (
-          <span className="rounded-full border border-blue-400/40 bg-blue-400/10 px-3 py-1 text-xs font-bold text-blue-200">
+    <div className="rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-5">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <h3 className="font-display text-lg font-black text-white">{section.title}</h3>
+        {section.agent && (
+          <span className="rounded-full border border-[#1E88E5]/40 bg-[#1E88E5]/10 px-3 py-1 text-xs font-bold text-[#1E88E5]">
             {section.agent}
           </span>
-        ) : null}
+        )}
       </div>
-
-      <pre className="max-h-80 overflow-auto whitespace-pre-wrap rounded-lg bg-black/30 p-3 text-xs leading-relaxed text-slate-200">
+      <pre className="max-h-80 overflow-auto whitespace-pre-wrap rounded-xl border border-[#1A2235] bg-[#0A0F1E] p-4 text-xs leading-relaxed text-slate-300">
         {JSON.stringify(section.data || section.items || section, null, 2)}
       </pre>
     </div>
@@ -32,107 +32,119 @@ export default function AgentCommandCenterPage() {
   const executionOrder = payload?.execution_order || [];
 
   return (
-    <div className="min-h-screen bg-slate-950 px-5 py-8 text-white">
-      <div className="mx-auto max-w-6xl">
-        <SafetyBoundaryNotice />
+    <div className="min-h-screen bg-[#080C14] text-white">
+      <Navbar />
 
-        <div className="mt-6 mb-6">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-blue-300">
-            P2P Agent Command Center
-          </p>
-          <h1 className="mt-2 text-4xl font-black">
-            Main Builder Execution Console
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-[#1A2D50] px-5 py-16 text-center">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <div className="h-[500px] w-[500px] rounded-full opacity-[0.06]"
+            style={{ background: "radial-gradient(circle, #FF8A00 0%, transparent 70%)" }} />
+        </div>
+        <div className="relative mx-auto max-w-3xl">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#FF8A00]">
+            ⚡ P2P Agent Command Center
+          </div>
+          <h1 className="font-display text-4xl font-black leading-tight md:text-5xl">
+            Main Builder
+            <br />
+            <span style={{ background: "linear-gradient(90deg, #FF8A00, #D4A017)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              Execution Console
+            </span>
           </h1>
-          <p className="mt-3 max-w-3xl text-slate-300">
-            Run the Main Builder agent, route the request through specialist agents, and display the combined launch plan.
+          <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-400 leading-relaxed">
+            Run the Main Builder agent, route your request through specialist agents, and receive a combined launch plan — roadmap, website strategy, outreach, funding readiness, and more.
           </p>
         </div>
+      </section>
+
+      <div className="mx-auto max-w-5xl px-5 py-12 space-y-8">
+        <SafetyBoundaryNotice />
 
         <AgentCommandForm onResult={setResult} />
 
-        {payload ? (
-          <div className="mt-8 space-y-6">
-            <div className="rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-5">
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-emerald-300">
-                Main Builder Status
-              </p>
-              <h2 className="mt-2 text-2xl font-black">
+        {payload && (
+          <div className="space-y-6">
+            {/* Status */}
+            <div className="rounded-2xl border border-[#059669]/30 bg-[#059669]/08 p-6">
+              <div className="mb-2 text-xs font-bold uppercase tracking-widest text-[#059669]">Main Builder Status</div>
+              <h2 className="font-display text-2xl font-black text-white">
                 {payload.message || "Main Builder completed."}
               </h2>
 
-              {executionSummary ? (
-                <div className="mt-4 grid gap-3 md:grid-cols-3">
-                  <div className="rounded-xl bg-slate-950/70 p-4">
-                    <p className="text-xs text-slate-400">Completed Agents</p>
-                    <p className="text-2xl font-black text-emerald-300">
-                      {executionSummary.completed_count}
-                    </p>
+              {executionSummary && (
+                <div className="mt-5 grid gap-4 md:grid-cols-3">
+                  <div className="rounded-xl border border-[#1A2D50] bg-[#0F1520] p-4 text-center">
+                    <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Completed Agents</p>
+                    <p className="mt-2 font-display text-3xl font-black text-[#059669]">{executionSummary.completed_count}</p>
                   </div>
-                  <div className="rounded-xl bg-slate-950/70 p-4">
-                    <p className="text-xs text-slate-400">Skipped</p>
-                    <p className="text-2xl font-black text-yellow-300">
-                      {executionSummary.skipped_count}
-                    </p>
+                  <div className="rounded-xl border border-[#1A2D50] bg-[#0F1520] p-4 text-center">
+                    <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Skipped</p>
+                    <p className="mt-2 font-display text-3xl font-black text-[#D4A017]">{executionSummary.skipped_count}</p>
                   </div>
-                  <div className="rounded-xl bg-slate-950/70 p-4">
-                    <p className="text-xs text-slate-400">Errors</p>
-                    <p className="text-2xl font-black text-red-300">
-                      {executionSummary.error_count}
-                    </p>
+                  <div className="rounded-xl border border-[#1A2D50] bg-[#0F1520] p-4 text-center">
+                    <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Errors</p>
+                    <p className="mt-2 font-display text-3xl font-black text-red-400">{executionSummary.error_count}</p>
                   </div>
                 </div>
-              ) : null}
+              )}
             </div>
 
-            <div className="rounded-2xl border border-blue-500/30 bg-slate-900 p-5">
-              <h2 className="text-2xl font-black">
-                Execution Order
-              </h2>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {executionOrder.map((agent) => (
-                  <span
-                    key={agent}
-                    className="rounded-full border border-blue-400/40 bg-blue-400/10 px-3 py-1 text-sm font-bold text-blue-200"
-                  >
-                    {agent}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {combinedPlan ? (
-              <div className="rounded-2xl border border-yellow-500/40 bg-yellow-500/10 p-5">
-                <p className="text-sm font-bold uppercase tracking-[0.2em] text-yellow-300">
-                  Combined Launch Plan
-                </p>
-                <h2 className="mt-2 text-3xl font-black">
-                  {combinedPlan.title}
-                </h2>
-                <p className="mt-2 text-slate-200">
-                  {combinedPlan.summary}
-                </p>
-
-                <div className="mt-5 grid gap-4">
-                  {(combinedPlan.sections || []).map((section, index) => (
-                    <PlanSection key={`${section.agent || section.title}-${index}`} section={section} />
+            {/* Execution Order */}
+            {executionOrder.length > 0 && (
+              <div className="rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-6">
+                <div className="mb-4 text-xs font-bold uppercase tracking-widest text-[#FF8A00]">Execution Order</div>
+                <div className="flex flex-wrap gap-2">
+                  {executionOrder.map((agent) => (
+                    <span key={agent} className="rounded-full border border-[#1E88E5]/40 bg-[#1E88E5]/10 px-3 py-1 text-sm font-bold text-[#1E88E5]">
+                      {agent}
+                    </span>
                   ))}
                 </div>
-
-                <div className="mt-6 rounded-xl border border-yellow-500/30 bg-slate-950/70 p-4">
-                  <h3 className="text-lg font-black text-yellow-200">
-                    Next Steps
-                  </h3>
-                  <ul className="mt-3 list-disc space-y-2 pl-5 text-slate-200">
-                    {(combinedPlan.next_steps || []).map((step) => (
-                      <li key={step}>{step}</li>
-                    ))}
-                  </ul>
-                </div>
               </div>
-            ) : null}
+            )}
+
+            {/* Combined Launch Plan */}
+            {combinedPlan && (
+              <div className="space-y-5">
+                <div className="rounded-2xl border border-[#D4A017]/30 bg-[#D4A017]/05 p-6">
+                  <div className="mb-2 text-xs font-bold uppercase tracking-widest text-[#D4A017]">Combined Launch Plan</div>
+                  <h2 className="font-display text-3xl font-black text-white">{combinedPlan.title}</h2>
+                  <p className="mt-3 text-slate-300 leading-relaxed">{combinedPlan.summary}</p>
+                </div>
+
+                {(combinedPlan.sections || []).map((section, index) => (
+                  <PlanSection key={`${section.agent || section.title}-${index}`} section={section} />
+                ))}
+
+                {combinedPlan.next_steps?.length > 0 && (
+                  <div className="rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-6">
+                    <div className="mb-4 text-xs font-bold uppercase tracking-widest text-[#FF8A00]">Next Steps</div>
+                    <ul className="space-y-3">
+                      {combinedPlan.next_steps.map((step, i) => (
+                        <li key={i} className="flex items-start gap-3 text-sm text-slate-300">
+                          <span className="mt-0.5 shrink-0 font-bold text-[#FF8A00]">{i + 1}.</span>
+                          {step}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
-        ) : null}
+        )}
+
+        {/* Bottom nav links */}
+        <div className="flex flex-wrap gap-3 pt-4 text-sm">
+          <Link to="/command-center" className="rounded-lg border border-[#1A2D50] px-4 py-2 text-slate-400 hover:text-white transition-colors">🖥️ Command Center</Link>
+          <Link to="/rmie" className="rounded-lg border border-[#1A2D50] px-4 py-2 text-slate-400 hover:text-white transition-colors">⚡ RMIE</Link>
+          <Link to="/voice-agent" className="rounded-lg border border-[#1A2D50] px-4 py-2 text-slate-400 hover:text-white transition-colors">🎙️ Voice Agent</Link>
+          <Link to="/pricing" className="rounded-lg border border-[#1A2D50] px-4 py-2 text-slate-400 hover:text-white transition-colors">💰 Pricing</Link>
+        </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

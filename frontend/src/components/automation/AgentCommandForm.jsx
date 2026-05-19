@@ -36,82 +36,72 @@ export default function AgentCommandForm({ onResult }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-blue-500/40 bg-slate-900 p-5 text-white">
-      <div className="mb-4">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-300">
-          PEN2PRO Main Builder
-        </p>
-        <h2 className="mt-2 text-2xl font-black">
-          Build a Combined Launch Plan
-        </h2>
-        <p className="mt-2 text-sm text-slate-300">
-          Main Builder will route your request through the agent stack and return one combined execution plan.
+    <form onSubmit={handleSubmit} className="rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-6 text-white">
+      <div className="mb-6">
+        <div className="mb-2 text-xs font-bold uppercase tracking-widest text-[#FF8A00]">PEN2PRO Main Builder</div>
+        <h2 className="font-display text-2xl font-black text-white">Build a Combined Launch Plan</h2>
+        <p className="mt-2 text-sm text-slate-400 leading-relaxed">
+          Main Builder routes your request through the full agent stack and returns one combined execution plan with roadmap, website strategy, outreach, funding readiness, and more.
         </p>
       </div>
 
-      <label className="mb-2 block text-sm font-bold text-slate-200">
-        Request
-      </label>
-      <textarea
-        value={request}
-        onChange={(event) => setRequest(event.target.value)}
-        rows={5}
-        className="mb-4 w-full rounded-xl border border-slate-700 bg-slate-950 p-3 text-sm text-white outline-none focus:border-blue-400"
-        placeholder="Tell Main Builder what you want to create..."
-      />
+      <div className="mb-4">
+        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Request</label>
+        <textarea
+          value={request}
+          onChange={(event) => setRequest(event.target.value)}
+          rows={5}
+          className="w-full rounded-xl border border-[#1A2235] bg-[#0A0F1E] p-3 text-sm text-white placeholder-slate-600 outline-none focus:border-[#FF8A00]/50 transition-colors"
+          placeholder="Tell Main Builder what you want to create..."
+        />
+      </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="mb-5 grid gap-4 md:grid-cols-3">
         <div>
-          <label className="mb-2 block text-sm font-bold text-slate-200">
-            Industry
-          </label>
+          <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Industry</label>
           <input
             value={industry}
             onChange={(event) => setIndustry(event.target.value)}
-            className="w-full rounded-xl border border-slate-700 bg-slate-950 p-3 text-sm text-white outline-none focus:border-blue-400"
+            className="w-full rounded-xl border border-[#1A2235] bg-[#0A0F1E] p-3 text-sm text-white placeholder-slate-600 outline-none focus:border-[#FF8A00]/50 transition-colors"
           />
         </div>
 
         <div>
-          <label className="mb-2 block text-sm font-bold text-slate-200">
-            Audience
-          </label>
+          <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Target Audience</label>
           <input
             value={audience}
             onChange={(event) => setAudience(event.target.value)}
-            className="w-full rounded-xl border border-slate-700 bg-slate-950 p-3 text-sm text-white outline-none focus:border-blue-400"
+            className="w-full rounded-xl border border-[#1A2235] bg-[#0A0F1E] p-3 text-sm text-white placeholder-slate-600 outline-none focus:border-[#FF8A00]/50 transition-colors"
           />
         </div>
 
         <div>
-          <label className="mb-2 block text-sm font-bold text-slate-200">
-            Tier
-          </label>
+          <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Plan Tier</label>
           <select
             value={tier}
             onChange={(event) => setTier(event.target.value)}
-            className="w-full rounded-xl border border-slate-700 bg-slate-950 p-3 text-sm text-white outline-none focus:border-blue-400"
+            className="w-full rounded-xl border border-[#1A2235] bg-[#0A0F1E] p-3 text-sm text-white outline-none focus:border-[#FF8A00]/50 transition-colors"
           >
             <option value="free">Free</option>
             <option value="pro">Pro</option>
             <option value="elite">Elite</option>
-            <option value="founders">Founders</option>
+            <option value="founders">Founders Lifetime</option>
           </select>
         </div>
       </div>
 
-      {error ? (
-        <p className="mt-4 rounded-xl border border-red-500/40 bg-red-500/10 p-3 text-sm text-red-200">
-          {error}
-        </p>
-      ) : null}
+      {error && (
+        <div className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 p-3">
+          <p className="text-sm text-red-300">{error}</p>
+        </div>
+      )}
 
       <button
         type="submit"
         disabled={loading}
-        className="mt-5 rounded-xl bg-blue-500 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-blue-400 disabled:cursor-not-allowed disabled:opacity-60"
+        className="rounded-xl px-6 py-3 text-sm font-black text-[#080C14] btn-gold disabled:cursor-not-allowed disabled:opacity-60 transition-opacity"
       >
-        {loading ? "Running Main Builder..." : "Run Main Builder"}
+        {loading ? "⚙️ Running Main Builder..." : "⚡ Run Main Builder"}
       </button>
     </form>
   );
