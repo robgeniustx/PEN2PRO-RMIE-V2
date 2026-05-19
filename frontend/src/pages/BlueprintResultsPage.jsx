@@ -175,7 +175,7 @@ export default function BlueprintResultsPage() {
             <div className="mb-4 text-4xl">🎯</div>
             <h2 className="font-display text-2xl font-black text-white mb-2">Your roadmap is ready.</h2>
             <p className="text-slate-400 text-sm mb-6">
-              Secure full Pro or Elite access before the June 10, 2026 launch and lock in early pricing.
+              Secure full Pro or Elite access before the June 15, 2026 launch and lock in early pricing.
             </p>
             <div className="flex flex-col gap-3">
               <Link to="/waitlist?tier=pro" className="btn-gold w-full py-3 text-sm font-bold">
@@ -510,7 +510,7 @@ export default function BlueprintResultsPage() {
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-[#1A2235] py-3 px-4" style={{ background: "#0F1520" }}>
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3">
           <p className="hidden text-sm font-semibold text-white sm:block">
-            Want full access? Launch is <span style={{ color: "#D4A017" }}>June 10, 2026</span>
+            Want full access? Launch is <span style={{ color: "#D4A017" }}>June 15, 2026</span>
           </p>
           <div className="flex gap-2">
             <Link to="/waitlist" className="rounded-xl border border-[#1A2235] px-4 py-2 text-xs font-bold text-slate-300 hover:border-[#D4A017]/50 transition-all">

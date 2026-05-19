@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
-const LAUNCH_DATE = new Date("2026-06-10T00:00:00Z");
+const LAUNCH_DATE = new Date("2026-06-15T00:00:00Z");
 
 function daysUntilLaunch() {
   return Math.max(0, Math.floor((LAUNCH_DATE - Date.now()) / 86400000));
@@ -120,7 +120,7 @@ export default function DashboardPage() {
             {
               label: "Days Until Launch",
               value: days,
-              sub: "June 10, 2026 — PEN2PRO goes live",
+              sub: "June 15, 2026 — PEN2PRO goes live",
               color: "#00C9B1",
             },
             {
@@ -150,7 +150,7 @@ export default function DashboardPage() {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="font-display text-lg font-bold text-white mb-1">
-                  Upgrade before the June 10 launch
+                  Upgrade before the June 15 launch
                 </h2>
                 <p className="text-sm text-slate-400">
                   Pro members get unlimited roadmaps, outreach automation, and credit/funding matching.
@@ -242,7 +242,7 @@ export default function DashboardPage() {
                   </div>
                 ))}
               </div>
-              <p className="text-xs text-slate-500">June 10, 2026</p>
+              <p className="text-xs text-slate-500">June 15, 2026</p>
             </div>
 
             {/* Account info card */}
