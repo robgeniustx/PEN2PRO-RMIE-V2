@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* PEN2PRO Global Styles - Dark Premium SaaS */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -1003,3 +1007,40 @@ button { cursor: pointer; font-family: inherit; }
     min-width: 680px;
   }
 }
+
+/* ─── PEN2PRO Custom Utility Classes ─── */
+
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #D4A017 0%, #FF8A00 100%);
+  color: #080C14;
+  font-weight: 900;
+  border-radius: 12px;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.btn-gold:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #D4A017 0%, #FF8A00 60%, #D4A017 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.countdown-box {
+  background: rgba(212, 160, 23, 0.08);
+  border: 1px solid rgba(212, 160, 23, 0.25);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up         { animation: fadeUp 0.6s ease both; }
+.animate-fade-up-delay   { animation: fadeUp 0.6s 0.15s ease both; }
+.animate-fade-up-delay-2 { animation: fadeUp 0.6s 0.3s  ease both; }
