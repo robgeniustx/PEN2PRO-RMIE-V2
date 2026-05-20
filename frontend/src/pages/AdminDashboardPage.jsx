@@ -93,6 +93,9 @@ export default function AdminDashboardPage() {
             <Link to="/admin/waitlist" className="btn-gold px-5 py-2.5 text-sm font-bold">
               View Waitlist
             </Link>
+            <Link to="/admin/analytics" className="btn-outline px-5 py-2.5 text-sm font-bold">
+              Analytics
+            </Link>
             <button
               onClick={() => { sessionStorage.removeItem("pen2pro_admin_key"); setKey(""); }}
               className="btn-outline px-5 py-2.5 text-sm font-bold"
@@ -114,6 +117,24 @@ export default function AdminDashboardPage() {
 
         {data && (
           <>
+            <div className="mb-8 grid gap-4 md:grid-cols-3">
+              <Link to="/admin/analytics" className="rounded-2xl border border-[#1A2235] p-5 transition hover:border-[#D4A017]/40" style={{ background: "#0F1520" }}>
+                <p className="text-xs text-slate-500 mb-1">Analytics</p>
+                <h3 className="text-white font-bold">Event Intelligence</h3>
+                <p className="text-sm text-slate-400 mt-2">View event volume, tier distribution, and recent tracked activity.</p>
+              </Link>
+              <Link to="/admin/feature-usage" className="rounded-2xl border border-[#1A2235] p-5 transition hover:border-[#D4A017]/40" style={{ background: "#0F1520" }}>
+                <p className="text-xs text-slate-500 mb-1">Feature Usage</p>
+                <h3 className="text-white font-bold">Module Adoption</h3>
+                <p className="text-sm text-slate-400 mt-2">Check module engagement and top utilized PEN2PRO tools.</p>
+              </Link>
+              <Link to="/admin/conversions" className="rounded-2xl border border-[#1A2235] p-5 transition hover:border-[#D4A017]/40" style={{ background: "#0F1520" }}>
+                <p className="text-xs text-slate-500 mb-1">Conversions</p>
+                <h3 className="text-white font-bold">Revenue Funnel</h3>
+                <p className="text-sm text-slate-400 mt-2">Inspect upgrades, checkout progress, and conversion signals.</p>
+              </Link>
+            </div>
+
             {/* Metric Cards */}
             <div className="mb-8 grid grid-cols-2 gap-4 md:grid-cols-4">
               {[
