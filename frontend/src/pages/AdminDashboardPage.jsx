@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
@@ -212,6 +213,7 @@ export default function AdminDashboardPage() {
           </>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

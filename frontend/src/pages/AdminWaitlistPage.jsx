@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 const PAGE_SIZE = 20;
@@ -259,6 +260,7 @@ export default function AdminWaitlistPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }
