@@ -13,6 +13,9 @@ import CreditReadinessPage from "../pages/CreditReadinessPage";
 import AffiliatePage from "../pages/AffiliatePage";
 import AdminDashboardPage from "../pages/AdminDashboardPage";
 import AdminWaitlistPage from "../pages/AdminWaitlistPage";
+import AdminAnalyticsPage from "../pages/AdminAnalyticsPage";
+import AdminFeatureUsagePage from "../pages/AdminFeatureUsagePage";
+import AdminConversionsPage from "../pages/AdminConversionsPage";
 import PaymentSuccessPage from "../pages/PaymentSuccessPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import VoiceAgentPage from "../pages/VoiceAgentPage";
@@ -108,6 +111,9 @@ export default function AppRoutes() {
       {/* ── Admin ── */}
       <Route path="/admin" element={<AdminDashboardPage />} />
       <Route path="/admin/waitlist" element={<AdminWaitlistPage />} />
+      <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
+      <Route path="/admin/feature-usage" element={<AdminFeatureUsagePage />} />
+      <Route path="/admin/conversions" element={<AdminConversionsPage />} />
 
       {/* ── Aliases / Redirects ── */}
       <Route path="/founders" element={<Navigate to="/waitlist?tier=founders" replace />} />
