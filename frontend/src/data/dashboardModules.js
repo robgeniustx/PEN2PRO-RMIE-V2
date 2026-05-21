@@ -60,24 +60,8 @@ const MODULE_COPY = {
   admin: "Owner view of waitlist, metrics, users, feature access, and operating controls.",
 };
 
-const SAMPLE_ROWS = {
-  overview: [
-    { id: 1, name: "Starter blueprint", status: "active", owner: "Robert", next_action: "Generate or update roadmap" },
-    { id: 2, name: "Lead inbox", status: "needs_review", owner: "Sales", next_action: "Review new leads" },
-  ],
-  contacts: [
-    { id: 101, name: "Maria Johnson", company: "Oak Ridge Apartments", email: "maria@example.com", status: "prospect" },
-    { id: 102, name: "David Ellis", company: "Ellis Logistics", email: "david@example.com", status: "customer" },
-  ],
-  "lead-inbox": [
-    { id: 201, name: "Baytown property manager", source: "Website", interest: "Pressure washing bid", score: 84, status: "new" },
-    { id: 202, name: "Veteran founder", source: "Waitlist", interest: "Funding help", score: 76, status: "qualified" },
-  ],
-  pipeline: [
-    { id: 301, deal: "Apartment complex exterior cleaning", stage: "proposal", value: 8200, probability: "55%" },
-    { id: 302, deal: "PEN2PRO Elite upgrade", stage: "qualified", value: 499, probability: "70%" },
-  ],
-};
+// No sample rows — all data must come from the live backend API
+const SAMPLE_ROWS = {};
 
 export function normalizePlan(plan = "free") {
   const normalized = String(plan || "free").toLowerCase();

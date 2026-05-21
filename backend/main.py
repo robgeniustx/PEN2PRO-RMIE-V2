@@ -6,6 +6,11 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from app.db import Base, engine
+# Import models so SQLAlchemy registers them before create_all
+from app.models.user import User  # noqa: F401
+from app.models.saved_roadmap import SavedRoadmap  # noqa: F401
+
 from app.routes.stripe_routes import router as stripe_router
 from app.routes.admin import router as admin_router
 from app.routes.analytics import router as analytics_router
@@ -14,6 +19,7 @@ from app.routes.funding import router as funding_router
 from app.routes.waitlist import router as waitlist_router
 from app.routes.auth import router as auth_router
 from app.routes.blueprints import router as blueprints_router
+from app.routes.users import router as users_router
 from app.routes.voice import router as voice_router
 from app.routes.agents import router as agents_router
 from app.routes.rmie_knowledge import router as rmie_knowledge_router
@@ -23,6 +29,9 @@ from app.routes.voice_agent_twilio import router as voice_agent_twilio_router
 from app.routes.website_builder import router as website_builder_router
 from app.routes.domain_search import router as domain_router
 from app.routes.dashboard import router as dashboard_router
+
+# Create all DB tables on startup (safe — no-op if tables already exist)
+Base.metadata.create_all(bind=engine)
 
 try:
     from app.routes.customers import router as customers_router
@@ -248,6 +257,7 @@ app.include_router(voice_agent_twilio_router)
 app.include_router(website_builder_router, prefix="/api", tags=["Website Builder"])
 app.include_router(domain_router, prefix="/api", tags=["Domain Search"])
 app.include_router(dashboard_router)
+app.include_router(users_router, prefix="/api/users", tags=["Users"])
 if _has_customers:
     app.include_router(customers_router, prefix="/api/customers", tags=["Customers"])
 

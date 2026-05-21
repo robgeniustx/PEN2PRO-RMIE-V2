@@ -16,7 +16,7 @@ function getStoredUser() {
   } catch {
     return null;
   }
-  return { name: "Robert Green", email: "", tier: "free", role: "member" };
+  return { name: "Guest", email: "", tier: "free", role: "member" };
 }
 
 function formatValue(value, type) {
@@ -430,9 +430,24 @@ export default function DashboardWorkspacePage() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    const nextUser = getStoredUser();
-    setUser(nextUser);
-    listDashboardModules(nextUser).then((payload) => setModules(payload.modules || []));
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+    const token = localStorage.getItem("pen2pro_token");
+    async function loadUser() {
+      let nextUser = getStoredUser();
+      if (token) {
+        try {
+          const res = await fetch(`${API_BASE}/api/auth/me`, { headers: { Authorization: `Bearer ${token}` } });
+          if (res.ok) {
+            const data = await res.json();
+            nextUser = data;
+            localStorage.setItem("pen2pro_user", JSON.stringify(data));
+          }
+        } catch { /* backend unreachable — use stored */ }
+      }
+      setUser(nextUser);
+      listDashboardModules(nextUser).then((payload) => setModules(payload.modules || []));
+    }
+    loadUser();
   }, []);
 
   useEffect(() => {

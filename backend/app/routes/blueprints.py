@@ -5,10 +5,28 @@ import pathlib
 import re
 from typing import Optional
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, Header
+from jose import jwt, JWTError
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
+
+from app.db import get_db
+from app.models.saved_roadmap import SavedRoadmap
 
 router = APIRouter()
+
+_SECRET = os.getenv("JWT_SECRET_KEY", "pen2pro-dev-secret-change-in-production")
+_ALGO = "HS256"
+
+
+def _email_from_header(authorization: Optional[str]) -> Optional[str]:
+    if not authorization or not authorization.startswith("Bearer "):
+        return None
+    try:
+        payload = jwt.decode(authorization.split(" ", 1)[1], _SECRET, algorithms=[_ALGO])
+        return payload.get("sub")
+    except JWTError:
+        return None
 
 # Load the senior strategist system prompt
 _PROMPT_PATH = pathlib.Path(__file__).parent.parent / "prompts" / "blueprint_prompt.md"
@@ -365,13 +383,72 @@ async def _call_openai(req: BlueprintRequest) -> dict:
         return _customized_fallback(req, str(exc))
 
 
-@router.post("/generate")
-async def generate_blueprint(req: BlueprintRequest):
-    api_key = os.getenv("OPENAI_API_KEY", "")
-    if not api_key:
-        return _customized_fallback(req)
+def _save_roadmap(db: Session, email: Optional[str], req: BlueprintRequest, result: dict):
+    if not email or not db:
+        return
+    try:
+        record = SavedRoadmap(
+            user_email=email,
+            business_idea=req.business_idea,
+            category=req.category or req.industry_id or "General Business",
+            industry_id=req.industry_id or "",
+            city=req.city or "",
+            state=req.state or "",
+            is_sample=bool(result.get("is_sample")),
+            roadmap_json=json.dumps(result),
+        )
+        db.add(record)
+        db.commit()
+        db.refresh(record)
+        result["saved_id"] = record.id
+    except Exception:
+        pass  # Never block the response because of a save failure
 
-    return await _call_openai(req)
+
+@router.post("/generate")
+async def generate_blueprint(
+    req: BlueprintRequest,
+    authorization: Optional[str] = Header(None),
+    db: Session = Depends(get_db),
+):
+    email = _email_from_header(authorization)
+    api_key = os.getenv("OPENAI_API_KEY", "")
+    result = _customized_fallback(req) if not api_key else await _call_openai(req)
+    _save_roadmap(db, email, req, result)
+    return result
+
+
+@router.get("/my")
+def my_roadmaps(
+    authorization: Optional[str] = Header(None),
+    db: Session = Depends(get_db),
+):
+    """List all saved roadmaps for the authenticated user."""
+    email = _email_from_header(authorization)
+    if not email:
+        return {"roadmaps": [], "total": 0}
+    rows = (
+        db.query(SavedRoadmap)
+        .filter(SavedRoadmap.user_email == email)
+        .order_by(SavedRoadmap.created_at.desc())
+        .limit(20)
+        .all()
+    )
+    return {
+        "roadmaps": [
+            {
+                "id": r.id,
+                "business_idea": r.business_idea,
+                "category": r.category,
+                "city": r.city,
+                "state": r.state,
+                "is_sample": r.is_sample,
+                "created_at": r.created_at.isoformat() if r.created_at else None,
+            }
+            for r in rows
+        ],
+        "total": len(rows),
+    }
 
 
 @router.get("/niche-preview/{industry_id}")
