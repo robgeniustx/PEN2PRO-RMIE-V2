@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 import { getVoiceDashboard, simulateVoiceCall } from "../api/voiceAgentApi";
 
 function money(value) {
@@ -46,92 +47,119 @@ export default function VoiceAgentDashboardPage() {
   ];
 
   return (
-    <div className="voice-app">
+    <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <main className="voice-shell">
-        <header className="voice-header">
+      <div className="mx-auto max-w-7xl px-5 py-12">
+        {/* Header */}
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p>P2P AI Voice Agent</p>
-            <h1>Call Dashboard</h1>
-            <span>Live-ready call intake, summaries, missed-call text-back, scripts, and CRM sync.</span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#1E88E5]/30 bg-[#1E88E5]/10 px-3 py-1 text-xs font-semibold text-[#1E88E5] mb-2">
+              P2P AI VOICE AGENT
+            </div>
+            <h1 className="font-display text-3xl font-black text-white">Call Dashboard</h1>
+            <p className="text-sm text-slate-500 mt-1">Live-ready call intake, summaries, missed-call text-back, and CRM sync.</p>
           </div>
-          <div className="voice-actions">
-            <button onClick={runDemoCall}>Run Demo Call</button>
-            <Link to="/voice-agent/settings">Configure Agent</Link>
+          <div className="flex gap-3">
+            <button onClick={runDemoCall} className="btn-gold px-5 py-2.5 text-sm font-bold">Run Demo Call</button>
+            <Link to="/voice-agent/settings" className="btn-outline px-5 py-2.5 text-sm font-bold">Configure Agent</Link>
           </div>
-        </header>
+        </div>
 
-        {notice && <div className="voice-notice">{notice}</div>}
-        {loading && <div className="voice-panel">Loading voice agent data...</div>}
+        {notice && (
+          <div className="mb-6 rounded-xl border border-[#1E88E5]/30 bg-[#1E88E5]/10 px-4 py-3 text-sm text-[#1E88E5]">{notice}</div>
+        )}
+        {loading && <div className="py-20 text-center text-slate-500">Loading voice agent data...</div>}
 
         {!loading && (
           <>
-            <section className="voice-metrics">
+            {/* Metric Cards */}
+            <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
               {cards.map(([label, value]) => (
-                <div className="voice-metric" key={label}>
-                  <span>{label}</span>
-                  <strong>{value}</strong>
+                <div key={label} className="rounded-2xl border border-[#1A2D50] p-4 text-center" style={{ background: "#0F1520" }}>
+                  <p className="text-xs text-slate-500 mb-1">{label}</p>
+                  <p className="font-display text-2xl font-black text-white">{value}</p>
                 </div>
               ))}
-            </section>
+            </div>
 
-            <section className="voice-grid">
-              <div className="voice-panel wide">
-                <div className="voice-panel-head">
-                  <h2>Recent Calls</h2>
-                  <Link to="/voice-agent/calls">Open call log</Link>
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+              {/* Recent Calls */}
+              <div className="lg:col-span-2 rounded-2xl border border-[#1A2D50] overflow-hidden" style={{ background: "#0F1520" }}>
+                <div className="flex items-center justify-between px-6 py-4 border-b border-[#1A2D50]">
+                  <h2 className="font-display text-base font-bold text-white">Recent Calls</h2>
+                  <Link to="/voice-agent/calls" className="text-xs font-semibold text-[#D4A017]">Open call log →</Link>
                 </div>
-                <table className="voice-table">
-                  <thead>
-                    <tr>
-                      <th>Caller</th>
-                      <th>Reason</th>
-                      <th>Status</th>
-                      <th>Lead</th>
-                      <th>Appointment</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {(dashboard?.recent_calls || []).map((call) => (
-                      <tr key={call.id}>
-                        <td>{call.caller_name || call.caller_number || "Unknown"}</td>
-                        <td>{call.call_reason || "General"}</td>
-                        <td><span className="voice-status">{call.status}</span></td>
-                        <td>{call.lead_captured ? "Yes" : "No"}</td>
-                        <td>{call.appointment_booked ? "Yes" : "No"}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                {(dashboard?.recent_calls || []).length === 0 ? (
+                  <div className="py-10 text-center text-slate-500 text-sm">No calls yet. Run a demo call to test.</div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-[#1A2D50]">
+                          {["Caller", "Reason", "Status", "Lead", "Appt"].map((h) => (
+                            <th key={h} className="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase">{h}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(dashboard.recent_calls || []).map((call) => (
+                          <tr key={call.id} className="border-b border-[#1A2D50] hover:bg-white/[0.02]">
+                            <td className="px-4 py-3 text-white">{call.caller_name || call.caller_number || "Unknown"}</td>
+                            <td className="px-4 py-3 text-slate-400">{call.call_reason || "General"}</td>
+                            <td className="px-4 py-3"><span className="rounded-full border border-[#1E88E5]/30 bg-[#1E88E5]/10 px-2 py-0.5 text-xs text-[#1E88E5]">{call.status}</span></td>
+                            <td className="px-4 py-3 text-slate-400">{call.lead_captured ? "Yes" : "No"}</td>
+                            <td className="px-4 py-3 text-slate-400">{call.appointment_booked ? "Yes" : "No"}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
 
-              <div className="voice-panel">
-                <h2>Top Call Reasons</h2>
-                <div className="voice-list">
-                  {(dashboard?.top_call_reasons || []).map((item) => (
-                    <div key={item.reason}>
-                      <span>{item.reason}</span>
-                      <strong>{item.count}</strong>
+              {/* Right Column */}
+              <div className="space-y-4">
+                {/* Top Call Reasons */}
+                <div className="rounded-2xl border border-[#1A2D50] p-5" style={{ background: "#0F1520" }}>
+                  <h2 className="font-display text-base font-bold text-white mb-3">Top Call Reasons</h2>
+                  {(dashboard?.top_call_reasons || []).length === 0 ? (
+                    <p className="text-xs text-slate-500">No call reasons yet. Run a demo call.</p>
+                  ) : (
+                    <div className="space-y-2">
+                      {(dashboard.top_call_reasons || []).map((item) => (
+                        <div key={item.reason} className="flex items-center justify-between text-sm">
+                          <span className="text-slate-400">{item.reason}</span>
+                          <strong className="text-white">{item.count}</strong>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                  {!dashboard?.top_call_reasons?.length && <p>No call reasons yet. Run a demo call.</p>}
+                  )}
                 </div>
-              </div>
 
-              <div className="voice-panel">
-                <h2>Agent Status</h2>
-                <div className="voice-list">
-                  <div><span>Agent</span><strong>{dashboard?.settings?.agent_name || "PEN2PRO Intake Agent"}</strong></div>
-                  <div><span>Industry</span><strong>{dashboard?.settings?.industry || "pressure-washing"}</strong></div>
-                  <div><span>Active Scripts</span><strong>{dashboard?.active_scripts || 0}</strong></div>
-                  <div><span>Answer Rate</span><strong>{dashboard?.call_answer_rate || 0}%</strong></div>
-                  <div><span>Lead Capture</span><strong>{dashboard?.lead_capture_rate || 0}%</strong></div>
+                {/* Agent Status */}
+                <div className="rounded-2xl border border-[#1A2D50] p-5" style={{ background: "#0F1520" }}>
+                  <h2 className="font-display text-base font-bold text-white mb-3">Agent Status</h2>
+                  <div className="space-y-2">
+                    {[
+                      ["Agent", dashboard?.settings?.agent_name || "PEN2PRO Intake Agent"],
+                      ["Industry", dashboard?.settings?.industry || "pressure-washing"],
+                      ["Active Scripts", dashboard?.active_scripts || 0],
+                      ["Answer Rate", `${dashboard?.call_answer_rate || 0}%`],
+                      ["Lead Capture", `${dashboard?.lead_capture_rate || 0}%`],
+                    ].map(([label, value]) => (
+                      <div key={label} className="flex items-center justify-between text-sm">
+                        <span className="text-slate-500">{label}</span>
+                        <span className="font-semibold text-white">{value}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </section>
+            </div>
           </>
         )}
-      </main>
+      </div>
+      <Footer />
     </div>
   );
 }

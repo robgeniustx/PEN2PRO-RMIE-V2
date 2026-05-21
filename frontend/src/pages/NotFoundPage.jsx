@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 
 export default function NotFoundPage() {
   return (
@@ -27,6 +28,7 @@ export default function NotFoundPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
