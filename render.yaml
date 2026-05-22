@@ -1,0 +1,57 @@
+services:
+  - type: web
+    name: pen2pro-backend
+    runtime: python
+    pythonVersion: 3.11
+    plan: starter
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "uvicorn backend.app.main:app --host 0.0.0.0 --port 8000"
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: MONGODB_URL
+        scope: all
+      - key: MONGODB_DB_NAME
+        value: pen2pro
+      - key: JWT_SECRET_KEY
+        scope: all
+      - key: OPENAI_API_KEY
+        scope: all
+      - key: STRIPE_SECRET_KEY
+        scope: all
+      - key: STRIPE_WEBHOOK_SECRET
+        scope: all
+      - key: REDIS_URL
+        scope: all
+      - key: FRONTEND_URL
+        value: https://pen2pro-frontend.onrender.com
+      - key: CELERY_BROKER_URL
+        scope: all
+      - key: CELERY_RESULT_BACKEND
+        scope: all
+    disk:
+      name: pen2pro-disk
+      mountPath: /var/data
+      sizeGB: 1
+    maxInstanceCount: 3
+    preDeployCommand: "echo 'Running migrations...'"
+
+  - type: web
+    name: pen2pro-frontend
+    runtime: node
+    nodeVersion: 18
+    plan: free
+    buildCommand: "cd frontend && npm install && npm run build"
+    startCommand: "npm install -g serve && serve -s frontend/dist -l 3000"
+    envVars:
+      - key: VITE_API_URL
+        value: https://pen2pro-backend.onrender.com
+      - key: VITE_STRIPE_PUBLISHABLE_KEY
+        scope: all
+    staticSite: true
+    publishPath: frontend/dist
+
+  - type: redis
+    name: pen2pro-redis
+    plan: free
+    region: oregon

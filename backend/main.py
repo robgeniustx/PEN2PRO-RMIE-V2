@@ -1,12 +1,71 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
-from app.database import Base, engine
-from app.routes.analytics import router as analytics_router
-from app.routes.admin import router as admin_router
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(title="PEN2PRO RMIE Live")
-Base.metadata.create_all(bind=engine)
-app.include_router(analytics_router)
-app.include_router(admin_router)
+from config import get_settings
+from database import connect_to_mongodb, close_mongodb_connection
+from auth_routes import router as auth_router
+from blueprint_routes import router as blueprint_router
+from agent_routes import router as agent_router
 
-@app.get('/api/health')
-def health(): return {"status":"ok"}
+settings = get_settings()
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """FastAPI lifespan manager."""
+    # Startup
+    await connect_to_mongodb()
+    yield
+    # Shutdown
+    await close_mongodb_connection()
+
+
+app = FastAPI(
+    title=settings.API_TITLE,
+    version=settings.API_VERSION,
+    lifespan=lifespan,
+)
+
+# CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.CORS_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+# Routes
+app.include_router(auth_router)
+app.include_router(blueprint_router)
+app.include_router(agent_router)
+
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint."""
+    return {"status": "ok", "environment": settings.ENVIRONMENT}
+
+
+@app.get("/")
+async def root():
+    """Root endpoint."""
+    return {
+        "message": "PEN2PRO API",
+        "version": settings.API_VERSION,
+        "docs": "/docs",
+        "redoc": "/redoc",
+    }
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        app,
+        host=settings.API_HOST,
+        port=settings.API_PORT,
+        reload=settings.DEBUG,
+    )
