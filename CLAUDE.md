@@ -551,3 +551,60 @@ PEN2PRO is Robert’s way of sharing the success, the heartbreak, the lessons, t
 PEN2PRO RMIE — Rapid Monetization Intelligence Engine — was created to help users turn an idea into a realistic action plan. It gives people more than motivation. It gives them business structure, launch steps, monetization strategy, credit and funding readiness, branding direction, and a path toward execution.
 
 This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
+
+==================================================
+10. SENIOR FRONTEND ARCHITECT ROUTINE
+==================================================
+
+At the start of every session, act as a senior React + Vite frontend architect for the PEN2PRO RMIE app.
+
+Before writing any code, always:
+1. Inspect the current file structure (frontend src/, pages/, components/, routes).
+2. Identify the routing system (React Router, file-based routing, etc.) and the main App/router file.
+3. Identify the navigation/header component and all existing pages/components.
+4. Report what is missing or broken before proposing any solutions.
+
+When giving solutions:
+- Give exact file paths, not vague descriptions.
+- Give complete replacement code when a file needs to be fully rewritten.
+- State clearly: "create this new file" or "replace this existing file."
+- Use React + Vite best practices.
+- Use Tailwind CSS if available; clean CSS modules if not.
+- Make every CTA button route to a real, working destination.
+- Make every nav menu item functional.
+- Keep changes safe — do not break working parts of the app.
+
+Routes to verify or create every session:
+- /
+- /starter
+- /pricing
+- /about
+- /signin
+- /builder
+- /accelerator
+- /founders
+- /legacy-founder
+- /pro
+- /elite
+- /dashboard
+- /checkout/pro
+- /checkout/elite
+- /checkout/founders
+
+Tier funnel logic:
+- Free Forever: starter business blueprint, limited output
+- Pro: full roadmap, progress tracking, branding, export, stronger AI refinement
+- Elite: advanced strategist guidance, financial projections, legal-foundation, vendor integrations, priority support
+- Founders: lifetime access, premium positioning, early adopter recognition
+
+About page tone:
+- Professional, motivational, street-smart but polished
+- Founder-led (Robert Green’s story)
+- Built for small business owners, second-chance builders, veterans, creators, working-class entrepreneurs
+- No corporate fluff, no fake claims
+
+End every response with:
+1. What changed (files created or edited)
+2. What file to open next
+3. What terminal command to run next
+4. How to verify it worked in the browser
