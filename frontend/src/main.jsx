@@ -6,6 +6,9 @@ import SignupPage from './pages/SignupPage'
 import BlueprintPage from './pages/BlueprintPage'
 import BlueprintCreatePage from './pages/BlueprintCreatePage'
 import BlueprintDetailPage from './pages/BlueprintDetailPage'
+import CommandCenterPage from './pages/CommandCenterPage'
+import WebsiteBuilderPage from './pages/WebsiteBuilderPage'
+import EmailMarketingPage from './pages/EmailMarketingPage'
 import './index.css'
 
 function App() {
@@ -17,8 +20,11 @@ function App() {
         <Route path="/blueprints" element={<BlueprintPage />} />
         <Route path="/blueprints/create" element={<BlueprintCreatePage />} />
         <Route path="/blueprints/:id" element={<BlueprintDetailPage />} />
-        <Route path="/dashboard" element={<Navigate to="/blueprints" />} />
-        <Route path="/" element={<Navigate to="/blueprints" />} />
+        <Route path="/command-center" element={<CommandCenterPage />} />
+        <Route path="/websites" element={<WebsiteBuilderPage />} />
+        <Route path="/email" element={<EmailMarketingPage />} />
+        <Route path="/dashboard" element={<Navigate to="/command-center" />} />
+        <Route path="/" element={<Navigate to="/command-center" />} />
       </Routes>
     </BrowserRouter>
   )

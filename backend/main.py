@@ -8,6 +8,9 @@ from database import connect_to_mongodb, close_mongodb_connection
 from auth_routes import router as auth_router
 from blueprint_routes import router as blueprint_router
 from agent_routes import router as agent_router
+from command_center_routes import router as command_center_router
+from website_builder_routes import router as website_router
+from email_routes import router as email_router
 
 settings = get_settings()
 
@@ -42,6 +45,9 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(blueprint_router)
 app.include_router(agent_router)
+app.include_router(command_center_router)
+app.include_router(website_router)
+app.include_router(email_router)
 
 
 @app.get("/health")
