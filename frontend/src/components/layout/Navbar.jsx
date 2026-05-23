@@ -2,28 +2,37 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "RMIE",            path: "/rmie" },
-  { label: "Command Center",  path: "/dashboard" },
-  { label: "Voice Agent",     path: "/voice-agent" },
-  { label: "Website Builder", path: "/website-builder" },
-  { label: "Domain Finder",   path: "/domain-search" },
-  { label: "Pricing",         path: "/pricing" },
-  { label: "About",           path: "/about" },
+  { label: "Home",        path: "/" },
+  { label: "About",       path: "/about" },
+  { label: "Starter",     path: "/starter" },
+  { label: "Builder",     path: "/builder" },
+  { label: "Accelerator", path: "/accelerator" },
+  { label: "Pricing",     path: "/pricing" },
+  { label: "Waitlist",    path: "/waitlist" },
+];
+
+const PLANS_DROPDOWN = [
+  { label: "Free Roadmap",      path: "/starter" },
+  { label: "Pro",               path: "/pro" },
+  { label: "Elite",             path: "/elite" },
+  { label: "Legacy Founder",    path: "/founders" },
 ];
 
 const MOBILE_EXTRA = [
-  { label: "Dashboard",    path: "/dashboard" },
-  { label: "Starter",      path: "/starter" },
-  { label: "Funding",      path: "/funding" },
-  { label: "Credit",       path: "/credit-repair" },
-  { label: "Affiliate",    path: "/affiliate" },
-  { label: "Waitlist",     path: "/waitlist" },
+  { label: "Pro",            path: "/pro" },
+  { label: "Elite",          path: "/elite" },
+  { label: "Legacy Founder", path: "/founders" },
+  { label: "Funding",        path: "/funding" },
+  { label: "Credit Repair",  path: "/credit-repair" },
+  { label: "Affiliate",      path: "/affiliate" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [plansOpen, setPlansOpen] = useState(false);
   const loc = useLocation();
-  const isActive = (path) => loc.pathname === path || loc.pathname.startsWith(path + "/");
+  const isActive = (path) =>
+    path === "/" ? loc.pathname === "/" : loc.pathname === path || loc.pathname.startsWith(path + "/");
 
   return (
     <nav className="sticky top-0 z-50 border-b border-[#1A2D50] bg-[#0A0F1E]/95 backdrop-blur-xl">
@@ -45,12 +54,12 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden items-center gap-5 xl:flex">
+        <div className="hidden items-center gap-1 xl:flex">
           {NAV_LINKS.map((l) => (
             <Link
               key={l.path}
               to={l.path}
-              className={`text-sm font-semibold transition-colors whitespace-nowrap ${
+              className={`rounded-lg px-3 py-2 text-sm font-semibold transition-colors whitespace-nowrap ${
                 isActive(l.path)
                   ? "text-[#FF8A00]"
                   : "text-slate-400 hover:text-white"
@@ -59,21 +68,47 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
+
+          {/* Plans Dropdown */}
+          <div className="relative" onMouseEnter={() => setPlansOpen(true)} onMouseLeave={() => setPlansOpen(false)}>
+            <button
+              className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-400 hover:text-white transition-colors"
+            >
+              Plans
+              <svg className={`h-3.5 w-3.5 transition-transform ${plansOpen ? "rotate-180" : ""}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            {plansOpen && (
+              <div className="absolute left-0 top-full mt-1 w-44 rounded-xl border border-[#1A2D50] bg-[#0F1520] py-1.5 shadow-xl">
+                {PLANS_DROPDOWN.map((p) => (
+                  <Link
+                    key={p.path}
+                    to={p.path}
+                    className="block px-4 py-2.5 text-sm font-semibold text-slate-300 hover:bg-[#1A2D50] hover:text-white transition-colors"
+                  >
+                    {p.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Condensed nav for medium screens */}
-        <div className="hidden items-center gap-4 md:flex xl:hidden">
-          {[NAV_LINKS[0], NAV_LINKS[1], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
-            <Link
-              key={l.path}
-              to={l.path}
-              className={`text-sm font-semibold transition-colors whitespace-nowrap ${
-                isActive(l.path) ? "text-[#FF8A00]" : "text-slate-400 hover:text-white"
-              }`}
-            >
-              {l.label}
-            </Link>
-          ))}
+        <div className="hidden items-center gap-3 md:flex xl:hidden">
+          {["Home", "Starter", "Pricing", "About"].map((label) => {
+            const l = NAV_LINKS.find((n) => n.label === label);
+            return l ? (
+              <Link
+                key={l.path}
+                to={l.path}
+                className={`text-sm font-semibold transition-colors whitespace-nowrap ${
+                  isActive(l.path) ? "text-[#FF8A00]" : "text-slate-400 hover:text-white"
+                }`}
+              >
+                {l.label}
+              </Link>
+            ) : null;
+          })}
         </div>
 
         {/* CTA Buttons */}
