@@ -33,6 +33,13 @@ import WebsiteBuilderSubPage from "../pages/WebsiteBuilderSubPage";
 import DomainSearchPage from "../pages/DomainSearchPage";
 import AgentCommandCenterPage from "../pages/AgentCommandCenterPage";
 
+// ── Tier / Plan pages ──
+import ProPage from "../pages/ProPage";
+import ElitePage from "../pages/ElitePage";
+import FoundersPage from "../pages/FoundersPage";
+import BuilderPage from "../pages/BuilderPage";
+import AcceleratorPage from "../pages/AcceleratorPage";
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -115,13 +122,20 @@ export default function AppRoutes() {
       <Route path="/admin/feature-usage" element={<AdminFeatureUsagePage />} />
       <Route path="/admin/conversions" element={<AdminConversionsPage />} />
 
+      {/* ── Tier / Plan Pages ── */}
+      <Route path="/pro" element={<ProPage />} />
+      <Route path="/elite" element={<ElitePage />} />
+      <Route path="/founders" element={<FoundersPage />} />
+      <Route path="/legacy-founder" element={<FoundersPage />} />
+      <Route path="/builder" element={<BuilderPage />} />
+      <Route path="/accelerator" element={<AcceleratorPage />} />
+
+      {/* ── Checkout shortcuts (redirect to pricing with Stripe initiated) ── */}
+      <Route path="/checkout/pro" element={<Navigate to="/pro" replace />} />
+      <Route path="/checkout/elite" element={<Navigate to="/elite" replace />} />
+      <Route path="/checkout/founders" element={<Navigate to="/founders" replace />} />
+
       {/* ── Aliases / Redirects ── */}
-      <Route path="/founders" element={<Navigate to="/waitlist?tier=founders" replace />} />
-      <Route path="/legacy-founder" element={<Navigate to="/waitlist?tier=founders" replace />} />
-      <Route path="/pro" element={<Navigate to="/pricing#pro" replace />} />
-      <Route path="/elite" element={<Navigate to="/pricing#elite" replace />} />
-      <Route path="/builder" element={<Navigate to="/command-center" replace />} />
-      <Route path="/accelerator" element={<Navigate to="/rmie" replace />} />
       <Route path="/features" element={<Navigate to="/#features" replace />} />
       <Route path="/crm" element={<Navigate to="/command-center" replace />} />
       <Route path="/contacts" element={<Navigate to="/dashboard/contacts" replace />} />

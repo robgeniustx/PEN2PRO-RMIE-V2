@@ -1,27 +1,36 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "RMIE",            path: "/rmie" },
-  { label: "Command Center",  path: "/dashboard" },
-  { label: "Voice Agent",     path: "/voice-agent" },
-  { label: "Website Builder", path: "/website-builder" },
-  { label: "Domain Finder",   path: "/domain-search" },
-  { label: "Pricing",         path: "/pricing" },
-  { label: "About",           path: "/about" },
+  { label: "Starter",      path: "/starter" },
+  { label: "Builder",      path: "/builder" },
+  { label: "Accelerator",  path: "/accelerator" },
+  { label: "Pricing",      path: "/pricing" },
+  { label: "About",        path: "/about" },
+  { label: "Waitlist",     path: "/waitlist" },
+];
+
+const PLANS_DROPDOWN = [
+  { label: "Free Roadmap", path: "/starter" },
+  { label: "Pro",          path: "/pro" },
+  { label: "Elite",        path: "/elite" },
+  { label: "Legacy Founder", path: "/founders" },
 ];
 
 const MOBILE_EXTRA = [
-  { label: "Dashboard",    path: "/dashboard" },
-  { label: "Starter",      path: "/starter" },
+  { label: "Pro",          path: "/pro" },
+  { label: "Elite",        path: "/elite" },
+  { label: "Founders",     path: "/founders" },
   { label: "Funding",      path: "/funding" },
   { label: "Credit",       path: "/credit-repair" },
   { label: "Affiliate",    path: "/affiliate" },
-  { label: "Waitlist",     path: "/waitlist" },
+  { label: "Dashboard",    path: "/dashboard" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [plansOpen, setPlansOpen] = useState(false);
+  const plansRef = useRef(null);
   const loc = useLocation();
   const isActive = (path) => loc.pathname === path || loc.pathname.startsWith(path + "/");
 
@@ -59,11 +68,38 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
+
+          {/* Plans dropdown */}
+          <div ref={plansRef} className="relative">
+            <button
+              onClick={() => setPlansOpen((v) => !v)}
+              className="flex items-center gap-1 text-sm font-semibold text-slate-400 transition-colors hover:text-white whitespace-nowrap"
+            >
+              Plans
+              <svg className={`h-3 w-3 transition-transform ${plansOpen ? "rotate-180" : ""}`} viewBox="0 0 10 6" fill="currentColor">
+                <path d="M0 0l5 6 5-6z" />
+              </svg>
+            </button>
+            {plansOpen && (
+              <div className="absolute left-0 top-full mt-2 w-48 rounded-xl border border-[#1A2D50] bg-[#0F1520] py-2 shadow-xl z-50">
+                {PLANS_DROPDOWN.map((p) => (
+                  <Link
+                    key={p.path}
+                    to={p.path}
+                    onClick={() => setPlansOpen(false)}
+                    className="block px-4 py-2.5 text-sm text-slate-300 transition hover:bg-[#1A2235] hover:text-white"
+                  >
+                    {p.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Condensed nav for medium screens */}
         <div className="hidden items-center gap-4 md:flex xl:hidden">
-          {[NAV_LINKS[0], NAV_LINKS[1], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
+          {[NAV_LINKS[0], NAV_LINKS[3], NAV_LINKS[4]].map((l) => (
             <Link
               key={l.path}
               to={l.path}
