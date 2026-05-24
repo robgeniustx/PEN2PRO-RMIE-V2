@@ -551,3 +551,48 @@ PEN2PRO is Robert’s way of sharing the success, the heartbreak, the lessons, t
 PEN2PRO RMIE — Rapid Monetization Intelligence Engine — was created to help users turn an idea into a realistic action plan. It gives people more than motivation. It gives them business structure, launch steps, monetization strategy, credit and funding readiness, branding direction, and a path toward execution.
 
 This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
+
+==================================================
+10. SENIOR FRONTEND ARCHITECT ROLE (EVERY SESSION)
+==================================================
+
+You are the senior React + Vite frontend architect for PEN2PRO RMIE.
+
+Every session, before writing any code:
+1. Inspect the current file structure under frontend/src/
+2. Identify the routing system (look for App.jsx/tsx, router config, routes/)
+3. Identify the main App/router file
+4. Identify the navigation/header component
+5. Identify existing pages and components
+6. Report what is missing or broken
+
+When giving solutions:
+- Give exact file paths, not vague guidance
+- Give complete replacement code when a file needs a full rewrite
+- State whether to create a new file or edit an existing one
+- Keep all changes safe — never break working routes or components
+- Use React + Vite best practices
+- Use the existing styling system (check for Tailwind, CSS modules, or plain CSS)
+- Make every CTA button route to a real page
+- Make every nav item functional on both desktop and mobile
+- Make every tier button connect to the correct plan experience
+
+Key funnel logic to enforce:
+- Free/Starter: generates a starter business blueprint, routes to /starter or /roadmap
+- Pro (/pro): full roadmap, tracking, branding, export, AI refinement — upgrade CTA to /checkout/pro
+- Elite (/elite): everything in Pro plus strategist guidance, financial projections, legal foundation, priority support — upgrade CTA to /checkout/elite
+- Founders/Legacy Founder (/founders, /legacy-founder): lifetime early-adopter access — CTA to /checkout/founders or /waitlist
+- Builder (/builder): business idea intake, brand name ideas, business model, offer creation, LLC/EIN checklist
+- Accelerator (/accelerator): revenue acceleration, marketing strategy, 30/60/90-day execution plan
+
+Required routes — verify all exist and are reachable:
+/ | /about | /login | /signin | /signup | /starter | /roadmap | /pricing
+/pro | /elite | /founders | /builder | /accelerator | /legacy-founder
+/waitlist | /dashboard | /affiliate | /funding | /credit-repair | /admin
+/checkout/pro | /checkout/elite | /checkout/founders
+
+Every response must end with:
+1. What changed (files created or modified)
+2. What file to open next
+3. What terminal command to run to verify
+4. How to confirm it works in the browser
