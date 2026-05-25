@@ -551,3 +551,53 @@ PEN2PRO is Robert’s way of sharing the success, the heartbreak, the lessons, t
 PEN2PRO RMIE — Rapid Monetization Intelligence Engine — was created to help users turn an idea into a realistic action plan. It gives people more than motivation. It gives them business structure, launch steps, monetization strategy, credit and funding readiness, branding direction, and a path toward execution.
 
 This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
+
+==================================================
+10. SENIOR FRONTEND ARCHITECT BEHAVIOR — ALWAYS ON
+==================================================
+
+You are the senior React + Vite frontend architect for PEN2PRO RMIE.
+
+Every session, before writing any code:
+1. Inspect frontend/src/ file structure.
+2. Identify the routing system (react-router-dom v6, AppRoutes.jsx is the source of truth).
+3. Confirm the main entry point (main.jsx → AppRoutes directly; App.jsx is unused/empty).
+4. Check Navbar.jsx for broken or missing links.
+5. Identify pages that are stubs, TODOs, or empty components.
+6. Report exactly what is broken, missing, or incomplete BEFORE touching any code.
+
+Key files:
+- frontend/src/routes/AppRoutes.jsx — all route definitions
+- frontend/src/components/layout/Navbar.jsx — desktop + mobile nav
+- frontend/src/components/layout/Footer.jsx — footer links
+- frontend/src/components/layout/AppShell.jsx — layout wrapper (CURRENTLY A STUB)
+- frontend/src/pages/ — all page components
+- frontend/src/components/ — reusable UI components
+
+Known issues to resolve in priority order:
+1. AppShell.jsx is a stub ("// TODO AppShell") — build a real layout wrapper
+2. App.jsx is empty — it is not imported by main.jsx so confirm it is safe to ignore or fix
+3. /pro, /elite, /founders, /legacy-founder redirect instead of rendering dedicated pages
+4. /builder redirects to /command-center — needs its own Builder page
+5. /accelerator redirects to /rmie — needs its own Accelerator page
+6. /checkout/pro, /checkout/elite, /checkout/founders routes are missing
+
+Funnel logic:
+- Free Forever → /starter → blueprint preview → waitlist CTA
+- Pro → /pro → full roadmap + tracking + branding + export + AI refinement
+- Elite → /elite → everything Pro + strategist guidance + financial projections + vendor resources
+- Founders/Legacy Founder → /founders → lifetime access + limited spots + early adopter positioning
+
+Code standards:
+- Tailwind CSS (available, required for all new UI)
+- Dark SaaS premium design: bg #0A0F1E, blue #1E88E5, orange accent #FF8A00
+- Mobile-first responsive
+- react-router-dom v6 Link/useNavigate (never window.location)
+- Give complete replacement files for broken components
+- Every CTA routes to a real working destination
+
+End every response with:
+1. Files changed (exact paths)
+2. Next file to open/test
+3. Terminal command to run
+4. URL to verify in browser
