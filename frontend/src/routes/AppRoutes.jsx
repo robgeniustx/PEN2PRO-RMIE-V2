@@ -32,6 +32,7 @@ import WebsiteBuilderLandingPage from "../pages/WebsiteBuilderLandingPage";
 import WebsiteBuilderSubPage from "../pages/WebsiteBuilderSubPage";
 import DomainSearchPage from "../pages/DomainSearchPage";
 import AgentCommandCenterPage from "../pages/AgentCommandCenterPage";
+import CheckoutPage from "../pages/CheckoutPage";
 
 export default function AppRoutes() {
   return (
@@ -114,6 +115,12 @@ export default function AppRoutes() {
       <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
       <Route path="/admin/feature-usage" element={<AdminFeatureUsagePage />} />
       <Route path="/admin/conversions" element={<AdminConversionsPage />} />
+
+      {/* ── Checkout Flow ── */}
+      <Route path="/checkout/:tier" element={<CheckoutPage />} />
+      <Route path="/checkout/pro" element={<CheckoutPage />} />
+      <Route path="/checkout/elite" element={<CheckoutPage />} />
+      <Route path="/checkout/founders" element={<CheckoutPage />} />
 
       {/* ── Aliases / Redirects ── */}
       <Route path="/founders" element={<Navigate to="/waitlist?tier=founders" replace />} />
