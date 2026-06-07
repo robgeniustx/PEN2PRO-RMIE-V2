@@ -74,11 +74,53 @@ export default function LoginPage() {
     }
   }
 
+  const TIER_PANELS = [
+    { icon: "🚀", label: "Free Roadmap", desc: "Start your RMIE blueprint — no card needed.", color: "#1E88E5" },
+    { icon: "📊", label: "Pro Strategy", desc: "Full roadmap, branding, export, AI refinement.", color: "#FF8A00" },
+    { icon: "🔥", label: "Elite Execution", desc: "Advanced strategy, projections, done-with-you.", color: "#FF8A00" },
+    { icon: "👑", label: "Legacy Founder", desc: "Lifetime access, early features, Founder status.", color: "#D4A017" },
+  ];
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-12">
+        <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-10 items-center lg:items-start">
+
+          {/* Side Panel */}
+          <div className="hidden lg:flex flex-col w-full max-w-xs shrink-0">
+            <div className="mb-6">
+              <h2 className="font-display text-2xl font-black text-white leading-snug mb-2">
+                Build your business roadmap.
+                <br />
+                <span style={{ background: "linear-gradient(90deg,#1E88E5,#FF8A00)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                  Save your blueprint.
+                </span>
+                <br />
+                Upgrade when ready.
+              </h2>
+              <p className="text-sm text-slate-400">
+                One platform — from your first free roadmap to a complete business strategy and launch plan.
+              </p>
+            </div>
+            <div className="space-y-3">
+              {TIER_PANELS.map((t) => (
+                <div key={t.label} className="flex items-start gap-3 rounded-xl border border-[#1A2235] bg-[#0F1520] p-4">
+                  <div className="shrink-0 text-xl">{t.icon}</div>
+                  <div>
+                    <p className="text-sm font-bold text-white">{t.label}</p>
+                    <p className="text-xs text-slate-400 mt-0.5">{t.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-6 text-xs text-slate-600 leading-relaxed">
+              PEN2PRO is built for entrepreneurs, veterans, returning citizens, creators, and anyone ready to turn an idea into income.
+            </p>
+          </div>
+
+          {/* Auth Card */}
+          <div className="w-full max-w-md mx-auto lg:mx-0">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
@@ -230,7 +272,11 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
+          {/* /Auth Card */}
         </div>
+        {/* /Two-column wrapper */}
+      </div>
+      {/* /Flex center */}
       </div>
       <Footer />
     </div>
