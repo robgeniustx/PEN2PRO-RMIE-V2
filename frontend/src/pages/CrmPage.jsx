@@ -2,187 +2,221 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-import { getPipelineSummary, getDueFollowUps, listLeads } from "../api/crmApi";
+import { getPipelineSummary, getDueFollowUps, listLeads, createLead, updateLead } from "../api/crmApi";
 
 const STAGE_COLORS = {
-  "New Lead":    { border: "#1E88E5", bg: "#1E88E5" },
-  "Contacted":   { border: "#FF8A00", bg: "#FF8A00" },
-  "Quote Sent":  { border: "#7C3AED", bg: "#7C3AED" },
-  "Follow-Up":   { border: "#D4A017", bg: "#D4A017" },
-  "Won":         { border: "#059669", bg: "#059669" },
-  "Closed":      { border: "#64748b", bg: "#64748b" },
+  "New Lead":   { border: "#1E88E5", bg: "#1E88E5" },
+  "Contacted":  { border: "#FF8A00", bg: "#FF8A00" },
+  "Quote Sent": { border: "#7C3AED", bg: "#7C3AED" },
+  "Follow-Up":  { border: "#D4A017", bg: "#D4A017" },
+  "Won":        { border: "#059669", bg: "#059669" },
+  "Closed":     { border: "#64748b", bg: "#64748b" },
 };
+
+const STAGES = ["New Lead", "Contacted", "Quote Sent", "Follow-Up", "Won", "Closed"];
 
 function stageColor(stage) {
   return STAGE_COLORS[stage] || { border: "#1A2D50", bg: "#FF8A00" };
 }
 
-const MOCK_LEADS = [
-  { id: 1, name: "Marcus Johnson",  source: "Google",    stage: "New Lead",    time: "12 min ago",  value: "$1,200" },
-  { id: 2, name: "Tanya Williams",  source: "Text-Back", stage: "Contacted",   time: "1 hr ago",    value: "$850" },
-  { id: 3, name: "Derek Simmons",   source: "Website",   stage: "Quote Sent",  time: "3 hrs ago",   value: "$2,400" },
-  { id: 4, name: "Lena Torres",     source: "Referral",  stage: "Follow-Up",   time: "Yesterday",   value: "$650" },
-  { id: 5, name: "James Carter",    source: "Facebook",  stage: "New Lead",    time: "Yesterday",   value: "$1,800" },
-  { id: 6, name: "Sheila Davis",    source: "Cold Call", stage: "Won",         time: "2 days ago",  value: "$3,100" },
-];
-
-const MOCK_FOLLOWUPS = [
-  { id: 1, name: "Marcus Johnson",  message: "Send follow-up text — no response in 3 days",   urgency: "high" },
-  { id: 2, name: "Derek Simmons",   message: "Quote expires tomorrow — check if they signed",  urgency: "high" },
-  { id: 3, name: "Lena Torres",     message: "Call scheduled for today at 2:00 PM",            urgency: "medium" },
-  { id: 4, name: "James Carter",    message: "Send intro email with service menu",              urgency: "low" },
-];
-
-const URGENCY_STYLES = {
-  high:   "border-red-500/30 bg-red-500/08 text-red-300",
-  medium: "border-[#D4A017]/30 bg-[#D4A017]/08 text-[#D4A017]",
-  low:    "border-[#1A2D50] bg-[#0F1520] text-slate-400",
-};
-
-export default function CrmPage() {
-  const [summary, setSummary] = useState(null);
-  const [followUps, setFollowUps] = useState([]);
-  const [leads, setLeads] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    Promise.allSettled([
-      getPipelineSummary(),
-      getDueFollowUps(),
-      listLeads(),
-    ]).then(([s, f, l]) => {
-      if (s.status === "fulfilled") setSummary(s.value);
-      if (f.status === "fulfilled" && f.value?.length) setFollowUps(f.value);
-      else setFollowUps(MOCK_FOLLOWUPS);
-      if (l.status === "fulfilled" && l.value?.length) setLeads(l.value);
-      else setLeads(MOCK_LEADS);
-      setLoading(false);
-    });
-  }, []);
-
-  const displayLeads = leads.length ? leads : MOCK_LEADS;
-  const displayFollowUps = followUps.length ? followUps : MOCK_FOLLOWUPS;
+function AddLeadModal({ onClose, onSave }) {
+  const [form, setForm] = useState({ name: "", source: "Direct", stage: "New Lead", value: "", notes: "" });
+  const SOURCES = ["Direct", "Google", "Referral", "Facebook", "Instagram", "Website", "Cold Call", "Text-Back"];
 
   return (
-    <div className="min-h-screen bg-[#080C14] text-white">
-      <Navbar />
-
-      {/* Header */}
-      <div className="border-b border-[#1A2D50] px-5 py-8">
-        <div className="mx-auto max-w-7xl flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <div className="mb-1 text-xs font-bold uppercase tracking-widest text-[#FF8A00]">P2P Command Center</div>
-            <h1 className="font-display text-3xl font-black text-white">CRM Dashboard</h1>
-            <p className="mt-1 text-sm text-slate-400">Manage leads, follow-ups, and your sales pipeline.</p>
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ background: "#0F1520", border: "1px solid #1A2D50", borderRadius: 16, padding: 32, width: "100%", maxWidth: 480 }}>
+        <h3 style={{ color: "#fff", fontSize: 20, fontWeight: 700, marginBottom: 20 }}>Add New Lead</h3>
+        {[
+          { label: "Name *", key: "name", type: "text", placeholder: "Contact full name" },
+          { label: "Estimated Value", key: "value", type: "text", placeholder: "$1,200" },
+          { label: "Notes", key: "notes", type: "text", placeholder: "Brief note about this lead" },
+        ].map(({ label, key, type, placeholder }) => (
+          <div key={key} style={{ marginBottom: 16 }}>
+            <label style={{ color: "#94A3B8", fontSize: 12, display: "block", marginBottom: 6 }}>{label}</label>
+            <input type={type} value={form[key]} onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
+              placeholder={placeholder}
+              style={{ width: "100%", background: "#0A0F1E", border: "1px solid #1A2D50", borderRadius: 8, padding: "10px 12px", color: "#fff", fontSize: 14, boxSizing: "border-box" }} />
           </div>
-          <div className="flex gap-3">
-            <Link to="/dashboard/lead-inbox" className="rounded-lg border border-[#1A2D50] px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
-              + Add Lead
-            </Link>
-            <Link to="/dashboard/pipeline" className="rounded-xl px-4 py-2 text-sm font-black text-[#080C14] btn-gold">
-              View Pipeline
-            </Link>
+        ))}
+        {[
+          { label: "Source", key: "source", options: SOURCES },
+          { label: "Stage", key: "stage", options: STAGES },
+        ].map(({ label, key, options }) => (
+          <div key={key} style={{ marginBottom: 16 }}>
+            <label style={{ color: "#94A3B8", fontSize: 12, display: "block", marginBottom: 6 }}>{label}</label>
+            <select value={form[key]} onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
+              style={{ width: "100%", background: "#0A0F1E", border: "1px solid #1A2D50", borderRadius: 8, padding: "10px 12px", color: "#fff", fontSize: 14 }}>
+              {options.map(o => <option key={o} value={o}>{o}</option>)}
+            </select>
           </div>
+        ))}
+        <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
+          <button onClick={onClose} style={{ flex: 1, padding: "12px", background: "transparent", border: "1px solid #1A2D50", borderRadius: 8, color: "#94A3B8", cursor: "pointer" }}>Cancel</button>
+          <button onClick={() => { if (form.name.trim()) { onSave(form); onClose(); } }}
+            style={{ flex: 2, padding: "12px", background: "#1E88E5", border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, cursor: "pointer" }}>
+            Save Lead
+          </button>
         </div>
       </div>
+    </div>
+  );
+}
 
-      <div className="mx-auto max-w-7xl px-5 py-10 space-y-8">
+export default function CrmPage() {
+  const [leads, setLeads] = useState([]);
+  const [followUps, setFollowUps] = useState([]);
+  const [pipeline, setPipeline] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [showAddLead, setShowAddLead] = useState(false);
+  const [filter, setFilter] = useState("");
+  const [stageFilter, setStageFilter] = useState("All");
 
-        {/* Pipeline Summary */}
-        {summary && (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {[
-              { label: "Total Leads",    value: summary.total_leads    ?? displayLeads.length, color: "#1E88E5", icon: "🔥" },
-              { label: "Active Deals",   value: summary.active_deals   ?? 4,                   color: "#FF8A00", icon: "📊" },
-              { label: "Pipeline Value", value: summary.pipeline_value ?? "$8,000",             color: "#D4A017", icon: "💵" },
-              { label: "Won This Month", value: summary.won_this_month ?? "$3,100",             color: "#059669", icon: "✅" },
-            ].map((m) => (
-              <div key={m.label} className="rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-5">
-                <div className="mb-2 flex items-center justify-between">
-                  <span className="text-2xl">{m.icon}</span>
+  useEffect(() => {
+    Promise.all([
+      listLeads(),
+      getDueFollowUps(),
+      getPipelineSummary(),
+    ]).then(([l, f, p]) => {
+      setLeads(Array.isArray(l) ? l : []);
+      setFollowUps(Array.isArray(f) ? f : []);
+      setPipeline(p);
+      setLoading(false);
+    }).catch(() => setLoading(false));
+  }, []);
+
+  const handleAddLead = async (form) => {
+    const newLead = await createLead(form);
+    setLeads(prev => [newLead, ...prev]);
+  };
+
+  const handleStageChange = async (leadId, newStage) => {
+    await updateLead(leadId, { stage: newStage });
+    setLeads(prev => prev.map(l => l.id === leadId || l._id === leadId ? { ...l, stage: newStage } : l));
+  };
+
+  const filtered = leads.filter(l => {
+    const matchName = filter === "" || (l.name || "").toLowerCase().includes(filter.toLowerCase());
+    const matchStage = stageFilter === "All" || l.stage === stageFilter;
+    return matchName && matchStage;
+  });
+
+  const pipelineStages = STAGES.map(s => ({
+    stage: s,
+    count: leads.filter(l => l.stage === s).length,
+    value: leads.filter(l => l.stage === s).reduce((sum, l) => sum + (parseFloat((l.value || "$0").replace(/[^0-9.]/g, "")) || 0), 0),
+  }));
+
+  return (
+    <div style={{ minHeight: "100vh", background: "#080D18", color: "#fff" }}>
+      <Navbar />
+      {showAddLead && <AddLeadModal onClose={() => setShowAddLead(false)} onSave={handleAddLead} />}
+
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "32px 20px" }}>
+
+        {/* Header */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 32, flexWrap: "wrap", gap: 16 }}>
+          <div>
+            <div style={{ fontSize: 12, color: "#1E88E5", fontWeight: 700, letterSpacing: 2, marginBottom: 8 }}>P2P COMMAND CENTER</div>
+            <h1 style={{ fontSize: 32, fontWeight: 900, margin: 0 }}>CRM Pipeline</h1>
+            <p style={{ color: "#64748B", marginTop: 6, fontSize: 14 }}>Track every lead from contact to close</p>
+          </div>
+          <button onClick={() => setShowAddLead(true)}
+            style={{ padding: "12px 24px", background: "#1E88E5", border: "none", borderRadius: 10, color: "#fff", fontWeight: 700, cursor: "pointer", fontSize: 15 }}>
+            + Add Lead
+          </button>
+        </div>
+
+        {/* Pipeline summary bar */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginBottom: 32 }}>
+          {pipelineStages.map(({ stage, count, value }) => (
+            <div key={stage} onClick={() => setStageFilter(stage === stageFilter ? "All" : stage)}
+              style={{ background: stageFilter === stage ? "#0F1520" : "#0A0F1E", border: `1px solid ${stageFilter === stage ? stageColor(stage).border : "#1A2D50"}`, borderRadius: 12, padding: "14px 16px", cursor: "pointer", transition: "all .2s" }}>
+              <div style={{ fontSize: 11, color: "#64748B", fontWeight: 600, marginBottom: 4 }}>{stage.toUpperCase()}</div>
+              <div style={{ fontSize: 22, fontWeight: 900, color: stageColor(stage).border }}>{count}</div>
+              {value > 0 && <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 2 }}>${value.toLocaleString()}</div>}
+            </div>
+          ))}
+        </div>
+
+        {/* Search / filter */}
+        <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
+          <input value={filter} onChange={e => setFilter(e.target.value)} placeholder="Search leads..."
+            style={{ flex: 1, minWidth: 200, background: "#0A0F1E", border: "1px solid #1A2D50", borderRadius: 8, padding: "10px 14px", color: "#fff", fontSize: 14 }} />
+          <select value={stageFilter} onChange={e => setStageFilter(e.target.value)}
+            style={{ background: "#0A0F1E", border: "1px solid #1A2D50", borderRadius: 8, padding: "10px 14px", color: "#fff", fontSize: 14 }}>
+            <option value="All">All Stages</option>
+            {STAGES.map(s => <option key={s} value={s}>{s}</option>)}
+          </select>
+        </div>
+
+        {/* Leads table */}
+        {loading ? (
+          <div style={{ textAlign: "center", padding: 60, color: "#64748B" }}>Loading pipeline...</div>
+        ) : filtered.length === 0 ? (
+          <div style={{ textAlign: "center", padding: 60, background: "#0A0F1E", borderRadius: 16, border: "1px dashed #1A2D50" }}>
+            <div style={{ fontSize: 40, marginBottom: 16 }}>📋</div>
+            <div style={{ color: "#94A3B8", fontSize: 16, marginBottom: 8 }}>No leads yet</div>
+            <div style={{ color: "#64748B", fontSize: 14 }}>Click "Add Lead" to start building your pipeline</div>
+          </div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {filtered.map(lead => {
+              const id = lead.id || lead._id;
+              const sc = stageColor(lead.stage);
+              return (
+                <div key={id} style={{ background: "#0A0F1E", border: "1px solid #1A2D50", borderLeft: `3px solid ${sc.border}`, borderRadius: 12, padding: "16px 20px", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+                  <div style={{ flex: 1, minWidth: 160 }}>
+                    <div style={{ fontWeight: 700, fontSize: 16 }}>{lead.name}</div>
+                    <div style={{ color: "#64748B", fontSize: 13, marginTop: 2 }}>{lead.source || "—"} · {lead.time || "just now"}</div>
+                  </div>
+                  <div style={{ color: "#00C9B1", fontWeight: 700, minWidth: 80 }}>{lead.value || "—"}</div>
+                  <select value={lead.stage || "New Lead"} onChange={e => handleStageChange(id, e.target.value)}
+                    style={{ background: "#0F1520", border: `1px solid ${sc.border}`, borderRadius: 6, padding: "6px 10px", color: sc.border, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>
+                    {STAGES.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                  <Link to={`/leads/${id}`} style={{ color: "#1E88E5", fontSize: 13, textDecoration: "none" }}>View →</Link>
                 </div>
-                <p className="font-display text-2xl font-black" style={{ color: m.color }}>{m.value}</p>
-                <p className="mt-1 text-xs font-semibold text-slate-400">{m.label}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 
-        <div className="grid gap-6 lg:grid-cols-3">
-          {/* Lead List */}
-          <div className="lg:col-span-2 rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-6">
-            <div className="mb-5 flex items-center justify-between">
-              <h2 className="font-bold text-white">Recent Leads</h2>
-              <Link to="/dashboard/lead-inbox" className="text-xs text-[#1E88E5] hover:underline">View All</Link>
-            </div>
-            {loading ? (
-              <p className="text-sm text-slate-500">Loading leads...</p>
-            ) : (
-              <div className="space-y-3">
-                {displayLeads.slice(0, 6).map((lead) => {
-                  const sc = stageColor(lead.stage);
-                  return (
-                    <div key={lead.id} className="flex items-center justify-between rounded-xl border border-[#1A2235] bg-[#0A0F1E] px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1A2D50] text-sm font-black text-[#D4A017]">
-                          {(lead.name || "?").charAt(0)}
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold text-white">{lead.name}</p>
-                          <p className="text-xs text-slate-500">via {lead.source} · {lead.time}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        {lead.value && <span className="text-sm font-bold text-[#059669]">{lead.value}</span>}
-                        <span
-                          className="inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold"
-                          style={{ border: `1px solid ${sc.border}30`, background: `${sc.bg}15`, color: sc.border }}
-                        >
-                          {lead.stage}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-
-          {/* Follow-Ups */}
-          <div className="rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-6">
-            <div className="mb-5 flex items-center justify-between">
-              <h2 className="font-bold text-white">Due Follow-Ups</h2>
-              <Link to="/dashboard/follow-ups" className="text-xs text-[#FF8A00] hover:underline">See All</Link>
-            </div>
-            {loading ? (
-              <p className="text-sm text-slate-500">Loading...</p>
-            ) : (
-              <div className="space-y-3">
-                {displayFollowUps.slice(0, 5).map((item) => (
-                  <div key={item.id} className={`rounded-xl border p-3 text-xs leading-relaxed ${URGENCY_STYLES[item.urgency] || URGENCY_STYLES.low}`}>
-                    <p className="mb-1 font-bold text-white">{item.name}</p>
-                    <p>{item.message}</p>
+        {/* Due Follow-Ups */}
+        {followUps.length > 0 && (
+          <div style={{ marginTop: 40 }}>
+            <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 16 }}>🔔 Due Follow-Ups</h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {followUps.map((f, i) => (
+                <div key={f.id || i} style={{ background: "#0A0F1E", border: "1px solid #1A2D50", borderLeft: "3px solid #D4A017", borderRadius: 12, padding: "14px 18px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+                  <div>
+                    <div style={{ fontWeight: 700 }}>{f.name}</div>
+                    <div style={{ color: "#94A3B8", fontSize: 13, marginTop: 4 }}>{f.message}</div>
                   </div>
-                ))}
-              </div>
-            )}
+                  <span style={{ background: f.urgency === "high" ? "#7F1D1D" : "#1A2D50", color: f.urgency === "high" ? "#FCA5A5" : "#94A3B8", padding: "4px 10px", borderRadius: 6, fontSize: 12, fontWeight: 700 }}>
+                    {f.urgency === "high" ? "URGENT" : "Due"}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Quick Actions */}
-        <div className="rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-6">
-          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-[#FF8A00]">Quick Actions</div>
-          <div className="flex flex-wrap gap-3">
-            <Link to="/dashboard/lead-inbox"   className="rounded-lg border border-[#1A2D50] px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white transition-colors">+ Add Lead</Link>
-            <Link to="/dashboard/pipeline"     className="rounded-lg border border-[#1A2D50] px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white transition-colors">📊 Pipeline</Link>
-            <Link to="/dashboard/follow-ups"   className="rounded-lg border border-[#1A2D50] px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white transition-colors">📋 Follow-Ups</Link>
-            <Link to="/dashboard/customers"    className="rounded-lg border border-[#1A2D50] px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white transition-colors">👥 Customers</Link>
-            <Link to="/website-builder"        className="rounded-lg border border-[#1A2D50] px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white transition-colors">🌐 Landing Page</Link>
-            <Link to="/pricing"                className="rounded-xl px-4 py-2 text-sm font-black text-[#080C14] btn-gold">Upgrade Plan</Link>
-          </div>
+        {/* Quick links */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12, marginTop: 40 }}>
+          {[
+            { label: "Customers", icon: "👥", to: "/customers" },
+            { label: "Follow-Ups", icon: "📞", to: "/follow-ups" },
+            { label: "Pipeline", icon: "📊", to: "/pipeline" },
+            { label: "Outreach", icon: "✉️", to: "/outreach" },
+          ].map(({ label, icon, to }) => (
+            <Link key={to} to={to} style={{ background: "#0A0F1E", border: "1px solid #1A2D50", borderRadius: 12, padding: "20px", textAlign: "center", textDecoration: "none", color: "#fff", display: "block" }}>
+              <div style={{ fontSize: 28, marginBottom: 8 }}>{icon}</div>
+              <div style={{ fontWeight: 700, fontSize: 14 }}>{label}</div>
+            </Link>
+          ))}
         </div>
       </div>
-
       <Footer />
     </div>
   );

@@ -3,12 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
-const LAUNCH_DATE = new Date("2026-06-15T00:00:00Z");
-
-function daysUntilLaunch() {
-  return Math.max(0, Math.floor((LAUNCH_DATE - Date.now()) / 86400000));
-}
-
 function parseToken(token) {
   if (!token) return null;
   try {
@@ -37,8 +31,7 @@ const QUICK_ACTIONS = [
 export default function DashboardPage() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [countdown, setCountdown] = useState({});
-  const days = daysUntilLaunch();
+
 
   useEffect(() => {
     const token = localStorage.getItem("pen2pro_token");
@@ -53,19 +46,6 @@ export default function DashboardPage() {
       setUser({ name: "Guest", tier: "free", email: "" });
     }
 
-    function calcCountdown() {
-      const diff = LAUNCH_DATE - Date.now();
-      if (diff <= 0) return setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      setCountdown({
-        days: Math.floor(diff / 86400000),
-        hours: Math.floor((diff % 86400000) / 3600000),
-        minutes: Math.floor((diff % 3600000) / 60000),
-        seconds: Math.floor((diff % 60000) / 1000),
-      });
-    }
-    calcCountdown();
-    const id = setInterval(calcCountdown, 1000);
-    return () => clearInterval(id);
   }, []);
 
   const tier = user?.tier || "free";
@@ -227,23 +207,8 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Sidebar: Launch Countdown */}
+          {/* Sidebar: Account & Status */}
           <div>
-            <h2 className="font-display text-lg font-bold text-white mb-4">Launch Countdown</h2>
-            <div className="rounded-2xl border border-[#D4A017]/30 p-6 text-center mb-4" style={{ background: "#0F1520" }}>
-              <p className="text-xs text-slate-500 mb-4 uppercase tracking-wider">PEN2PRO Goes Live</p>
-              <div className="grid grid-cols-2 gap-3 mb-4">
-                {["days", "hours", "minutes", "seconds"].map(unit => (
-                  <div key={unit} className="countdown-box">
-                    <div className="font-display text-2xl font-black" style={{ color: "#D4A017" }}>
-                      {String(countdown[unit] ?? 0).padStart(2, "0")}
-                    </div>
-                    <div className="text-xs text-slate-500 capitalize">{unit}</div>
-                  </div>
-                ))}
-              </div>
-              <p className="text-xs text-slate-500">June 15, 2026</p>
-            </div>
 
             {/* Account info card */}
             <div className="rounded-2xl border border-[#1A2235] p-5" style={{ background: "#0F1520" }}>
