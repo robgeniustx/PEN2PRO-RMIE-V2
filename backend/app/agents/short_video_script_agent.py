@@ -1,47 +1,23 @@
-from app.agents.base_agent import BaseAgent
-
+from app.agents.base_agent import BaseAgent, call_ai
+import json
 
 class ShortVideoScriptAgent(BaseAgent):
     name = "Short Video Script Agent"
-    description = "Generates short-form video scripts."
-    tier_required = "elite"
+    description = "Generates short-form video scripts for TikTok, Reels, Shorts."
+    tier_required = "pro"
 
     def validate_input(self, payload):
-        return bool(
-            payload.get("platform_focus")
-            or payload.get("topic")
-            or payload.get("business_idea")
-            or payload.get("idea")
-            or payload.get("request")
-        )
+        return bool(payload.get("topic") or payload.get("idea") or payload.get("request"))
 
     def run(self, payload):
-        platform = payload.get("platform_focus", "TikTok, Instagram Reels, and Facebook Reels")
-        topic = payload.get("topic") or payload.get("business_idea") or payload.get("idea") or payload.get("request")
-        audience = payload.get("audience", "target customers")
-
-        return {
-            "status": "ok",
-            "agent_key": "short_video_script",
-            "platform_focus": platform,
-            "topic": topic,
-            "audience": audience,
-            "scripts": [
-                {
-                    "hook": "Most people do not fail because their idea is bad.",
-                    "body": f"They fail because they never get a clear roadmap for {topic}.",
-                    "cta": "Start with a real plan before you waste time guessing."
-                },
-                {
-                    "hook": "You do not need another idea.",
-                    "body": f"You need a step-by-step execution plan that turns {topic} into income.",
-                    "cta": "Build the roadmap first."
-                },
-                {
-                    "hook": "If you have been sitting on a business idea, this is your sign.",
-                    "body": f"Your audience is waiting for a clear offer. Start with one simple problem and one clear solution.",
-                    "cta": "Turn the idea into action."
-                }
-            ],
-            "message": "Short Video Script Agent placeholder is connected successfully."
-        }
+        topic = payload.get("topic") or payload.get("idea") or payload.get("request", "")
+        platform = payload.get("platform", "TikTok/Reels")
+        system = "You are PEN2PRO. Write viral short-form video scripts for small business owners."
+        user = f"Topic: {topic} | Platform: {platform}\nReturn JSON: {{\"scripts\": [{{\"title\": \"...\", \"hook\": \"first 3 seconds\", \"body\": \"...\", \"cta\": \"...\", \"duration\": \"30-60s\"}}, {{\"title\": \"...\", \"hook\": \"...\", \"body\": \"...\", \"cta\": \"...\", \"duration\": \"...\"}}], \"filming_tips\": [\"tip1\", \"tip2\"]}}"
+        raw = call_ai(system, user, max_tokens=800)
+        try:
+            clean = raw.strip().lstrip("```json").lstrip("```").rstrip("```").strip()
+            result = json.loads(clean)
+        except Exception:
+            result = {"output": raw}
+        return {"status": "ok", "agent_key": "short_video_script", "scripts": result}
