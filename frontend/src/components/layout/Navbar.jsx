@@ -2,35 +2,48 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "RMIE",            path: "/rmie" },
-  { label: "Command Center",  path: "/dashboard" },
-  { label: "Voice Agent",     path: "/voice-agent" },
-  { label: "Website Builder", path: "/website-builder" },
-  { label: "Domain Finder",   path: "/domain-search" },
-  { label: "Pricing",         path: "/pricing" },
-  { label: "About",           path: "/about" },
+  { label: "Home",        path: "/" },
+  { label: "About",       path: "/about" },
+  { label: "Starter",     path: "/starter" },
+  { label: "Builder",     path: "/builder" },
+  { label: "Accelerator", path: "/accelerator" },
+  { label: "Pricing",     path: "/pricing" },
+  { label: "Waitlist",    path: "/waitlist" },
+];
+
+const PLANS_DROPDOWN = [
+  { label: "Free Roadmap",    path: "/starter",       color: "#1E88E5" },
+  { label: "Pro",             path: "/pro",            color: "#1E88E5" },
+  { label: "Elite",           path: "/elite",          color: "#D4A017" },
+  { label: "Legacy Founder",  path: "/founders",       color: "#FF8A00" },
 ];
 
 const MOBILE_EXTRA = [
-  { label: "Dashboard",    path: "/dashboard" },
-  { label: "Starter",      path: "/starter" },
-  { label: "Funding",      path: "/funding" },
-  { label: "Credit",       path: "/credit-repair" },
-  { label: "Affiliate",    path: "/affiliate" },
-  { label: "Waitlist",     path: "/waitlist" },
+  { label: "Pro",            path: "/pro" },
+  { label: "Elite",          path: "/elite" },
+  { label: "Legacy Founder", path: "/founders" },
+  { label: "Dashboard",      path: "/dashboard" },
+  { label: "Funding",        path: "/funding" },
+  { label: "Credit Repair",  path: "/credit-repair" },
+  { label: "Affiliate",      path: "/affiliate" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [plansOpen, setPlansOpen] = useState(false);
   const loc = useLocation();
-  const isActive = (path) => loc.pathname === path || loc.pathname.startsWith(path + "/");
+
+  const isActive = (path) => {
+    if (path === "/") return loc.pathname === "/";
+    return loc.pathname === path || loc.pathname.startsWith(path + "/");
+  };
 
   return (
     <nav className="sticky top-0 z-50 border-b border-[#1A2D50] bg-[#0A0F1E]/95 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5">
 
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2.5 group shrink-0">
+        <Link to="/" className="flex items-center gap-2.5 group shrink-0" onClick={() => setOpen(false)}>
           <div
             className="relative flex h-9 w-9 items-center justify-center rounded-xl shrink-0 transition-transform group-hover:scale-105"
             style={{ background: "linear-gradient(135deg, #0D47A1 0%, #1E88E5 100%)", boxShadow: "0 0 18px rgba(30,136,229,0.35)" }}
@@ -45,25 +58,52 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden items-center gap-5 xl:flex">
+        <div className="hidden items-center gap-4 xl:flex">
           {NAV_LINKS.map((l) => (
             <Link
               key={l.path}
               to={l.path}
               className={`text-sm font-semibold transition-colors whitespace-nowrap ${
-                isActive(l.path)
-                  ? "text-[#FF8A00]"
-                  : "text-slate-400 hover:text-white"
+                isActive(l.path) ? "text-[#FF8A00]" : "text-slate-400 hover:text-white"
               }`}
             >
               {l.label}
             </Link>
           ))}
+
+          {/* Plans Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setPlansOpen(!plansOpen)}
+              onBlur={() => setTimeout(() => setPlansOpen(false), 150)}
+              className="flex items-center gap-1 text-sm font-semibold text-slate-400 hover:text-white transition-colors"
+            >
+              Plans
+              <svg className={`h-3.5 w-3.5 transition-transform ${plansOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {plansOpen && (
+              <div className="absolute top-full right-0 mt-2 w-48 rounded-xl border border-[#1A2D50] py-2 shadow-2xl z-50"
+                style={{ background: "#0F1520" }}>
+                {PLANS_DROPDOWN.map((p) => (
+                  <Link
+                    key={p.path}
+                    to={p.path}
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-slate-300 hover:bg-[#1A2235] hover:text-white transition-colors"
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full" style={{ background: p.color }} />
+                    {p.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Condensed nav for medium screens */}
         <div className="hidden items-center gap-4 md:flex xl:hidden">
-          {[NAV_LINKS[0], NAV_LINKS[1], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
+          {[NAV_LINKS[0], NAV_LINKS[2], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
             <Link
               key={l.path}
               to={l.path}
@@ -110,7 +150,7 @@ export default function Navbar() {
           <div className="mb-4 grid grid-cols-2 gap-2">
             {[...NAV_LINKS, ...MOBILE_EXTRA].map((l) => (
               <Link
-                key={l.path}
+                key={l.path + l.label}
                 to={l.path}
                 onClick={() => setOpen(false)}
                 className={`rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors ${
