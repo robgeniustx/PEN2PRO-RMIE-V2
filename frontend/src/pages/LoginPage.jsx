@@ -5,6 +5,33 @@ import Footer from "../components/layout/Footer";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
+const TIER_HIGHLIGHTS = [
+  {
+    tier: "Free Roadmap",
+    color: "#1E88E5",
+    icon: "🗺️",
+    desc: "Get a starter business blueprint — free, no card required.",
+  },
+  {
+    tier: "Pro — $249/mo",
+    color: "#2d9cff",
+    icon: "⚡",
+    desc: "Full roadmap, branding, export, credit readiness, outreach scripts, and Command Center.",
+  },
+  {
+    tier: "Elite — $499/mo",
+    color: "#a78bfa",
+    icon: "🧠",
+    desc: "Advanced strategy, financial projections, company formation, funding resources, and priority support.",
+  },
+  {
+    tier: "Founders Lifetime — $1,899",
+    color: "#d4af37",
+    icon: "🏅",
+    desc: "One-time payment. Every tool, forever. Only 200 spots available.",
+  },
+];
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -47,14 +74,8 @@ export default function LoginPage() {
   async function handleRegister(e) {
     e.preventDefault();
     setError("");
-    if (registerForm.password !== registerForm.confirm) {
-      setError("Passwords do not match");
-      return;
-    }
-    if (registerForm.password.length < 8) {
-      setError("Password must be at least 8 characters");
-      return;
-    }
+    if (registerForm.password !== registerForm.confirm) { setError("Passwords do not match"); return; }
+    if (registerForm.password.length < 8) { setError("Password must be at least 8 characters"); return; }
     setLoading(true);
     try {
       const res = await fetch(`${API}/api/auth/register`, {
@@ -75,35 +96,77 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: "#080C14" }}>
+    <div className="min-h-screen bg-[#080C14] text-white">
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
-              P2P
-            </div>
-            <h1 className="font-display text-3xl font-bold text-white">
-              {tab === "login" ? "Welcome back" : "Create your account"}
-            </h1>
-            <p className="mt-2 text-sm text-slate-400">
-              {tab === "login"
-                ? "Sign in to access your PEN2PRO dashboard"
-                : "Start building your business roadmap today"}
-            </p>
+
+      <div className="mx-auto flex min-h-[calc(100vh-160px)] max-w-6xl items-center gap-12 px-5 py-16 lg:grid lg:grid-cols-2">
+
+        {/* ── LEFT PANEL — value proposition ── */}
+        <div className="hidden lg:block">
+          <div className="mb-2 text-xs font-bold uppercase tracking-widest text-[#FF8A00]">PEN2PRO RMIE</div>
+          <h2 className="mb-3 font-display text-3xl font-black leading-tight">
+            Build your business roadmap.
+            <br />
+            <span style={{ background: "linear-gradient(90deg, #1E88E5, #FF8A00)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              Save your blueprint.
+            </span>
+            <br />
+            Upgrade when ready.
+          </h2>
+          <p className="mb-8 text-slate-400 leading-relaxed">
+            PEN2PRO turns your idea, skill, or business concept into a real roadmap with monetization strategy, launch steps, credit readiness, and execution tools — all in one place.
+          </p>
+
+          <div className="space-y-3">
+            {TIER_HIGHLIGHTS.map((t) => (
+              <div key={t.tier} className="flex items-start gap-4 rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-4">
+                <div
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg"
+                  style={{ background: `${t.color}20`, border: `1px solid ${t.color}40` }}
+                >
+                  {t.icon}
+                </div>
+                <div>
+                  <p className="font-bold text-white text-sm" style={{ color: t.color }}>{t.tier}</p>
+                  <p className="text-xs text-slate-400 mt-0.5">{t.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
 
-          {/* Card */}
-          <div className="rounded-2xl border border-[#1A2235] p-8" style={{ background: "#0F1520" }}>
+          <p className="mt-6 text-xs text-slate-600">
+            Not ready to sign up?{" "}
+            <Link to="/starter" className="text-slate-400 hover:text-white transition-colors">
+              Try the free roadmap — no account needed.
+            </Link>
+          </p>
+        </div>
+
+        {/* ── RIGHT PANEL — auth form ── */}
+        <div className="w-full max-w-md mx-auto lg:mx-0">
+          {/* Mobile brand header */}
+          <div className="mb-6 text-center lg:hidden">
+            <Link to="/" className="inline-flex items-center gap-2.5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl"
+                style={{ background: "linear-gradient(135deg, #0D47A1 0%, #1E88E5 100%)" }}>
+                <span className="text-lg">⚡</span>
+              </div>
+              <span className="font-display text-xl font-black">
+                <span className="text-white">PEN</span>
+                <span className="text-[#FF8A00]">2</span>
+                <span className="text-[#1E88E5]">PRO</span>
+              </span>
+            </Link>
+            <p className="mt-2 text-sm text-slate-400">Build your roadmap. Save your blueprint.</p>
+          </div>
+
+          <div className="rounded-2xl border border-[#1A2235] p-8 bg-[#0F1520]">
             {/* Tabs */}
-            <div className="mb-8 flex rounded-xl border border-[#1A2235] p-1" style={{ background: "#080C14" }}>
+            <div className="mb-8 flex rounded-xl border border-[#1A2235] p-1 bg-[#080C14]">
               <button
                 onClick={() => { setTab("login"); setError(""); }}
                 className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${
-                  tab === "login"
-                    ? "gradient-gold text-[#080C14]"
-                    : "text-slate-400 hover:text-white"
+                  tab === "login" ? "gradient-gold text-[#080C14]" : "text-slate-400 hover:text-white"
                 }`}
               >
                 Sign In
@@ -111,9 +174,7 @@ export default function LoginPage() {
               <button
                 onClick={() => { setTab("register"); setError(""); }}
                 className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${
-                  tab === "register"
-                    ? "gradient-gold text-[#080C14]"
-                    : "text-slate-400 hover:text-white"
+                  tab === "register" ? "gradient-gold text-[#080C14]" : "text-slate-400 hover:text-white"
                 }`}
               >
                 Create Account
@@ -138,27 +199,38 @@ export default function LoginPage() {
                     value={loginForm.email}
                     onChange={e => setLoginForm(f => ({ ...f, email: e.target.value }))}
                     placeholder="you@example.com"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-300">Password</label>
+                  <div className="mb-1.5 flex items-center justify-between">
+                    <label className="text-sm font-medium text-slate-300">Password</label>
+                    <button type="button" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">
+                      Forgot password?
+                    </button>
+                  </div>
                   <input
                     type="password"
                     required
                     value={loginForm.password}
                     onChange={e => setLoginForm(f => ({ ...f, password: e.target.value }))}
                     placeholder="••••••••"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="btn-gold w-full py-3 text-sm font-bold"
+                  className="btn-gold w-full py-3 text-sm font-bold disabled:opacity-60"
                 >
-                  {loading ? "Signing in..." : "Sign In"}
+                  {loading ? "Signing in…" : "Sign In"}
                 </button>
+                <p className="text-center text-sm text-slate-500">
+                  No account yet?{" "}
+                  <button type="button" onClick={() => setTab("register")} className="font-semibold text-[#D4A017] hover:text-[#f7d675] transition-colors">
+                    Create one free →
+                  </button>
+                </p>
               </form>
             )}
 
@@ -172,8 +244,8 @@ export default function LoginPage() {
                     required
                     value={registerForm.name}
                     onChange={e => setRegisterForm(f => ({ ...f, name: e.target.value }))}
-                    placeholder="Robert Green"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
+                    placeholder="Your name"
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
@@ -184,7 +256,7 @@ export default function LoginPage() {
                     value={registerForm.email}
                     onChange={e => setRegisterForm(f => ({ ...f, email: e.target.value }))}
                     placeholder="you@example.com"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
@@ -195,7 +267,7 @@ export default function LoginPage() {
                     value={registerForm.password}
                     onChange={e => setRegisterForm(f => ({ ...f, password: e.target.value }))}
                     placeholder="Min 8 characters"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
@@ -206,32 +278,43 @@ export default function LoginPage() {
                     value={registerForm.confirm}
                     onChange={e => setRegisterForm(f => ({ ...f, confirm: e.target.value }))}
                     placeholder="••••••••"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="btn-gold w-full py-3 text-sm font-bold"
+                  className="btn-gold w-full py-3 text-sm font-bold disabled:opacity-60"
                 >
-                  {loading ? "Creating account..." : "Create Account — Free"}
+                  {loading ? "Creating account…" : "Create Account — Free"}
                 </button>
                 <p className="text-center text-xs text-slate-500">
                   By creating an account you agree to our Terms of Service and Privacy Policy.
                 </p>
+                <p className="text-center text-sm text-slate-500">
+                  Already have an account?{" "}
+                  <button type="button" onClick={() => setTab("login")} className="font-semibold text-[#D4A017] hover:text-[#f7d675] transition-colors">
+                    Sign in →
+                  </button>
+                </p>
               </form>
             )}
 
-            {/* Waitlist link */}
-            <div className="mt-6 text-center text-sm text-slate-500">
-              Not ready to sign up yet?{" "}
-              <Link to="/waitlist" className="font-semibold" style={{ color: "#D4A017" }}>
+            {/* Bottom links */}
+            <div className="mt-6 border-t border-[#1A2235] pt-5 text-center text-sm text-slate-500">
+              Not ready to sign up?{" "}
+              <Link to="/waitlist" className="font-semibold text-[#D4A017] hover:text-[#f7d675] transition-colors">
                 Join the waitlist
+              </Link>
+              {" · "}
+              <Link to="/starter" className="font-semibold text-slate-400 hover:text-white transition-colors">
+                Try free roadmap
               </Link>
             </div>
           </div>
         </div>
       </div>
+
       <Footer />
     </div>
   );

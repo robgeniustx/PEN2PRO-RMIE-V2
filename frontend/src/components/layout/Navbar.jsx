@@ -1,29 +1,64 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "RMIE",            path: "/rmie" },
-  { label: "Command Center",  path: "/dashboard" },
-  { label: "Voice Agent",     path: "/voice-agent" },
-  { label: "Website Builder", path: "/website-builder" },
-  { label: "Domain Finder",   path: "/domain-search" },
-  { label: "Pricing",         path: "/pricing" },
-  { label: "About",           path: "/about" },
+  { label: "About",       path: "/about" },
+  { label: "Starter",     path: "/starter" },
+  { label: "Builder",     path: "/builder" },
+  { label: "Accelerator", path: "/accelerator" },
+  { label: "Pricing",     path: "/pricing" },
+  { label: "Waitlist",    path: "/waitlist" },
 ];
 
-const MOBILE_EXTRA = [
-  { label: "Dashboard",    path: "/dashboard" },
-  { label: "Starter",      path: "/starter" },
-  { label: "Funding",      path: "/funding" },
-  { label: "Credit",       path: "/credit-repair" },
-  { label: "Affiliate",    path: "/affiliate" },
-  { label: "Waitlist",     path: "/waitlist" },
+const PLANS_DROPDOWN = [
+  { label: "Free Roadmap",     path: "/starter",     desc: "Start your blueprint — free forever" },
+  { label: "Pro",              path: "/pro",          desc: "$249/mo — Full roadmap & tools" },
+  { label: "Elite",            path: "/elite",        desc: "$499/mo — Advanced strategy & support" },
+  { label: "Founders Lifetime",path: "/founders",     desc: "$1,899 once — Lifetime access, 200 spots" },
+];
+
+const MOBILE_LINKS = [
+  { label: "Home",        path: "/" },
+  { label: "About",       path: "/about" },
+  { label: "Starter",     path: "/starter" },
+  { label: "Builder",     path: "/builder" },
+  { label: "Accelerator", path: "/accelerator" },
+  { label: "Pro",         path: "/pro" },
+  { label: "Elite",       path: "/elite" },
+  { label: "Founders",    path: "/founders" },
+  { label: "Pricing",     path: "/pricing" },
+  { label: "Waitlist",    path: "/waitlist" },
+  { label: "Funding",     path: "/funding" },
+  { label: "Credit",      path: "/credit-repair" },
+  { label: "Affiliate",   path: "/affiliate" },
+  { label: "Dashboard",   path: "/dashboard" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [plansOpen, setPlansOpen] = useState(false);
   const loc = useLocation();
-  const isActive = (path) => loc.pathname === path || loc.pathname.startsWith(path + "/");
+  const plansRef = useRef(null);
+
+  const isActive = (path) =>
+    path === "/" ? loc.pathname === "/" : loc.pathname === path || loc.pathname.startsWith(path + "/");
+
+  const isPlansActive = PLANS_DROPDOWN.some((p) => isActive(p.path));
+
+  useEffect(() => {
+    function handleClick(e) {
+      if (plansRef.current && !plansRef.current.contains(e.target)) {
+        setPlansOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  useEffect(() => {
+    setOpen(false);
+    setPlansOpen(false);
+  }, [loc.pathname]);
 
   return (
     <nav className="sticky top-0 z-50 border-b border-[#1A2D50] bg-[#0A0F1E]/95 backdrop-blur-xl">
@@ -51,19 +86,46 @@ export default function Navbar() {
               key={l.path}
               to={l.path}
               className={`text-sm font-semibold transition-colors whitespace-nowrap ${
-                isActive(l.path)
-                  ? "text-[#FF8A00]"
-                  : "text-slate-400 hover:text-white"
+                isActive(l.path) ? "text-[#FF8A00]" : "text-slate-400 hover:text-white"
               }`}
             >
               {l.label}
             </Link>
           ))}
+
+          {/* Plans Dropdown */}
+          <div className="relative" ref={plansRef}>
+            <button
+              onClick={() => setPlansOpen((v) => !v)}
+              className={`flex items-center gap-1 text-sm font-semibold transition-colors whitespace-nowrap ${
+                isPlansActive ? "text-[#FF8A00]" : "text-slate-400 hover:text-white"
+              }`}
+            >
+              Plans
+              <svg className={`h-3 w-3 transition-transform ${plansOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {plansOpen && (
+              <div className="absolute right-0 top-8 w-72 rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-2 shadow-[0_8px_40px_rgba(0,0,0,0.5)]">
+                {PLANS_DROPDOWN.map((p) => (
+                  <Link
+                    key={p.path}
+                    to={p.path}
+                    className="block rounded-xl px-4 py-3 transition hover:bg-[#1A2235]"
+                  >
+                    <p className="text-sm font-bold text-white">{p.label}</p>
+                    <p className="text-xs text-slate-500 mt-0.5">{p.desc}</p>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Condensed nav for medium screens */}
+        {/* Condensed tablet nav */}
         <div className="hidden items-center gap-4 md:flex xl:hidden">
-          {[NAV_LINKS[0], NAV_LINKS[1], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
+          {[NAV_LINKS[0], NAV_LINKS[2], NAV_LINKS[4], NAV_LINKS[5]].map((l) => (
             <Link
               key={l.path}
               to={l.path}
@@ -108,7 +170,7 @@ export default function Navbar() {
       {open && (
         <div className="border-t border-[#1A2235] bg-[#0F1520] px-5 py-5 md:hidden">
           <div className="mb-4 grid grid-cols-2 gap-2">
-            {[...NAV_LINKS, ...MOBILE_EXTRA].map((l) => (
+            {MOBILE_LINKS.map((l) => (
               <Link
                 key={l.path}
                 to={l.path}
