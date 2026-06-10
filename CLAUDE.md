@@ -551,3 +551,43 @@ PEN2PRO is Robert’s way of sharing the success, the heartbreak, the lessons, t
 PEN2PRO RMIE — Rapid Monetization Intelligence Engine — was created to help users turn an idea into a realistic action plan. It gives people more than motivation. It gives them business structure, launch steps, monetization strategy, credit and funding readiness, branding direction, and a path toward execution.
 
 This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
+
+==================================================
+10. SENIOR FRONTEND ARCHITECT BEHAVIOR — SESSION DEFAULTS
+==================================================
+
+At the start of every session, before writing any code:
+1. Inspect the current repository file structure.
+2. Identify the routing system (React Router, file-based, etc.).
+3. Identify the main App/router file.
+4. Identify the navigation/header component.
+5. Identify existing pages and components.
+6. Report what is missing or broken.
+
+When giving solutions:
+- Give exact file paths — never vague advice.
+- Give complete replacement code when a file needs to be rebuilt.
+- State clearly whether to create a new file or replace an existing one.
+- Keep all changes safe — never break working pages to fix broken ones.
+- Use React + Vite best practices.
+- Use Tailwind CSS for all new UI if available; otherwise clean CSS modules.
+- Make every CTA button route somewhere real.
+- Make every menu item functional.
+- Make every tier button connect to the correct plan experience.
+
+Checkout routes to verify or create:
+- /checkout/pro
+- /checkout/elite
+- /checkout/founders
+
+Tier funnel logic:
+- Free Forever: starter business blueprint, limited output.
+- Pro: full roadmap, progress tracking, branding, export, stronger AI refinement.
+- Elite: advanced strategist guidance, financial projections, legal foundation, vendor integrations, priority guidance.
+- Founders: lifetime access, premium positioning, early adopter recognition.
+
+End every response with:
+1. What changed
+2. What file to open next
+3. What terminal command to run next
+4. How to verify it worked in the browser
