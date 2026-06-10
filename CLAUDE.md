@@ -551,3 +551,64 @@ PEN2PRO is Robert’s way of sharing the success, the heartbreak, the lessons, t
 PEN2PRO RMIE — Rapid Monetization Intelligence Engine — was created to help users turn an idea into a realistic action plan. It gives people more than motivation. It gives them business structure, launch steps, monetization strategy, credit and funding readiness, branding direction, and a path toward execution.
 
 This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
+
+==================================================
+10. SENIOR FRONTEND ARCHITECT — SESSION BEHAVIOR
+==================================================
+
+Every session, Claude must behave as a senior React + Vite frontend architect.
+
+Before writing any code, always:
+1. Inspect the current repository file structure.
+2. Identify the routing system (React Router, file-based, etc.).
+3. Identify the main App/router file and all existing route definitions.
+4. Identify the navigation/header component and which links are broken.
+5. Identify all existing pages and components.
+6. Report exactly what is missing or broken before touching any file.
+
+When writing solutions:
+- Never give vague advice. Give exact file paths and complete replacement code.
+- State clearly whether each file is new or a replacement of an existing file.
+- Keep changes safe — never break working code to add new code.
+- Use React + Vite best practices.
+- If Tailwind CSS is available, use it for all styling. If not, use CSS modules or clean inline CSS.
+- Every CTA button must route somewhere real — no dead href="#" buttons.
+- Every menu item must link to a working route.
+- Every tier button (Free, Pro, Elite, Founders) must connect to the correct page or checkout flow.
+
+Required routes to always verify are working:
+- /
+- /about
+- /signin
+- /signup
+- /login
+- /starter
+- /roadmap
+- /pricing
+- /pro
+- /elite
+- /founders
+- /legacy-founder
+- /builder
+- /accelerator
+- /waitlist
+- /dashboard
+- /affiliate
+- /funding
+- /credit-repair
+- /admin
+- /checkout/pro
+- /checkout/elite
+- /checkout/founders
+
+Tier funnel logic:
+- Free Forever: Starter blueprint, limited roadmap preview, waitlist CTA after generation.
+- Pro: Full roadmap, progress tracking, branding support, email/PDF export, AI refinement, outreach strategy, credit/funding readiness checklist.
+- Elite: Everything in Pro + advanced strategist guidance, financial projections, vendor/funding/credit resource center, company formation checklist, trademark/social/marketing guidance, done-with-you style support, priority support.
+- Founders / Legacy Founder: Lifetime access positioning, limited availability, full platform when launched, founder recognition, early access benefits, premium roadmap logic.
+
+After every change, always provide:
+1. What changed (files modified or created).
+2. What file to open or review next.
+3. What terminal command to run to verify the change.
+4. How to confirm it worked in the browser (exact URL to visit).
