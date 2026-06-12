@@ -2,22 +2,29 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "RMIE",            path: "/rmie" },
-  { label: "Command Center",  path: "/dashboard" },
-  { label: "Voice Agent",     path: "/voice-agent" },
-  { label: "Website Builder", path: "/website-builder" },
-  { label: "Domain Finder",   path: "/domain-search" },
-  { label: "Pricing",         path: "/pricing" },
-  { label: "About",           path: "/about" },
+  { label: "Home",        path: "/" },
+  { label: "About",       path: "/about" },
+  { label: "Starter",     path: "/starter" },
+  { label: "Builder",     path: "/builder" },
+  { label: "Accelerator", path: "/accelerator" },
+  { label: "Pricing",     path: "/pricing" },
+  { label: "Waitlist",    path: "/waitlist" },
+];
+
+const PLANS_DROPDOWN = [
+  { label: "Free Roadmap", path: "/starter" },
+  { label: "Pro",          path: "/pro" },
+  { label: "Elite",        path: "/elite" },
+  { label: "Founders",     path: "/founders" },
 ];
 
 const MOBILE_EXTRA = [
-  { label: "Dashboard",    path: "/dashboard" },
-  { label: "Starter",      path: "/starter" },
+  { label: "Founders",     path: "/founders" },
+  { label: "Pro",          path: "/pro" },
+  { label: "Elite",        path: "/elite" },
   { label: "Funding",      path: "/funding" },
   { label: "Credit",       path: "/credit-repair" },
   { label: "Affiliate",    path: "/affiliate" },
-  { label: "Waitlist",     path: "/waitlist" },
 ];
 
 export default function Navbar() {
@@ -63,7 +70,7 @@ export default function Navbar() {
 
         {/* Condensed nav for medium screens */}
         <div className="hidden items-center gap-4 md:flex xl:hidden">
-          {[NAV_LINKS[0], NAV_LINKS[1], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
+          {[NAV_LINKS[2], NAV_LINKS[3], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
             <Link
               key={l.path}
               to={l.path}
