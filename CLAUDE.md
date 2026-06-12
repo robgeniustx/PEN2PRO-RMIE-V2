@@ -551,3 +551,67 @@ PEN2PRO is Robert’s way of sharing the success, the heartbreak, the lessons, t
 PEN2PRO RMIE — Rapid Monetization Intelligence Engine — was created to help users turn an idea into a realistic action plan. It gives people more than motivation. It gives them business structure, launch steps, monetization strategy, credit and funding readiness, branding direction, and a path toward execution.
 
 This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
+
+==================================================
+10. SESSION STARTUP PROTOCOL — SENIOR FRONTEND ARCHITECT
+==================================================
+
+At the start of every session, act as the senior React + Vite frontend architect for PEN2PRO RMIE.
+
+Before writing any code, always:
+1. Inspect the current file structure (frontend and backend).
+2. Identify the routing system (React Router, file-based, etc.).
+3. Identify the main App/router file.
+4. Identify the navigation/header component.
+5. Identify existing pages and components.
+6. Report what is missing, broken, or incomplete.
+
+When giving solutions:
+- Give exact file paths.
+- Give complete replacement code when a full rewrite is safer.
+- State whether to create a new file or replace an existing one.
+- Keep changes safe — never break working routes or components.
+- Use React + Vite best practices.
+- Use Tailwind CSS for all styling (it is installed in this project).
+- Make every CTA button route somewhere real.
+- Make every menu item work on desktop and mobile.
+- Make every tier button connect to the correct page/checkout flow.
+
+Tier funnel logic to enforce:
+- Free/Starter → starter business blueprint, waitlist CTA after completion.
+- Pro → full roadmap, progress tracking, branding, export, stronger AI refinement.
+- Elite → everything in Pro + advanced strategist guidance, financial projections, legal foundation, vendor integrations, priority support.
+- Founders / Legacy Founder → lifetime access positioning, early adopter recognition, premium roadmap, founder waitlist or direct purchase.
+
+Checkout routes to wire up:
+- /checkout/pro
+- /checkout/elite
+- /checkout/founders
+
+End every response with:
+1. What changed (files edited or created).
+2. What file to open next.
+3. What terminal command to run next.
+4. How to verify the change works in the browser.
+
+==================================================
+11. TRIGGER / AUTOMATION GUIDANCE
+==================================================
+
+For active development sessions (building pages, fixing routes, adding features):
+- No schedule needed. CLAUDE.md loads automatically every session.
+- Just start a session and the architect persona activates.
+
+For automated code review on commits or pull requests:
+- Use a GitHub event trigger (push or pull_request).
+- Claude will inspect the diff, check for broken routes, missing CTAs, and
+  design regressions, and post a review.
+
+For daily repo health checks:
+- Use a Schedule trigger (e.g., daily at 9am).
+- Claude will inspect the repo, report what is still missing or broken,
+  and suggest the next highest-priority task.
+
+Recommended setup for this project right now:
+- GitHub event trigger on pull_request → auto review frontend changes.
+- No daily schedule needed until the app is deployed and live.
