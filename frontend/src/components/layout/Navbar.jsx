@@ -1,29 +1,60 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "RMIE",            path: "/rmie" },
-  { label: "Command Center",  path: "/dashboard" },
-  { label: "Voice Agent",     path: "/voice-agent" },
-  { label: "Website Builder", path: "/website-builder" },
-  { label: "Domain Finder",   path: "/domain-search" },
-  { label: "Pricing",         path: "/pricing" },
-  { label: "About",           path: "/about" },
+  { label: "Home",        path: "/" },
+  { label: "About",       path: "/about" },
+  { label: "Builder",     path: "/builder" },
+  { label: "Accelerator", path: "/accelerator" },
+  { label: "Pricing",     path: "/pricing" },
+  { label: "Waitlist",    path: "/waitlist" },
+];
+
+const PLANS_DROPDOWN = [
+  { label: "Free Roadmap", path: "/starter",        icon: "🗺️", desc: "Start free — no credit card" },
+  { label: "Pro",          path: "/pro",             icon: "📊", desc: "Full strategy engine" },
+  { label: "Elite",        path: "/elite",           icon: "🔥", desc: "Advanced execution system" },
+  { label: "Legacy Founder", path: "/founders",     icon: "👑", desc: "Lifetime access — limited" },
 ];
 
 const MOBILE_EXTRA = [
-  { label: "Dashboard",    path: "/dashboard" },
-  { label: "Starter",      path: "/starter" },
-  { label: "Funding",      path: "/funding" },
-  { label: "Credit",       path: "/credit-repair" },
-  { label: "Affiliate",    path: "/affiliate" },
-  { label: "Waitlist",     path: "/waitlist" },
+  { label: "RMIE",        path: "/rmie" },
+  { label: "Dashboard",   path: "/dashboard" },
+  { label: "Funding",     path: "/funding" },
+  { label: "Credit",      path: "/credit-repair" },
+  { label: "Affiliate",   path: "/affiliate" },
+  { label: "Pro",         path: "/pro" },
+  { label: "Elite",       path: "/elite" },
+  { label: "Founders",    path: "/founders" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [plansOpen, setPlansOpen] = useState(false);
   const loc = useLocation();
-  const isActive = (path) => loc.pathname === path || loc.pathname.startsWith(path + "/");
+  const dropdownRef = useRef(null);
+
+  const isActive = (path) =>
+    path === "/"
+      ? loc.pathname === "/"
+      : loc.pathname === path || loc.pathname.startsWith(path + "/");
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClick(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setPlansOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setOpen(false);
+    setPlansOpen(false);
+  }, [loc.pathname]);
 
   return (
     <nav className="sticky top-0 z-50 border-b border-[#1A2D50] bg-[#0A0F1E]/95 backdrop-blur-xl">
@@ -51,19 +82,56 @@ export default function Navbar() {
               key={l.path}
               to={l.path}
               className={`text-sm font-semibold transition-colors whitespace-nowrap ${
-                isActive(l.path)
-                  ? "text-[#FF8A00]"
-                  : "text-slate-400 hover:text-white"
+                isActive(l.path) ? "text-[#FF8A00]" : "text-slate-400 hover:text-white"
               }`}
             >
               {l.label}
             </Link>
           ))}
+
+          {/* Plans dropdown */}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setPlansOpen(!plansOpen)}
+              className={`flex items-center gap-1 text-sm font-semibold transition-colors whitespace-nowrap ${
+                ["/pro", "/elite", "/founders", "/legacy-founder", "/starter"].some(p => loc.pathname.startsWith(p))
+                  ? "text-[#FF8A00]"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              Plans
+              <svg
+                className={`h-3.5 w-3.5 transition-transform ${plansOpen ? "rotate-180" : ""}`}
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {plansOpen && (
+              <div className="absolute right-0 top-full mt-2 w-64 rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-2 shadow-2xl">
+                {PLANS_DROPDOWN.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    onClick={() => setPlansOpen(false)}
+                    className="flex items-start gap-3 rounded-xl px-3 py-3 hover:bg-[#1A2235] transition-colors"
+                  >
+                    <span className="text-xl shrink-0">{item.icon}</span>
+                    <div>
+                      <p className="text-sm font-bold text-white">{item.label}</p>
+                      <p className="text-xs text-slate-500">{item.desc}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Condensed nav for medium screens */}
         <div className="hidden items-center gap-4 md:flex xl:hidden">
-          {[NAV_LINKS[0], NAV_LINKS[1], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
+          {[NAV_LINKS[0], NAV_LINKS[2], NAV_LINKS[4], NAV_LINKS[5]].map((l) => (
             <Link
               key={l.path}
               to={l.path}
@@ -110,7 +178,7 @@ export default function Navbar() {
           <div className="mb-4 grid grid-cols-2 gap-2">
             {[...NAV_LINKS, ...MOBILE_EXTRA].map((l) => (
               <Link
-                key={l.path}
+                key={l.label + l.path}
                 to={l.path}
                 onClick={() => setOpen(false)}
                 className={`rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors ${
