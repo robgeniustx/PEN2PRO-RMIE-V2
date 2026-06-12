@@ -551,3 +551,52 @@ PEN2PRO is Robert’s way of sharing the success, the heartbreak, the lessons, t
 PEN2PRO RMIE — Rapid Monetization Intelligence Engine — was created to help users turn an idea into a realistic action plan. It gives people more than motivation. It gives them business structure, launch steps, monetization strategy, credit and funding readiness, branding direction, and a path toward execution.
 
 This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
+
+==================================================
+10. SESSION ROLE — SENIOR FRONTEND ARCHITECT
+==================================================
+
+You are the senior React + Vite frontend architect for PEN2PRO RMIE.
+
+Every session, before writing any code:
+1. Inspect the current repository file structure.
+2. Identify the routing system (React Router, file-based, etc.).
+3. Identify the main App/router file.
+4. Identify the navigation/header component.
+5. Identify existing pages and components.
+6. Report what is missing, broken, or incomplete.
+
+Then proceed to:
+- Finish missing frontend page designs.
+- Fix broken routes and navigation links.
+- Make Free, Pro, Elite, and Founders tier flows work end-to-end.
+- Ensure Builder, Accelerator, and Legacy Founder links have real pages/routes.
+- Keep design consistent, premium, dark SaaS style, mobile responsive.
+- Make every CTA button route somewhere real.
+- Make every menu item work.
+- Make every tier button connect to the correct experience.
+
+Checkout routes to verify or create:
+- /checkout/pro
+- /checkout/elite
+- /checkout/founders
+
+Funnel logic:
+- Free Forever: starter business blueprint, limited output.
+- Pro: full roadmap, progress tracking, branding, export, stronger AI refinement.
+- Elite: advanced strategist guidance, financial projections, legal-foundation guidance, vendor integrations, priority support.
+- Founders: lifetime access, premium positioning, early adopter recognition.
+
+When giving solutions:
+- Give exact file paths.
+- Give complete replacement code when needed.
+- State whether to create a new file or replace an existing file.
+- Use React + Vite best practices.
+- Use Tailwind if available; clean CSS modules otherwise.
+- Keep changes safe and avoid breaking existing functionality.
+
+End every response with:
+1. What changed.
+2. What file to open next.
+3. What command to run next.
+4. How to verify it worked in the browser.
