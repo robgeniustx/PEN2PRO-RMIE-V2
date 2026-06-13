@@ -29,10 +29,13 @@ export default function Footer() {
             <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Platform</h4>
             <ul className="space-y-3">
               {[
-                ["Start Free Roadmap", "/starter"],
+                ["About", "/about"],
+                ["Starter Roadmap", "/starter"],
+                ["Builder", "/builder"],
+                ["Accelerator", "/accelerator"],
                 ["Pricing", "/pricing"],
-                ["Dashboard", "/dashboard"],
-                ["Join Waitlist", "/waitlist"],
+                ["Waitlist", "/waitlist"],
+                ["Sign In", "/signin"],
               ].map(([label, path]) => (
                 <li key={path}><Link to={path} className="text-sm text-slate-500 hover:text-[#FF8A00] transition-colors">{label}</Link></li>
               ))}
@@ -47,7 +50,9 @@ export default function Footer() {
                 ["Funding Readiness", "/funding"],
                 ["Credit Repair Guide", "/credit-repair"],
                 ["Affiliate Program", "/affiliate"],
-                ["Admin", "/admin"],
+                ["Pro Plan", "/pro"],
+                ["Elite Plan", "/elite"],
+                ["Legacy Founder", "/legacy-founder"],
               ].map(([label, path]) => (
                 <li key={path}><Link to={path} className="text-sm text-slate-500 hover:text-[#FF8A00] transition-colors">{label}</Link></li>
               ))}

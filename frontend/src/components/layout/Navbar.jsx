@@ -2,28 +2,30 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "RMIE",            path: "/rmie" },
-  { label: "Command Center",  path: "/dashboard" },
-  { label: "Voice Agent",     path: "/voice-agent" },
-  { label: "Website Builder", path: "/website-builder" },
-  { label: "Domain Finder",   path: "/domain-search" },
-  { label: "Pricing",         path: "/pricing" },
-  { label: "About",           path: "/about" },
+  { label: "Home",          path: "/" },
+  { label: "About",         path: "/about" },
+  { label: "Starter",       path: "/starter" },
+  { label: "Builder",       path: "/builder" },
+  { label: "Accelerator",   path: "/accelerator" },
+  { label: "Pricing",       path: "/pricing" },
+  { label: "Waitlist",      path: "/waitlist" },
 ];
 
 const MOBILE_EXTRA = [
-  { label: "Dashboard",    path: "/dashboard" },
-  { label: "Starter",      path: "/starter" },
-  { label: "Funding",      path: "/funding" },
-  { label: "Credit",       path: "/credit-repair" },
-  { label: "Affiliate",    path: "/affiliate" },
-  { label: "Waitlist",     path: "/waitlist" },
+  { label: "Dashboard",     path: "/dashboard" },
+  { label: "Funding",       path: "/funding" },
+  { label: "Credit Repair", path: "/credit-repair" },
+  { label: "Affiliate",     path: "/affiliate" },
+  { label: "Pro",           path: "/pro" },
+  { label: "Elite",         path: "/elite" },
+  { label: "Founders",      path: "/founders" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const loc = useLocation();
-  const isActive = (path) => loc.pathname === path || loc.pathname.startsWith(path + "/");
+  const isActive = (path) =>
+    path === "/" ? loc.pathname === "/" : loc.pathname === path || loc.pathname.startsWith(path + "/");
 
   return (
     <nav className="sticky top-0 z-50 border-b border-[#1A2D50] bg-[#0A0F1E]/95 backdrop-blur-xl">
@@ -63,7 +65,7 @@ export default function Navbar() {
 
         {/* Condensed nav for medium screens */}
         <div className="hidden items-center gap-4 md:flex xl:hidden">
-          {[NAV_LINKS[0], NAV_LINKS[1], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
+          {[NAV_LINKS[2], NAV_LINKS[5], NAV_LINKS[6], NAV_LINKS[1]].map((l) => (
             <Link
               key={l.path}
               to={l.path}
