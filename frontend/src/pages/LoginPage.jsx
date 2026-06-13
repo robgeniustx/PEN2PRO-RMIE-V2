@@ -5,6 +5,45 @@ import Footer from "../components/layout/Footer";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
+const TIER_HIGHLIGHTS = [
+  {
+    color: "#1A2235",
+    accent: "#D4A017",
+    icon: "🗺️",
+    tier: "Free Roadmap",
+    desc: "Start building immediately — no credit card. Get a full business blueprint, brand name ideas, startup checklist, and 7-day action plan.",
+    href: "/starter",
+    cta: "Start Free",
+  },
+  {
+    color: "#1A2235",
+    accent: "#D4A017",
+    icon: "⚡",
+    tier: "Pro — $249/mo",
+    desc: "Full 90-day execution plan, sales scripts, credit readiness checklist, AI refinement, branding support, and PDF export.",
+    href: "/pro",
+    cta: "Explore Pro",
+  },
+  {
+    color: "#1A2235",
+    accent: "#00C9B1",
+    icon: "💎",
+    tier: "Elite — $499/mo",
+    desc: "Everything in Pro plus financial projections, funding partner resources, done-with-you guidance, and priority support.",
+    href: "/elite",
+    cta: "Explore Elite",
+  },
+  {
+    color: "#1A2235",
+    accent: "#FF8A00",
+    icon: "🏆",
+    tier: "Founders Lifetime — $1,899",
+    desc: "Lifetime access to every PEN2PRO feature. One payment. No monthly fees. Only 200 spots available globally.",
+    href: "/founders",
+    cta: "Claim Spot",
+  },
+];
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -77,48 +116,72 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
-              P2P
-            </div>
-            <h1 className="font-display text-3xl font-bold text-white">
-              {tab === "login" ? "Welcome back" : "Create your account"}
-            </h1>
-            <p className="mt-2 text-sm text-slate-400">
-              {tab === "login"
-                ? "Sign in to access your PEN2PRO dashboard"
-                : "Start building your business roadmap today"}
-            </p>
+
+      <div className="mx-auto flex min-h-[calc(100vh-80px)] max-w-6xl flex-col items-start gap-12 px-5 py-20 lg:flex-row lg:items-center">
+
+        {/* ── LEFT: Value panel ── */}
+        <div className="w-full lg:flex-1">
+          <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#D4A017]">
+            ⚡ PEN2PRO RMIE
+          </div>
+          <h2 className="mt-3 font-display text-3xl font-black leading-tight text-white md:text-4xl">
+            Build your business roadmap.<br />
+            <span style={{ background: "linear-gradient(90deg, #D4A017, #FF8A00)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              Save your blueprint. Upgrade when ready.
+            </span>
+          </h2>
+          <p className="mt-4 mb-8 text-slate-400 leading-relaxed">
+            PEN2PRO RMIE gives you a real execution plan — not motivation. Start free, then unlock
+            advanced tools as your business grows.
+          </p>
+
+          <div className="space-y-3">
+            {TIER_HIGHLIGHTS.map((t) => (
+              <div
+                key={t.tier}
+                className="flex items-start gap-4 rounded-2xl border border-[#1A2235] bg-[#0F1520] px-5 py-4 hover:border-[#1A2D50] transition-colors"
+              >
+                <span className="text-2xl shrink-0 mt-0.5">{t.icon}</span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-black text-white">{t.tier}</p>
+                  <p className="mt-0.5 text-xs text-slate-500 leading-relaxed">{t.desc}</p>
+                </div>
+                <Link
+                  to={t.href}
+                  className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-bold transition hover:opacity-80"
+                  style={{ color: t.accent, border: `1px solid ${t.accent}40` }}
+                >
+                  {t.cta}
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── RIGHT: Auth form ── */}
+        <div className="w-full lg:w-[420px] shrink-0">
+          {/* Tabs */}
+          <div className="mb-6 flex rounded-xl border border-[#1A2235] p-1" style={{ background: "#080C14" }}>
+            <button
+              onClick={() => { setTab("login"); setError(""); }}
+              className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${
+                tab === "login" ? "gradient-gold text-[#080C14]" : "text-slate-400 hover:text-white"
+              }`}
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => { setTab("register"); setError(""); }}
+              className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${
+                tab === "register" ? "gradient-gold text-[#080C14]" : "text-slate-400 hover:text-white"
+              }`}
+            >
+              Create Account
+            </button>
           </div>
 
           {/* Card */}
           <div className="rounded-2xl border border-[#1A2235] p-8" style={{ background: "#0F1520" }}>
-            {/* Tabs */}
-            <div className="mb-8 flex rounded-xl border border-[#1A2235] p-1" style={{ background: "#080C14" }}>
-              <button
-                onClick={() => { setTab("login"); setError(""); }}
-                className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${
-                  tab === "login"
-                    ? "gradient-gold text-[#080C14]"
-                    : "text-slate-400 hover:text-white"
-                }`}
-              >
-                Sign In
-              </button>
-              <button
-                onClick={() => { setTab("register"); setError(""); }}
-                className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${
-                  tab === "register"
-                    ? "gradient-gold text-[#080C14]"
-                    : "text-slate-400 hover:text-white"
-                }`}
-              >
-                Create Account
-              </button>
-            </div>
 
             {/* Error */}
             {error && (
@@ -142,7 +205,12 @@ export default function LoginPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-300">Password</label>
+                  <div className="mb-1.5 flex items-center justify-between">
+                    <label className="text-sm font-medium text-slate-300">Password</label>
+                    <Link to="/waitlist" className="text-xs text-slate-500 hover:text-[#D4A017] transition">
+                      Forgot password?
+                    </Link>
+                  </div>
                   <input
                     type="password"
                     required
@@ -172,7 +240,7 @@ export default function LoginPage() {
                     required
                     value={registerForm.name}
                     onChange={e => setRegisterForm(f => ({ ...f, name: e.target.value }))}
-                    placeholder="Robert Green"
+                    placeholder="Your name"
                     className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
                   />
                 </div>
@@ -230,8 +298,14 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
+
+          {/* Social proof */}
+          <p className="mt-5 text-center text-xs text-slate-600">
+            Joined by 2,847+ entrepreneurs, veterans, and returning citizens building real businesses.
+          </p>
         </div>
       </div>
+
       <Footer />
     </div>
   );
