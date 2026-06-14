@@ -2,28 +2,36 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "RMIE",            path: "/rmie" },
-  { label: "Command Center",  path: "/dashboard" },
-  { label: "Voice Agent",     path: "/voice-agent" },
-  { label: "Website Builder", path: "/website-builder" },
-  { label: "Domain Finder",   path: "/domain-search" },
-  { label: "Pricing",         path: "/pricing" },
-  { label: "About",           path: "/about" },
+  { label: "Home",        path: "/" },
+  { label: "About",       path: "/about" },
+  { label: "Starter",     path: "/starter" },
+  { label: "Builder",     path: "/builder" },
+  { label: "Accelerator", path: "/accelerator" },
+  { label: "Pricing",     path: "/pricing" },
+  { label: "Waitlist",    path: "/waitlist" },
+];
+
+const PLANS_DROPDOWN = [
+  { label: "Free Roadmap",     path: "/starter",          badge: "Free" },
+  { label: "Pro — $249/mo",    path: "/checkout/pro",     badge: "Popular" },
+  { label: "Elite — $499/mo",  path: "/checkout/elite",   badge: "Best" },
+  { label: "Legacy Founder",   path: "/founders",         badge: "Lifetime" },
 ];
 
 const MOBILE_EXTRA = [
-  { label: "Dashboard",    path: "/dashboard" },
-  { label: "Starter",      path: "/starter" },
-  { label: "Funding",      path: "/funding" },
-  { label: "Credit",       path: "/credit-repair" },
-  { label: "Affiliate",    path: "/affiliate" },
-  { label: "Waitlist",     path: "/waitlist" },
+  { label: "Founders",    path: "/founders" },
+  { label: "Funding",     path: "/funding" },
+  { label: "Credit",      path: "/credit-repair" },
+  { label: "Affiliate",   path: "/affiliate" },
+  { label: "Dashboard",   path: "/dashboard" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [plansOpen, setPlansOpen] = useState(false);
   const loc = useLocation();
-  const isActive = (path) => loc.pathname === path || loc.pathname.startsWith(path + "/");
+  const isActive = (path) =>
+    path === "/" ? loc.pathname === "/" : loc.pathname === path || loc.pathname.startsWith(path + "/");
 
   return (
     <nav className="sticky top-0 z-50 border-b border-[#1A2D50] bg-[#0A0F1E]/95 backdrop-blur-xl">
@@ -51,19 +59,51 @@ export default function Navbar() {
               key={l.path}
               to={l.path}
               className={`text-sm font-semibold transition-colors whitespace-nowrap ${
-                isActive(l.path)
-                  ? "text-[#FF8A00]"
-                  : "text-slate-400 hover:text-white"
+                isActive(l.path) ? "text-[#FF8A00]" : "text-slate-400 hover:text-white"
               }`}
             >
               {l.label}
             </Link>
           ))}
+
+          {/* Plans dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setPlansOpen((p) => !p)}
+              className="flex items-center gap-1 text-sm font-semibold text-slate-400 hover:text-white transition-colors"
+            >
+              Plans
+              <svg className={`h-3.5 w-3.5 transition-transform ${plansOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {plansOpen && (
+              <div
+                className="absolute left-0 top-8 w-52 rounded-2xl border border-[#1A2D50] py-2 shadow-2xl"
+                style={{ background: "#0F1520" }}
+                onMouseLeave={() => setPlansOpen(false)}
+              >
+                {PLANS_DROPDOWN.map((p) => (
+                  <Link
+                    key={p.path}
+                    to={p.path}
+                    onClick={() => setPlansOpen(false)}
+                    className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-300 hover:bg-[#1A2235] hover:text-white transition-colors"
+                  >
+                    {p.label}
+                    <span className="rounded-full bg-[#1A2D50] px-2 py-0.5 text-[10px] font-bold text-[#FF8A00] uppercase">
+                      {p.badge}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Condensed nav for medium screens */}
         <div className="hidden items-center gap-4 md:flex xl:hidden">
-          {[NAV_LINKS[0], NAV_LINKS[1], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
+          {[NAV_LINKS[0], NAV_LINKS[2], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
             <Link
               key={l.path}
               to={l.path}

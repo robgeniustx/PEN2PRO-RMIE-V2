@@ -33,6 +33,12 @@ import WebsiteBuilderSubPage from "../pages/WebsiteBuilderSubPage";
 import DomainSearchPage from "../pages/DomainSearchPage";
 import AgentCommandCenterPage from "../pages/AgentCommandCenterPage";
 
+// ── New dedicated pages ──
+import BuilderPage from "../pages/BuilderPage";
+import AcceleratorPage from "../pages/AcceleratorPage";
+import FoundersPage from "../pages/FoundersPage";
+import CheckoutPage from "../pages/CheckoutPage";
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -115,13 +121,18 @@ export default function AppRoutes() {
       <Route path="/admin/feature-usage" element={<AdminFeatureUsagePage />} />
       <Route path="/admin/conversions" element={<AdminConversionsPage />} />
 
+      {/* ── Dedicated Tier / Builder Pages ── */}
+      <Route path="/builder" element={<BuilderPage />} />
+      <Route path="/accelerator" element={<AcceleratorPage />} />
+      <Route path="/founders" element={<FoundersPage />} />
+      <Route path="/legacy-founder" element={<FoundersPage />} />
+
+      {/* ── Checkout Pages ── */}
+      <Route path="/checkout/:tier" element={<CheckoutPage />} />
+
       {/* ── Aliases / Redirects ── */}
-      <Route path="/founders" element={<Navigate to="/waitlist?tier=founders" replace />} />
-      <Route path="/legacy-founder" element={<Navigate to="/waitlist?tier=founders" replace />} />
-      <Route path="/pro" element={<Navigate to="/pricing#pro" replace />} />
-      <Route path="/elite" element={<Navigate to="/pricing#elite" replace />} />
-      <Route path="/builder" element={<Navigate to="/command-center" replace />} />
-      <Route path="/accelerator" element={<Navigate to="/rmie" replace />} />
+      <Route path="/pro" element={<Navigate to="/checkout/pro" replace />} />
+      <Route path="/elite" element={<Navigate to="/checkout/elite" replace />} />
       <Route path="/features" element={<Navigate to="/#features" replace />} />
       <Route path="/crm" element={<Navigate to="/command-center" replace />} />
       <Route path="/contacts" element={<Navigate to="/dashboard/contacts" replace />} />
