@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-import { createCheckoutSession } from "../api/stripeApi";
 
 const API_BASE =
   import.meta.env.VITE_API_BASE_URL ||
@@ -145,36 +144,18 @@ function CountBox({ val, label }) {
 
 function PlanCard({ plan }) {
   const [checkoutError, setCheckoutError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const isFeatured = plan.id === "pro";
   const isFounders = plan.id === "founders";
 
-  const handlePlanClick = async () => {
+  const handlePlanClick = () => {
     setCheckoutError("");
-
     if (plan.id === "free" || !plan.stripe_tier) {
-      window.location.href = "/starter";
+      navigate("/starter");
       return;
     }
-
-    setLoading(true);
-
-    try {
-      const result = await createCheckoutSession({ tier: plan.stripe_tier });
-
-      if (result?.checkout_url) {
-        window.location.href = result.checkout_url;
-        return;
-      }
-
-      setCheckoutError(result?.error || "Checkout is not configured yet.");
-    } catch (error) {
-      console.error("Pricing checkout error:", error);
-      setCheckoutError("Unable to start checkout. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    navigate(`/checkout/${plan.stripe_tier}`);
   };
 
   return (
@@ -237,16 +218,15 @@ function PlanCard({ plan }) {
       <button
         type="button"
         onClick={handlePlanClick}
-        disabled={loading}
-        className={`mt-6 block w-full rounded-xl py-3 text-center text-sm font-black transition disabled:cursor-not-allowed disabled:opacity-60 ${
+        className={`mt-6 block w-full rounded-xl py-3 text-center text-sm font-black transition ${
           isFeatured
-            ? "bg-[#2d9cff] text-[#081226]"
+            ? "bg-[#2d9cff] text-[#081226] hover:bg-[#4dbeff]"
             : isFounders
-              ? "bg-[#d4af37] text-[#081226]"
+              ? "bg-[#d4af37] text-[#081226] hover:bg-[#e8c44a]"
               : "border border-[#1A2D50] text-slate-200 hover:border-slate-400"
         }`}
       >
-        {loading ? "Starting Checkout..." : plan.cta || "Get Started"}
+        {plan.cta || "Get Started"}
       </button>
 
       {checkoutError ? (
