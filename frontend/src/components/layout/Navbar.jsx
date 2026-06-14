@@ -1,29 +1,53 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "RMIE",            path: "/rmie" },
-  { label: "Command Center",  path: "/dashboard" },
-  { label: "Voice Agent",     path: "/voice-agent" },
-  { label: "Website Builder", path: "/website-builder" },
-  { label: "Domain Finder",   path: "/domain-search" },
-  { label: "Pricing",         path: "/pricing" },
-  { label: "About",           path: "/about" },
+  { label: "Home",        path: "/" },
+  { label: "About",       path: "/about" },
+  { label: "Starter",     path: "/starter" },
+  { label: "Builder",     path: "/builder" },
+  { label: "Accelerator", path: "/accelerator" },
+  { label: "Pricing",     path: "/pricing" },
+  { label: "Waitlist",    path: "/waitlist" },
 ];
 
-const MOBILE_EXTRA = [
-  { label: "Dashboard",    path: "/dashboard" },
-  { label: "Starter",      path: "/starter" },
-  { label: "Funding",      path: "/funding" },
-  { label: "Credit",       path: "/credit-repair" },
-  { label: "Affiliate",    path: "/affiliate" },
-  { label: "Waitlist",     path: "/waitlist" },
+const PLANS = [
+  { label: "Free Roadmap",   path: "/starter",       desc: "Start for $0" },
+  { label: "Pro",            path: "/pro",            desc: "$249/mo" },
+  { label: "Elite",          path: "/elite",          desc: "$499/mo" },
+  { label: "Legacy Founder", path: "/legacy-founder", desc: "$1,899 for life" },
+];
+
+const MOBILE_ALL = [
+  ...NAV_LINKS,
+  { label: "Pro",            path: "/pro" },
+  { label: "Elite",          path: "/elite" },
+  { label: "Legacy Founder", path: "/legacy-founder" },
+  { label: "Funding",        path: "/funding" },
+  { label: "Credit Repair",  path: "/credit-repair" },
+  { label: "Affiliate",      path: "/affiliate" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [plansOpen, setPlansOpen] = useState(false);
   const loc = useLocation();
-  const isActive = (path) => loc.pathname === path || loc.pathname.startsWith(path + "/");
+  const dropRef = useRef(null);
+
+  const isActive = (path) =>
+    path === "/"
+      ? loc.pathname === "/"
+      : loc.pathname === path || loc.pathname.startsWith(path + "/");
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (dropRef.current && !dropRef.current.contains(e.target)) {
+        setPlansOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <nav className="sticky top-0 z-50 border-b border-[#1A2D50] bg-[#0A0F1E]/95 backdrop-blur-xl">
@@ -59,11 +83,40 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
+
+          {/* Plans Dropdown */}
+          <div ref={dropRef} className="relative">
+            <button
+              onClick={() => setPlansOpen((v) => !v)}
+              className="flex items-center gap-1 text-sm font-semibold text-slate-400 transition-colors hover:text-white"
+            >
+              Plans
+              <svg className={`h-3.5 w-3.5 transition-transform ${plansOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {plansOpen && (
+              <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-2 shadow-xl shadow-black/50">
+                {PLANS.map((p) => (
+                  <Link
+                    key={p.path}
+                    to={p.path}
+                    onClick={() => setPlansOpen(false)}
+                    className="flex items-center justify-between rounded-xl px-3 py-2.5 transition-colors hover:bg-[#1A2235]"
+                  >
+                    <span className="text-sm font-semibold text-slate-200">{p.label}</span>
+                    <span className="text-xs text-slate-500">{p.desc}</span>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Condensed nav for medium screens */}
+        {/* Condensed nav — medium screens */}
         <div className="hidden items-center gap-4 md:flex xl:hidden">
-          {[NAV_LINKS[0], NAV_LINKS[1], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
+          {[NAV_LINKS[0], NAV_LINKS[2], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
             <Link
               key={l.path}
               to={l.path}
@@ -108,7 +161,7 @@ export default function Navbar() {
       {open && (
         <div className="border-t border-[#1A2235] bg-[#0F1520] px-5 py-5 md:hidden">
           <div className="mb-4 grid grid-cols-2 gap-2">
-            {[...NAV_LINKS, ...MOBILE_EXTRA].map((l) => (
+            {MOBILE_ALL.map((l) => (
               <Link
                 key={l.path}
                 to={l.path}
