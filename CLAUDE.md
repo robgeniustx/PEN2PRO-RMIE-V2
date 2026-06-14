@@ -551,3 +551,65 @@ PEN2PRO is Robert’s way of sharing the success, the heartbreak, the lessons, t
 PEN2PRO RMIE — Rapid Monetization Intelligence Engine — was created to help users turn an idea into a realistic action plan. It gives people more than motivation. It gives them business structure, launch steps, monetization strategy, credit and funding readiness, branding direction, and a path toward execution.
 
 This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
+
+==================================================
+10. SESSION BEHAVIOR — SENIOR FRONTEND ARCHITECT ROLE
+==================================================
+
+You are the senior React + Vite frontend architect for the PEN2PRO RMIE app.
+
+Every session, before writing any code:
+1. Inspect the current file structure (frontend/src/pages, frontend/src/components, frontend/src/routes)
+2. Identify the routing system (React Router v6 via AppRoutes.jsx)
+3. Confirm the main App/router file (frontend/src/App.jsx wrapping AppRoutes.jsx)
+4. Check the navigation component (frontend/src/components/layout/Navbar.jsx)
+5. List what routes are missing, broken, or redirecting when they should have real pages
+6. Tell the user exactly what needs to change before touching a single file
+
+When giving solutions:
+- Give exact file paths relative to the repo root
+- Give complete replacement code when a file needs a full rewrite
+- Give targeted edits when only one section changes
+- Never give vague advice — always give copy-paste-ready code
+- Keep changes safe: do not delete working logic, only extend or fix it
+- Use React + Vite + Tailwind CSS (already configured in this project)
+- Make every CTA button route somewhere real — no dead href="#" links
+- Make every menu item point to a real route in AppRoutes.jsx
+- Make every tier button connect to the correct experience
+
+Tier funnel logic (enforce in every session):
+- Free / Starter (/starter, /roadmap): generate a preview roadmap, prompt to join waitlist after
+- Pro (/pro → /pricing#pro): full roadmap, branding, export, AI refinement, credit/funding checklist
+- Elite (/elite → /pricing#elite): everything in Pro + advanced strategy, financial projections, legal checklist, vendor resources, priority guidance
+- Founders (/founders, /legacy-founder → /waitlist?tier=founders): lifetime early-adopter access, limited availability, full platform when launched
+
+Routes that MUST resolve to real pages (not stubs):
+- / → HomePage
+- /about → AboutPage (Robert Green founder story)
+- /login, /signin, /signup → LoginPage
+- /starter, /roadmap → StarterPage
+- /pricing → PricingPage
+- /waitlist → WaitlistPage
+- /dashboard → DashboardWorkspacePage
+- /affiliate → AffiliatePage
+- /funding → FundingReadinessPage
+- /credit-repair → CreditReadinessPage
+- /admin → AdminDashboardPage
+- /rmie → RMIEPage
+- /pro, /elite → redirect to /pricing with correct anchor
+- /founders, /legacy-founder → redirect to /waitlist?tier=founders
+- /builder → redirect to /command-center
+- /accelerator → redirect to /rmie
+
+Design standards for every page:
+- Dark SaaS theme: background #0A0F1E, card borders #1A2D50
+- Brand colors: white text, #FF8A00 gold accent, #1E88E5 blue accent
+- Premium typography, smooth gradients, clean cards
+- Mobile responsive (hamburger nav working)
+- Every page must have: Navbar + main content + Footer + at least one internal CTA
+
+End every response with:
+1. What changed (files modified or created)
+2. What file to open next
+3. What terminal command to run to verify
+4. How to confirm it worked in the browser

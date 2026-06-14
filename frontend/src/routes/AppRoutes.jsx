@@ -115,6 +115,11 @@ export default function AppRoutes() {
       <Route path="/admin/feature-usage" element={<AdminFeatureUsagePage />} />
       <Route path="/admin/conversions" element={<AdminConversionsPage />} />
 
+      {/* ── Checkout (tier upgrade entry points) ── */}
+      <Route path="/checkout/pro" element={<Navigate to="/pricing#pro" replace />} />
+      <Route path="/checkout/elite" element={<Navigate to="/pricing#elite" replace />} />
+      <Route path="/checkout/founders" element={<Navigate to="/waitlist?tier=founders" replace />} />
+
       {/* ── Aliases / Redirects ── */}
       <Route path="/founders" element={<Navigate to="/waitlist?tier=founders" replace />} />
       <Route path="/legacy-founder" element={<Navigate to="/waitlist?tier=founders" replace />} />
