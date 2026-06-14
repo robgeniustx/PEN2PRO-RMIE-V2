@@ -1037,6 +1037,30 @@ button { cursor: pointer; font-family: inherit; }
   border: 1px solid rgba(212, 160, 23, 0.25);
 }
 
+.glow-gold {
+  box-shadow: 0 0 24px rgba(212, 160, 23, 0.35);
+}
+.glow-gold:hover {
+  box-shadow: 0 0 32px rgba(212, 160, 23, 0.5);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #1A2235;
+  border-radius: 10px;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.btn-outline:hover {
+  border-color: #D4A017;
+  color: #D4A017;
+}
+
+.gradient-gold {
+  background: linear-gradient(135deg, #D4A017 0%, #FF8A00 100%);
+}
+
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }

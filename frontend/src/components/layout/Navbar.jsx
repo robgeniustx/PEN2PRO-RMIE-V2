@@ -2,28 +2,38 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "RMIE",            path: "/rmie" },
-  { label: "Command Center",  path: "/dashboard" },
-  { label: "Voice Agent",     path: "/voice-agent" },
-  { label: "Website Builder", path: "/website-builder" },
-  { label: "Domain Finder",   path: "/domain-search" },
-  { label: "Pricing",         path: "/pricing" },
-  { label: "About",           path: "/about" },
+  { label: "Home",        path: "/" },
+  { label: "About",       path: "/about" },
+  { label: "Starter",     path: "/starter" },
+  { label: "Builder",     path: "/builder" },
+  { label: "Accelerator", path: "/accelerator" },
+  { label: "Pricing",     path: "/pricing" },
+  { label: "Waitlist",    path: "/waitlist" },
+];
+
+const PLANS_DROPDOWN = [
+  { label: "Free Roadmap",      path: "/starter" },
+  { label: "Pro — $249/mo",     path: "/pro" },
+  { label: "Elite — $499/mo",   path: "/elite" },
+  { label: "Founders Lifetime", path: "/founders" },
 ];
 
 const MOBILE_EXTRA = [
+  { label: "Pro",          path: "/pro" },
+  { label: "Elite",        path: "/elite" },
+  { label: "Founders",     path: "/founders" },
   { label: "Dashboard",    path: "/dashboard" },
-  { label: "Starter",      path: "/starter" },
   { label: "Funding",      path: "/funding" },
   { label: "Credit",       path: "/credit-repair" },
   { label: "Affiliate",    path: "/affiliate" },
-  { label: "Waitlist",     path: "/waitlist" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [plansOpen, setPlansOpen] = useState(false);
   const loc = useLocation();
-  const isActive = (path) => loc.pathname === path || loc.pathname.startsWith(path + "/");
+  const isActive = (path) =>
+    path === "/" ? loc.pathname === "/" : loc.pathname === path || loc.pathname.startsWith(path + "/");
 
   return (
     <nav className="sticky top-0 z-50 border-b border-[#1A2D50] bg-[#0A0F1E]/95 backdrop-blur-xl">
@@ -51,19 +61,50 @@ export default function Navbar() {
               key={l.path}
               to={l.path}
               className={`text-sm font-semibold transition-colors whitespace-nowrap ${
-                isActive(l.path)
-                  ? "text-[#FF8A00]"
-                  : "text-slate-400 hover:text-white"
+                isActive(l.path) ? "text-[#FF8A00]" : "text-slate-400 hover:text-white"
               }`}
             >
               {l.label}
             </Link>
           ))}
+
+          {/* Plans Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setPlansOpen((p) => !p)}
+              className="flex items-center gap-1 text-sm font-semibold text-slate-400 transition-colors hover:text-white whitespace-nowrap"
+            >
+              Plans
+              <svg className={`h-3.5 w-3.5 transition-transform ${plansOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {plansOpen && (
+              <div
+                className="absolute right-0 top-8 w-52 rounded-xl border border-[#1A2235] py-1 shadow-2xl"
+                style={{ background: "#0F1520" }}
+                onMouseLeave={() => setPlansOpen(false)}
+              >
+                {PLANS_DROPDOWN.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    onClick={() => setPlansOpen(false)}
+                    className={`block px-4 py-2.5 text-sm font-semibold transition-colors hover:bg-[#1A2235] hover:text-white ${
+                      isActive(item.path) ? "text-[#FF8A00]" : "text-slate-400"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Condensed nav for medium screens */}
         <div className="hidden items-center gap-4 md:flex xl:hidden">
-          {[NAV_LINKS[0], NAV_LINKS[1], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
+          {[NAV_LINKS[0], NAV_LINKS[2], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
             <Link
               key={l.path}
               to={l.path}
@@ -80,7 +121,7 @@ export default function Navbar() {
         <div className="hidden items-center gap-3 md:flex shrink-0">
           <Link
             to="/login"
-            className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-400 transition hover:text-white btn-outline"
+            className="rounded-lg border border-[#1A2235] px-4 py-2 text-sm font-semibold text-slate-400 transition hover:border-slate-500 hover:text-white"
           >
             Sign In
           </Link>
@@ -110,7 +151,7 @@ export default function Navbar() {
           <div className="mb-4 grid grid-cols-2 gap-2">
             {[...NAV_LINKS, ...MOBILE_EXTRA].map((l) => (
               <Link
-                key={l.path}
+                key={l.path + l.label}
                 to={l.path}
                 onClick={() => setOpen(false)}
                 className={`rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors ${
