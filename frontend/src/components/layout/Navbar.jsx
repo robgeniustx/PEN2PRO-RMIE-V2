@@ -2,28 +2,41 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "RMIE",            path: "/rmie" },
-  { label: "Command Center",  path: "/dashboard" },
-  { label: "Voice Agent",     path: "/voice-agent" },
-  { label: "Website Builder", path: "/website-builder" },
-  { label: "Domain Finder",   path: "/domain-search" },
-  { label: "Pricing",         path: "/pricing" },
-  { label: "About",           path: "/about" },
+  { label: "Home",        path: "/" },
+  { label: "About",       path: "/about" },
+  { label: "Starter",     path: "/starter" },
+  { label: "Builder",     path: "/builder" },
+  { label: "Accelerator", path: "/accelerator" },
+  { label: "Pricing",     path: "/pricing" },
+  { label: "Waitlist",    path: "/waitlist" },
+];
+
+const PLANS_DROPDOWN = [
+  { label: "Free Roadmap",    path: "/starter" },
+  { label: "Pro — $249/mo",   path: "/pro" },
+  { label: "Elite — $499/mo", path: "/elite" },
+  { label: "Legacy Founder",  path: "/founders" },
 ];
 
 const MOBILE_EXTRA = [
-  { label: "Dashboard",    path: "/dashboard" },
-  { label: "Starter",      path: "/starter" },
-  { label: "Funding",      path: "/funding" },
-  { label: "Credit",       path: "/credit-repair" },
-  { label: "Affiliate",    path: "/affiliate" },
-  { label: "Waitlist",     path: "/waitlist" },
+  { label: "Pro",           path: "/pro" },
+  { label: "Elite",         path: "/elite" },
+  { label: "Founders",      path: "/founders" },
+  { label: "Funding",       path: "/funding" },
+  { label: "Credit Repair", path: "/credit-repair" },
+  { label: "Affiliate",     path: "/affiliate" },
+  { label: "Dashboard",     path: "/dashboard" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [plansOpen, setPlansOpen] = useState(false);
   const loc = useLocation();
-  const isActive = (path) => loc.pathname === path || loc.pathname.startsWith(path + "/");
+
+  const isActive = (path) =>
+    path === "/"
+      ? loc.pathname === "/"
+      : loc.pathname === path || loc.pathname.startsWith(path + "/");
 
   return (
     <nav className="sticky top-0 z-50 border-b border-[#1A2D50] bg-[#0A0F1E]/95 backdrop-blur-xl">
@@ -33,7 +46,10 @@ export default function Navbar() {
         <Link to="/" className="flex items-center gap-2.5 group shrink-0">
           <div
             className="relative flex h-9 w-9 items-center justify-center rounded-xl shrink-0 transition-transform group-hover:scale-105"
-            style={{ background: "linear-gradient(135deg, #0D47A1 0%, #1E88E5 100%)", boxShadow: "0 0 18px rgba(30,136,229,0.35)" }}
+            style={{
+              background: "linear-gradient(135deg, #0D47A1 0%, #1E88E5 100%)",
+              boxShadow: "0 0 18px rgba(30,136,229,0.35)",
+            }}
           >
             <span className="text-[17px] leading-none select-none">⚡</span>
           </div>
@@ -51,19 +67,46 @@ export default function Navbar() {
               key={l.path}
               to={l.path}
               className={`text-sm font-semibold transition-colors whitespace-nowrap ${
-                isActive(l.path)
-                  ? "text-[#FF8A00]"
-                  : "text-slate-400 hover:text-white"
+                isActive(l.path) ? "text-[#FF8A00]" : "text-slate-400 hover:text-white"
               }`}
             >
               {l.label}
             </Link>
           ))}
+
+          {/* Plans Dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setPlansOpen(true)}
+            onMouseLeave={() => setPlansOpen(false)}
+          >
+            <button
+              className="flex items-center gap-1 text-sm font-semibold text-slate-400 hover:text-white transition-colors whitespace-nowrap"
+              onClick={() => setPlansOpen((v) => !v)}
+            >
+              Plans
+              <span className={`text-[10px] transition-transform ${plansOpen ? "rotate-180" : ""}`}>▼</span>
+            </button>
+            {plansOpen && (
+              <div className="absolute right-0 top-full mt-2 w-52 rounded-xl border border-[#1A2D50] bg-[#0F1520] py-2 shadow-xl">
+                {PLANS_DROPDOWN.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    onClick={() => setPlansOpen(false)}
+                    className="block px-4 py-2.5 text-sm font-semibold text-slate-300 hover:bg-[#1A2D50] hover:text-white transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Condensed nav for medium screens */}
         <div className="hidden items-center gap-4 md:flex xl:hidden">
-          {[NAV_LINKS[0], NAV_LINKS[1], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
+          {[NAV_LINKS[0], NAV_LINKS[2], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
             <Link
               key={l.path}
               to={l.path}
@@ -80,7 +123,7 @@ export default function Navbar() {
         <div className="hidden items-center gap-3 md:flex shrink-0">
           <Link
             to="/login"
-            className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-400 transition hover:text-white btn-outline"
+            className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-400 transition hover:text-white"
           >
             Sign In
           </Link>
@@ -98,9 +141,21 @@ export default function Navbar() {
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
         >
-          <span className={`block h-0.5 w-6 bg-slate-400 transition-all duration-300 ${open ? "rotate-45 translate-y-2" : ""}`} />
-          <span className={`block h-0.5 w-6 bg-slate-400 transition-all duration-300 ${open ? "opacity-0" : ""}`} />
-          <span className={`block h-0.5 w-6 bg-slate-400 transition-all duration-300 ${open ? "-rotate-45 -translate-y-2" : ""}`} />
+          <span
+            className={`block h-0.5 w-6 bg-slate-400 transition-all duration-300 ${
+              open ? "rotate-45 translate-y-2" : ""
+            }`}
+          />
+          <span
+            className={`block h-0.5 w-6 bg-slate-400 transition-all duration-300 ${
+              open ? "opacity-0" : ""
+            }`}
+          />
+          <span
+            className={`block h-0.5 w-6 bg-slate-400 transition-all duration-300 ${
+              open ? "-rotate-45 -translate-y-2" : ""
+            }`}
+          />
         </button>
       </div>
 
@@ -110,7 +165,7 @@ export default function Navbar() {
           <div className="mb-4 grid grid-cols-2 gap-2">
             {[...NAV_LINKS, ...MOBILE_EXTRA].map((l) => (
               <Link
-                key={l.path}
+                key={l.path + l.label}
                 to={l.path}
                 onClick={() => setOpen(false)}
                 className={`rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors ${
