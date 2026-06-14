@@ -1,29 +1,58 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "RMIE",            path: "/rmie" },
-  { label: "Command Center",  path: "/dashboard" },
-  { label: "Voice Agent",     path: "/voice-agent" },
-  { label: "Website Builder", path: "/website-builder" },
-  { label: "Domain Finder",   path: "/domain-search" },
-  { label: "Pricing",         path: "/pricing" },
-  { label: "About",           path: "/about" },
+  { label: "RMIE",        path: "/rmie" },
+  { label: "Builder",     path: "/builder" },
+  { label: "Accelerator", path: "/accelerator" },
+  { label: "Pricing",     path: "/pricing" },
+  { label: "Waitlist",    path: "/waitlist" },
+  { label: "About",       path: "/about" },
+];
+
+const PLANS_LINKS = [
+  { label: "Free Roadmap",    path: "/starter",       desc: "Start free — no card required",        icon: "🚀" },
+  { label: "Pro",             path: "/pro",            desc: "$249/mo · Full roadmap & tools",       icon: "⚡" },
+  { label: "Elite",           path: "/elite",          desc: "$499/mo · Advanced strategy & CRM",   icon: "👑" },
+  { label: "Legacy Founder",  path: "/founders",       desc: "$1,899 lifetime · 200 spots only",    icon: "♾️" },
 ];
 
 const MOBILE_EXTRA = [
   { label: "Dashboard",    path: "/dashboard" },
   { label: "Starter",      path: "/starter" },
+  { label: "Pro",          path: "/pro" },
+  { label: "Elite",        path: "/elite" },
+  { label: "Founders",     path: "/founders" },
   { label: "Funding",      path: "/funding" },
   { label: "Credit",       path: "/credit-repair" },
   { label: "Affiliate",    path: "/affiliate" },
-  { label: "Waitlist",     path: "/waitlist" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [plansOpen, setPlansOpen] = useState(false);
   const loc = useLocation();
-  const isActive = (path) => loc.pathname === path || loc.pathname.startsWith(path + "/");
+  const plansRef = useRef(null);
+
+  const isActive = (path) =>
+    loc.pathname === path || loc.pathname.startsWith(path + "/");
+
+  // Close plans dropdown on outside click
+  useEffect(() => {
+    function handleClick(e) {
+      if (plansRef.current && !plansRef.current.contains(e.target)) {
+        setPlansOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setOpen(false);
+    setPlansOpen(false);
+  }, [loc.pathname]);
 
   return (
     <nav className="sticky top-0 z-50 border-b border-[#1A2D50] bg-[#0A0F1E]/95 backdrop-blur-xl">
@@ -51,19 +80,57 @@ export default function Navbar() {
               key={l.path}
               to={l.path}
               className={`text-sm font-semibold transition-colors whitespace-nowrap ${
-                isActive(l.path)
-                  ? "text-[#FF8A00]"
-                  : "text-slate-400 hover:text-white"
+                isActive(l.path) ? "text-[#FF8A00]" : "text-slate-400 hover:text-white"
               }`}
             >
               {l.label}
             </Link>
           ))}
+
+          {/* Plans Dropdown */}
+          <div className="relative" ref={plansRef}>
+            <button
+              onClick={() => setPlansOpen((v) => !v)}
+              className={`flex items-center gap-1 text-sm font-semibold transition-colors whitespace-nowrap ${
+                ["/pro", "/elite", "/founders", "/legacy-founder", "/starter"].includes(loc.pathname)
+                  ? "text-[#FF8A00]"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              Plans
+              <svg
+                className={`h-3.5 w-3.5 transition-transform ${plansOpen ? "rotate-180" : ""}`}
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {plansOpen && (
+              <div className="absolute right-0 top-full mt-2 w-64 rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-2 shadow-xl"
+                style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}>
+                {PLANS_LINKS.map((p) => (
+                  <Link
+                    key={p.path}
+                    to={p.path}
+                    onClick={() => setPlansOpen(false)}
+                    className="flex items-start gap-3 rounded-xl px-3 py-3 hover:bg-[#1A2235] transition-colors"
+                  >
+                    <span className="mt-0.5 text-lg shrink-0">{p.icon}</span>
+                    <div>
+                      <p className="text-sm font-semibold text-white">{p.label}</p>
+                      <p className="text-xs text-slate-500">{p.desc}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Condensed nav for medium screens */}
         <div className="hidden items-center gap-4 md:flex xl:hidden">
-          {[NAV_LINKS[0], NAV_LINKS[1], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
+          {[NAV_LINKS[0], NAV_LINKS[3], NAV_LINKS[4], NAV_LINKS[5]].map((l) => (
             <Link
               key={l.path}
               to={l.path}
@@ -80,7 +147,7 @@ export default function Navbar() {
         <div className="hidden items-center gap-3 md:flex shrink-0">
           <Link
             to="/login"
-            className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-400 transition hover:text-white btn-outline"
+            className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-400 transition hover:text-white border border-[#1A2D50] hover:border-[#1A3060]"
           >
             Sign In
           </Link>
@@ -107,8 +174,9 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {open && (
         <div className="border-t border-[#1A2235] bg-[#0F1520] px-5 py-5 md:hidden">
+          <p className="mb-2 text-xs font-bold uppercase tracking-widest text-slate-600">Navigation</p>
           <div className="mb-4 grid grid-cols-2 gap-2">
-            {[...NAV_LINKS, ...MOBILE_EXTRA].map((l) => (
+            {NAV_LINKS.map((l) => (
               <Link
                 key={l.path}
                 to={l.path}
@@ -123,11 +191,48 @@ export default function Navbar() {
               </Link>
             ))}
           </div>
+
+          <p className="mb-2 text-xs font-bold uppercase tracking-widest text-slate-600">Plans</p>
+          <div className="mb-4 grid grid-cols-2 gap-2">
+            {PLANS_LINKS.map((l) => (
+              <Link
+                key={l.path}
+                to={l.path}
+                onClick={() => setOpen(false)}
+                className={`rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors ${
+                  isActive(l.path)
+                    ? "bg-[#1A2D50] text-[#FF8A00]"
+                    : "text-slate-300 hover:bg-[#1A2235] hover:text-white"
+                }`}
+              >
+                {l.icon} {l.label}
+              </Link>
+            ))}
+          </div>
+
+          <p className="mb-2 text-xs font-bold uppercase tracking-widest text-slate-600">More</p>
+          <div className="mb-4 grid grid-cols-2 gap-2">
+            {MOBILE_EXTRA.map((l) => (
+              <Link
+                key={l.path}
+                to={l.path}
+                onClick={() => setOpen(false)}
+                className={`rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors ${
+                  isActive(l.path)
+                    ? "bg-[#1A2D50] text-[#FF8A00]"
+                    : "text-slate-300 hover:bg-[#1A2235] hover:text-white"
+                }`}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </div>
+
           <div className="flex flex-col gap-2 border-t border-[#1A2235] pt-4">
             <Link
               to="/login"
               onClick={() => setOpen(false)}
-              className="rounded-lg border border-[#1A2235] px-4 py-3 text-center text-sm font-semibold text-slate-300"
+              className="rounded-lg border border-[#1A2235] px-4 py-3 text-center text-sm font-semibold text-slate-300 hover:text-white transition-colors"
             >
               Sign In
             </Link>
