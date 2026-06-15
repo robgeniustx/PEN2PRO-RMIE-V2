@@ -8,8 +8,8 @@ function useCountdown(target) {
   useEffect(() => {
     const calc = () => {
       const diff = new Date(target) - new Date();
-      if (diff <= 0) return setT({ d: 0, h: 0, m: 0, s: 0 });
-      setT({ d: Math.floor(diff / 86400000), h: Math.floor((diff % 86400000) / 3600000), m: Math.floor((diff % 3600000) / 60000), s: Math.floor((diff % 60000) / 1000) });
+      if (diff <= 0) return setT({ launched: true, d: 0, h: 0, m: 0, s: 0 });
+      setT({ launched: false, d: Math.floor(diff / 86400000), h: Math.floor((diff % 86400000) / 3600000), m: Math.floor((diff % 3600000) / 60000), s: Math.floor((diff % 60000) / 1000) });
     };
     calc();
     const id = setInterval(calc, 1000);
@@ -66,7 +66,9 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-4xl">
           <div className="animate-fade-up mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2" style={{ borderColor: 'rgba(212,160,23,0.3)', background: 'rgba(212,160,23,0.08)' }}>
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#D4A017' }}>Launching June 15, 2026 — Waitlist Open Now</span>
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#D4A017' }}>
+              {cd.launched ? "Now Live — Join the Waitlist for Full Access" : "Launching June 15, 2026 — Waitlist Open Now"}
+            </span>
           </div>
 
           <h1 className="animate-fade-up-delay font-display text-5xl font-black leading-tight tracking-tight text-white md:text-7xl">
@@ -88,19 +90,31 @@ export default function HomePage() {
           </div>
           <p className="mt-4 text-xs text-slate-600">No credit card required · Free roadmap in under 5 minutes</p>
 
-          {/* Countdown */}
+          {/* Countdown / Launched state */}
           <div className="mt-14 flex flex-col items-center">
-            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Official Launch Countdown — June 15, 2026</p>
-            <div className="flex items-center gap-3">
-              <CountBox val={cd.d} label="Days" />
-              <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
-              <CountBox val={cd.h} label="Hrs" />
-              <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
-              <CountBox val={cd.m} label="Min" />
-              <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
-              <CountBox val={cd.s} label="Sec" />
-            </div>
-            <p className="mt-3 text-xs text-slate-600">Founders pricing locks in when you join the waitlist today</p>
+            {cd.launched ? (
+              <div className="flex flex-col items-center">
+                <div className="rounded-2xl border px-8 py-4 text-center" style={{ borderColor: 'rgba(212,160,23,0.4)', background: 'rgba(212,160,23,0.08)' }}>
+                  <p className="font-display text-2xl font-black" style={{ color: '#D4A017' }}>🚀 PEN2PRO IS LIVE</p>
+                  <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-slate-400">Launched June 15, 2026</p>
+                </div>
+                <p className="mt-3 text-xs text-slate-600">Join the waitlist to lock in Founders pricing before it closes</p>
+              </div>
+            ) : (
+              <>
+                <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Official Launch Countdown — June 15, 2026</p>
+                <div className="flex items-center gap-3">
+                  <CountBox val={cd.d} label="Days" />
+                  <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
+                  <CountBox val={cd.h} label="Hrs" />
+                  <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
+                  <CountBox val={cd.m} label="Min" />
+                  <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
+                  <CountBox val={cd.s} label="Sec" />
+                </div>
+                <p className="mt-3 text-xs text-slate-600">Founders pricing locks in when you join the waitlist today</p>
+              </>
+            )}
           </div>
         </div>
       </section>
