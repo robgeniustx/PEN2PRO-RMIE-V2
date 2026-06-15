@@ -1,29 +1,59 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "RMIE",            path: "/rmie" },
-  { label: "Command Center",  path: "/dashboard" },
-  { label: "Voice Agent",     path: "/voice-agent" },
-  { label: "Website Builder", path: "/website-builder" },
-  { label: "Domain Finder",   path: "/domain-search" },
-  { label: "Pricing",         path: "/pricing" },
-  { label: "About",           path: "/about" },
+  { label: "About",       path: "/about" },
+  { label: "Starter",     path: "/starter" },
+  { label: "Builder",     path: "/builder" },
+  { label: "Accelerator", path: "/accelerator" },
+  { label: "Pricing",     path: "/pricing" },
+  { label: "Waitlist",    path: "/waitlist" },
+];
+
+const PLANS_LINKS = [
+  { label: "Free Roadmap",    path: "/starter",       desc: "Start building — no credit card",  badge: "Free" },
+  { label: "Pro",             path: "/pro",            desc: "Full roadmap + execution tools",    badge: "$249/mo" },
+  { label: "Elite",           path: "/elite",          desc: "Advanced strategy + funding ready", badge: "$499/mo" },
+  { label: "Legacy Founder",  path: "/founders",       desc: "Lifetime access — 200 spots only",  badge: "$1,899" },
 ];
 
 const MOBILE_EXTRA = [
-  { label: "Dashboard",    path: "/dashboard" },
-  { label: "Starter",      path: "/starter" },
-  { label: "Funding",      path: "/funding" },
-  { label: "Credit",       path: "/credit-repair" },
-  { label: "Affiliate",    path: "/affiliate" },
-  { label: "Waitlist",     path: "/waitlist" },
+  { label: "Dashboard",   path: "/dashboard" },
+  { label: "Funding",     path: "/funding" },
+  { label: "Credit",      path: "/credit-repair" },
+  { label: "Affiliate",   path: "/affiliate" },
+  { label: "Pro Plan",    path: "/pro" },
+  { label: "Elite Plan",  path: "/elite" },
+  { label: "Founders",    path: "/founders" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [plansOpen, setPlansOpen] = useState(false);
   const loc = useLocation();
-  const isActive = (path) => loc.pathname === path || loc.pathname.startsWith(path + "/");
+  const plansRef = useRef(null);
+
+  const isActive = (path) =>
+    loc.pathname === path || loc.pathname.startsWith(path + "/");
+
+  // Close Plans dropdown on outside click
+  useEffect(() => {
+    function handler(e) {
+      if (plansRef.current && !plansRef.current.contains(e.target)) {
+        setPlansOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setOpen(false);
+    setPlansOpen(false);
+  }, [loc.pathname]);
+
+  const planActive = ["/pro", "/elite", "/founders", "/legacy-founder", "/starter"].some((p) => loc.pathname === p);
 
   return (
     <nav className="sticky top-0 z-50 border-b border-[#1A2D50] bg-[#0A0F1E]/95 backdrop-blur-xl">
@@ -59,11 +89,51 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
+
+          {/* Plans Dropdown */}
+          <div className="relative" ref={plansRef}>
+            <button
+              onClick={() => setPlansOpen(!plansOpen)}
+              className={`flex items-center gap-1 text-sm font-semibold transition-colors whitespace-nowrap ${
+                planActive || plansOpen ? "text-[#FF8A00]" : "text-slate-400 hover:text-white"
+              }`}
+            >
+              Plans
+              <svg
+                className={`h-3.5 w-3.5 transition-transform duration-200 ${plansOpen ? "rotate-180" : ""}`}
+                fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {plansOpen && (
+              <div className="absolute right-0 top-full mt-2.5 w-72 rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-2 shadow-2xl shadow-black/50">
+                {PLANS_LINKS.map((p) => (
+                  <Link
+                    key={p.path}
+                    to={p.path}
+                    className="flex items-start gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-[#1A2235]"
+                  >
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-semibold text-white">{p.label}</span>
+                        <span className="rounded-full bg-[#0A0F1E] border border-[#1A2D50] px-2 py-0.5 text-[10px] font-bold text-slate-400">
+                          {p.badge}
+                        </span>
+                      </div>
+                      <p className="mt-0.5 text-xs text-slate-500">{p.desc}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Condensed nav for medium screens */}
         <div className="hidden items-center gap-4 md:flex xl:hidden">
-          {[NAV_LINKS[0], NAV_LINKS[1], NAV_LINKS[5], NAV_LINKS[6]].map((l) => (
+          {[NAV_LINKS[0], NAV_LINKS[2], NAV_LINKS[4], NAV_LINKS[5]].map((l) => (
             <Link
               key={l.path}
               to={l.path}
