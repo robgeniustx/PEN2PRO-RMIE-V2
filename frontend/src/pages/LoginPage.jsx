@@ -5,6 +5,37 @@ import Footer from "../components/layout/Footer";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
+const TIER_BENEFITS = [
+  {
+    icon: "🆓",
+    name: "Free Roadmap",
+    badge: "Free Forever",
+    badgeColor: "text-slate-400",
+    desc: "1 AI business roadmap with startup checklist, 7-day launch plan, and brand name ideas. No credit card ever.",
+  },
+  {
+    icon: "⚡",
+    name: "Pro — $249/mo",
+    badge: "Most Popular",
+    badgeColor: "text-[#5ab0ff]",
+    desc: "Full 90-day execution plan, sales scripts, credit readiness checklist, PDF export, and AI refinement.",
+  },
+  {
+    icon: "🏆",
+    name: "Elite — $499/mo",
+    badge: "Best Value",
+    badgeColor: "text-teal-400",
+    desc: "Financial projections, funding partner network, done-with-you guidance, vendor center, and priority support.",
+  },
+  {
+    icon: "♾️",
+    name: "Founders Lifetime — $1,899",
+    badge: "200 Spots Only",
+    badgeColor: "text-[#D4A017]",
+    desc: "Lifetime access to every PEN2PRO tool. Command Center, Voice Agent, Website Builder, and 12-month 10M framework.",
+  },
+];
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -77,22 +108,68 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
-              P2P
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-12">
+        <div className="w-full max-w-5xl grid md:grid-cols-[1fr_420px] gap-12 items-center">
+
+          {/* LEFT PANEL — Benefits */}
+          <div className="hidden md:block">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold uppercase tracking-widest" style={{ color: '#FF8A00' }}>
+              ⚡ PEN2PRO Platform
             </div>
-            <h1 className="font-display text-3xl font-bold text-white">
-              {tab === "login" ? "Welcome back" : "Create your account"}
-            </h1>
-            <p className="mt-2 text-sm text-slate-400">
-              {tab === "login"
-                ? "Sign in to access your PEN2PRO dashboard"
-                : "Start building your business roadmap today"}
+            <h2 className="font-display text-3xl font-black text-white leading-tight mb-3">
+              Build your business roadmap.<br />
+              Save your blueprint.<br />
+              Upgrade when ready.
+            </h2>
+            <p className="text-slate-400 text-sm leading-relaxed mb-8">
+              Turn your idea into a real action plan — AI roadmaps, funding readiness, credit strategy, and execution support built for entrepreneurs who are serious.
+            </p>
+            <div className="space-y-3">
+              {TIER_BENEFITS.map((tier) => (
+                <div key={tier.name} className="rounded-xl border border-[#1A2235] bg-[#0F1520] p-4 flex items-start gap-3">
+                  <span className="text-xl shrink-0 mt-0.5">{tier.icon}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <span className="text-sm font-bold text-white">{tier.name}</span>
+                      <span className={`text-[10px] font-black uppercase tracking-widest ${tier.badgeColor}`}>{tier.badge}</span>
+                    </div>
+                    <p className="text-xs text-slate-500 leading-relaxed">{tier.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-5 text-xs text-slate-600">
+              Already have a roadmap? Sign in to access your dashboard and upgrade path.
             </p>
           </div>
+
+          {/* RIGHT PANEL — Form */}
+          <div className="w-full">
+            {/* Mobile header (hidden on desktop since left panel shows it) */}
+            <div className="text-center mb-6 md:hidden">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl gradient-gold text-base font-black text-[#080C14]">
+                P2P
+              </div>
+              <h1 className="font-display text-2xl font-bold text-white">
+                {tab === "login" ? "Welcome back" : "Create your account"}
+              </h1>
+              <p className="mt-1 text-sm text-slate-400">
+                {tab === "login"
+                  ? "Sign in to access your PEN2PRO dashboard"
+                  : "Start building your business roadmap today"}
+              </p>
+            </div>
+            {/* Desktop header above form */}
+            <div className="hidden md:block text-center mb-6">
+              <h1 className="font-display text-2xl font-bold text-white">
+                {tab === "login" ? "Welcome back" : "Create your account"}
+              </h1>
+              <p className="mt-1 text-sm text-slate-400">
+                {tab === "login"
+                  ? "Sign in to access your dashboard"
+                  : "Free to start — no credit card required"}
+              </p>
+            </div>
 
           {/* Card */}
           <div className="rounded-2xl border border-[#1A2235] p-8" style={{ background: "#0F1520" }}>
@@ -230,7 +307,8 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
-        </div>
+          </div>{/* end right panel */}
+        </div>{/* end grid */}
       </div>
       <Footer />
     </div>
