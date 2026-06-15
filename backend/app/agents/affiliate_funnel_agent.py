@@ -1,13 +1,22 @@
-from .base_agent import BaseAgent
-from app.services.affiliate_service import generate_affiliate_funnel, generate_traffic_plan
+from app.agents.base_agent import BaseAgent, call_ai
+import json
 
 class AffiliateFunnelAgent(BaseAgent):
     name = "Affiliate Funnel Agent"
-    description = "Creates beginner-friendly affiliate funnels and traffic plans."
+    description = "Designs complete affiliate marketing funnels."
     tier_required = "elite"
 
-    def validate_input(self, request_data):
-        return "tier" in request_data
+    def validate_input(self, payload):
+        return bool(payload.get("idea") or payload.get("request"))
 
-    def run(self, request_data):
-        return {"funnel": generate_affiliate_funnel(request_data), "traffic_plan": generate_traffic_plan(request_data)}
+    def run(self, payload):
+        idea = payload.get("idea") or payload.get("request", "")
+        system = "You are PEN2PRO. Design affiliate funnels that generate passive income."
+        user = f"Niche/Product: {idea}\nReturn JSON: {{\"funnel_stages\": [{{\"stage\": \"Awareness\", \"tactic\": \"...\"}}, {{\"stage\": \"Interest\", \"tactic\": \"...\"}}, {{\"stage\": \"Decision\", \"tactic\": \"...\"}}, {{\"stage\": \"Action\", \"tactic\": \"...\"}}], \"lead_magnet\": \"...\", \"email_sequence_overview\": [\"Email 1\", \"Email 2\", \"Email 3\"], \"monthly_income_estimate\": \"...\"}}"
+        raw = call_ai(system, user, max_tokens=700)
+        try:
+            clean = raw.strip().lstrip("```json").lstrip("```").rstrip("```").strip()
+            result = json.loads(clean)
+        except Exception:
+            result = {"output": raw}
+        return {"status": "ok", "agent_key": "affiliate_funnel", "funnel": result}

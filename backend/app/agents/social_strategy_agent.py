@@ -1,53 +1,38 @@
-from app.agents.base_agent import BaseAgent
-
+from app.agents.base_agent import BaseAgent, call_ai
+import json
 
 class SocialStrategyAgent(BaseAgent):
     name = "Social Strategy Agent"
-    description = "Generates multi-platform social strategy."
+    description = "Builds a platform-specific social media strategy."
     tier_required = "pro"
 
     def validate_input(self, payload):
-        return bool(
-            payload.get("business_name")
-            or payload.get("offer")
-            or payload.get("business_idea")
-            or payload.get("idea")
-            or payload.get("request")
-        )
+        return bool(payload.get("idea") or payload.get("business_idea") or payload.get("request"))
 
     def run(self, payload):
-        business_name = payload.get("business_name", "Your Business")
-        offer = payload.get("offer") or payload.get("business_idea") or payload.get("idea") or payload.get("request")
-        audience = payload.get("audience", "target customers")
-        industry = payload.get("industry", "business")
+        idea = payload.get("idea") or payload.get("business_idea") or payload.get("request", "")
+        platforms = payload.get("platforms", ["Instagram", "Facebook"])
 
-        return {
-            "status": "ok",
-            "agent_key": "social_strategy",
-            "business_name": business_name,
-            "industry": industry,
-            "offer": offer,
-            "audience": audience,
-            "platforms": {
-                "tiktok": {
-                    "content_style": "Short direct hooks, founder story, before-and-after transformation.",
-                    "posting_focus": "Awareness and curiosity."
-                },
-                "instagram": {
-                    "content_style": "Carousels, reels, proof posts, and founder credibility.",
-                    "posting_focus": "Trust-building and engagement."
-                },
-                "facebook": {
-                    "content_style": "Community posts, local proof, customer education, and offer posts.",
-                    "posting_focus": "Lead generation and local trust."
-                }
-            },
-            "weekly_plan": [
-                "2 pain-point posts",
-                "2 educational posts",
-                "1 founder story post",
-                "1 offer explanation post",
-                "1 proof or testimonial post"
-            ],
-            "message": "Social Strategy Agent placeholder is connected successfully."
-        }
+        system = "You are PEN2PRO's social media strategist. Build specific, executable social strategies for small businesses."
+        user = f"""
+Build a social media strategy for: {idea}
+Platforms: {platforms}
+
+Return JSON:
+{{
+  "platform_focus": "Which platform to prioritize first and why",
+  "content_mix": {{"educational": "30%", "promotional": "20%", "social_proof": "25%", "behind_scenes": "25%"}},
+  "weekly_schedule": [{{"day": "Monday", "content_type": "...", "example": "..."}}, {{"day": "Wednesday", "content_type": "...", "example": "..."}}, {{"day": "Friday", "content_type": "...", "example": "..."}}],
+  "growth_tactics": ["Tactic 1", "Tactic 2", "Tactic 3"],
+  "profile_optimization": ["Tip 1", "Tip 2", "Tip 3"],
+  "first_30_days_goal": "Specific follower/engagement target and how to hit it"
+}}
+Return ONLY valid JSON.
+"""
+        raw = call_ai(system, user, max_tokens=800)
+        try:
+            clean = raw.strip().lstrip("```json").lstrip("```").rstrip("```").strip()
+            result = json.loads(clean)
+        except Exception:
+            result = {"raw_output": raw}
+        return {"status": "ok", "agent_key": "social_strategy", "strategy": result}

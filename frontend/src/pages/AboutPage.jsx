@@ -37,6 +37,50 @@ const MISSION_POINTS = [
   },
 ];
 
+const PERSONAL_STATEMENT = [
+  { body: "There was a time in my life when everything around me looked broken." },
+  { body: "Opportunities were limited. Doors kept closing. Every mistake I made seemed to follow me longer than any good thing I had ever done. I carried frustration, anger, doubt, and the heavy feeling of knowing there was more inside of me than what the world could see on the surface." },
+  { body: "During my incarceration, I was faced with a choice.", emphasis: true },
+  { body: "I could accept the labels placed on me and become another statistic, or I could rebuild myself from the inside out." },
+  { body: "That process was not easy. Real change never is." },
+  { body: "There were nights filled with regret, mornings filled with uncertainty, and moments when giving up felt easier than believing in a future I could not yet see. But even in that darkness, I held on to one thought:" },
+  { body: "Any effort toward something positive had to be better than where I was and what I had already experienced.", callout: true },
+  { body: "Even the smallest step forward meant something. Even a little progress was still progress. That mindset became the beginning of my transformation." },
+  { body: "Somewhere along the way, I realized something that changed my life:" },
+  { body: "Your environment does not have to define your destiny.", emphasis: true },
+  { body: "Your past may explain parts of your story, but it does not own your future.", emphasis: true },
+  { body: "And the same energy used to survive difficult seasons can become the same energy used to build an extraordinary life.", emphasis: true },
+  { body: "That realization became the foundation for everything that came after." },
+  { body: "I started studying business, strategy, branding, mindset, discipline, leadership, and personal growth. I became obsessed with understanding how successful people think, move, build, and create opportunities. I learned that wealth is not just money. Wealth is knowledge. Wealth is execution. Wealth is discipline. Wealth is believing in yourself long enough to keep going when nobody else can see what you see." },
+  { body: "That journey started with XLR8 Pressure Washing and eventually led to XLR8 Trade Academy and PEN2PRO." },
+  { body: "What began as a mission to rebuild my own life became a mission to help others rebuild theirs.", emphasis: true },
+  { body: "The opportunities became limitless once I stopped allowing my past to define my future." },
+  { body: "PEN2PRO was not created by someone who was handed every opportunity.", emphasis: true },
+  { body: "It was built through struggle, pressure, setbacks, sacrifice, discipline, rebuilding, and vision. It was built by someone who knows what it feels like to be counted out, overlooked, judged, and underestimated." },
+  { body: "And it was built for people who know they are capable of more but need direction, structure, strategy, tools, and belief to unlock what is already inside of them." },
+  { body: "PEN2PRO is bigger than software.", emphasis: true },
+  { body: "It is proof that transformation is possible." },
+  { body: "It is proof that someone can come from hardship and still create something meaningful." },
+  { body: "It is proof that ideas can become income, pain can become purpose, and setbacks can become fuel for a completely different future." },
+  { body: "But none of this happens without commitment.", emphasis: true },
+  { body: "No app, system, mentor, course, or opportunity can change a person who is not willing to change themselves." },
+  { body: "The people who truly win are the ones who finally decide:" },
+  { body: "“I’m tired of surviving. I’m ready to build.”", callout: true },
+  { body: "They dedicate themselves to growth.\nThey stay disciplined when motivation disappears.\nThey keep learning when things get difficult.\nThey stop making excuses and start making progress.", list: true },
+  { body: "And over time, that consistency changes everything." },
+  { body: "The truth is, many people are only one decision away from a completely different life.", emphasis: true },
+  { body: "One decision to believe in themselves again.\nOne decision to stop letting fear control them.\nOne decision to stop living beneath their potential.\nOne decision to finally commit to becoming the person they were created to be.", list: true },
+  { body: "Your current chapter is not your final chapter.", emphasis: true },
+  { body: "No matter where you started.\nNo matter what people said about you.\nNo matter how many times life knocked you down.\nNo matter how long you have felt stuck.", list: true },
+  { body: "You still have purpose.\nYou still have value.\nYou still have greatness inside of you waiting to be activated.", list: true },
+  { body: "For those willing to commit to growth, discipline, execution, and transformation, PEN2PRO exists to help turn vision into reality." },
+  { body: "Because redemption is real.\nGrowth is real.\nSuccess is possible.", list: true },
+  { body: "And sometimes, the person the world counted out becomes the very person who inspires others to believe in themselves again." },
+  { body: "That is what PEN2PRO represents.", emphasis: true },
+  { body: "That is what my life represents.", emphasis: true },
+  { body: "And this is only the beginning.", callout: true },
+];
+
 export default function AboutPage() {
   useEffect(() => {
     // ── Page title ──
@@ -50,7 +94,7 @@ export default function AboutPage() {
       el.setAttribute("content", content);
     };
 
-    setMeta("description", "PEN2PRO was built by Robert Green after coming home from prison and having job offers rescinded. A second-chance engine that turns ideas into real business roadmaps for entrepreneurs, veterans, returning citizens, and working-class builders.");
+    setMeta("description", "PEN2PRO was built by Robert Green from struggle, pressure, discipline, rebuilding, and vision. A second-chance engine that turns ideas into real business roadmaps for entrepreneurs, veterans, returning citizens, and working-class builders.");
     setMeta("keywords", "PEN2PRO, RMIE, AI business roadmap, business plan for returning citizens, veteran entrepreneur, free business roadmap, business funding guidance, AI business plan generator, Houston entrepreneur, business plan generator, second chance business, business roadmap tool, Rapid Monetization Intelligence Engine, small business roadmap, entrepreneur tools for returning citizens, business plan for veterans, business startup guide");
     setMeta("author", "Robert Earl Green Jr.");
     setMeta("robots", "index, follow");
@@ -58,7 +102,7 @@ export default function AboutPage() {
     // ── Open Graph ──
     setMeta("og:type", "website", true);
     setMeta("og:title", "About PEN2PRO | Built From Setbacks — AI Business Roadmap for Everyone", true);
-    setMeta("og:description", "Robert Green built PEN2PRO from lived experience. After having job offers rescinded, he built his own path. Now RMIE helps you do the same — real roadmaps, real strategy, real execution.", true);
+    setMeta("og:description", "Robert Green built PEN2PRO from lived experience, transformation, discipline, and vision. Now RMIE helps overlooked builders turn ideas into income with real roadmaps, real strategy, and real execution.", true);
     setMeta("og:url", "https://pen2pro.com/about", true);
     setMeta("og:site_name", "PEN2PRO", true);
 
@@ -162,33 +206,33 @@ export default function AboutPage() {
           </div>
 
           <div className="space-y-6 text-[1.05rem] leading-[1.85] text-slate-300">
-            <p>
-              Robert Green did not create PEN2PRO from a comfortable office or a perfect path. He created it from pressure, rejection, discipline, and the refusal to stay stuck.
-            </p>
-            <p>
-              After coming home from prison, Robert tried to rebuild his life the way people tell you to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give you a chance. More than once, he earned the opportunity. The interviews went well. The job offers came.
-            </p>
-            <p className="font-semibold text-white text-xl border-l-4 border-[#FF8A00] pl-5">
-              Then the background checks followed. The offers were rescinded.
-            </p>
-            <p>
-              That kind of rejection can break a person. For a moment, it almost did. After a day of moping, frustration, and asking why doors kept closing, Robert made a decision. He picked his head up and took off running.
-            </p>
-            <p className="font-semibold text-white">
-              If the system would not give him a path, he would build one.
-            </p>
-            <p>
-              That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO.
-            </p>
-            <p>
-              PEN2PRO is Robert's way of sharing the success, the heartbreak, the lessons, the failures, and the strategies with the world. It is built for people with ideas but no structure. People with skills but no roadmap. People with ambition but limited resources. People who have been overlooked, underestimated, or counted out.
-            </p>
-            <p>
-              PEN2PRO RMIE — Rapid Monetization Intelligence Engine — was created to help users turn an idea into a realistic action plan. It gives people more than motivation. It gives them business structure, launch steps, monetization strategy, credit and funding readiness, branding direction, and a path toward execution.
-            </p>
-            <p className="text-lg font-bold text-white">
-              This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
-            </p>
+            {PERSONAL_STATEMENT.map((item) => {
+              if (item.list) {
+                return (
+                  <div key={item.body} className="space-y-2">
+                    {item.body.split("\n").map((line) => (
+                      <p key={line} className="font-semibold text-slate-200">
+                        {line}
+                      </p>
+                    ))}
+                  </div>
+                );
+              }
+
+              if (item.callout) {
+                return (
+                  <p key={item.body} className="border-l-4 border-[#FF8A00] pl-5 text-xl font-bold text-white">
+                    {item.body}
+                  </p>
+                );
+              }
+
+              return (
+                <p key={item.body} className={item.emphasis ? "text-lg font-bold text-white" : undefined}>
+                  {item.body}
+                </p>
+              );
+            })}
           </div>
 
           {/* Founder Badge */}
