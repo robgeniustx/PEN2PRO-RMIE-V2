@@ -21,7 +21,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import VoiceAgentPage from "../pages/VoiceAgentPage";
 import WebsiteBuilderPage from "../pages/WebsiteBuilderPage";
 
-// ── New Phase 1 pages ──
+// ── Phase 1 pages ──
 import AboutPage from "../pages/AboutPage";
 import BusinessOSPage from "../pages/BusinessOSPage";
 import RMIEPage from "../pages/RMIEPage";
@@ -32,6 +32,13 @@ import WebsiteBuilderLandingPage from "../pages/WebsiteBuilderLandingPage";
 import WebsiteBuilderSubPage from "../pages/WebsiteBuilderSubPage";
 import DomainSearchPage from "../pages/DomainSearchPage";
 import AgentCommandCenterPage from "../pages/AgentCommandCenterPage";
+
+// ── Tier & Feature pages ──
+import ProPage from "../pages/ProPage";
+import ElitePage from "../pages/ElitePage";
+import FoundersPage from "../pages/FoundersPage";
+import BuilderPage from "../pages/BuilderPage";
+import AcceleratorPage from "../pages/AcceleratorPage";
 
 export default function AppRoutes() {
   return (
@@ -115,13 +122,20 @@ export default function AppRoutes() {
       <Route path="/admin/feature-usage" element={<AdminFeatureUsagePage />} />
       <Route path="/admin/conversions" element={<AdminConversionsPage />} />
 
+      {/* ── Tier Plan Pages ── */}
+      <Route path="/pro" element={<ProPage />} />
+      <Route path="/elite" element={<ElitePage />} />
+      <Route path="/founders" element={<FoundersPage />} />
+      <Route path="/legacy-founder" element={<FoundersPage />} />
+      <Route path="/builder" element={<BuilderPage />} />
+      <Route path="/accelerator" element={<AcceleratorPage />} />
+
+      {/* ── Checkout Aliases ── */}
+      <Route path="/checkout/pro" element={<ProPage />} />
+      <Route path="/checkout/elite" element={<ElitePage />} />
+      <Route path="/checkout/founders" element={<FoundersPage />} />
+
       {/* ── Aliases / Redirects ── */}
-      <Route path="/founders" element={<Navigate to="/waitlist?tier=founders" replace />} />
-      <Route path="/legacy-founder" element={<Navigate to="/waitlist?tier=founders" replace />} />
-      <Route path="/pro" element={<Navigate to="/pricing#pro" replace />} />
-      <Route path="/elite" element={<Navigate to="/pricing#elite" replace />} />
-      <Route path="/builder" element={<Navigate to="/command-center" replace />} />
-      <Route path="/accelerator" element={<Navigate to="/rmie" replace />} />
       <Route path="/features" element={<Navigate to="/#features" replace />} />
       <Route path="/crm" element={<Navigate to="/command-center" replace />} />
       <Route path="/contacts" element={<Navigate to="/dashboard/contacts" replace />} />
