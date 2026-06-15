@@ -145,12 +145,11 @@ function CountBox({ val, label }) {
 
 function PlanCard({ plan }) {
   const [checkoutError, setCheckoutError] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const isFeatured = plan.id === "pro";
   const isFounders = plan.id === "founders";
 
-  const handlePlanClick = async () => {
+  const handlePlanClick = () => {
     setCheckoutError("");
 
     if (plan.id === "free" || !plan.stripe_tier) {
@@ -158,23 +157,8 @@ function PlanCard({ plan }) {
       return;
     }
 
-    setLoading(true);
-
-    try {
-      const result = await createCheckoutSession({ tier: plan.stripe_tier });
-
-      if (result?.checkout_url) {
-        window.location.href = result.checkout_url;
-        return;
-      }
-
-      setCheckoutError(result?.error || "Checkout is not configured yet.");
-    } catch (error) {
-      console.error("Pricing checkout error:", error);
-      setCheckoutError("Unable to start checkout. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    // Route to dedicated checkout page for plan review before Stripe
+    window.location.href = `/checkout/${plan.stripe_tier}`;
   };
 
   return (
@@ -237,8 +221,7 @@ function PlanCard({ plan }) {
       <button
         type="button"
         onClick={handlePlanClick}
-        disabled={loading}
-        className={`mt-6 block w-full rounded-xl py-3 text-center text-sm font-black transition disabled:cursor-not-allowed disabled:opacity-60 ${
+        className={`mt-6 block w-full rounded-xl py-3 text-center text-sm font-black transition ${
           isFeatured
             ? "bg-[#2d9cff] text-[#081226]"
             : isFounders
@@ -246,7 +229,7 @@ function PlanCard({ plan }) {
               : "border border-[#1A2D50] text-slate-200 hover:border-slate-400"
         }`}
       >
-        {loading ? "Starting Checkout..." : plan.cta || "Get Started"}
+        {plan.cta || "Get Started"}
       </button>
 
       {checkoutError ? (
@@ -329,7 +312,7 @@ export default function PricingPage() {
       <section className="px-5 pb-16 pt-20 text-center">
         <div className="mx-auto max-w-4xl">
           <p className="mb-3 text-xs font-black uppercase tracking-[0.3em] text-[#5ab0ff]">
-            Launching {pricing.launch_date}
+            Now Live · Launched {pricing.launch_date}
           </p>
 
           <h1 className="mb-4 font-display text-4xl font-black leading-tight md:text-6xl">
@@ -353,7 +336,7 @@ export default function PricingPage() {
               to="/waitlist"
               className="rounded-xl border border-[#1A2D50] px-7 py-3 text-sm font-bold text-slate-200 transition hover:border-slate-400 hover:text-white"
             >
-              Join Launch Waitlist
+              Join Waitlist
             </Link>
           </div>
 
@@ -456,11 +439,14 @@ export default function PricingPage() {
             This offer will not last long. We are only accepting 200 Founders.
           </p>
 
-          <div className="mb-6 flex justify-center gap-3">
-            <CountBox val={t.days} label="Days" />
-            <CountBox val={t.hours} label="Hours" />
-            <CountBox val={t.minutes} label="Min" />
-            <CountBox val={t.seconds} label="Sec" />
+          <div className="mb-6 flex justify-center">
+            <div className="inline-flex items-center gap-3 rounded-2xl border border-[#d4af37]/40 bg-[#d4af37]/08 px-6 py-4">
+              <span className="text-xl">🎉</span>
+              <div className="text-left">
+                <p className="font-black text-sm text-[#d4af37]">Founders Access Is Open — June 15, 2026</p>
+                <p className="text-xs text-slate-400 mt-0.5">Limited to 200 lifetime Founders spots</p>
+              </div>
+            </div>
           </div>
 
           <div className="grid gap-2 text-sm text-slate-200 md:grid-cols-2">
