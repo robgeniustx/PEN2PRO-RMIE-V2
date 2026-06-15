@@ -38,13 +38,20 @@ const MISSION_POINTS = [
 ];
 
 const PERSONAL_STATEMENT = [
-  { body: "There was a time in my life when everything around me looked broken." },
-  { body: "Opportunities were limited. Doors kept closing. Every mistake I made seemed to follow me longer than any good thing I had ever done. I carried frustration, anger, doubt, and the heavy feeling of knowing there was more inside of me than what the world could see on the surface." },
-  { body: "During my incarceration, I was faced with a choice.", emphasis: true },
-  { body: "I could accept the labels placed on me and become another statistic, or I could rebuild myself from the inside out." },
-  { body: "That process was not easy. Real change never is." },
-  { body: "There were nights filled with regret, mornings filled with uncertainty, and moments when giving up felt easier than believing in a future I could not yet see. But even in that darkness, I held on to one thought:" },
-  { body: "Any effort toward something positive had to be better than where I was and what I had already experienced.", callout: true },
+  { body: "Robert Green did not create PEN2PRO from a perfect path. He created it from pressure, rejection, discipline, and the refusal to stay stuck." },
+  { body: "After coming home from prison, Robert tried to rebuild his life the way people are told to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give you a chance. More than once, he earned the opportunity. The interviews went well. The job offers came." },
+  { body: "Then the background checks followed.", emphasis: true },
+  { body: "The offers were rescinded.", callout: true },
+  { body: "That kind of rejection can break a person. For a moment, it almost did." },
+  { body: "After a day of moping, frustration, and asking why doors kept closing, Robert made a decision. He picked his head up and took off running.", emphasis: true },
+  { body: "If the system would not give him a path, he would build one.", callout: true },
+  { body: "That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO." },
+  { body: "PEN2PRO is Robert's way of sharing the success, the heartbreak, the lessons, the failures, and the strategies with the world. It is built for people with ideas but no structure. People with skills but no roadmap. People with ambition but limited resources. People who have been overlooked, underestimated, or counted out." },
+  { body: "——", emphasis: false },
+  { body: "There was a time before all of that when everything around him looked broken." },
+  { body: "Opportunities were limited. Doors kept closing. Every mistake he made seemed to follow him longer than any good thing he had ever done. During his incarceration, he was faced with a choice:", emphasis: true },
+  { body: "Accept the labels placed on him and become another statistic — or rebuild from the inside out." },
+  { body: "Any effort toward something positive had to be better than where he was and what he had already experienced.", callout: true },
   { body: "Even the smallest step forward meant something. Even a little progress was still progress. That mindset became the beginning of my transformation." },
   { body: "Somewhere along the way, I realized something that changed my life:" },
   { body: "Your environment does not have to define your destiny.", emphasis: true },
@@ -207,6 +214,10 @@ export default function AboutPage() {
 
           <div className="space-y-6 text-[1.05rem] leading-[1.85] text-slate-300">
             {PERSONAL_STATEMENT.map((item) => {
+              if (item.body === "——") {
+                return <hr key="divider" className="border-[#1A2D50] my-2" />;
+              }
+
               if (item.list) {
                 return (
                   <div key={item.body} className="space-y-2">

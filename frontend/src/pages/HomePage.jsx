@@ -1,33 +1,7 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
-function useCountdown(target) {
-  const [t, setT] = useState({});
-  useEffect(() => {
-    const calc = () => {
-      const diff = new Date(target) - new Date();
-      if (diff <= 0) return setT({ d: 0, h: 0, m: 0, s: 0 });
-      setT({ d: Math.floor(diff / 86400000), h: Math.floor((diff % 86400000) / 3600000), m: Math.floor((diff % 3600000) / 60000), s: Math.floor((diff % 60000) / 1000) });
-    };
-    calc();
-    const id = setInterval(calc, 1000);
-    return () => clearInterval(id);
-  }, [target]);
-  return t;
-}
-
-function CountBox({ val, label }) {
-  return (
-    <div className="countdown-box flex flex-col items-center rounded-xl px-4 py-3 min-w-[70px]">
-      <span className="font-display text-3xl font-black tabular-nums leading-none" style={{ color: '#D4A017' }}>
-        {String(val ?? 0).padStart(2, "0")}
-      </span>
-      <span className="mt-1 text-[10px] font-bold uppercase tracking-widest text-slate-500">{label}</span>
-    </div>
-  );
-}
 
 const FEATURES = [
   { icon: "🗺️", title: "AI Business Roadmap", desc: "7-day, 30-day, and 90-day execution plans built for your idea, market, and budget — not generic advice." },
@@ -52,8 +26,6 @@ const TIERS = [
 ];
 
 export default function HomePage() {
-  const cd = useCountdown("2026-06-15T09:00:00");
-
   return (
     <div className="min-h-screen bg-[#080C14]">
       <Navbar />
@@ -66,7 +38,7 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-4xl">
           <div className="animate-fade-up mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2" style={{ borderColor: 'rgba(212,160,23,0.3)', background: 'rgba(212,160,23,0.08)' }}>
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#D4A017' }}>Launching June 15, 2026 — Waitlist Open Now</span>
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#D4A017' }}>Now Live — Founding Spots Still Available</span>
           </div>
 
           <h1 className="animate-fade-up-delay font-display text-5xl font-black leading-tight tracking-tight text-white md:text-7xl">
@@ -88,19 +60,20 @@ export default function HomePage() {
           </div>
           <p className="mt-4 text-xs text-slate-600">No credit card required · Free roadmap in under 5 minutes</p>
 
-          {/* Countdown */}
+          {/* Live Launch Block */}
           <div className="mt-14 flex flex-col items-center">
-            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Official Launch Countdown — June 15, 2026</p>
-            <div className="flex items-center gap-3">
-              <CountBox val={cd.d} label="Days" />
-              <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
-              <CountBox val={cd.h} label="Hrs" />
-              <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
-              <CountBox val={cd.m} label="Min" />
-              <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
-              <CountBox val={cd.s} label="Sec" />
+            <div className="flex flex-wrap items-center justify-center gap-6 rounded-2xl border border-[#1A2235] bg-[#0F1520] px-8 py-5">
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-sm font-bold text-emerald-400">PEN2PRO Is Live</span>
+              </div>
+              <div className="hidden sm:block h-4 w-px bg-[#1A2235]" />
+              <span className="text-xs text-slate-500 font-semibold">2,847+ Roadmaps Generated</span>
+              <div className="hidden sm:block h-4 w-px bg-[#1A2235]" />
+              <span className="text-xs text-slate-500 font-semibold">136 / 200 Founding Spots Claimed</span>
+              <div className="hidden sm:block h-4 w-px bg-[#1A2235]" />
+              <Link to="/waitlist" className="text-xs font-black uppercase tracking-wider hover:opacity-80 transition" style={{ color: '#D4A017' }}>Claim Your Spot →</Link>
             </div>
-            <p className="mt-3 text-xs text-slate-600">Founders pricing locks in when you join the waitlist today</p>
           </div>
         </div>
       </section>
