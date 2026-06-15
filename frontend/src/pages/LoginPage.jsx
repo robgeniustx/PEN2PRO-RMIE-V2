@@ -5,6 +5,33 @@ import Footer from "../components/layout/Footer";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
+const TIER_BENEFITS = [
+  {
+    icon: "🗺️",
+    tier: "Free Roadmap",
+    color: "#D4A017",
+    desc: "1 AI-generated business blueprint with 7-day action plan, startup checklist, and brand name ideas.",
+  },
+  {
+    icon: "⚡",
+    tier: "Pro — $249/mo",
+    color: "#2d9cff",
+    desc: "Full 90-day roadmap, sales scripts, credit & funding readiness, PDF export, and AI refinement.",
+  },
+  {
+    icon: "🏆",
+    tier: "Elite — $499/mo",
+    color: "#00C9B1",
+    desc: "Advanced strategist guidance, financial projections, vendor center, done-with-you execution support.",
+  },
+  {
+    icon: "♾️",
+    tier: "Legacy Founder — $1,899 lifetime",
+    color: "#D4A017",
+    desc: "One payment. Full platform for life. Command Center, AI Voice Agent, Website Builder, and Founders recognition.",
+  },
+];
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -77,8 +104,46 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-16">
+        <div className="w-full max-w-4xl">
+          <div className="grid gap-8 md:grid-cols-2 md:items-start">
+          {/* Left: Benefits Panel */}
+          <div className="hidden md:block">
+            <div className="mb-6">
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#1A2235] bg-[#0F1520] px-3 py-1.5 text-xs font-bold uppercase tracking-widest" style={{ color: "#D4A017" }}>
+                ⚡ What You Get With PEN2PRO
+              </div>
+              <h2 className="font-display text-2xl font-black leading-snug text-white">
+                Build your business roadmap.<br />
+                <span style={{ background: "linear-gradient(90deg,#D4A017,#FF8A00)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                  Save your blueprint. Upgrade when ready.
+                </span>
+              </h2>
+              <p className="mt-3 text-sm leading-6 text-slate-500">
+                Every account starts free. No credit card. Your blueprint saves to your account so you can pick up where you left off and upgrade to a paid tier when you're ready to go deeper.
+              </p>
+            </div>
+            <div className="space-y-3">
+              {TIER_BENEFITS.map((t) => (
+                <div key={t.tier} className="flex gap-4 rounded-xl border border-[#1A2235] bg-[#0F1520] p-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xl"
+                    style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${t.color}30` }}>
+                    {t.icon}
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-white">{t.tier}</p>
+                    <p className="mt-0.5 text-xs leading-5 text-slate-500">{t.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-5 text-xs text-slate-600">
+              <Link to="/pricing" className="font-semibold hover:opacity-80" style={{ color: "#D4A017" }}>Compare all plans →</Link>
+            </div>
+          </div>
+
+          {/* Right: Auth Form */}
+          <div className="w-full max-w-md mx-auto md:mx-0">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
@@ -230,7 +295,9 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
-        </div>
+          </div>{/* end right col */}
+        </div>{/* end grid */}
+        </div>{/* end max-w-4xl */}
       </div>
       <Footer />
     </div>
