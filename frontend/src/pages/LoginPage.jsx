@@ -74,11 +74,55 @@ export default function LoginPage() {
     }
   }
 
+  const SIDE_BENEFITS = [
+    { tier: "Free Roadmap", color: "#94a3b8", desc: "AI-generated 7/30/90-day plan for any business idea. No credit card." },
+    { tier: "Pro — $249/mo", color: "#2d9cff", desc: "Full blueprint, branding support, PDF export, credit & funding checklist, outreach strategy." },
+    { tier: "Elite — $499/mo", color: "#d4af37", desc: "Financial projections, legal foundation, vendor resource center, automation, priority support." },
+    { tier: "Founders Lifetime", color: "#FF8A00", desc: "One payment. Full access forever. Every feature we'll ever ship. Only 200 spots." },
+  ];
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-16">
+        <div className="w-full max-w-5xl grid gap-10 lg:grid-cols-2 lg:items-start">
+
+          {/* ── Left: platform value panel ── */}
+          <div className="hidden lg:block pt-4">
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: "#FF8A00" }}>PEN2PRO RMIE</p>
+            <h2 className="mb-3 font-display text-3xl font-black leading-tight text-white">
+              Build your business roadmap.<br />
+              <span style={{ background: "linear-gradient(90deg,#D4A017,#FF8A00)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                Save your blueprint.
+              </span>{" "}
+              Upgrade when ready.
+            </h2>
+            <p className="mb-8 text-sm leading-7 text-slate-400">
+              Sign in to access your dashboard, saved roadmaps, and execution tools. Or create a free account to generate your first business blueprint in under 5 minutes.
+            </p>
+            <div className="space-y-3">
+              {SIDE_BENEFITS.map((b) => (
+                <div key={b.tier} className="flex gap-3 rounded-xl border border-[#1A2235] bg-[#0F1520] p-4">
+                  <div className="mt-0.5 h-2.5 w-2.5 shrink-0 rounded-full mt-1.5" style={{ background: b.color }} />
+                  <div>
+                    <p className="text-sm font-bold" style={{ color: b.color }}>{b.tier}</p>
+                    <p className="mt-0.5 text-xs leading-5 text-slate-500">{b.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 flex gap-3 text-xs">
+              <Link to="/starter" className="rounded-lg border border-[#1A2235] px-3 py-2 text-slate-400 hover:text-white transition-colors">
+                Try Free First →
+              </Link>
+              <Link to="/pricing" className="rounded-lg border border-[#1A2235] px-3 py-2 text-slate-400 hover:text-white transition-colors">
+                View Pricing →
+              </Link>
+            </div>
+          </div>
+
+          {/* ── Right: auth card ── */}
+          <div className="w-full">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
@@ -229,6 +273,7 @@ export default function LoginPage() {
                 Join the waitlist
               </Link>
             </div>
+          </div>
           </div>
         </div>
       </div>
