@@ -52,7 +52,7 @@ const TIERS = [
 ];
 
 export default function HomePage() {
-  const cd = useCountdown("2026-06-15T09:00:00");
+  // Platform is live — no countdown needed
 
   return (
     <div className="min-h-screen bg-[#080C14]">
@@ -66,7 +66,7 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-4xl">
           <div className="animate-fade-up mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2" style={{ borderColor: 'rgba(212,160,23,0.3)', background: 'rgba(212,160,23,0.08)' }}>
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#D4A017' }}>Launching June 15, 2026 — Waitlist Open Now</span>
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#D4A017' }}>Now Live · Founders Lifetime Spots Available</span>
           </div>
 
           <h1 className="animate-fade-up-delay font-display text-5xl font-black leading-tight tracking-tight text-white md:text-7xl">
@@ -88,19 +88,19 @@ export default function HomePage() {
           </div>
           <p className="mt-4 text-xs text-slate-600">No credit card required · Free roadmap in under 5 minutes</p>
 
-          {/* Countdown */}
-          <div className="mt-14 flex flex-col items-center">
-            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Official Launch Countdown — June 15, 2026</p>
-            <div className="flex items-center gap-3">
-              <CountBox val={cd.d} label="Days" />
-              <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
-              <CountBox val={cd.h} label="Hrs" />
-              <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
-              <CountBox val={cd.m} label="Min" />
-              <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
-              <CountBox val={cd.s} label="Sec" />
+          {/* Platform Live Indicator */}
+          <div className="mt-14 flex flex-col items-center gap-3">
+            <div className="inline-flex flex-wrap items-center justify-center gap-x-4 gap-y-2 rounded-2xl border border-emerald-500/25 bg-emerald-500/5 px-7 py-4">
+              <span className="flex items-center gap-2 shrink-0">
+                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-sm font-black text-emerald-300">Platform is Live</span>
+              </span>
+              <span className="hidden sm:block text-slate-600">·</span>
+              <span className="text-sm text-slate-300">
+                Only <span className="font-black" style={{ color: '#D4A017' }}>200</span> Founders Lifetime spots — limited availability
+              </span>
             </div>
-            <p className="mt-3 text-xs text-slate-600">Founders pricing locks in when you join the waitlist today</p>
+            <p className="text-xs text-slate-600">Founders pricing locks in today — spots are going fast</p>
           </div>
         </div>
       </section>
@@ -108,7 +108,7 @@ export default function HomePage() {
       {/* STATS */}
       <section className="border-y border-[#1A2235] bg-[#0F1520] px-5 py-8">
         <div className="mx-auto max-w-5xl grid grid-cols-2 gap-6 md:grid-cols-4 text-center">
-          {[["2,847+","Roadmaps Generated"],["$0","Required to Start"],["7 Days","To First Plan"],["June 15","Official Launch"]].map(([v,l]) => (
+          {[["2,847+","Roadmaps Generated"],["$0","Required to Start"],["7 Days","To First Plan"],["Live Now","Platform Open"]].map(([v,l]) => (
             <div key={l}>
               <p className="font-display text-3xl font-black" style={{ color: '#D4A017' }}>{v}</p>
               <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500">{l}</p>
@@ -237,8 +237,8 @@ export default function HomePage() {
             <Link to="/starter" className="rounded-2xl px-10 py-4 text-base font-black text-[#080C14] btn-gold glow-gold">
               Generate My Free Roadmap →
             </Link>
-            <Link to="/waitlist" className="rounded-2xl border border-[#1A2235] px-8 py-4 text-base font-semibold text-slate-400 hover:border-yellow-500 hover:text-yellow-400 transition">
-              Join Waitlist for June 15
+            <Link to="/founders" className="rounded-2xl border border-[#1A2235] px-8 py-4 text-base font-semibold text-slate-400 hover:border-yellow-500 hover:text-yellow-400 transition">
+              Claim a Founders Spot →
             </Link>
           </div>
         </div>

@@ -74,25 +74,63 @@ export default function LoginPage() {
     }
   }
 
+  const SIDE_PLANS = [
+    { tier: "Free", color: "#64748b", icon: "🗺️", desc: "1 AI business roadmap — no credit card, no catch." },
+    { tier: "Pro", color: "#2d9cff", icon: "📊", desc: "Full roadmap, branding, outreach strategy, PDF export, credit readiness." },
+    { tier: "Elite", color: "#00C9B1", icon: "🚀", desc: "Financial projections, funding resources, done-with-you strategy, priority support." },
+    { tier: "Founders", color: "#D4A017", icon: "⚡", desc: "Lifetime access · 200 spots · Full platform + P2P Command Center + Voice Agent." },
+  ];
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
-              P2P
-            </div>
-            <h1 className="font-display text-3xl font-bold text-white">
-              {tab === "login" ? "Welcome back" : "Create your account"}
-            </h1>
-            <p className="mt-2 text-sm text-slate-400">
-              {tab === "login"
-                ? "Sign in to access your PEN2PRO dashboard"
-                : "Start building your business roadmap today"}
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-16">
+        <div className="grid w-full max-w-5xl gap-10 lg:grid-cols-2 lg:items-center">
+
+          {/* ── Left side panel ── */}
+          <div className="hidden lg:block">
+            <div className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#D4A017' }}>PEN2PRO RMIE</div>
+            <h2 className="mb-4 font-display text-3xl font-black leading-tight text-white">
+              Build your business roadmap.<br />
+              Save your blueprint.<br />
+              <span style={{ background: "linear-gradient(90deg,#FF8A00,#D4A017)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                Upgrade when ready.
+              </span>
+            </h2>
+            <p className="mb-8 text-sm text-slate-400 leading-relaxed">
+              PEN2PRO turns your idea into a real 90-day execution plan — startup costs, sales scripts, LLC checklist, credit readiness, and funding strategy. All in one place.
             </p>
+            <div className="space-y-3">
+              {SIDE_PLANS.map((p) => (
+                <div key={p.tier} className="flex items-start gap-4 rounded-xl border border-[#1A2235] bg-[#0F1520] p-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-xl" style={{ background: p.color + "18", border: `1px solid ${p.color}30` }}>
+                    {p.icon}
+                  </div>
+                  <div>
+                    <p className="text-sm font-black" style={{ color: p.color }}>{p.tier}</p>
+                    <p className="text-xs text-slate-400 leading-relaxed mt-0.5">{p.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
+
+          {/* ── Right form panel ── */}
+          <div className="w-full max-w-md mx-auto lg:mx-0">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
+                P2P
+              </div>
+              <h1 className="font-display text-3xl font-bold text-white">
+                {tab === "login" ? "Welcome back" : "Create your account"}
+              </h1>
+              <p className="mt-2 text-sm text-slate-400">
+                {tab === "login"
+                  ? "Sign in to access your PEN2PRO dashboard"
+                  : "Start building your business roadmap today"}
+              </p>
+            </div>
 
           {/* Card */}
           <div className="rounded-2xl border border-[#1A2235] p-8" style={{ background: "#0F1520" }}>
@@ -232,7 +270,8 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
+    <Footer />
+  </div>
   );
 }

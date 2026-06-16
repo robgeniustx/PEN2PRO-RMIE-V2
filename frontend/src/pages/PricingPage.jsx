@@ -456,11 +456,17 @@ export default function PricingPage() {
             This offer will not last long. We are only accepting 200 Founders.
           </p>
 
-          <div className="mb-6 flex justify-center gap-3">
-            <CountBox val={t.days} label="Days" />
-            <CountBox val={t.hours} label="Hours" />
-            <CountBox val={t.minutes} label="Min" />
-            <CountBox val={t.seconds} label="Sec" />
+          <div className="mb-6 flex justify-center">
+            <div className="inline-flex flex-wrap items-center justify-center gap-x-4 gap-y-2 rounded-2xl border border-[#D4A017]/30 bg-[#D4A017]/5 px-6 py-3.5">
+              <span className="flex items-center gap-2 shrink-0">
+                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-sm font-black text-emerald-300">Accepting Founders Now</span>
+              </span>
+              <span className="hidden sm:block text-slate-600">·</span>
+              <span className="text-sm text-slate-300">
+                Only <span className="font-black" style={{ color: '#D4A017' }}>200</span> Founders Lifetime spots — limited availability
+              </span>
+            </div>
           </div>
 
           <div className="grid gap-2 text-sm text-slate-200 md:grid-cols-2">
