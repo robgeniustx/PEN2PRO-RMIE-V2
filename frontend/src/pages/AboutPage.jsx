@@ -198,11 +198,79 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── FOUNDER STORY ── */}
-      <section className="px-5 py-20">
+      {/* ── THE REAL STORY: BACKGROUND CHECK SECTION ── */}
+      <section className="px-5 py-20 border-t border-[#1A2D50]">
+        <div className="mx-auto max-w-3xl">
+          <div className="mb-10 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold text-[#FF8A00] uppercase tracking-widest">
+            How PEN2PRO Was Born
+          </div>
+
+          <div className="space-y-7 text-[1.05rem] leading-[1.85] text-slate-300">
+            <p>
+              Robert Green did not create PEN2PRO from a comfortable office or a perfect path. He created it from pressure, rejection, discipline, and the refusal to stay stuck.
+            </p>
+
+            <p>
+              After coming home from prison, Robert tried to rebuild his life the way people are told to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give you a chance. More than once, he earned the opportunity. The interviews went well. The job offers came.
+            </p>
+
+            <p className="border-l-4 border-[#FF8A00] pl-5 text-xl font-bold text-white">
+              Then the background checks followed.
+            </p>
+
+            <p>
+              The offers were rescinded. Opportunities disappeared. Doors closed after they had already looked open.
+            </p>
+
+            <p>
+              That kind of rejection can break a person. For a moment, it almost did.
+            </p>
+
+            <p>
+              After a day of moping, frustration, and feeling the weight of the setback — asking why every door kept closing — Robert made a decision.
+            </p>
+
+            <p className="border-l-4 border-[#1E88E5] pl-5 text-xl font-bold text-white">
+              He picked his head up and took off running.
+            </p>
+
+            <p>
+              If the system was not going to hand him an opportunity, he would build one. That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO.
+            </p>
+
+            <p>
+              PEN2PRO is Robert's way of sharing the success, the heartbreak, the lessons, the failures, and the strategies with the world. It is built for people with ideas but no structure. People with skills but no roadmap. People with ambition but limited resources. People who have been overlooked, underestimated, or counted out.
+            </p>
+
+            <p className="border-l-4 border-[#FF8A00] pl-5 text-xl font-bold text-white">
+              This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
+            </p>
+          </div>
+
+          {/* Founder Badge */}
+          <div className="mt-12 flex items-center gap-5 rounded-2xl border border-[#FF8A00]/30 bg-[#0F1520] p-6">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl text-3xl"
+              style={{ background: "linear-gradient(135deg, #FF8A00 0%, #D4A017 100%)" }}>
+              ⚡
+            </div>
+            <div>
+              <p className="font-black text-white text-lg">Robert Earl Green Jr.</p>
+              <p className="text-sm text-slate-400 mt-0.5">
+                Service-Connected Veteran · Entrepreneur · Author · Mentor · Credible Messenger
+              </p>
+              <p className="text-sm text-[#FF8A00] font-semibold mt-0.5">
+                Founder — PEN2PRO
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FOUNDER STORY — FULL REFLECTION ── */}
+      <section className="px-5 py-20 border-t border-[#1A2D50]">
         <div className="mx-auto max-w-3xl">
           <div className="mb-10 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold text-[#1E88E5] uppercase tracking-widest">
-            Founder Story
+            In Robert's Own Words
           </div>
 
           <div className="space-y-6 text-[1.05rem] leading-[1.85] text-slate-300">
@@ -235,22 +303,6 @@ export default function AboutPage() {
             })}
           </div>
 
-          {/* Founder Badge */}
-          <div className="mt-12 flex items-center gap-5 rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-6">
-            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl text-3xl"
-              style={{ background: "linear-gradient(135deg, #0D47A1 0%, #1E88E5 100%)" }}>
-              ⚡
-            </div>
-            <div>
-              <p className="font-black text-white text-lg">Robert Earl Green Jr.</p>
-              <p className="text-sm text-slate-400 mt-0.5">
-                Service-Connected Veteran · Entrepreneur · Author · Mentor
-              </p>
-              <p className="text-sm text-[#FF8A00] font-semibold mt-0.5">
-                Founder — PEN2PRO
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
