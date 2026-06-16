@@ -5,6 +5,33 @@ import Footer from "../components/layout/Footer";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
+const TIER_CARDS = [
+  {
+    label: "Free Roadmap",
+    color: "#FF8A00",
+    icon: "🗺️",
+    desc: "Get a real business roadmap for your idea — no credit card, no fluff.",
+  },
+  {
+    label: "Pro Strategy Tools",
+    color: "#2d9cff",
+    icon: "📊",
+    desc: "Full 90-day execution plan, outreach scripts, branding, PDF export, and AI refinement.",
+  },
+  {
+    label: "Elite Execution Support",
+    color: "#d4af37",
+    icon: "🧠",
+    desc: "Advanced strategy, financial projections, legal foundation, funding resources, and automation.",
+  },
+  {
+    label: "Legacy Founder Access",
+    color: "#d4af37",
+    icon: "🏆",
+    desc: "One payment. Lifetime access to every feature PEN2PRO will ever ship. Only 200 spots.",
+  },
+];
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,7 +42,12 @@ export default function LoginPage() {
   const [error, setError] = useState("");
 
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
-  const [registerForm, setRegisterForm] = useState({ name: "", email: "", password: "", confirm: "" });
+  const [registerForm, setRegisterForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirm: "",
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("pen2pro_token");
@@ -35,7 +67,10 @@ export default function LoginPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "Login failed");
       localStorage.setItem("pen2pro_token", data.access_token);
-      localStorage.setItem("pen2pro_user", JSON.stringify({ name: data.name, tier: data.tier, email: loginForm.email }));
+      localStorage.setItem(
+        "pen2pro_user",
+        JSON.stringify({ name: data.name, tier: data.tier, email: loginForm.email })
+      );
       navigate("/dashboard");
     } catch (err) {
       setError(err.message);
@@ -60,12 +95,19 @@ export default function LoginPage() {
       const res = await fetch(`${API}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: registerForm.name, email: registerForm.email, password: registerForm.password }),
+        body: JSON.stringify({
+          name: registerForm.name,
+          email: registerForm.email,
+          password: registerForm.password,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "Registration failed");
       localStorage.setItem("pen2pro_token", data.access_token);
-      localStorage.setItem("pen2pro_user", JSON.stringify({ name: data.name, tier: data.tier, email: registerForm.email }));
+      localStorage.setItem(
+        "pen2pro_user",
+        JSON.stringify({ name: data.name, tier: data.tier, email: registerForm.email })
+      );
       navigate("/dashboard");
     } catch (err) {
       setError(err.message);
@@ -77,161 +119,319 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
-              P2P
-            </div>
-            <h1 className="font-display text-3xl font-bold text-white">
-              {tab === "login" ? "Welcome back" : "Create your account"}
-            </h1>
-            <p className="mt-2 text-sm text-slate-400">
-              {tab === "login"
-                ? "Sign in to access your PEN2PRO dashboard"
-                : "Start building your business roadmap today"}
-            </p>
-          </div>
 
-          {/* Card */}
-          <div className="rounded-2xl border border-[#1A2235] p-8" style={{ background: "#0F1520" }}>
-            {/* Tabs */}
-            <div className="mb-8 flex rounded-xl border border-[#1A2235] p-1" style={{ background: "#080C14" }}>
-              <button
-                onClick={() => { setTab("login"); setError(""); }}
-                className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${
-                  tab === "login"
-                    ? "gradient-gold text-[#080C14]"
-                    : "text-slate-400 hover:text-white"
-                }`}
-              >
-                Sign In
-              </button>
-              <button
-                onClick={() => { setTab("register"); setError(""); }}
-                className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${
-                  tab === "register"
-                    ? "gradient-gold text-[#080C14]"
-                    : "text-slate-400 hover:text-white"
-                }`}
-              >
-                Create Account
-              </button>
-            </div>
+      {/* Background orbs */}
+      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div
+          className="absolute -top-40 -left-40 h-[600px] w-[600px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, rgba(30,136,229,0.18) 0%, transparent 65%)",
+            filter: "blur(50px)",
+          }}
+        />
+        <div
+          className="absolute top-1/2 -right-40 h-[500px] w-[500px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, rgba(255,138,0,0.12) 0%, transparent 65%)",
+            filter: "blur(50px)",
+          }}
+        />
+      </div>
 
-            {/* Error */}
-            {error && (
-              <div className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-                {error}
-              </div>
-            )}
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-16">
+        <div className="mx-auto w-full max-w-5xl">
+          <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
 
-            {/* Login Form */}
-            {tab === "login" && (
-              <form onSubmit={handleLogin} className="space-y-5">
-                <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-300">Email address</label>
-                  <input
-                    type="email"
-                    required
-                    value={loginForm.email}
-                    onChange={e => setLoginForm(f => ({ ...f, email: e.target.value }))}
-                    placeholder="you@example.com"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
-                  />
+            {/* ── LEFT: Tier overview panel ── */}
+            <div className="flex flex-col justify-center">
+              {/* Brand */}
+              <div className="mb-8">
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-[#FF8A00]">
+                  ⚡ PEN2PRO RMIE
                 </div>
-                <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-300">Password</label>
-                  <input
-                    type="password"
-                    required
-                    value={loginForm.password}
-                    onChange={e => setLoginForm(f => ({ ...f, password: e.target.value }))}
-                    placeholder="••••••••"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="btn-gold w-full py-3 text-sm font-bold"
-                >
-                  {loading ? "Signing in..." : "Sign In"}
-                </button>
-              </form>
-            )}
-
-            {/* Register Form */}
-            {tab === "register" && (
-              <form onSubmit={handleRegister} className="space-y-5">
-                <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-300">Full name</label>
-                  <input
-                    type="text"
-                    required
-                    value={registerForm.name}
-                    onChange={e => setRegisterForm(f => ({ ...f, name: e.target.value }))}
-                    placeholder="Robert Green"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-300">Email address</label>
-                  <input
-                    type="email"
-                    required
-                    value={registerForm.email}
-                    onChange={e => setRegisterForm(f => ({ ...f, email: e.target.value }))}
-                    placeholder="you@example.com"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-300">Password</label>
-                  <input
-                    type="password"
-                    required
-                    value={registerForm.password}
-                    onChange={e => setRegisterForm(f => ({ ...f, password: e.target.value }))}
-                    placeholder="Min 8 characters"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-300">Confirm password</label>
-                  <input
-                    type="password"
-                    required
-                    value={registerForm.confirm}
-                    onChange={e => setRegisterForm(f => ({ ...f, confirm: e.target.value }))}
-                    placeholder="••••••••"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="btn-gold w-full py-3 text-sm font-bold"
-                >
-                  {loading ? "Creating account..." : "Create Account — Free"}
-                </button>
-                <p className="text-center text-xs text-slate-500">
-                  By creating an account you agree to our Terms of Service and Privacy Policy.
+                <h2 className="font-display text-3xl font-black leading-snug text-white md:text-4xl">
+                  Build your business roadmap.{" "}
+                  <span
+                    style={{
+                      background: "linear-gradient(90deg, #FF8A00, #D4A017)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    Save your blueprint.
+                  </span>{" "}
+                  Upgrade when ready.
+                </h2>
+                <p className="mt-4 text-slate-400 leading-relaxed">
+                  Sign in to access your PEN2PRO dashboard and continue building your roadmap to income.
                 </p>
-              </form>
-            )}
+              </div>
 
-            {/* Waitlist link */}
-            <div className="mt-6 text-center text-sm text-slate-500">
-              Not ready to sign up yet?{" "}
-              <Link to="/waitlist" className="font-semibold" style={{ color: "#D4A017" }}>
-                Join the waitlist
-              </Link>
+              {/* Tier cards */}
+              <div className="space-y-3">
+                {TIER_CARDS.map((t) => (
+                  <div
+                    key={t.label}
+                    className="flex items-start gap-4 rounded-xl border border-[#1A2235] bg-[#0F1520] p-4"
+                    style={{ borderColor: `${t.color}22` }}
+                  >
+                    <div
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-xl"
+                      style={{ background: `${t.color}18` }}
+                    >
+                      {t.icon}
+                    </div>
+                    <div>
+                      <p className="font-bold text-white text-sm" style={{ color: t.color }}>
+                        {t.label}
+                      </p>
+                      <p className="mt-0.5 text-xs text-slate-400 leading-relaxed">{t.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p className="mt-6 text-xs text-slate-600">
+                No account yet?{" "}
+                <button
+                  className="font-semibold"
+                  style={{ color: "#D4A017" }}
+                  onClick={() => setTab("register")}
+                >
+                  Create your free account →
+                </button>
+              </p>
+            </div>
+
+            {/* ── RIGHT: Auth form ── */}
+            <div className="flex flex-col justify-center">
+              {/* Logo mark */}
+              <div className="mb-6 text-center">
+                <div
+                  className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl text-xl font-black text-[#080C14]"
+                  style={{ background: "linear-gradient(135deg, #D4A017, #FF8A00)" }}
+                >
+                  P2
+                </div>
+                <h1 className="font-display text-2xl font-bold text-white">
+                  {tab === "login" ? "Welcome back" : "Create your account"}
+                </h1>
+                <p className="mt-1 text-sm text-slate-400">
+                  {tab === "login"
+                    ? "Sign in to your PEN2PRO account"
+                    : "Start building your free roadmap today"}
+                </p>
+              </div>
+
+              <div
+                className="rounded-2xl border border-[#1A2235] p-8"
+                style={{ background: "#0F1520" }}
+              >
+                {/* Tabs */}
+                <div
+                  className="mb-8 flex rounded-xl border border-[#1A2235] p-1"
+                  style={{ background: "#080C14" }}
+                >
+                  <button
+                    onClick={() => { setTab("login"); setError(""); }}
+                    className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${
+                      tab === "login"
+                        ? "text-[#080C14]"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                    style={
+                      tab === "login"
+                        ? { background: "linear-gradient(135deg, #D4A017, #FF8A00)" }
+                        : {}
+                    }
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    onClick={() => { setTab("register"); setError(""); }}
+                    className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${
+                      tab === "register"
+                        ? "text-[#080C14]"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                    style={
+                      tab === "register"
+                        ? { background: "linear-gradient(135deg, #D4A017, #FF8A00)" }
+                        : {}
+                    }
+                  >
+                    Create Account
+                  </button>
+                </div>
+
+                {/* Error */}
+                {error && (
+                  <div className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+                    {error}
+                  </div>
+                )}
+
+                {/* Login Form */}
+                {tab === "login" && (
+                  <form onSubmit={handleLogin} className="space-y-5">
+                    <div>
+                      <label className="mb-1.5 block text-sm font-medium text-slate-300">
+                        Email address
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={loginForm.email}
+                        onChange={(e) =>
+                          setLoginForm((f) => ({ ...f, email: e.target.value }))
+                        }
+                        placeholder="you@example.com"
+                        className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <div className="mb-1.5 flex items-center justify-between">
+                        <label className="text-sm font-medium text-slate-300">Password</label>
+                        <Link
+                          to="/waitlist"
+                          className="text-xs text-slate-500 hover:text-[#D4A017] transition-colors"
+                        >
+                          Forgot password?
+                        </Link>
+                      </div>
+                      <input
+                        type="password"
+                        required
+                        value={loginForm.password}
+                        onChange={(e) =>
+                          setLoginForm((f) => ({ ...f, password: e.target.value }))
+                        }
+                        placeholder="••••••••"
+                        className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full rounded-xl py-3 text-sm font-black text-[#080C14] transition hover:scale-[1.01] disabled:opacity-60"
+                      style={{ background: "linear-gradient(135deg, #D4A017, #FF8A00)" }}
+                    >
+                      {loading ? "Signing in..." : "Sign In to PEN2PRO"}
+                    </button>
+                    <p className="text-center text-xs text-slate-500">
+                      New here?{" "}
+                      <button
+                        type="button"
+                        className="font-semibold text-[#D4A017] hover:underline"
+                        onClick={() => { setTab("register"); setError(""); }}
+                      >
+                        Create a free account
+                      </button>
+                    </p>
+                  </form>
+                )}
+
+                {/* Register Form */}
+                {tab === "register" && (
+                  <form onSubmit={handleRegister} className="space-y-5">
+                    <div>
+                      <label className="mb-1.5 block text-sm font-medium text-slate-300">
+                        Full name
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={registerForm.name}
+                        onChange={(e) =>
+                          setRegisterForm((f) => ({ ...f, name: e.target.value }))
+                        }
+                        placeholder="Robert Green"
+                        className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1.5 block text-sm font-medium text-slate-300">
+                        Email address
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={registerForm.email}
+                        onChange={(e) =>
+                          setRegisterForm((f) => ({ ...f, email: e.target.value }))
+                        }
+                        placeholder="you@example.com"
+                        className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1.5 block text-sm font-medium text-slate-300">
+                        Password
+                      </label>
+                      <input
+                        type="password"
+                        required
+                        value={registerForm.password}
+                        onChange={(e) =>
+                          setRegisterForm((f) => ({ ...f, password: e.target.value }))
+                        }
+                        placeholder="Min 8 characters"
+                        className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1.5 block text-sm font-medium text-slate-300">
+                        Confirm password
+                      </label>
+                      <input
+                        type="password"
+                        required
+                        value={registerForm.confirm}
+                        onChange={(e) =>
+                          setRegisterForm((f) => ({ ...f, confirm: e.target.value }))
+                        }
+                        placeholder="••••••••"
+                        className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full rounded-xl py-3 text-sm font-black text-[#080C14] transition hover:scale-[1.01] disabled:opacity-60"
+                      style={{ background: "linear-gradient(135deg, #D4A017, #FF8A00)" }}
+                    >
+                      {loading ? "Creating account..." : "Create Free Account"}
+                    </button>
+                    <p className="text-center text-xs text-slate-500">
+                      By creating an account you agree to our Terms of Service and Privacy Policy.
+                    </p>
+                  </form>
+                )}
+
+                {/* Waitlist link */}
+                <div className="mt-6 text-center text-sm text-slate-500">
+                  Not ready to sign up yet?{" "}
+                  <Link
+                    to="/waitlist"
+                    className="font-semibold"
+                    style={{ color: "#D4A017" }}
+                  >
+                    Join the waitlist
+                  </Link>
+                </div>
+              </div>
+
+              <p className="mt-4 text-center text-xs text-slate-600">
+                Want to explore first?{" "}
+                <Link to="/starter" className="text-[#FF8A00] hover:underline">
+                  Try the free roadmap →
+                </Link>
+              </p>
             </div>
           </div>
         </div>
       </div>
+
       <Footer />
     </div>
   );
