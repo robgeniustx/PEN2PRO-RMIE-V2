@@ -7,9 +7,9 @@ const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 const INTERESTS = [
   "Free Roadmap",
-  "Pro Plan ($47/mo)",
-  "Elite Plan ($97/mo)",
-  "Founders Lifetime ($497)",
+  "Pro Plan ($249/mo)",
+  "Elite Plan ($499/mo)",
+  "Founders Lifetime ($1,899)",
   "Affiliate Partner",
   "Funding Help",
   "Credit Repair Help",
@@ -82,7 +82,7 @@ export default function WaitlistPage() {
 
   const [status, setStatus]     = useState("idle"); // idle | loading | success | error
   const [errorMsg, setErrorMsg] = useState("");
-  const cd = useCountdown("2026-06-15T09:00:00");
+  const cd = useCountdown("2026-08-01T09:00:00");
 
   const handle = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 

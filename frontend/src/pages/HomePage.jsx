@@ -52,7 +52,7 @@ const TIERS = [
 ];
 
 export default function HomePage() {
-  const cd = useCountdown("2026-06-15T09:00:00");
+  const cd = useCountdown("2026-08-01T09:00:00");
 
   return (
     <div className="min-h-screen bg-[#080C14]">
@@ -66,7 +66,7 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-4xl">
           <div className="animate-fade-up mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2" style={{ borderColor: 'rgba(212,160,23,0.3)', background: 'rgba(212,160,23,0.08)' }}>
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#D4A017' }}>Launching June 15, 2026 — Waitlist Open Now</span>
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#D4A017' }}>Launching August 1, 2026 — Waitlist Open Now</span>
           </div>
 
           <h1 className="animate-fade-up-delay font-display text-5xl font-black leading-tight tracking-tight text-white md:text-7xl">
