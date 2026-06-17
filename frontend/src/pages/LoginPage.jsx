@@ -77,8 +77,77 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-12">
+        <div className="w-full max-w-5xl lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
+
+          {/* ── Left panel: tier benefits (desktop only) ── */}
+          <div className="hidden lg:flex flex-col justify-center">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold text-[#FF8A00] uppercase tracking-widest w-fit">
+              ⚡ PEN2PRO RMIE
+            </div>
+            <h2 className="mb-3 font-display text-3xl font-black text-white leading-tight">
+              Build your business roadmap.<br />
+              <span style={{ background: "linear-gradient(90deg,#D4A017,#FF8A00)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                Save your blueprint. Upgrade when ready.
+              </span>
+            </h2>
+            <p className="mb-8 text-sm text-slate-400 leading-relaxed">
+              Start free. Build your roadmap. Upgrade for full execution tools, branding support, funding readiness, and lifetime access.
+            </p>
+
+            <div className="space-y-3">
+              {[
+                {
+                  tier: "Free Roadmap",
+                  color: "#1E88E5",
+                  border: "#1A2D50",
+                  bg: "#0F1520",
+                  desc: "1 AI business blueprint, starter roadmap preview, LLC & brand setup checklist.",
+                },
+                {
+                  tier: "Pro — $249/mo",
+                  color: "#2d9cff",
+                  border: "#1a3a6b",
+                  bg: "#0d1a2e",
+                  desc: "Full roadmap, 7/30/90-day plan, branding, PDF export, credit readiness, outreach scripts.",
+                },
+                {
+                  tier: "Elite — $499/mo",
+                  color: "#d4af37",
+                  border: "#2a2010",
+                  bg: "#0e0d08",
+                  desc: "Everything in Pro + financial projections, legal foundation, vendor & funding resource center.",
+                },
+                {
+                  tier: "Legacy Founder — $1,899 for life",
+                  color: "#d4af37",
+                  border: "#2a2010",
+                  bg: "#15120a",
+                  desc: "Lifetime access to all features, AI Voice Agent, Command Center, Website Builder. Only 200 spots.",
+                },
+              ].map((t) => (
+                <div
+                  key={t.tier}
+                  className="flex items-start gap-3 rounded-xl border p-4"
+                  style={{ borderColor: t.border, background: t.bg }}
+                >
+                  <span className="mt-0.5 shrink-0 text-sm font-black" style={{ color: t.color }}>✓</span>
+                  <div>
+                    <p className="text-sm font-bold" style={{ color: t.color }}>{t.tier}</p>
+                    <p className="text-xs text-slate-400 mt-0.5">{t.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <p className="mt-6 text-xs text-slate-500">
+              No credit card required to start.{" "}
+              <Link to="/pricing" className="text-[#D4A017] hover:underline">Compare all plans →</Link>
+            </p>
+          </div>
+
+          {/* ── Right side: form ── */}
+          <div className="w-full max-w-md mx-auto lg:max-w-none">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
@@ -230,6 +299,7 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
+        </div>
         </div>
       </div>
       <Footer />
