@@ -74,11 +74,78 @@ export default function LoginPage() {
     }
   }
 
+  const TIER_PANEL = [
+    {
+      icon: "🆓",
+      name: "Free Roadmap",
+      color: "#94a3b8",
+      desc: "AI business blueprint, brand name ideas, LLC checklist, and startup steps — no credit card.",
+    },
+    {
+      icon: "⚡",
+      name: "Pro — $249/mo",
+      color: "#D4A017",
+      desc: "Full roadmap, 90-day execution plan, sales scripts, credit readiness, PDF export, and AI refinement.",
+    },
+    {
+      icon: "🚀",
+      name: "Elite — $499/mo",
+      color: "#00C9B1",
+      desc: "Everything in Pro plus financial projections, funding resources, done-with-you guidance, and priority support.",
+    },
+    {
+      icon: "👑",
+      name: "Founders Lifetime — $1,899",
+      color: "#FF8A00",
+      desc: "One-time payment. Lifetime access to every feature. Locked in forever before public launch.",
+    },
+  ];
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="flex min-h-[calc(100vh-80px)] items-start justify-center px-4 py-16">
+        <div className="w-full max-w-5xl grid gap-10 lg:grid-cols-2 lg:items-start">
+
+          {/* ── Left: tier panel ── */}
+          <div className="hidden lg:block pt-4">
+            <div className="mb-6">
+              <h2 className="font-display text-3xl font-black leading-tight text-white">
+                Build your business roadmap.<br />
+                <span className="gradient-text">Save your blueprint.</span><br />
+                Upgrade when ready.
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-slate-400">
+                PEN2PRO is the AI-powered business development platform for entrepreneurs, veterans, returning citizens, and working-class builders ready to turn ideas into income.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              {TIER_PANEL.map((t) => (
+                <div
+                  key={t.name}
+                  className="flex items-start gap-4 rounded-xl border p-4 transition-colors"
+                  style={{ borderColor: `${t.color}22`, background: `${t.color}08` }}
+                >
+                  <span className="text-2xl shrink-0 mt-0.5">{t.icon}</span>
+                  <div>
+                    <p className="text-sm font-black" style={{ color: t.color }}>{t.name}</p>
+                    <p className="mt-0.5 text-xs leading-5 text-slate-500">{t.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 text-xs text-slate-600">
+              Questions?{" "}
+              <Link to="/pricing" className="font-semibold hover:opacity-80" style={{ color: "#D4A017" }}>
+                View full pricing →
+              </Link>
+            </div>
+          </div>
+
+          {/* ── Right: auth form ── */}
+          <div>
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
@@ -230,6 +297,29 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
+
+          {/* Mobile tier summary (shown only on small screens) */}
+          <div className="mt-8 lg:hidden rounded-2xl border border-[#1A2235] bg-[#0F1520] p-5">
+            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">What You Get</p>
+            <div className="space-y-2.5">
+              {[
+                ["🆓", "Free Roadmap", "AI blueprint, brand ideas, LLC checklist"],
+                ["⚡", "Pro $249/mo", "Full roadmap, scripts, credit & export"],
+                ["🚀", "Elite $499/mo", "Projections, funding resources, guidance"],
+                ["👑", "Founders $1,899", "Lifetime access — locked in forever"],
+              ].map(([icon, name, desc]) => (
+                <div key={name} className="flex items-start gap-3">
+                  <span className="text-lg shrink-0">{icon}</span>
+                  <div>
+                    <p className="text-xs font-bold text-white">{name}</p>
+                    <p className="text-xs text-slate-600">{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          </div>
+
         </div>
       </div>
       <Footer />
