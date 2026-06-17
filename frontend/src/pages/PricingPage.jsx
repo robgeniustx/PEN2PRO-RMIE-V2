@@ -328,8 +328,9 @@ export default function PricingPage() {
 
       <section className="px-5 pb-16 pt-20 text-center">
         <div className="mx-auto max-w-4xl">
-          <p className="mb-3 text-xs font-black uppercase tracking-[0.3em] text-[#5ab0ff]">
-            Launching {pricing.launch_date}
+          <p className="mb-3 flex items-center justify-center gap-2 text-xs font-black uppercase tracking-[0.3em] text-[#5ab0ff]">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            Now Live — Founding Spots Still Available
           </p>
 
           <h1 className="mb-4 font-display text-4xl font-black leading-tight md:text-6xl">
