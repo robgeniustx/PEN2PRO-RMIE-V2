@@ -205,6 +205,25 @@ export default function AboutPage() {
             Founder Story
           </div>
 
+          {/* ── TURNING POINT — the background check story from CLAUDE.md ── */}
+          <div className="mb-10 rounded-2xl border border-[#1A2D50] bg-[#0F1520] overflow-hidden">
+            <div className="border-b border-[#1A2D50] px-7 py-4">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#FF8A00]">The Turning Point</span>
+            </div>
+            <div className="px-7 py-7 space-y-5 text-[1.05rem] leading-[1.85] text-slate-300">
+              <p>Robert Green did not create PEN2PRO from a perfect path. He created it from pressure, rejection, discipline, and the refusal to stay stuck.</p>
+              <p>After coming home from prison, Robert tried to rebuild his life the way people are told to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give him a chance. More than once, he earned the opportunity. The interviews went well. The job offers came.</p>
+              <p className="text-lg font-bold text-white">Then the background checks followed.</p>
+              <p className="border-l-4 border-[#FF8A00] pl-5 text-xl font-black text-white">The offers were rescinded.</p>
+              <p>That kind of rejection can break a person. For a moment, it almost did.</p>
+              <p>After a day of moping, frustration, and asking why doors kept closing, Robert made a decision.</p>
+              <p className="border-l-4 border-[#1E88E5] pl-5 text-xl font-black text-white">He picked his head up and took off running.</p>
+              <p>If the system would not give him a path, he would build one. That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO.</p>
+            </div>
+          </div>
+
+          <p className="mb-6 text-sm font-bold uppercase tracking-widest text-slate-500">In His Own Words</p>
+
           <div className="space-y-6 text-[1.05rem] leading-[1.85] text-slate-300">
             {PERSONAL_STATEMENT.map((item) => {
               if (item.list) {
