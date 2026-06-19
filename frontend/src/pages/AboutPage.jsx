@@ -38,12 +38,18 @@ const MISSION_POINTS = [
 ];
 
 const PERSONAL_STATEMENT = [
-  { body: "There was a time in my life when everything around me looked broken." },
-  { body: "Opportunities were limited. Doors kept closing. Every mistake I made seemed to follow me longer than any good thing I had ever done. I carried frustration, anger, doubt, and the heavy feeling of knowing there was more inside of me than what the world could see on the surface." },
-  { body: "During my incarceration, I was faced with a choice.", emphasis: true },
-  { body: "I could accept the labels placed on me and become another statistic, or I could rebuild myself from the inside out." },
-  { body: "That process was not easy. Real change never is." },
-  { body: "There were nights filled with regret, mornings filled with uncertainty, and moments when giving up felt easier than believing in a future I could not yet see. But even in that darkness, I held on to one thought:" },
+  // ── The specific founding story ──
+  { body: "After coming home from prison, I tried to rebuild my life the way people tell you to rebuild it." },
+  { body: "Apply for jobs. Show up professionally. Interview well. Wait for somebody to give you a chance. That's what I did." },
+  { body: "More than once, it seemed like it was actually working.", emphasis: true },
+  { body: "The interviews went well. Job offers came in. For a moment, I genuinely believed things were finally turning around." },
+  { body: "Then the background checks came back.", callout: true },
+  { body: "The offers were rescinded. Opportunities disappeared. Doors closed — after they had already looked open. That kind of rejection can break a person. For a moment, it almost did." },
+  { body: "After a day of moping, frustration, and asking why doors kept closing, I made a decision.", emphasis: true },
+  { body: "I picked my head up and took off running." },
+  { body: "If the system would not give me a path, I would build one.", callout: true },
+  { body: "That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO.", emphasis: true },
+  // ── Transformation narrative ──
   { body: "Any effort toward something positive had to be better than where I was and what I had already experienced.", callout: true },
   { body: "Even the smallest step forward meant something. Even a little progress was still progress. That mindset became the beginning of my transformation." },
   { body: "Somewhere along the way, I realized something that changed my life:" },
