@@ -58,6 +58,9 @@ export default function DashboardPage() {
     } catch { return null; }
   })();
 
+  const foundersDeadline = new Date("2026-08-01T00:00:00Z");
+  const daysToFounders = Math.max(0, Math.floor((foundersDeadline - new Date()) / 86400000));
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
@@ -98,9 +101,9 @@ export default function DashboardPage() {
               color: "#D4A017",
             },
             {
-              label: "Days Until Launch",
-              value: days,
-              sub: "June 15, 2026 — PEN2PRO goes live",
+              label: "Founders Days Left",
+              value: daysToFounders,
+              sub: "Founders Lifetime closes August 1, 2026",
               color: "#00C9B1",
             },
             {
@@ -130,16 +133,16 @@ export default function DashboardPage() {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="font-display text-lg font-bold text-white mb-1">
-                  Upgrade before the June 15 launch
+                  Upgrade to Pro, Elite, or Founders Lifetime
                 </h2>
                 <p className="text-sm text-slate-400">
                   Pro members get unlimited roadmaps, outreach automation, and credit/funding matching.
-                  Founders Lifetime is just $497 — limited to 200 spots.
+                  Founders Lifetime is $1,899 — only 200 spots available.
                 </p>
               </div>
               <div className="flex gap-3">
-                <Link to="/waitlist?tier=pro" className="btn-gold px-5 py-2.5 text-sm font-bold whitespace-nowrap">
-                  Join Waitlist
+                <Link to="/pro" className="btn-gold px-5 py-2.5 text-sm font-bold whitespace-nowrap">
+                  Upgrade Now
                 </Link>
                 <Link to="/pricing" className="btn-outline px-5 py-2.5 text-sm font-bold whitespace-nowrap">
                   See Plans
