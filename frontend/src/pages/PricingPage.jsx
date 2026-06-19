@@ -8,7 +8,7 @@ const API_BASE =
   import.meta.env.VITE_API_BASE_URL ||
   "http://127.0.0.1:8000";
 
-const LAUNCH_DATE = new Date("2026-06-15T00:00:00Z");
+const LAUNCH_DATE = new Date("2026-08-15T00:00:00Z");
 
 const fallbackPlans = [
   {

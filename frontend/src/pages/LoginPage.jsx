@@ -77,8 +77,48 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-16">
+        <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-8 items-start lg:items-center">
+
+          {/* ── Left Value Panel ── */}
+          <div className="hidden lg:flex flex-col gap-6 flex-1 max-w-sm">
+            <div>
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold text-[#FF8A00] uppercase tracking-widest">
+                ⚡ PEN2PRO RMIE
+              </div>
+              <h2 className="font-display text-2xl font-black text-white leading-tight">
+                Build your business roadmap.<br />
+                <span style={{ color: "#FF8A00" }}>Save your blueprint.</span><br />
+                Upgrade when ready.
+              </h2>
+              <p className="mt-3 text-sm text-slate-400 leading-relaxed">
+                One platform. From idea to execution — structured, strategic, and built for real builders.
+              </p>
+            </div>
+
+            {[
+              { tier: "Free Roadmap", color: "#1E88E5", desc: "Generate your first business blueprint, 7-day plan, and sales scripts — completely free." },
+              { tier: "Pro Strategy Tools", color: "#FF8A00", desc: "Full roadmap, progress tracking, branding support, PDF export, and advanced AI refinement." },
+              { tier: "Elite Execution", color: "#d4af37", desc: "Financial projections, legal foundation checklist, vendor/funding resource center, and done-with-you guidance." },
+              { tier: "Legacy Founder", color: "#d4af37", desc: "Lifetime access to everything. One payment. Every feature we ever build. Only 200 spots." },
+            ].map((item) => (
+              <div key={item.tier} className="flex items-start gap-3 rounded-xl border border-[#1A2D50] bg-[#0F1520] p-4">
+                <span className="mt-0.5 shrink-0 text-lg" style={{ color: item.color }}>✓</span>
+                <div>
+                  <p className="text-sm font-bold text-white">{item.tier}</p>
+                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+
+            <p className="text-xs text-slate-600">
+              No credit card required to start.{" "}
+              <Link to="/starter" className="text-[#FF8A00] hover:underline font-semibold">Start your free roadmap →</Link>
+            </p>
+          </div>
+
+          {/* ── Right Auth Card ── */}
+          <div className="w-full lg:max-w-md lg:flex-1">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
@@ -230,6 +270,7 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
+        </div>
         </div>
       </div>
       <Footer />
