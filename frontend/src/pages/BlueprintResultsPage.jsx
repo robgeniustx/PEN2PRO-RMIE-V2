@@ -175,14 +175,14 @@ export default function BlueprintResultsPage() {
             <div className="mb-4 text-4xl">🎯</div>
             <h2 className="font-display text-2xl font-black text-white mb-2">Your roadmap is ready.</h2>
             <p className="text-slate-400 text-sm mb-6">
-              Secure full Pro or Elite access before the June 15, 2026 launch and lock in early pricing.
+              Unlock full Pro or Elite access and get a complete execution blueprint, branding support, and funding readiness.
             </p>
             <div className="flex flex-col gap-3">
-              <Link to="/waitlist?tier=pro" className="btn-gold w-full py-3 text-sm font-bold">
-                Join Waitlist — Pro ($47/mo)
+              <Link to="/pro" className="btn-gold w-full py-3 text-sm font-bold">
+                Upgrade to Pro — $249/mo
               </Link>
-              <Link to="/waitlist?tier=elite" className="block w-full rounded-xl border border-[#D4A017] py-3 text-sm font-bold text-[#D4A017] hover:bg-[#D4A017]/10 transition-all">
-                Join Waitlist — Elite ($97/mo)
+              <Link to="/elite" className="block w-full rounded-xl border border-[#D4A017] py-3 text-sm font-bold text-[#D4A017] hover:bg-[#D4A017]/10 transition-all">
+                Upgrade to Elite — $499/mo
               </Link>
               <button
                 onClick={() => setShowModal(false)}
@@ -493,11 +493,11 @@ export default function BlueprintResultsPage() {
               <div className="rounded-xl border border-[#D4A017] bg-[#D4A017]/5 p-6">
                 <p className="text-sm text-slate-300 leading-7 mb-6">{r.upgrade_note}</p>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  <Link to="/waitlist?tier=pro" className="btn-gold block py-3 text-center text-sm font-bold">
-                    Join Waitlist — Pro
+                  <Link to="/pro" className="btn-gold block py-3 text-center text-sm font-bold">
+                    Upgrade to Pro — $249/mo
                   </Link>
-                  <Link to="/waitlist?tier=elite" className="btn-outline block py-3 text-center text-sm font-bold">
-                    Join Waitlist — Elite
+                  <Link to="/elite" className="btn-outline block py-3 text-center text-sm font-bold">
+                    Upgrade to Elite — $499/mo
                   </Link>
                 </div>
               </div>
@@ -510,7 +510,7 @@ export default function BlueprintResultsPage() {
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-[#1A2235] py-3 px-4" style={{ background: "#0F1520" }}>
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3">
           <p className="hidden text-sm font-semibold text-white sm:block">
-            Want full access? Launch is <span style={{ color: "#D4A017" }}>June 15, 2026</span>
+            Want full access? <span style={{ color: "#D4A017" }}>Pro &amp; Elite are now open.</span>
           </p>
           <div className="flex gap-2">
             <Link to="/waitlist" className="rounded-xl border border-[#1A2235] px-4 py-2 text-xs font-bold text-slate-300 hover:border-[#D4A017]/50 transition-all">
