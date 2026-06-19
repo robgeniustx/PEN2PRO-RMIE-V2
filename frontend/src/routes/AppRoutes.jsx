@@ -33,6 +33,9 @@ import WebsiteBuilderSubPage from "../pages/WebsiteBuilderSubPage";
 import DomainSearchPage from "../pages/DomainSearchPage";
 import AgentCommandCenterPage from "../pages/AgentCommandCenterPage";
 
+// ── Legal pages ──
+import LegalPage from "../pages/LegalPage";
+
 // ── Tier & Feature pages ──
 import ProPage from "../pages/ProPage";
 import ElitePage from "../pages/ElitePage";
@@ -141,6 +144,11 @@ export default function AppRoutes() {
       <Route path="/contacts" element={<Navigate to="/dashboard/contacts" replace />} />
       <Route path="/lead-inbox" element={<Navigate to="/dashboard/lead-inbox" replace />} />
       <Route path="/pipeline" element={<Navigate to="/dashboard/pipeline" replace />} />
+
+      {/* ── Legal ── */}
+      <Route path="/privacy" element={<LegalPage />} />
+      <Route path="/terms" element={<LegalPage />} />
+      <Route path="/disclaimer" element={<LegalPage />} />
 
       {/* ── 404 ── */}
       <Route path="*" element={<NotFoundPage />} />
