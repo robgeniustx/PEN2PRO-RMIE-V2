@@ -205,6 +205,41 @@ export default function AboutPage() {
             Founder Story
           </div>
 
+          {/* ── THE SPECIFIC JOB-REJECTION NARRATIVE ── */}
+          <div className="mb-14 space-y-6 text-[1.05rem] leading-[1.85] text-slate-300">
+            <p>
+              Robert Green did not create PEN2PRO from a perfect path. He created it from pressure, rejection, discipline, and the refusal to stay stuck.
+            </p>
+            <p>
+              After coming home from prison, Robert tried to rebuild his life the way people are told to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give him a chance. More than once, he earned the opportunity. The interviews went well. The job offers came.
+            </p>
+            <p className="text-lg font-bold text-white">
+              Then the background checks followed.
+            </p>
+            <p>
+              The offers were rescinded.
+            </p>
+            <p>
+              That kind of rejection can break a person. For a moment, it almost did. After a day of moping, frustration, and asking why doors kept closing, Robert made a decision.
+            </p>
+            <p className="border-l-4 border-[#FF8A00] pl-5 text-xl font-bold text-white">
+              He picked his head up and took off running.
+            </p>
+            <p>
+              If the system would not give him a path, he would build one. That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO.
+            </p>
+            <p>
+              PEN2PRO is Robert's way of sharing the success, the heartbreak, the lessons, the failures, and the strategies with the world. It is built for people with ideas but no structure. People with skills but no roadmap. People with ambition but limited resources. People who have been overlooked, underestimated, or counted out.
+            </p>
+            <p className="border-l-4 border-[#1E88E5] pl-5 text-lg font-semibold text-slate-200">
+              This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
+            </p>
+          </div>
+
+          <div className="mb-10 border-t border-[#1A2D50] pt-10 text-xs font-bold uppercase tracking-widest text-[#FF8A00]">
+            In Robert's Own Words
+          </div>
+
           <div className="space-y-6 text-[1.05rem] leading-[1.85] text-slate-300">
             {PERSONAL_STATEMENT.map((item) => {
               if (item.list) {
