@@ -198,11 +198,54 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ── THE FOUNDING MOMENT ── */}
+      <section className="px-5 py-20 border-b border-[#1A2D50]">
+        <div className="mx-auto max-w-3xl">
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold text-[#FF8A00] uppercase tracking-widest">
+            The Founding Moment
+          </div>
+          <div className="space-y-6 text-[1.05rem] leading-[1.9] text-slate-300">
+            <p>
+              After coming home from prison, Robert tried to rebuild his life the way people are told to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give you a chance.
+            </p>
+            <p className="text-lg font-bold text-white">
+              More than once, he earned the opportunity. The interviews went well. The job offers came. Then the background checks followed.
+            </p>
+            <p className="border-l-4 border-[#FF8A00] pl-5 text-xl font-bold text-white">
+              The offers were rescinded.
+            </p>
+            <p>
+              That kind of rejection can break a person. For a moment, it almost did. After a day of moping, frustration, and asking why doors kept closing after they had already looked open, Robert made a decision.
+            </p>
+            <p className="text-lg font-bold text-white">
+              He picked his head up and took off running.
+            </p>
+            <p className="border-l-4 border-[#1E88E5] pl-5 text-lg font-semibold text-slate-200">
+              If the system would not give him a path, he would build one.
+            </p>
+            <p>
+              That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO.
+            </p>
+            <p className="text-lg font-bold text-white">
+              PEN2PRO is Robert's way of sharing the success, the heartbreak, the lessons, the failures, and the strategies with the world. It is built for people with ideas but no structure. People with skills but no roadmap. People with ambition but limited resources. People who have been overlooked, underestimated, or counted out.
+            </p>
+            <div
+              className="rounded-2xl border p-6"
+              style={{ borderColor: "rgba(255,138,0,0.3)", background: "rgba(255,138,0,0.05)" }}
+            >
+              <p className="text-base font-bold text-white leading-relaxed">
+                This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── FOUNDER STORY ── */}
       <section className="px-5 py-20">
         <div className="mx-auto max-w-3xl">
           <div className="mb-10 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold text-[#1E88E5] uppercase tracking-widest">
-            Founder Story
+            Full Founder Story
           </div>
 
           <div className="space-y-6 text-[1.05rem] leading-[1.85] text-slate-300">
