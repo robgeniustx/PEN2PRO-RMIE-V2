@@ -142,6 +142,11 @@ export default function AppRoutes() {
       <Route path="/lead-inbox" element={<Navigate to="/dashboard/lead-inbox" replace />} />
       <Route path="/pipeline" element={<Navigate to="/dashboard/pipeline" replace />} />
 
+      {/* ── Legal pages (placeholder redirects until pages are built) ── */}
+      <Route path="/privacy" element={<Navigate to="/" replace />} />
+      <Route path="/terms" element={<Navigate to="/" replace />} />
+      <Route path="/disclaimer" element={<Navigate to="/" replace />} />
+
       {/* ── 404 ── */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

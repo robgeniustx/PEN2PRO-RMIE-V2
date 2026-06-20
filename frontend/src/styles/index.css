@@ -1025,6 +1025,25 @@ button { cursor: pointer; font-family: inherit; }
   transform: translateY(-1px);
 }
 
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #1A2D50;
+  background: transparent;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.btn-outline:hover {
+  border-color: rgba(255,255,255,0.4);
+}
+
+.glow-gold {
+  box-shadow: 0 0 32px rgba(212,160,23,0.38);
+}
+.glow-gold:hover {
+  box-shadow: 0 0 44px rgba(212,160,23,0.52);
+}
+
 .gradient-text {
   background: linear-gradient(90deg, #D4A017 0%, #FF8A00 60%, #D4A017 100%);
   -webkit-background-clip: text;
