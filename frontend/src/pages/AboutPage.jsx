@@ -198,11 +198,52 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ── THE FOUNDING MOMENT ── */}
+      <section className="px-5 py-16 border-b border-[#1A2D50]">
+        <div className="mx-auto max-w-3xl">
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold text-[#FF8A00] uppercase tracking-widest">
+            Where PEN2PRO Began
+          </div>
+          <div className="rounded-2xl border border-[#1A2D50] bg-[#0F1520] p-8 space-y-6 text-[1.05rem] leading-[1.85] text-slate-300">
+            <p>
+              Robert Green did not create PEN2PRO from a perfect path. He created it from pressure, rejection, discipline, and the refusal to stay stuck.
+            </p>
+            <p>
+              After coming home from prison, Robert tried to rebuild his life the way people are told to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give him a chance.
+            </p>
+            <p className="text-lg font-bold text-white">More than once, he earned the opportunity.</p>
+            <p>
+              The interviews went well. The job offers came. And for a moment, it looked like things were finally turning around.
+            </p>
+            <p className="text-lg font-bold text-white">Then the background checks followed.</p>
+            <p>
+              The offers were rescinded. Doors that had already opened slammed shut. Opportunities that felt real disappeared overnight.
+            </p>
+            <p className="border-l-4 border-[#FF8A00] pl-5 text-xl font-bold text-white">
+              That kind of rejection can break a person. For a moment, it almost did.
+            </p>
+            <p>
+              After a day of moping, frustration, and asking why doors kept closing no matter how hard he tried, Robert made a decision.
+            </p>
+            <p className="text-lg font-bold text-white">He picked his head up and took off running.</p>
+            <p>
+              If the system would not give him a path, he would build one. That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO.
+            </p>
+            <p className="border-l-4 border-[#1E88E5] pl-5 text-base font-semibold text-slate-200">
+              PEN2PRO is Robert's way of sharing the success, the heartbreak, the lessons, the failures, and the strategies with the world. It is built for people with ideas but no structure. People with skills but no roadmap. People with ambition but limited resources. People who have been overlooked, underestimated, or counted out.
+            </p>
+            <p className="text-lg font-bold text-white">
+              This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* ── FOUNDER STORY ── */}
       <section className="px-5 py-20">
         <div className="mx-auto max-w-3xl">
           <div className="mb-10 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold text-[#1E88E5] uppercase tracking-widest">
-            Founder Story
+            Full Founder Story
           </div>
 
           <div className="space-y-6 text-[1.05rem] leading-[1.85] text-slate-300">

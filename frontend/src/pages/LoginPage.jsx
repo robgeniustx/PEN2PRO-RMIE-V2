@@ -74,11 +74,52 @@ export default function LoginPage() {
     }
   }
 
+  const TIERS = [
+    { icon: "🗺️", name: "Free Roadmap", color: "#64748b", desc: "7/30/90-day business blueprint, brand name ideas, startup checklist — no card required." },
+    { icon: "⚡", name: "Pro — $249/mo", color: "#D4A017", desc: "Unlimited roadmaps, full execution plans, sales scripts, credit readiness, PDF export, AI refinement." },
+    { icon: "🚀", name: "Elite — $499/mo", color: "#00C9B1", desc: "Financial projections, funding partner resources, done-with-you strategy, vendor/credit center." },
+    { icon: "👑", name: "Founders Lifetime", color: "#FF8A00", desc: "One-time lifetime access, everything in Elite, P2P Command Center, Voice Agent, 12-mo strategy framework." },
+  ];
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-16">
+        <div className="w-full max-w-5xl grid lg:grid-cols-2 gap-10 items-center">
+
+          {/* Left panel — tier benefits */}
+          <div className="hidden lg:block">
+            <div className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#D4A017' }}>PEN2PRO RMIE</div>
+            <h2 className="font-display text-3xl font-black text-white mb-2 leading-tight">
+              Build your business roadmap.<br />
+              <span style={{ background: "linear-gradient(90deg, #FF8A00, #D4A017)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                Save your blueprint.
+              </span>
+            </h2>
+            <p className="text-slate-400 text-sm mb-8 leading-relaxed">
+              Upgrade when you're ready. Start free — no credit card required.
+            </p>
+            <div className="space-y-4">
+              {TIERS.map((t) => (
+                <div key={t.name} className="flex items-start gap-4 rounded-2xl border border-[#1A2235] bg-[#0F1520] p-5">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xl" style={{ background: `${t.color}20`, border: `1px solid ${t.color}40` }}>
+                    {t.icon}
+                  </div>
+                  <div>
+                    <p className="font-bold text-sm text-white mb-1" style={{ color: t.color }}>{t.name}</p>
+                    <p className="text-xs text-slate-400 leading-relaxed">{t.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-6 text-xs text-slate-600">
+              PEN2PRO does not guarantee income, funding, or credit results. See{" "}
+              <Link to="/disclaimer" className="hover:text-slate-400 transition underline">Disclaimer</Link>.
+            </p>
+          </div>
+
+          {/* Right panel — auth form */}
+          <div className="w-full">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
@@ -230,7 +271,8 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
-        </div>
+          </div>{/* end right panel */}
+        </div>{/* end grid */}
       </div>
       <Footer />
     </div>
