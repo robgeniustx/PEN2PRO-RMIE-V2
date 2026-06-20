@@ -142,6 +142,11 @@ export default function AppRoutes() {
       <Route path="/lead-inbox" element={<Navigate to="/dashboard/lead-inbox" replace />} />
       <Route path="/pipeline" element={<Navigate to="/dashboard/pipeline" replace />} />
 
+      {/* ── Legal (redirect to waitlist until pages are built) ── */}
+      <Route path="/privacy" element={<Navigate to="/waitlist" replace />} />
+      <Route path="/terms" element={<Navigate to="/waitlist" replace />} />
+      <Route path="/disclaimer" element={<Navigate to="/waitlist" replace />} />
+
       {/* ── 404 ── */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

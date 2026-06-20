@@ -178,11 +178,14 @@ export default function BlueprintResultsPage() {
               Secure full Pro or Elite access before the June 15, 2026 launch and lock in early pricing.
             </p>
             <div className="flex flex-col gap-3">
-              <Link to="/waitlist?tier=pro" className="btn-gold w-full py-3 text-sm font-bold">
-                Join Waitlist — Pro ($47/mo)
+              <Link to="/pro" className="btn-gold w-full py-3 text-sm font-bold">
+                Upgrade to Pro — $249/mo
               </Link>
-              <Link to="/waitlist?tier=elite" className="block w-full rounded-xl border border-[#D4A017] py-3 text-sm font-bold text-[#D4A017] hover:bg-[#D4A017]/10 transition-all">
-                Join Waitlist — Elite ($97/mo)
+              <Link to="/elite" className="block w-full rounded-xl border border-[#D4A017] py-3 text-sm font-bold text-[#D4A017] hover:bg-[#D4A017]/10 transition-all">
+                Upgrade to Elite — $499/mo
+              </Link>
+              <Link to="/founders" className="block w-full rounded-xl border border-[#1A2235] py-2.5 text-sm font-semibold text-slate-400 hover:text-white transition-all">
+                Founders Lifetime — $1,899
               </Link>
               <button
                 onClick={() => setShowModal(false)}
