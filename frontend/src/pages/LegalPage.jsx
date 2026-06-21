@@ -1,0 +1,148 @@
+import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
+
+const CONTENT = {
+  "/privacy": {
+    title: "Privacy Policy",
+    updated: "June 2026",
+    sections: [
+      {
+        heading: "Information We Collect",
+        body: "We collect information you provide directly to us, such as your name, email address, phone number, and business idea when you create an account, join the waitlist, or use the PEN2PRO platform.",
+      },
+      {
+        heading: "How We Use Your Information",
+        body: "We use the information we collect to provide, operate, and improve the PEN2PRO platform; send transactional emails and product updates; personalize your business roadmap output; and communicate with you about new features, plans, and offers. We do not sell your personal information to third parties.",
+      },
+      {
+        heading: "Data Storage & Security",
+        body: "Your data is stored securely using industry-standard encryption. We use MongoDB Atlas for database storage and implement JWT-based authentication. We retain your account data for as long as your account is active or as needed to provide services.",
+      },
+      {
+        heading: "Cookies & Analytics",
+        body: "PEN2PRO may use cookies to maintain session state and improve user experience. We may use anonymized analytics data to understand how users interact with the platform. We do not use third-party advertising trackers.",
+      },
+      {
+        heading: "Third-Party Services",
+        body: "We use trusted third-party services including Stripe for payment processing, ElevenLabs for voice AI, Twilio for messaging, and OpenAI for AI-powered roadmap generation. Each service has its own privacy policy governing how they handle your data.",
+      },
+      {
+        heading: "Your Rights",
+        body: "You may request deletion of your account and personal data at any time by contacting us at support@pen2pro.com. We will process your request within 30 days.",
+      },
+      {
+        heading: "Contact",
+        body: "For privacy-related questions, contact us at support@pen2pro.com.",
+      },
+    ],
+  },
+  "/terms": {
+    title: "Terms of Service",
+    updated: "June 2026",
+    sections: [
+      {
+        heading: "Acceptance of Terms",
+        body: "By accessing or using PEN2PRO, you agree to be bound by these Terms of Service. If you do not agree to these terms, do not use the platform.",
+      },
+      {
+        heading: "Description of Service",
+        body: "PEN2PRO provides an AI-powered business development platform — the Rapid Monetization Intelligence Engine (RMIE) — that generates business roadmaps, strategy guides, and execution plans based on user input.",
+      },
+      {
+        heading: "User Accounts",
+        body: "You are responsible for maintaining the confidentiality of your account credentials. You agree not to share your account with others or use another person's account without permission.",
+      },
+      {
+        heading: "Acceptable Use",
+        body: "You agree to use PEN2PRO only for lawful purposes. You may not use the platform to generate content for illegal activities, misrepresent your identity, or attempt to reverse-engineer the AI systems.",
+      },
+      {
+        heading: "Payment & Subscriptions",
+        body: "Paid plans are billed monthly or as a one-time payment for Founders Lifetime access. Subscriptions renew automatically unless cancelled. Refund requests are evaluated on a case-by-case basis within 7 days of purchase.",
+      },
+      {
+        heading: "Intellectual Property",
+        body: "The PEN2PRO platform, including its AI models, UI design, content, and RMIE methodology, is the intellectual property of PEN2PRO. AI-generated roadmap output is licensed to you for personal and business use.",
+      },
+      {
+        heading: "Limitation of Liability",
+        body: "PEN2PRO is not liable for any indirect, incidental, or consequential damages arising from use of the platform. Our total liability to you shall not exceed the amount paid by you in the 12 months prior to the claim.",
+      },
+      {
+        heading: "Contact",
+        body: "For terms-related questions, contact us at support@pen2pro.com.",
+      },
+    ],
+  },
+  "/disclaimer": {
+    title: "Disclaimer",
+    updated: "June 2026",
+    sections: [
+      {
+        heading: "No Guarantee of Results",
+        body: "PEN2PRO does not guarantee business success, income generation, funding approval, credit score improvement, or loan approval. Results depend entirely on individual effort, market conditions, execution quality, and factors outside PEN2PRO's control.",
+      },
+      {
+        heading: "AI-Generated Content",
+        body: "Business roadmaps, financial projections, and strategy content generated by PEN2PRO are produced by artificial intelligence and are for educational and planning purposes only. They do not constitute professional legal, financial, tax, or investment advice.",
+      },
+      {
+        heading: "Not Financial or Legal Advice",
+        body: "Nothing on PEN2PRO should be construed as financial advice, legal counsel, tax guidance, or investment recommendations. Always consult a licensed professional before making financial or legal decisions for your business.",
+      },
+      {
+        heading: "Credit & Funding Information",
+        body: "PEN2PRO provides credit readiness education and funding preparation guidance. We do not guarantee credit approval, loan funding, or access to capital. Creditworthiness is determined by lenders, not PEN2PRO.",
+      },
+      {
+        heading: "Affiliate Disclosure",
+        body: "PEN2PRO may earn affiliate commissions when users click links to third-party products and services. All affiliate relationships are disclosed and do not affect our editorial recommendations. We only recommend resources we believe provide genuine value.",
+      },
+      {
+        heading: "Forward-Looking Statements",
+        body: "Any projections, revenue estimates, or growth targets referenced on the platform are illustrative examples based on market research and are not guarantees of future performance.",
+      },
+    ],
+  },
+};
+
+export default function LegalPage() {
+  const { pathname } = useLocation();
+  const page = CONTENT[pathname] || CONTENT["/disclaimer"];
+
+  useEffect(() => {
+    document.title = `${page.title} | PEN2PRO`;
+  }, [page.title]);
+
+  return (
+    <div className="min-h-screen bg-[#080C14] text-white">
+      <Navbar />
+
+      <div className="mx-auto max-w-3xl px-5 py-20">
+        <div className="mb-2 text-xs font-bold uppercase tracking-widest text-[#FF8A00]">Legal</div>
+        <h1 className="mb-2 font-display text-4xl font-black">{page.title}</h1>
+        <p className="mb-12 text-sm text-slate-500">Last updated: {page.updated}</p>
+
+        <div className="space-y-10">
+          {page.sections.map((s) => (
+            <div key={s.heading}>
+              <h2 className="mb-3 text-lg font-bold text-white">{s.heading}</h2>
+              <p className="text-sm leading-relaxed text-slate-400">{s.body}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-16 flex flex-wrap gap-4 border-t border-[#1A2D50] pt-10">
+          <Link to="/" className="text-sm text-slate-500 hover:text-[#FF8A00] transition-colors">Home</Link>
+          <Link to="/about" className="text-sm text-slate-500 hover:text-[#FF8A00] transition-colors">About</Link>
+          <Link to="/pricing" className="text-sm text-slate-500 hover:text-[#FF8A00] transition-colors">Pricing</Link>
+          <Link to="/waitlist" className="text-sm text-slate-500 hover:text-[#FF8A00] transition-colors">Waitlist</Link>
+        </div>
+      </div>
+
+      <Footer />
+    </div>
+  );
+}
