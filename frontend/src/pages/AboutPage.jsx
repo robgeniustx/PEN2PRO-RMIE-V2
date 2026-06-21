@@ -3,6 +3,48 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
+const REJECTION_STORY = [
+  {
+    body: "After coming home from prison, Robert tried to rebuild his life the way people are told to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give him a chance.",
+  },
+  {
+    body: "More than once, he earned the opportunity. The interviews went well. The job offers came.",
+    emphasis: true,
+  },
+  {
+    body: "Then the background checks followed.",
+    callout: true,
+  },
+  {
+    body: "The offers were rescinded.",
+    emphasis: true,
+  },
+  {
+    body: "That kind of rejection can break a person. For a moment, it almost did.",
+  },
+  {
+    body: "After a day of moping, frustration, and asking why doors kept closing, Robert made a decision.",
+  },
+  {
+    body: "He picked his head up and took off running.",
+    callout: true,
+  },
+  {
+    body: "If the system would not give him a path, he would build one.",
+    emphasis: true,
+  },
+  {
+    body: "That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO.",
+  },
+  {
+    body: "PEN2PRO is Robert's way of sharing the success, the heartbreak, the lessons, the failures, and the strategies with the world. It is built for people with ideas but no structure. People with skills but no roadmap. People with ambition but limited resources. People who have been overlooked, underestimated, or counted out.",
+  },
+  {
+    body: "This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.",
+    callout: true,
+  },
+];
+
 const WHO_ITS_FOR = [
   { icon: "🎖️", label: "Veterans" },
   { icon: "🔄", label: "Returning Citizens" },
@@ -198,8 +240,33 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── FOUNDER STORY ── */}
-      <section className="px-5 py-20">
+      {/* ── FOUNDER'S TURNING POINT ── */}
+      <section className="px-5 py-20 border-t border-[#1A2D50]">
+        <div className="mx-auto max-w-3xl">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold text-[#FF8A00] uppercase tracking-widest">
+            The Turning Point
+          </div>
+          <div className="space-y-5 text-[1.05rem] leading-[1.85] text-slate-300">
+            {REJECTION_STORY.map((item, i) => {
+              if (item.callout) {
+                return (
+                  <p key={i} className="border-l-4 border-[#FF8A00] pl-5 text-xl font-bold text-white">
+                    {item.body}
+                  </p>
+                );
+              }
+              return (
+                <p key={i} className={item.emphasis ? "text-lg font-bold text-white" : undefined}>
+                  {item.body}
+                </p>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FOUNDER STORY (Full) ── */}
+      <section className="px-5 py-20 border-t border-[#1A2D50]">
         <div className="mx-auto max-w-3xl">
           <div className="mb-10 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold text-[#1E88E5] uppercase tracking-widest">
             Founder Story
