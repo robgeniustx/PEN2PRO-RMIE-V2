@@ -58,6 +58,8 @@ export default function DashboardPage() {
     } catch { return null; }
   })();
 
+  const days = Math.max(0, Math.ceil((new Date("2026-09-01T00:00:00Z") - new Date()) / 86400000));
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
@@ -100,7 +102,7 @@ export default function DashboardPage() {
             {
               label: "Days Until Launch",
               value: days,
-              sub: "June 15, 2026 — PEN2PRO goes live",
+              sub: "September 1, 2026 — PEN2PRO goes live",
               color: "#00C9B1",
             },
             {
@@ -130,7 +132,7 @@ export default function DashboardPage() {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="font-display text-lg font-bold text-white mb-1">
-                  Upgrade before the June 15 launch
+                  Upgrade before the September 1 launch
                 </h2>
                 <p className="text-sm text-slate-400">
                   Pro members get unlimited roadmaps, outreach automation, and credit/funding matching.
