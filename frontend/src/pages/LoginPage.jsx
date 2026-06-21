@@ -74,11 +74,89 @@ export default function LoginPage() {
     }
   }
 
+  const TIER_PANELS = [
+    {
+      tier: "Free Forever",
+      color: "#D4A017",
+      icon: "🗺️",
+      points: ["1 AI business roadmap", "7-day action plan", "Brand name ideas", "LLC setup checklist"],
+    },
+    {
+      tier: "Pro — $249/mo",
+      color: "#2d9cff",
+      icon: "📊",
+      points: ["Full 90-day execution plan", "Sales scripts & outreach", "Credit & funding readiness", "PDF / email export"],
+    },
+    {
+      tier: "Elite — $499/mo",
+      color: "#00C9B1",
+      icon: "🚀",
+      points: ["Everything in Pro", "Financial projections", "Vendor & funding resources", "Done-with-you guidance"],
+    },
+    {
+      tier: "Legacy Founder",
+      color: "#D4A017",
+      icon: "⚡",
+      points: ["Lifetime platform access", "AI Voice Agent", "Website Builder", "Priority support forever"],
+    },
+  ];
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="flex min-h-[calc(100vh-80px)] items-start justify-center px-4 py-16">
+        <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-10 items-start">
+
+          {/* ── LEFT PANEL — Value proposition ── */}
+          <div className="flex-1 hidden lg:block">
+            <div className="mb-8">
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#FF8A00]">
+                ⚡ PEN2PRO RMIE
+              </div>
+              <h2 className="font-display text-3xl font-black text-white leading-tight mb-3">
+                Build your business roadmap.<br />
+                <span style={{ background: "linear-gradient(90deg,#1E88E5,#FF8A00)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                  Save your blueprint. Upgrade when ready.
+                </span>
+              </h2>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                PEN2PRO RMIE gives you a real action plan — not motivation. Start free, upgrade when you're ready to execute at a higher level.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              {TIER_PANELS.map((t) => (
+                <div
+                  key={t.tier}
+                  className="flex items-start gap-4 rounded-xl border border-[#1A2D50] bg-[#0F1520] p-4"
+                >
+                  <div
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg"
+                    style={{ background: t.color + "22", border: `1px solid ${t.color}44` }}
+                  >
+                    {t.icon}
+                  </div>
+                  <div>
+                    <p className="text-sm font-black text-white mb-1.5" style={{ color: t.color }}>{t.tier}</p>
+                    <ul className="space-y-1">
+                      {t.points.map((p) => (
+                        <li key={p} className="flex items-center gap-1.5 text-xs text-slate-400">
+                          <span style={{ color: t.color }}>✓</span> {p}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <p className="mt-6 text-xs text-slate-600">
+              Trusted by 2,847+ entrepreneurs, veterans, returning citizens, and working-class builders.
+            </p>
+          </div>
+
+          {/* ── RIGHT PANEL — Form ── */}
+          <div className="w-full max-w-md lg:shrink-0">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
@@ -230,6 +308,7 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
+          </div>{/* end right panel */}
         </div>
       </div>
       <Footer />
