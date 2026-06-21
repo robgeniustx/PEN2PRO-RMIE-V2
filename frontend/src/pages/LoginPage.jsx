@@ -5,6 +5,33 @@ import Footer from "../components/layout/Footer";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
+const TIER_HIGHLIGHTS = [
+  {
+    label: "Free Roadmap",
+    color: "#FF8A00",
+    icon: "🗺️",
+    perks: ["Starter business blueprint", "Basic roadmap preview", "7-day action plan preview"],
+  },
+  {
+    label: "Pro — $249/mo",
+    color: "#2d9cff",
+    icon: "⚡",
+    perks: ["Full RMIE blueprint", "PDF/email export", "Credit & funding readiness", "Outreach strategy"],
+  },
+  {
+    label: "Elite — $499/mo",
+    color: "#00C9B1",
+    icon: "🚀",
+    perks: ["Advanced strategist guidance", "Financial projections", "Vendor & lender resource center", "Priority support"],
+  },
+  {
+    label: "Legacy Founder — $1,899",
+    color: "#d4af37",
+    icon: "🏆",
+    perks: ["Lifetime platform access", "Every feature we ship", "Founder recognition", "First access to new tools"],
+  },
+];
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -77,12 +104,63 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+
+      <div className="mx-auto flex min-h-[calc(100vh-80px)] max-w-6xl items-start gap-12 px-5 py-16 lg:items-center">
+
+        {/* ── LEFT: Tier Benefits Panel ── */}
+        <div className="hidden w-full max-w-sm shrink-0 lg:block">
+          <div className="mb-6">
+            <p className="mb-1 text-xs font-bold uppercase tracking-widest text-[#FF8A00]">PEN2PRO RMIE</p>
+            <h2 className="font-display text-2xl font-black leading-snug text-white">
+              Build your business roadmap.
+              <br />
+              Save your blueprint.
+              <br />
+              Upgrade when ready.
+            </h2>
+            <p className="mt-3 text-sm text-slate-400 leading-relaxed">
+              Start free. Get a real business roadmap in minutes. Upgrade to unlock advanced strategy, execution tools, and lifetime access.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            {TIER_HIGHLIGHTS.map((tier) => (
+              <div
+                key={tier.label}
+                className="rounded-xl border border-[#1A2235] bg-[#0F1520] p-4"
+                style={{ borderLeftColor: tier.color, borderLeftWidth: 3 }}
+              >
+                <div className="mb-1.5 flex items-center gap-2">
+                  <span className="text-base">{tier.icon}</span>
+                  <p className="text-sm font-bold" style={{ color: tier.color }}>{tier.label}</p>
+                </div>
+                <ul className="space-y-1">
+                  {tier.perks.map((perk) => (
+                    <li key={perk} className="flex items-start gap-1.5 text-xs text-slate-400">
+                      <span className="mt-0.5 shrink-0" style={{ color: tier.color }}>✓</span>
+                      {perk}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-5 text-xs text-slate-500">
+            Not ready for an account?{" "}
+            <Link to="/starter" className="font-semibold text-[#FF8A00] hover:underline">
+              Try the free roadmap — no sign-in required.
+            </Link>
+          </p>
+        </div>
+
+        {/* ── RIGHT: Auth Form ── */}
+        <div className="w-full max-w-md mx-auto lg:mx-0">
           {/* Header */}
-          <div className="text-center mb-8">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
-              P2P
+          <div className="mb-8 text-center">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl text-xl font-black text-[#080C14]"
+              style={{ background: "linear-gradient(135deg, #D4A017 0%, #FF8A00 100%)" }}>
+              ⚡
             </div>
             <h1 className="font-display text-3xl font-bold text-white">
               {tab === "login" ? "Welcome back" : "Create your account"}
@@ -102,9 +180,10 @@ export default function LoginPage() {
                 onClick={() => { setTab("login"); setError(""); }}
                 className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${
                   tab === "login"
-                    ? "gradient-gold text-[#080C14]"
+                    ? "text-[#080C14]"
                     : "text-slate-400 hover:text-white"
                 }`}
+                style={tab === "login" ? { background: "linear-gradient(135deg, #D4A017 0%, #FF8A00 100%)" } : {}}
               >
                 Sign In
               </button>
@@ -112,9 +191,10 @@ export default function LoginPage() {
                 onClick={() => { setTab("register"); setError(""); }}
                 className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${
                   tab === "register"
-                    ? "gradient-gold text-[#080C14]"
+                    ? "text-[#080C14]"
                     : "text-slate-400 hover:text-white"
                 }`}
+                style={tab === "register" ? { background: "linear-gradient(135deg, #D4A017 0%, #FF8A00 100%)" } : {}}
               >
                 Create Account
               </button>
@@ -138,26 +218,30 @@ export default function LoginPage() {
                     value={loginForm.email}
                     onChange={e => setLoginForm(f => ({ ...f, email: e.target.value }))}
                     placeholder="you@example.com"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-300">Password</label>
+                  <div className="mb-1.5 flex items-center justify-between">
+                    <label className="text-sm font-medium text-slate-300">Password</label>
+                    <Link to="/waitlist" className="text-xs text-[#D4A017] hover:underline">Forgot password?</Link>
+                  </div>
                   <input
                     type="password"
                     required
                     value={loginForm.password}
                     onChange={e => setLoginForm(f => ({ ...f, password: e.target.value }))}
                     placeholder="••••••••"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="btn-gold w-full py-3 text-sm font-bold"
+                  className="w-full rounded-xl py-3 text-sm font-bold text-[#080C14] transition hover:scale-[1.02] disabled:opacity-60"
+                  style={{ background: "linear-gradient(135deg, #D4A017 0%, #FF8A00 100%)" }}
                 >
-                  {loading ? "Signing in..." : "Sign In"}
+                  {loading ? "Signing in..." : "Sign In →"}
                 </button>
               </form>
             )}
@@ -172,8 +256,8 @@ export default function LoginPage() {
                     required
                     value={registerForm.name}
                     onChange={e => setRegisterForm(f => ({ ...f, name: e.target.value }))}
-                    placeholder="Robert Green"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
+                    placeholder="Your full name"
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
@@ -184,7 +268,7 @@ export default function LoginPage() {
                     value={registerForm.email}
                     onChange={e => setRegisterForm(f => ({ ...f, email: e.target.value }))}
                     placeholder="you@example.com"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
@@ -195,7 +279,7 @@ export default function LoginPage() {
                     value={registerForm.password}
                     onChange={e => setRegisterForm(f => ({ ...f, password: e.target.value }))}
                     placeholder="Min 8 characters"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
@@ -206,15 +290,16 @@ export default function LoginPage() {
                     value={registerForm.confirm}
                     onChange={e => setRegisterForm(f => ({ ...f, confirm: e.target.value }))}
                     placeholder="••••••••"
-                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none transition-colors"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="btn-gold w-full py-3 text-sm font-bold"
+                  className="w-full rounded-xl py-3 text-sm font-bold text-[#080C14] transition hover:scale-[1.02] disabled:opacity-60"
+                  style={{ background: "linear-gradient(135deg, #D4A017 0%, #FF8A00 100%)" }}
                 >
-                  {loading ? "Creating account..." : "Create Account — Free"}
+                  {loading ? "Creating account..." : "Create Free Account →"}
                 </button>
                 <p className="text-center text-xs text-slate-500">
                   By creating an account you agree to our Terms of Service and Privacy Policy.
@@ -223,15 +308,22 @@ export default function LoginPage() {
             )}
 
             {/* Waitlist link */}
-            <div className="mt-6 text-center text-sm text-slate-500">
+            <div className="mt-6 border-t border-[#1A2235] pt-5 text-center text-sm text-slate-500">
               Not ready to sign up yet?{" "}
-              <Link to="/waitlist" className="font-semibold" style={{ color: "#D4A017" }}>
+              <Link to="/waitlist" className="font-semibold text-[#D4A017] hover:underline">
                 Join the waitlist
               </Link>
             </div>
           </div>
+
+          {/* Mobile tier note */}
+          <p className="mt-6 text-center text-xs text-slate-500 lg:hidden">
+            Start free. No credit card required.{" "}
+            <Link to="/pricing" className="text-[#FF8A00] hover:underline">View all plans →</Link>
+          </p>
         </div>
       </div>
+
       <Footer />
     </div>
   );
