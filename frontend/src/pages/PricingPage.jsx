@@ -8,7 +8,7 @@ const API_BASE =
   import.meta.env.VITE_API_BASE_URL ||
   "http://127.0.0.1:8000";
 
-const LAUNCH_DATE = new Date("2026-06-15T00:00:00Z");
+const LAUNCH_DATE = new Date("2026-08-01T00:00:00Z");
 
 const fallbackPlans = [
   {
@@ -261,7 +261,7 @@ function PlanCard({ plan }) {
 export default function PricingPage() {
   const t = useCountdown();
   const [pricing, setPricing] = useState({
-    launch_date: "June 15",
+    launch_date: "Now Live",
     brand: "PEN2PRO",
     tagline: "From Idea to Income",
     plans: fallbackPlans,
@@ -329,7 +329,7 @@ export default function PricingPage() {
       <section className="px-5 pb-16 pt-20 text-center">
         <div className="mx-auto max-w-4xl">
           <p className="mb-3 text-xs font-black uppercase tracking-[0.3em] text-[#5ab0ff]">
-            Launching {pricing.launch_date}
+            {pricing.launch_date} — Founders Offer Closing August 1
           </p>
 
           <h1 className="mb-4 font-display text-4xl font-black leading-tight md:text-6xl">
@@ -444,7 +444,7 @@ export default function PricingPage() {
       <section className="border-y border-[#1A2D50] bg-[#0B1222] px-5 py-16">
         <div className="mx-auto max-w-5xl rounded-3xl border border-[#6f86b340] bg-[#0F1520] p-8 text-center shadow-[0_0_40px_rgba(111,134,179,0.15)]">
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-slate-400">
-            Founder Access
+            Founder Access — Closing August 1, 2026
           </p>
 
           <h3 className="mb-3 font-display text-3xl font-black">

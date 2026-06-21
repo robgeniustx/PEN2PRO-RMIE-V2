@@ -7,9 +7,9 @@ const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 const INTERESTS = [
   "Free Roadmap",
-  "Pro Plan ($47/mo)",
-  "Elite Plan ($97/mo)",
-  "Founders Lifetime ($497)",
+  "Pro Plan ($249/mo)",
+  "Elite Plan ($499/mo)",
+  "Founders Lifetime ($1,899)",
   "Affiliate Partner",
   "Funding Help",
   "Credit Repair Help",
@@ -82,7 +82,7 @@ export default function WaitlistPage() {
 
   const [status, setStatus]     = useState("idle"); // idle | loading | success | error
   const [errorMsg, setErrorMsg] = useState("");
-  const cd = useCountdown("2026-06-15T09:00:00");
+  const cd = useCountdown("2026-08-01T09:00:00");
 
   const handle = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -133,9 +133,9 @@ export default function WaitlistPage() {
             </div>
             <h1 className="font-display text-4xl font-black text-white mb-3">You're In.</h1>
             <p className="text-base leading-7 text-slate-400 mb-8">
-              <strong className="text-white">{form.name || "Welcome"}</strong>, your spot is secured for the
-              PEN2PRO launch on{" "}
-              <strong style={{ color: "#D4A017" }}>June 15, 2026</strong>.
+              <strong className="text-white">{form.name || "Welcome"}</strong>, your spot is secured.
+              The PEN2PRO Founders offer closes{" "}
+              <strong style={{ color: "#D4A017" }}>August 1, 2026</strong>.
               {refParam && (
                 <span className="block mt-2 text-xs text-slate-600">
                   Referred by: <span className="text-slate-400 font-semibold">{refParam}</span>
@@ -204,24 +204,24 @@ export default function WaitlistPage() {
               style={{ borderColor: "rgba(212,160,23,0.3)", background: "rgba(212,160,23,0.08)" }}>
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
               <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4A017" }}>
-                Waitlist Open — Limited Founding Spots
+                Now Live — Founders Offer Closes August 1
               </span>
             </div>
 
             <h1 className="font-display text-4xl font-black leading-tight text-white md:text-5xl">
               Secure Your Spot.<br />
-              <span className="gradient-text">Launch June 15.</span>
+              <span className="gradient-text">Founders Close August 1.</span>
             </h1>
 
             <p className="mt-5 text-base leading-7 text-slate-400">
-              PEN2PRO officially launches <strong className="text-white">June 15, 2026</strong>. Founding members
+              PEN2PRO is live. The Founders offer closes <strong className="text-white">August 1, 2026</strong>. Founding members
               lock in their pricing for life, get first access, and receive done-with-you launch support
-              that won't be available after launch.
+              that won't be available after the Founders window closes.
             </p>
 
             {/* Countdown */}
             <div className="mt-8">
-              <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-500">Launch In</p>
+              <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-500">Founders Offer Closes In</p>
               <div className="flex items-center gap-2">
                 <CBox v={cd.d} l="Days" />
                 <span className="text-xl font-black opacity-40" style={{ color: "#D4A017" }}>:</span>
@@ -297,7 +297,7 @@ export default function WaitlistPage() {
                   </label>
                   <input type="text" name="name" value={form.name} onChange={handle}
                     placeholder="Your full name" required
-                    className="w-full rounded-xl px-4 py-3 text-sm" />
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none" />
                 </div>
 
                 <div>
@@ -306,7 +306,7 @@ export default function WaitlistPage() {
                   </label>
                   <input type="email" name="email" value={form.email} onChange={handle}
                     placeholder="you@yourbusiness.com" required
-                    className="w-full rounded-xl px-4 py-3 text-sm" />
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none" />
                 </div>
 
                 <div>
@@ -315,7 +315,7 @@ export default function WaitlistPage() {
                   </label>
                   <input type="tel" name="phone" value={form.phone} onChange={handle}
                     placeholder="(713) 555-0100"
-                    className="w-full rounded-xl px-4 py-3 text-sm" />
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none" />
                 </div>
 
                 <div>
@@ -323,7 +323,7 @@ export default function WaitlistPage() {
                     I'm Most Interested In
                   </label>
                   <select name="interest" value={form.interest} onChange={handle}
-                    className="w-full rounded-xl px-4 py-3 text-sm">
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white focus:border-[#D4A017] focus:outline-none">
                     {INTERESTS.map((i) => (
                       <option key={i} value={i}>{i}</option>
                     ))}
@@ -336,7 +336,7 @@ export default function WaitlistPage() {
                   </label>
                   <textarea name="business_idea" value={form.business_idea} onChange={handle}
                     placeholder="Describe your business idea in 1–2 sentences..."
-                    rows={3} className="w-full rounded-xl px-4 py-3 text-sm resize-none" />
+                    rows={3} className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none resize-none" />
                 </div>
 
                 {/* Hidden referral field — populated from ?ref= */}
@@ -345,7 +345,7 @@ export default function WaitlistPage() {
 
                 <button type="submit" disabled={status === "loading"}
                   className="w-full rounded-xl py-4 text-sm font-black text-[#080C14] btn-gold disabled:opacity-60 disabled:cursor-not-allowed">
-                  {status === "loading" ? "Securing Your Spot..." : "🔒 Secure My Spot — June 15 Launch"}
+                  {status === "loading" ? "Securing Your Spot..." : "🔒 Secure My Spot — Founders Closing August 1"}
                 </button>
               </form>
 
