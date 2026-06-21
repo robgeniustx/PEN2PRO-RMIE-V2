@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import ProtectedRoute from "../components/layout/ProtectedRoute";
 
 // ── Existing pages ──
 import HomePage from "../pages/HomePage";
@@ -32,6 +33,9 @@ import WebsiteBuilderLandingPage from "../pages/WebsiteBuilderLandingPage";
 import WebsiteBuilderSubPage from "../pages/WebsiteBuilderSubPage";
 import DomainSearchPage from "../pages/DomainSearchPage";
 import AgentCommandCenterPage from "../pages/AgentCommandCenterPage";
+
+// ── Legal pages ──
+import LegalPage from "../pages/LegalPage";
 
 // ── Tier & Feature pages ──
 import ProPage from "../pages/ProPage";
@@ -70,9 +74,9 @@ export default function AppRoutes() {
       <Route path="/credit-readiness" element={<CreditReadinessPage />} />
       <Route path="/affiliate" element={<AffiliatePage />} />
 
-      {/* ── Dashboard ── */}
-      <Route path="/dashboard" element={<DashboardWorkspacePage />} />
-      <Route path="/dashboard/:moduleKey" element={<DashboardWorkspacePage />} />
+      {/* ── Dashboard (auth required) ── */}
+      <Route path="/dashboard" element={<ProtectedRoute><DashboardWorkspacePage /></ProtectedRoute>} />
+      <Route path="/dashboard/:moduleKey" element={<ProtectedRoute><DashboardWorkspacePage /></ProtectedRoute>} />
 
       {/* ── P2P Command Center ── */}
       <Route path="/command-center" element={<CommandCenterPage />} />
@@ -134,6 +138,12 @@ export default function AppRoutes() {
       <Route path="/checkout/pro" element={<ProPage />} />
       <Route path="/checkout/elite" element={<ElitePage />} />
       <Route path="/checkout/founders" element={<FoundersPage />} />
+
+      {/* ── Legal ── */}
+      <Route path="/privacy" element={<LegalPage />} />
+      <Route path="/terms" element={<LegalPage />} />
+      <Route path="/disclaimer" element={<LegalPage />} />
+      <Route path="/legal/:page" element={<LegalPage />} />
 
       {/* ── Aliases / Redirects ── */}
       <Route path="/features" element={<Navigate to="/#features" replace />} />

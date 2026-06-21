@@ -1025,6 +1025,26 @@ button { cursor: pointer; font-family: inherit; }
   transform: translateY(-1px);
 }
 
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #1A2D50;
+  background: transparent;
+  color: #94a3b8;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.btn-outline:hover {
+  border-color: #FF8A00;
+  color: #ffffff;
+}
+
+.gradient-gold {
+  background: linear-gradient(135deg, #D4A017 0%, #FF8A00 100%);
+}
+
 .gradient-text {
   background: linear-gradient(90deg, #D4A017 0%, #FF8A00 60%, #D4A017 100%);
   -webkit-background-clip: text;
