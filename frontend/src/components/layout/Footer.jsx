@@ -76,9 +76,9 @@ export default function Footer() {
         <div className="mt-12 border-t border-[#1A2D50] pt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-slate-600">PEN2PRO does not guarantee income, funding approval, or credit results. Results depend on individual effort and market conditions.</p>
           <div className="flex gap-6">
-            <Link to="/privacy" className="text-xs text-slate-600 hover:text-slate-400">Privacy</Link>
-            <Link to="/terms" className="text-xs text-slate-600 hover:text-slate-400">Terms</Link>
-            <Link to="/disclaimer" className="text-xs text-slate-600 hover:text-slate-400">Disclaimer</Link>
+            <Link to="/about" className="text-xs text-slate-600 hover:text-slate-400">About</Link>
+            <Link to="/affiliate" className="text-xs text-slate-600 hover:text-slate-400">Affiliate</Link>
+            <Link to="/waitlist" className="text-xs text-slate-600 hover:text-slate-400">Waitlist</Link>
           </div>
         </div>
       </div>
