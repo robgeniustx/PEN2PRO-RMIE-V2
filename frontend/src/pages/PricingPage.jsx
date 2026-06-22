@@ -8,7 +8,6 @@ const API_BASE =
   import.meta.env.VITE_API_BASE_URL ||
   "http://127.0.0.1:8000";
 
-const LAUNCH_DATE = new Date("2026-06-15T00:00:00Z");
 
 const fallbackPlans = [
   {
@@ -102,46 +101,6 @@ const standaloneTools = [
   { name: "Funding System", price: 99 },
 ];
 
-function useCountdown() {
-  const [t, setT] = useState({});
-
-  useEffect(() => {
-    const calc = () => {
-      const diff = LAUNCH_DATE - Date.now();
-
-      if (diff <= 0) {
-        setT({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        return;
-      }
-
-      setT({
-        days: Math.floor(diff / 86400000),
-        hours: Math.floor((diff % 86400000) / 3600000),
-        minutes: Math.floor((diff % 3600000) / 60000),
-        seconds: Math.floor((diff % 60000) / 1000),
-      });
-    };
-
-    calc();
-    const id = setInterval(calc, 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  return t;
-}
-
-function CountBox({ val, label }) {
-  return (
-    <div className="min-w-[72px] rounded-xl border border-[#1A2D50] bg-[#0F1520] px-4 py-3 text-center">
-      <p className="font-display text-2xl font-black text-[#5ab0ff]">
-        {String(val ?? 0).padStart(2, "0")}
-      </p>
-      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-        {label}
-      </p>
-    </div>
-  );
-}
 
 function PlanCard({ plan }) {
   const [checkoutError, setCheckoutError] = useState("");
@@ -259,9 +218,8 @@ function PlanCard({ plan }) {
 }
 
 export default function PricingPage() {
-  const t = useCountdown();
   const [pricing, setPricing] = useState({
-    launch_date: "June 15",
+    launch_date: "Now Live",
     brand: "PEN2PRO",
     tagline: "From Idea to Income",
     plans: fallbackPlans,
@@ -328,9 +286,10 @@ export default function PricingPage() {
 
       <section className="px-5 pb-16 pt-20 text-center">
         <div className="mx-auto max-w-4xl">
-          <p className="mb-3 text-xs font-black uppercase tracking-[0.3em] text-[#5ab0ff]">
-            Launching {pricing.launch_date}
-          </p>
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-emerald-400">Now Live</span>
+          </div>
 
           <h1 className="mb-4 font-display text-4xl font-black leading-tight md:text-6xl">
             One AI Operating System For Your Entire Business
@@ -353,7 +312,7 @@ export default function PricingPage() {
               to="/waitlist"
               className="rounded-xl border border-[#1A2D50] px-7 py-3 text-sm font-bold text-slate-200 transition hover:border-slate-400 hover:text-white"
             >
-              Join Launch Waitlist
+              Join the Waitlist
             </Link>
           </div>
 
@@ -456,11 +415,9 @@ export default function PricingPage() {
             This offer will not last long. We are only accepting 200 Founders.
           </p>
 
-          <div className="mb-6 flex justify-center gap-3">
-            <CountBox val={t.days} label="Days" />
-            <CountBox val={t.hours} label="Hours" />
-            <CountBox val={t.minutes} label="Min" />
-            <CountBox val={t.seconds} label="Sec" />
+          <div className="mb-6 inline-flex items-center gap-2 rounded-xl border border-yellow-500/30 bg-yellow-500/10 px-5 py-3">
+            <span className="h-2 w-2 rounded-full bg-yellow-400 animate-pulse" />
+            <span className="text-sm font-bold text-yellow-300">Limited Founders Pricing — Available Now · Only 200 Spots</span>
           </div>
 
           <div className="grid gap-2 text-sm text-slate-200 md:grid-cols-2">
