@@ -205,6 +205,31 @@ export default function AboutPage() {
             Founder Story
           </div>
 
+          {/* Origin Story — the specific moment that started it all */}
+          <div className="mb-10 space-y-5 rounded-2xl border border-[#1A2D50] bg-[#0D1528] p-8">
+            <p className="text-[1.05rem] leading-[1.85] text-slate-300">
+              Robert Green did not create PEN2PRO from a perfect path. He created it from pressure, rejection, discipline, and the refusal to stay stuck.
+            </p>
+            <p className="text-[1.05rem] leading-[1.85] text-slate-300">
+              After coming home from prison, Robert tried to rebuild his life the way people are told to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give him a chance. More than once, he earned the opportunity. The interviews went well. The job offers came.
+            </p>
+            <p className="border-l-4 border-[#FF8A00] pl-5 text-xl font-bold text-white">
+              Then the background checks followed.
+            </p>
+            <p className="border-l-4 border-[#FF8A00] pl-5 text-xl font-bold text-white">
+              The offers were rescinded.
+            </p>
+            <p className="text-[1.05rem] leading-[1.85] text-slate-300">
+              That kind of rejection can break a person. For a moment, it almost did. After a day of moping, frustration, and asking why doors kept closing, Robert made a decision. He picked his head up and took off running.
+            </p>
+            <p className="text-lg font-bold text-white">
+              If the system would not give him a path, he would build one.
+            </p>
+            <p className="text-[1.05rem] leading-[1.85] text-slate-300">
+              That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO.
+            </p>
+          </div>
+
           <div className="space-y-6 text-[1.05rem] leading-[1.85] text-slate-300">
             {PERSONAL_STATEMENT.map((item) => {
               if (item.list) {
