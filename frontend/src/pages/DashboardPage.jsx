@@ -51,6 +51,7 @@ export default function DashboardPage() {
   const tier = user?.tier || "free";
   const tierInfo = TIER_COLORS[tier] || TIER_COLORS.free;
   const firstName = (user?.name || "Founder").split(" ")[0];
+  const days = Math.max(0, Math.ceil((new Date("2026-08-01") - new Date()) / 86400000));
 
   const lastRoadmap = (() => {
     try {
@@ -98,15 +99,15 @@ export default function DashboardPage() {
               color: "#D4A017",
             },
             {
-              label: "Days Until Launch",
+              label: "Days to Full Launch",
               value: days,
-              sub: "June 15, 2026 — PEN2PRO goes live",
+              sub: "Aug 1, 2026 — Full public release",
               color: "#00C9B1",
             },
             {
               label: "Current Tier",
               value: tierInfo.label,
-              sub: tier === "free" ? "Upgrade before launch" : "Access confirmed",
+              sub: tier === "free" ? "Upgrade for full access" : "Access confirmed",
               color: tierInfo.color,
             },
             {
@@ -130,7 +131,7 @@ export default function DashboardPage() {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="font-display text-lg font-bold text-white mb-1">
-                  Upgrade before the June 15 launch
+                  Upgrade to unlock full access
                 </h2>
                 <p className="text-sm text-slate-400">
                   Pro members get unlimited roadmaps, outreach automation, and credit/funding matching.

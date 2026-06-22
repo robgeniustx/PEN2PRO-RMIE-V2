@@ -74,11 +74,82 @@ export default function LoginPage() {
     }
   }
 
+  const TIER_BENEFITS = [
+    {
+      tier: "Free Roadmap",
+      color: "#64748B",
+      icon: "🗺️",
+      desc: "1 AI business roadmap with 7-day action plan, startup cost estimate, and brand name ideas.",
+    },
+    {
+      tier: "Pro — $47/mo",
+      color: "#00C9B1",
+      icon: "📊",
+      desc: "Full roadmap access, progress tracking, business branding, PDF export, outreach strategy, and credit readiness.",
+    },
+    {
+      tier: "Elite — $97/mo",
+      color: "#D4A017",
+      icon: "🚀",
+      desc: "Everything in Pro plus financial projections, done-with-you guidance, vendor integrations, and priority support.",
+    },
+    {
+      tier: "Legacy Founder — $497",
+      color: "#FF8A00",
+      icon: "👑",
+      desc: "Lifetime access. Every feature. Founder recognition. Lock in your price before full public launch.",
+    },
+  ];
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-12">
+        <div className="w-full max-w-5xl">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-start">
+
+          {/* Side Panel */}
+          <div className="hidden lg:block">
+            <div className="mb-8">
+              <div className="inline-flex items-center gap-2 rounded-full border px-4 py-2 mb-5"
+                style={{ borderColor: "rgba(212,160,23,0.3)", background: "rgba(212,160,23,0.08)" }}>
+                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4A017" }}>Early Access Now Open</span>
+              </div>
+              <h2 className="font-display text-3xl font-black text-white leading-tight mb-3">
+                Build your business roadmap.<br />
+                <span className="gradient-text">Save your blueprint. Upgrade when ready.</span>
+              </h2>
+              <p className="text-sm leading-7 text-slate-400">
+                PEN2PRO is the AI-powered RMIE platform built for entrepreneurs, veterans, returning citizens, and working-class builders who are serious about turning ideas into income.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              {TIER_BENEFITS.map((t) => (
+                <div key={t.tier} className="flex items-start gap-4 rounded-2xl border border-[#1A2235] p-4" style={{ background: "#0F1520" }}>
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg"
+                    style={{ background: t.color + "20" }}>
+                    {t.icon}
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold" style={{ color: t.color }}>{t.tier}</p>
+                    <p className="mt-1 text-xs leading-5 text-slate-500">{t.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 rounded-2xl border border-[#1A2235] p-4" style={{ background: "#0F1520" }}>
+              <p className="text-xs text-slate-500 leading-5">
+                🔒 <strong className="text-slate-400">No credit card required</strong> to get your free roadmap.
+                Upgrade only when you're ready to go deeper.
+              </p>
+            </div>
+          </div>
+
+          {/* Form Panel */}
+          <div className="w-full max-w-md mx-auto lg:mx-0 lg:max-w-none">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
@@ -230,6 +301,8 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
+          </div>{/* end form panel */}
+          </div>{/* end grid */}
         </div>
       </div>
       <Footer />
