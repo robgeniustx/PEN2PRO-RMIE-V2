@@ -179,10 +179,10 @@ export default function BlueprintResultsPage() {
             </p>
             <div className="flex flex-col gap-3">
               <Link to="/waitlist?tier=pro" className="btn-gold w-full py-3 text-sm font-bold">
-                Join Waitlist — Pro ($47/mo)
+                Join Waitlist — Pro ($249/mo)
               </Link>
               <Link to="/waitlist?tier=elite" className="block w-full rounded-xl border border-[#D4A017] py-3 text-sm font-bold text-[#D4A017] hover:bg-[#D4A017]/10 transition-all">
-                Join Waitlist — Elite ($97/mo)
+                Join Waitlist — Elite ($499/mo)
               </Link>
               <button
                 onClick={() => setShowModal(false)}
@@ -510,7 +510,7 @@ export default function BlueprintResultsPage() {
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-[#1A2235] py-3 px-4" style={{ background: "#0F1520" }}>
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3">
           <p className="hidden text-sm font-semibold text-white sm:block">
-            Want full access? Launch is <span style={{ color: "#D4A017" }}>June 15, 2026</span>
+            Want full access? Full launch <span style={{ color: "#D4A017" }}>September 1, 2026</span>
           </p>
           <div className="flex gap-2">
             <Link to="/waitlist" className="rounded-xl border border-[#1A2235] px-4 py-2 text-xs font-bold text-slate-300 hover:border-[#D4A017]/50 transition-all">

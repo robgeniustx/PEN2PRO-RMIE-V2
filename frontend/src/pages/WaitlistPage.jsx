@@ -7,9 +7,9 @@ const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 const INTERESTS = [
   "Free Roadmap",
-  "Pro Plan ($47/mo)",
-  "Elite Plan ($97/mo)",
-  "Founders Lifetime ($497)",
+  "Pro Plan ($249/mo)",
+  "Elite Plan ($499/mo)",
+  "Founders Lifetime ($1,899)",
   "Affiliate Partner",
   "Funding Help",
   "Credit Repair Help",
@@ -82,7 +82,7 @@ export default function WaitlistPage() {
 
   const [status, setStatus]     = useState("idle"); // idle | loading | success | error
   const [errorMsg, setErrorMsg] = useState("");
-  const cd = useCountdown("2026-06-15T09:00:00");
+  const cd = useCountdown("2026-09-01T09:00:00");
 
   const handle = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -135,7 +135,7 @@ export default function WaitlistPage() {
             <p className="text-base leading-7 text-slate-400 mb-8">
               <strong className="text-white">{form.name || "Welcome"}</strong>, your spot is secured for the
               PEN2PRO launch on{" "}
-              <strong style={{ color: "#D4A017" }}>June 15, 2026</strong>.
+              <strong style={{ color: "#D4A017" }}>September 1, 2026</strong>.
               {refParam && (
                 <span className="block mt-2 text-xs text-slate-600">
                   Referred by: <span className="text-slate-400 font-semibold">{refParam}</span>
@@ -214,7 +214,7 @@ export default function WaitlistPage() {
             </h1>
 
             <p className="mt-5 text-base leading-7 text-slate-400">
-              PEN2PRO officially launches <strong className="text-white">June 15, 2026</strong>. Founding members
+              PEN2PRO fully launches <strong className="text-white">September 1, 2026</strong>. Founding members
               lock in their pricing for life, get first access, and receive done-with-you launch support
               that won't be available after launch.
             </p>
