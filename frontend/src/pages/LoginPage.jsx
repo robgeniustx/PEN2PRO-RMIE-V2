@@ -74,11 +74,89 @@ export default function LoginPage() {
     }
   }
 
+  const TIER_BENEFITS = [
+    {
+      badge: "Free",
+      color: "#94a3b8",
+      borderColor: "#1A2235",
+      bg: "rgba(26,34,53,0.5)",
+      title: "Free Roadmap",
+      desc: "AI-generated business roadmap for your idea — LLC checklist, starter plan, and brand name ideas. No credit card.",
+    },
+    {
+      badge: "Pro — $249/mo",
+      color: "#2d9cff",
+      borderColor: "rgba(45,156,255,0.35)",
+      bg: "rgba(16,26,48,0.6)",
+      title: "Full RMIE Blueprint",
+      desc: "7/30/90-day execution plan, branding support, outreach scripts, credit & funding checklist, PDF export.",
+    },
+    {
+      badge: "Elite — $499/mo",
+      color: "#d4af37",
+      borderColor: "rgba(212,175,55,0.35)",
+      bg: "rgba(21,18,10,0.6)",
+      title: "Advanced Execution",
+      desc: "Financial projections, legal foundation guide, vendor & funding resource center, automation, priority support.",
+    },
+    {
+      badge: "Founders — $1,899 for life",
+      color: "#d4af37",
+      borderColor: "rgba(212,175,55,0.5)",
+      bg: "rgba(21,18,10,0.7)",
+      title: "Legacy Founder Lifetime",
+      desc: "Full platform access forever — Command Center, AI Voice Agent, Website Builder, and every future feature.",
+    },
+  ];
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+
+      <div className="mx-auto flex min-h-[calc(100vh-64px)] max-w-6xl flex-col items-stretch gap-0 px-4 py-12 lg:flex-row lg:items-center lg:gap-12">
+
+        {/* ── Left: Tier Benefits Panel ── */}
+        <div className="hidden lg:flex lg:flex-1 lg:flex-col lg:gap-6">
+          <div className="mb-2">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#D4A017]">PEN2PRO RMIE</p>
+            <h2 className="mt-2 font-display text-3xl font-black leading-tight text-white">
+              Build your business roadmap.<br />
+              Save your blueprint.<br />
+              <span style={{ color: "#D4A017" }}>Upgrade when ready.</span>
+            </h2>
+            <p className="mt-3 text-sm text-slate-500 leading-relaxed">
+              Start free. Build a real roadmap. Every tier gives you more tools, more strategy, and more execution support.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            {TIER_BENEFITS.map((t) => (
+              <div
+                key={t.badge}
+                className="rounded-xl border p-4"
+                style={{ borderColor: t.borderColor, background: t.bg }}
+              >
+                <div className="mb-1.5 flex items-center gap-2">
+                  <span
+                    className="rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest"
+                    style={{ color: t.color, background: `${t.color}18`, border: `1px solid ${t.color}40` }}
+                  >
+                    {t.badge}
+                  </span>
+                </div>
+                <p className="text-sm font-bold text-white">{t.title}</p>
+                <p className="mt-0.5 text-xs text-slate-400 leading-relaxed">{t.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-xs text-slate-600 leading-relaxed">
+            PEN2PRO does not guarantee income, funding approval, or credit results. Results depend on individual effort and market conditions.
+          </p>
+        </div>
+
+        {/* ── Right: Auth Form ── */}
+        <div className="w-full lg:w-[420px] lg:shrink-0">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
@@ -142,7 +220,12 @@ export default function LoginPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-300">Password</label>
+                  <div className="mb-1.5 flex items-center justify-between">
+                    <label className="text-sm font-medium text-slate-300">Password</label>
+                    <Link to="/waitlist" className="text-xs text-slate-500 hover:text-[#D4A017] transition-colors">
+                      Forgot password?
+                    </Link>
+                  </div>
                   <input
                     type="password"
                     required
@@ -159,6 +242,17 @@ export default function LoginPage() {
                 >
                   {loading ? "Signing in..." : "Sign In"}
                 </button>
+                <p className="text-center text-sm text-slate-500">
+                  No account?{" "}
+                  <button
+                    type="button"
+                    onClick={() => { setTab("register"); setError(""); }}
+                    className="font-semibold hover:underline"
+                    style={{ color: "#D4A017" }}
+                  >
+                    Create one free
+                  </button>
+                </p>
               </form>
             )}
 
@@ -219,6 +313,17 @@ export default function LoginPage() {
                 <p className="text-center text-xs text-slate-500">
                   By creating an account you agree to our Terms of Service and Privacy Policy.
                 </p>
+                <p className="text-center text-sm text-slate-500">
+                  Already have an account?{" "}
+                  <button
+                    type="button"
+                    onClick={() => { setTab("login"); setError(""); }}
+                    className="font-semibold hover:underline"
+                    style={{ color: "#D4A017" }}
+                  >
+                    Sign in
+                  </button>
+                </p>
               </form>
             )}
 
@@ -230,7 +335,29 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
+
+          {/* Mobile tier summary */}
+          <div className="mt-6 rounded-xl border border-[#1A2235] p-4 lg:hidden" style={{ background: "#0F1520" }}>
+            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-500">What you get with PEN2PRO</p>
+            <div className="space-y-2">
+              {[
+                { label: "Free Roadmap", desc: "AI business plan, LLC checklist, brand ideas" },
+                { label: "Pro — $249/mo", desc: "Full blueprint, branding, outreach, export" },
+                { label: "Elite — $499/mo", desc: "Financial projections, legal guide, automation" },
+                { label: "Founders — $1,899 for life", desc: "Lifetime access to every feature we build" },
+              ].map((item) => (
+                <div key={item.label} className="flex items-start gap-2 text-sm">
+                  <span className="mt-0.5 shrink-0 text-[#D4A017]">✓</span>
+                  <span>
+                    <span className="font-semibold text-slate-200">{item.label}</span>
+                    <span className="text-slate-500"> — {item.desc}</span>
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
+
       </div>
       <Footer />
     </div>
