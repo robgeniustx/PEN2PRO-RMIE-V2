@@ -84,12 +84,14 @@ export default function LoginPage() {
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
               P2P
             </div>
-            <h1 className="font-display text-3xl font-bold text-white">
-              {tab === "login" ? "Welcome back" : "Create your account"}
-            </h1>
-            <p className="mt-2 text-sm text-slate-400">
+            <h1 className="font-display text-2xl font-bold text-white leading-snug">
               {tab === "login"
-                ? "Sign in to access your PEN2PRO dashboard"
+                ? "Build your business roadmap."
+                : "Create your account — free."}
+            </h1>
+            <p className="mt-2 text-sm text-slate-400 leading-relaxed">
+              {tab === "login"
+                ? "Save your blueprint. Upgrade when ready."
                 : "Start building your business roadmap today"}
             </p>
           </div>
@@ -222,11 +224,45 @@ export default function LoginPage() {
               </form>
             )}
 
-            {/* Waitlist link */}
-            <div className="mt-6 text-center text-sm text-slate-500">
-              Not ready to sign up yet?{" "}
-              <Link to="/waitlist" className="font-semibold" style={{ color: "#D4A017" }}>
-                Join the waitlist
+            {/* Forgot password / waitlist */}
+            <div className="mt-6 flex flex-col items-center gap-2 text-sm text-slate-500">
+              {tab === "login" && (
+                <button
+                  type="button"
+                  onClick={() => setError("Password reset coming soon — contact support@pen2pro.com")}
+                  className="hover:text-slate-300 transition-colors"
+                >
+                  Forgot password?
+                </button>
+              )}
+              <span>
+                Not ready to sign up yet?{" "}
+                <Link to="/waitlist" className="font-semibold" style={{ color: "#D4A017" }}>
+                  Join the waitlist
+                </Link>
+              </span>
+            </div>
+          </div>
+
+          {/* Tier value panel */}
+          <div className="mt-6 rounded-2xl border border-[#1A2235] bg-[#0F1520] p-5">
+            <p className="mb-4 text-center text-xs font-bold uppercase tracking-widest text-slate-500">What you unlock at every tier</p>
+            <div className="space-y-3">
+              {[
+                { tier: "Free", color: "#94A3B8", desc: "1 AI business roadmap, 7-day launch plan, sales scripts, and LLC checklist — no credit card." },
+                { tier: "Pro", color: "#D4A017", desc: "Unlimited roadmaps, full 90-day execution plan, credit readiness, outreach strategy, and PDF export." },
+                { tier: "Elite", color: "#00C9B1", desc: "Financial projections, done-with-you guidance, funding partner resources, and vendor center." },
+                { tier: "Founders Lifetime", color: "#FF8A00", desc: "Lifetime access to the full platform — all Elite features, P2P Command Center, Voice Agent, and Website Builder." },
+              ].map(({ tier, color, desc }) => (
+                <div key={tier} className="flex gap-3 items-start">
+                  <span className="mt-0.5 text-xs font-black shrink-0 w-[100px]" style={{ color }}>{tier}</span>
+                  <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 text-center">
+              <Link to="/pricing" className="text-xs font-semibold hover:opacity-80 transition" style={{ color: "#D4A017" }}>
+                Compare all plans →
               </Link>
             </div>
           </div>
