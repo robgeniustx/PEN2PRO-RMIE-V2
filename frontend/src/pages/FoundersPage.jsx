@@ -4,7 +4,7 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { createCheckoutSession } from "../api/stripeApi";
 
-const LAUNCH_DATE = new Date("2026-08-01T00:00:00Z");
+const LAUNCH_DATE = new Date("2026-06-15T09:00:00Z");
 
 const FOUNDERS_FEATURES = [
   { icon: "♾️", title: "Lifetime Platform Access", body: "One payment. No subscriptions. No renewals. Access to PEN2PRO for life — including all future features added to the platform." },
