@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import ProtectedRoute from "../components/layout/ProtectedRoute";
 
 // ── Existing pages ──
 import HomePage from "../pages/HomePage";
@@ -40,6 +41,10 @@ import FoundersPage from "../pages/FoundersPage";
 import BuilderPage from "../pages/BuilderPage";
 import AcceleratorPage from "../pages/AcceleratorPage";
 
+// ── Account pages ──
+import SettingsPage from "../pages/SettingsPage";
+import TasksPage from "../pages/TasksPage";
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -70,9 +75,13 @@ export default function AppRoutes() {
       <Route path="/credit-readiness" element={<CreditReadinessPage />} />
       <Route path="/affiliate" element={<AffiliatePage />} />
 
-      {/* ── Dashboard ── */}
-      <Route path="/dashboard" element={<DashboardWorkspacePage />} />
-      <Route path="/dashboard/:moduleKey" element={<DashboardWorkspacePage />} />
+      {/* ── Account (protected) ── */}
+      <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+      <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
+
+      {/* ── Dashboard (protected) ── */}
+      <Route path="/dashboard" element={<ProtectedRoute><DashboardWorkspacePage /></ProtectedRoute>} />
+      <Route path="/dashboard/:moduleKey" element={<ProtectedRoute><DashboardWorkspacePage /></ProtectedRoute>} />
 
       {/* ── P2P Command Center ── */}
       <Route path="/command-center" element={<CommandCenterPage />} />

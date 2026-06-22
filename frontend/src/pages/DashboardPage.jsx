@@ -52,6 +52,11 @@ export default function DashboardPage() {
   const tierInfo = TIER_COLORS[tier] || TIER_COLORS.free;
   const firstName = (user?.name || "Founder").split(" ")[0];
 
+  const launchDate = new Date("2026-06-15");
+  const now = new Date();
+  const launched = now >= launchDate;
+  const days = Math.abs(Math.ceil((now.getTime() - launchDate.getTime()) / 86_400_000));
+
   const lastRoadmap = (() => {
     try {
       return JSON.parse(localStorage.getItem("pen2pro_last_roadmap") || "null");
@@ -98,9 +103,9 @@ export default function DashboardPage() {
               color: "#D4A017",
             },
             {
-              label: "Days Until Launch",
+              label: launched ? "Days Since Launch" : "Days Until Launch",
               value: days,
-              sub: "June 15, 2026 — PEN2PRO goes live",
+              sub: launched ? "PEN2PRO is LIVE — keep building" : "June 15, 2026 — PEN2PRO goes live",
               color: "#00C9B1",
             },
             {
