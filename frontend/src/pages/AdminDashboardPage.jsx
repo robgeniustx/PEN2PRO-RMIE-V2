@@ -139,9 +139,9 @@ export default function AdminDashboardPage() {
             <div className="mb-8 grid grid-cols-2 gap-4 md:grid-cols-4">
               {[
                 { label: "Total Signups", value: data.total_signups ?? 0, color: "#D4A017" },
-                { label: "Pro Interest", value: data.by_interest?.["Pro Plan ($47/mo)"] ?? 0, color: "#00C9B1" },
-                { label: "Elite Interest", value: data.by_interest?.["Elite Plan ($97/mo)"] ?? 0, color: "#D4A017" },
-                { label: "Founders Interest", value: data.by_interest?.["Founders Lifetime ($497)"] ?? 0, color: "#D4A017" },
+                { label: "Pro Interest", value: data.by_interest?.["Pro Plan ($249/mo)"] ?? data.by_interest?.["Pro Plan ($47/mo)"] ?? 0, color: "#00C9B1" },
+                { label: "Elite Interest", value: data.by_interest?.["Elite Plan ($499/mo)"] ?? data.by_interest?.["Elite Plan ($97/mo)"] ?? 0, color: "#D4A017" },
+                { label: "Founders Interest", value: data.by_interest?.["Founders Lifetime ($1,899)"] ?? data.by_interest?.["Founders Lifetime ($497)"] ?? 0, color: "#D4A017" },
               ].map((m, i) => (
                 <div key={i} className="rounded-2xl border border-[#1A2235] p-5" style={{ background: "#0F1520" }}>
                   <p className="text-xs text-slate-500 mb-2">{m.label}</p>
