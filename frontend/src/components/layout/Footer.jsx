@@ -59,15 +59,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Launch */}
+          {/* CTA */}
           <div>
-            <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Launch Date</h4>
+            <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Get Started</h4>
             <div className="rounded-xl border p-4" style={{ borderColor: "rgba(255,138,0,0.3)", background: "#0D1528" }}>
-              <p className="text-xs font-bold uppercase tracking-wide" style={{ color: "#FF8A00" }}>Official Launch</p>
-              <p className="mt-1 text-lg font-black text-white">June 15, 2026</p>
-              <p className="mt-2 text-xs text-slate-500">Secure your spot now. Founding members get locked-in pricing for life.</p>
-              <Link to="/waitlist" className="mt-3 block rounded-lg px-4 py-2 text-center text-xs font-black text-[#0A0F1E] btn-gold">
-                Secure My Spot
+              <p className="text-xs font-bold uppercase tracking-wide" style={{ color: "#FF8A00" }}>Now Live</p>
+              <p className="mt-1 text-base font-black text-white">Free Roadmap Available</p>
+              <p className="mt-2 text-xs text-slate-500">Generate your personalized business roadmap in under 5 minutes — no credit card required.</p>
+              <Link to="/starter" className="mt-3 block rounded-lg px-4 py-2 text-center text-xs font-black text-[#0A0F1E] btn-gold">
+                Start Free Roadmap
               </Link>
             </div>
           </div>
@@ -76,9 +76,9 @@ export default function Footer() {
         <div className="mt-12 border-t border-[#1A2D50] pt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-slate-600">PEN2PRO does not guarantee income, funding approval, or credit results. Results depend on individual effort and market conditions.</p>
           <div className="flex gap-6">
-            <Link to="/privacy" className="text-xs text-slate-600 hover:text-slate-400">Privacy</Link>
-            <Link to="/terms" className="text-xs text-slate-600 hover:text-slate-400">Terms</Link>
-            <Link to="/disclaimer" className="text-xs text-slate-600 hover:text-slate-400">Disclaimer</Link>
+            <span className="text-xs text-slate-700">Privacy</span>
+            <span className="text-xs text-slate-700">Terms</span>
+            <Link to="/affiliate" className="text-xs text-slate-600 hover:text-slate-400">Affiliates</Link>
           </div>
         </div>
       </div>
