@@ -69,13 +69,13 @@ export default function AffiliatePage() {
             <div>
               <h2 className="font-display text-2xl font-bold text-white mb-4">Become a PEN2PRO Affiliate Partner</h2>
               <p className="text-slate-400 text-sm leading-7 mb-6">
-                Refer other founders, veterans, and entrepreneurs to PEN2PRO and earn commissions on every upgrade. Our affiliate program launches June 15, 2026 alongside the full platform.
+                Refer other founders, veterans, and entrepreneurs to PEN2PRO and earn commissions on every upgrade. Our affiliate program launches August 1, 2026 alongside Pro and Elite.
               </p>
               <div className="space-y-3">
                 {[
-                  { label: "Pro Referral", value: "$14/mo recurring (30%)" },
-                  { label: "Elite Referral", value: "$29/mo recurring (30%)" },
-                  { label: "Founders Referral", value: "$149 one-time (30%)" },
+                  { label: "Pro Referral", value: "$74.70/mo recurring (30%)" },
+                  { label: "Elite Referral", value: "$149.70/mo recurring (30%)" },
+                  { label: "Founders Referral", value: "$569.70 one-time (30%)" },
                   { label: "Cookie Window", value: "90 days" },
                   { label: "Payout", value: "Monthly via PayPal or direct deposit" },
                 ].map((item, i) => (
@@ -91,7 +91,7 @@ export default function AffiliatePage() {
               <div className="space-y-4">
                 {[
                   { step: "1", title: "Join the Waitlist", desc: "Sign up for the affiliate program through the waitlist. Affiliate access opens at launch." },
-                  { step: "2", title: "Get Your Link", desc: "We'll send you a unique referral link and affiliate dashboard login on June 15." },
+                  { step: "2", title: "Get Your Link", desc: "We'll send you a unique referral link and affiliate dashboard login at launch on August 1." },
                   { step: "3", title: "Share with Your Network", desc: "Share your link on social media, in communities, or 1-on-1 with people who need this." },
                   { step: "4", title: "Earn Every Month", desc: "Get paid recurring commissions as long as your referrals stay subscribed." },
                 ].map((s, i) => (
