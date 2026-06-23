@@ -8,7 +8,6 @@ const API_BASE =
   import.meta.env.VITE_API_BASE_URL ||
   "http://127.0.0.1:8000";
 
-const LAUNCH_DATE = new Date("2026-06-15T00:00:00Z");
 
 const fallbackPlans = [
   {
@@ -102,46 +101,6 @@ const standaloneTools = [
   { name: "Funding System", price: 99 },
 ];
 
-function useCountdown() {
-  const [t, setT] = useState({});
-
-  useEffect(() => {
-    const calc = () => {
-      const diff = LAUNCH_DATE - Date.now();
-
-      if (diff <= 0) {
-        setT({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        return;
-      }
-
-      setT({
-        days: Math.floor(diff / 86400000),
-        hours: Math.floor((diff % 86400000) / 3600000),
-        minutes: Math.floor((diff % 3600000) / 60000),
-        seconds: Math.floor((diff % 60000) / 1000),
-      });
-    };
-
-    calc();
-    const id = setInterval(calc, 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  return t;
-}
-
-function CountBox({ val, label }) {
-  return (
-    <div className="min-w-[72px] rounded-xl border border-[#1A2D50] bg-[#0F1520] px-4 py-3 text-center">
-      <p className="font-display text-2xl font-black text-[#5ab0ff]">
-        {String(val ?? 0).padStart(2, "0")}
-      </p>
-      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-        {label}
-      </p>
-    </div>
-  );
-}
 
 function PlanCard({ plan }) {
   const [checkoutError, setCheckoutError] = useState("");
@@ -259,9 +218,8 @@ function PlanCard({ plan }) {
 }
 
 export default function PricingPage() {
-  const t = useCountdown();
   const [pricing, setPricing] = useState({
-    launch_date: "June 15",
+    launch_date: "Now Live",
     brand: "PEN2PRO",
     tagline: "From Idea to Income",
     plans: fallbackPlans,
@@ -284,7 +242,7 @@ export default function PricingPage() {
 
         if (active) {
           setPricing({
-            launch_date: data.launch_date || "June 15",
+            launch_date: data.launch_date || "Now Live",
             brand: data.brand || "PEN2PRO",
             tagline: data.tagline || "From Idea to Income",
             plans: Array.isArray(data.plans) && data.plans.length ? data.plans : fallbackPlans,
@@ -456,11 +414,15 @@ export default function PricingPage() {
             This offer will not last long. We are only accepting 200 Founders.
           </p>
 
-          <div className="mb-6 flex justify-center gap-3">
-            <CountBox val={t.days} label="Days" />
-            <CountBox val={t.hours} label="Hours" />
-            <CountBox val={t.minutes} label="Min" />
-            <CountBox val={t.seconds} label="Sec" />
+          <div className="mb-6 mx-auto max-w-sm">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Founding Spots</span>
+              <span className="text-xs font-bold text-[#d4af37]">136 / 200 claimed</span>
+            </div>
+            <div className="h-2 w-full rounded-full bg-[#1A2D50] overflow-hidden">
+              <div className="h-full rounded-full" style={{ width: "68%", background: "linear-gradient(90deg,#d4af37,#f7d675)" }} />
+            </div>
+            <p className="mt-2 text-xs text-slate-500">Only <strong className="text-white">64 spots</strong> remaining at Founders pricing</p>
           </div>
 
           <div className="grid gap-2 text-sm text-slate-200 md:grid-cols-2">
