@@ -8,7 +8,7 @@ const API_BASE =
   import.meta.env.VITE_API_BASE_URL ||
   "http://127.0.0.1:8000";
 
-const LAUNCH_DATE = new Date("2026-06-15T00:00:00Z");
+// Platform is live — launch date passed
 
 const fallbackPlans = [
   {
@@ -103,31 +103,7 @@ const standaloneTools = [
 ];
 
 function useCountdown() {
-  const [t, setT] = useState({});
-
-  useEffect(() => {
-    const calc = () => {
-      const diff = LAUNCH_DATE - Date.now();
-
-      if (diff <= 0) {
-        setT({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        return;
-      }
-
-      setT({
-        days: Math.floor(diff / 86400000),
-        hours: Math.floor((diff % 86400000) / 3600000),
-        minutes: Math.floor((diff % 3600000) / 60000),
-        seconds: Math.floor((diff % 60000) / 1000),
-      });
-    };
-
-    calc();
-    const id = setInterval(calc, 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  return t;
+  return { days: 0, hours: 0, minutes: 0, seconds: 0 };
 }
 
 function CountBox({ val, label }) {
@@ -261,7 +237,7 @@ function PlanCard({ plan }) {
 export default function PricingPage() {
   const t = useCountdown();
   const [pricing, setPricing] = useState({
-    launch_date: "June 15",
+    launch_date: "Now Live",
     brand: "PEN2PRO",
     tagline: "From Idea to Income",
     plans: fallbackPlans,
@@ -284,7 +260,7 @@ export default function PricingPage() {
 
         if (active) {
           setPricing({
-            launch_date: data.launch_date || "June 15",
+            launch_date: data.launch_date || "Now Live",
             brand: data.brand || "PEN2PRO",
             tagline: data.tagline || "From Idea to Income",
             plans: Array.isArray(data.plans) && data.plans.length ? data.plans : fallbackPlans,
@@ -329,7 +305,7 @@ export default function PricingPage() {
       <section className="px-5 pb-16 pt-20 text-center">
         <div className="mx-auto max-w-4xl">
           <p className="mb-3 text-xs font-black uppercase tracking-[0.3em] text-[#5ab0ff]">
-            Launching {pricing.launch_date}
+            Platform Now Live
           </p>
 
           <h1 className="mb-4 font-display text-4xl font-black leading-tight md:text-6xl">
@@ -456,11 +432,11 @@ export default function PricingPage() {
             This offer will not last long. We are only accepting 200 Founders.
           </p>
 
-          <div className="mb-6 flex justify-center gap-3">
-            <CountBox val={t.days} label="Days" />
-            <CountBox val={t.hours} label="Hours" />
-            <CountBox val={t.minutes} label="Min" />
-            <CountBox val={t.seconds} label="Sec" />
+          <div className="mb-6 flex justify-center">
+            <div className="inline-flex items-center gap-2 rounded-xl border border-[#D4A017]/40 bg-[#D4A017]/10 px-5 py-3">
+              <span className="h-2 w-2 rounded-full bg-[#D4A017] animate-pulse" />
+              <span className="text-sm font-bold text-[#D4A017]">Founding Spots Available — Limited to 200 Total</span>
+            </div>
           </div>
 
           <div className="grid gap-2 text-sm text-slate-200 md:grid-cols-2">
