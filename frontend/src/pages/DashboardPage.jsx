@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { LAUNCH_DATE_DISPLAY } from "../utils/constants";
 
 function parseToken(token) {
   if (!token) return null;
@@ -100,7 +101,7 @@ export default function DashboardPage() {
             {
               label: "Days Until Launch",
               value: days,
-              sub: "June 15, 2026 — PEN2PRO goes live",
+              sub: `${LAUNCH_DATE_DISPLAY} — PEN2PRO goes live`,
               color: "#00C9B1",
             },
             {
@@ -130,7 +131,7 @@ export default function DashboardPage() {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="font-display text-lg font-bold text-white mb-1">
-                  Upgrade before the June 15 launch
+                  Upgrade before the {LAUNCH_DATE_DISPLAY} launch
                 </h2>
                 <p className="text-sm text-slate-400">
                   Pro members get unlimited roadmaps, outreach automation, and credit/funding matching.

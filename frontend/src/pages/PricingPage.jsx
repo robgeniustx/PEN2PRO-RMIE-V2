@@ -8,7 +8,8 @@ const API_BASE =
   import.meta.env.VITE_API_BASE_URL ||
   "http://127.0.0.1:8000";
 
-const LAUNCH_DATE = new Date("2026-06-15T00:00:00Z");
+import { LAUNCH_DATE_OBJ, LAUNCH_DATE_DISPLAY, LAUNCH_DATE_SHORT } from "../utils/constants";
+const LAUNCH_DATE = LAUNCH_DATE_OBJ;
 
 const fallbackPlans = [
   {
@@ -261,7 +262,7 @@ function PlanCard({ plan }) {
 export default function PricingPage() {
   const t = useCountdown();
   const [pricing, setPricing] = useState({
-    launch_date: "June 15",
+    launch_date: LAUNCH_DATE_SHORT,
     brand: "PEN2PRO",
     tagline: "From Idea to Income",
     plans: fallbackPlans,
@@ -284,7 +285,7 @@ export default function PricingPage() {
 
         if (active) {
           setPricing({
-            launch_date: data.launch_date || "June 15",
+            launch_date: data.launch_date || LAUNCH_DATE_SHORT,
             brand: data.brand || "PEN2PRO",
             tagline: data.tagline || "From Idea to Income",
             plans: Array.isArray(data.plans) && data.plans.length ? data.plans : fallbackPlans,
