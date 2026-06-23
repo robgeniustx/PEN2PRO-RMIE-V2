@@ -61,13 +61,16 @@ export default function Footer() {
 
           {/* Launch */}
           <div>
-            <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Launch Date</h4>
+            <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Early Access</h4>
             <div className="rounded-xl border p-4" style={{ borderColor: "rgba(255,138,0,0.3)", background: "#0D1528" }}>
-              <p className="text-xs font-bold uppercase tracking-wide" style={{ color: "#FF8A00" }}>Official Launch</p>
-              <p className="mt-1 text-lg font-black text-white">June 15, 2026</p>
-              <p className="mt-2 text-xs text-slate-500">Secure your spot now. Founding members get locked-in pricing for life.</p>
-              <Link to="/waitlist" className="mt-3 block rounded-lg px-4 py-2 text-center text-xs font-black text-[#0A0F1E] btn-gold">
-                Secure My Spot
+              <p className="text-xs font-bold uppercase tracking-wide" style={{ color: "#FF8A00" }}>Now Accepting Founders</p>
+              <p className="mt-1 text-lg font-black text-white">Limited Spots Open</p>
+              <p className="mt-2 text-xs text-slate-500">Founding members get locked-in pricing and full platform access for life.</p>
+              <Link to="/founders" className="mt-3 block rounded-lg px-4 py-2 text-center text-xs font-black text-[#0A0F1E] btn-gold">
+                Become a Founder
+              </Link>
+              <Link to="/waitlist" className="mt-2 block rounded-lg px-4 py-2 text-center text-xs font-semibold text-slate-300 border border-[#1A2D50] hover:border-[#FF8A00] transition-colors">
+                Join the Waitlist
               </Link>
             </div>
           </div>
