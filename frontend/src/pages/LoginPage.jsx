@@ -74,10 +74,80 @@ export default function LoginPage() {
     }
   }
 
+  const TIER_PANELS = [
+    {
+      icon: "🗺️",
+      name: "Free Roadmap",
+      color: "#1A2235",
+      textColor: "#94a3b8",
+      desc: "Start with a real AI business blueprint — no credit card, no fluff. Idea to action plan in under 5 minutes.",
+    },
+    {
+      icon: "⚡",
+      name: "Pro — $249/mo",
+      color: "rgba(212,160,23,0.12)",
+      textColor: "#D4A017",
+      desc: "Full 90-day execution plan, sales scripts, credit readiness checklist, branding, PDF export, and AI refinement.",
+    },
+    {
+      icon: "🏆",
+      name: "Elite — $499/mo",
+      color: "rgba(0,201,177,0.12)",
+      textColor: "#00C9B1",
+      desc: "Everything in Pro plus financial projections, funding partners, done-with-you guidance, and white-glove strategy.",
+    },
+    {
+      icon: "♾️",
+      name: "Founders Lifetime",
+      color: "rgba(212,160,23,0.18)",
+      textColor: "#FFB800",
+      desc: "One-time investment. Full lifetime access. 200 spots only — lock in before pricing increases permanently.",
+    },
+  ];
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
+      <div className="flex min-h-[calc(100vh-80px)]">
+
+        {/* Right panel — tier benefits (hidden on mobile, shown lg+) */}
+        <div className="hidden lg:flex lg:flex-1 items-center justify-center px-10 py-16 border-r border-[#1A2235]" style={{ background: "#0A0F1E" }}>
+          <div className="max-w-sm w-full">
+            <div className="mb-8">
+              <div className="flex items-center gap-2.5 mb-5">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl shrink-0" style={{ background: "linear-gradient(135deg, #0D47A1, #1E88E5)" }}>
+                  <span className="text-lg leading-none">⚡</span>
+                </div>
+                <span className="font-display text-2xl font-black tracking-tight">
+                  <span style={{ color: "#FFFFFF" }}>PEN</span>
+                  <span style={{ color: "#FF8A00" }}>2</span>
+                  <span style={{ color: "#1E88E5" }}>PRO</span>
+                </span>
+              </div>
+              <h2 className="text-xl font-black text-white leading-tight">Build your business roadmap.</h2>
+              <p className="mt-2 text-sm text-slate-400">Save your blueprint. Upgrade when ready.</p>
+            </div>
+            <div className="space-y-3">
+              {TIER_PANELS.map((t) => (
+                <div key={t.name} className="rounded-xl border border-[#1A2235] p-4 transition-all hover:border-yellow-500/20" style={{ background: t.color }}>
+                  <div className="flex items-start gap-3">
+                    <span className="text-xl mt-0.5">{t.icon}</span>
+                    <div>
+                      <p className="text-sm font-bold" style={{ color: t.textColor }}>{t.name}</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-500">{t.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-6 text-xs text-slate-600 text-center">
+              Free forever · Cancel anytime · Founders spots limited
+            </p>
+          </div>
+        </div>
+
+        {/* Left panel — the form */}
+        <div className="flex flex-1 items-center justify-center px-4 py-20">
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8">
@@ -231,7 +301,8 @@ export default function LoginPage() {
             </div>
           </div>
         </div>
-      </div>
+        </div>{/* end left panel */}
+      </div>{/* end outer flex */}
       <Footer />
     </div>
   );
