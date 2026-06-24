@@ -148,3 +148,18 @@ def has_feature_access(tier: str, feature: str) -> bool:
 
 def require_feature_access(tier: str, feature: str) -> bool:
     return has_feature_access(tier, feature)
+
+
+TIER_RANK = {
+    TierName.FREE: 0,
+    TierName.PRO: 1,
+    TierName.ELITE: 2,
+    TierName.FOUNDERS: 3,
+}
+
+
+def has_tier(required: str, user_tier: str | None) -> bool:
+    """Return True if user_tier is at least as high as required."""
+    r = normalize_tier(required)
+    u = normalize_tier(user_tier or "free")
+    return TIER_RANK.get(u, 0) >= TIER_RANK.get(r, 0)
