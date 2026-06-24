@@ -74,11 +74,72 @@ export default function LoginPage() {
     }
   }
 
+  const TIER_BENEFITS = [
+    {
+      icon: "🗺️",
+      tier: "Free Roadmap",
+      color: "#D4A017",
+      desc: "Start instantly — no card needed. Get a business blueprint with 7-day action plan, pricing, and sales scripts.",
+    },
+    {
+      icon: "⚡",
+      tier: "Pro — $249/mo",
+      color: "#2d9cff",
+      desc: "Full 90-day roadmap, branding support, PDF export, outreach strategy, and credit & funding readiness checklist.",
+    },
+    {
+      icon: "🧠",
+      tier: "Elite — $499/mo",
+      color: "#d4af37",
+      desc: "Advanced strategist guidance, financial projections, legal foundation tools, vendor resources, and priority support.",
+    },
+    {
+      icon: "♾️",
+      tier: "Legacy Founder — $1,899",
+      color: "#d4af37",
+      desc: "Lifetime access to everything. 200 spots only. Lock in before the offer closes.",
+    },
+  ];
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
       <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-10 items-start justify-center">
+
+          {/* Side Panel — hidden on small screens */}
+          <div className="hidden lg:flex flex-col w-full max-w-sm shrink-0">
+            <div className="mb-6">
+              <h2 className="font-display text-2xl font-black text-white leading-tight">
+                Build your business roadmap.<br />
+                <span style={{ color: "#D4A017" }}>Save your blueprint.</span><br />
+                Upgrade when ready.
+              </h2>
+              <p className="mt-3 text-sm text-slate-400 leading-relaxed">
+                PEN2PRO RMIE gives you realistic steps, monetization strategy, credit readiness, launch plans, and upgrade paths — all in one place.
+              </p>
+            </div>
+            <div className="space-y-3">
+              {TIER_BENEFITS.map((b) => (
+                <div key={b.tier} className="flex gap-3 rounded-xl border border-[#1A2235] bg-[#0F1520] p-4">
+                  <span className="text-xl shrink-0">{b.icon}</span>
+                  <div>
+                    <p className="text-sm font-bold" style={{ color: b.color }}>{b.tier}</p>
+                    <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">{b.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Link
+              to="/starter"
+              className="mt-6 block rounded-xl px-6 py-3 text-center text-sm font-black text-[#080C14] btn-gold"
+            >
+              Try Free Roadmap — No Card Needed
+            </Link>
+          </div>
+
+          {/* Form Column */}
+          <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
@@ -230,8 +291,13 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
+          {/* end card */}
         </div>
+        {/* end form column */}
+        </div>
+        {/* end two-column layout */}
       </div>
+      {/* end flex centering wrapper */}
       <Footer />
     </div>
   );
