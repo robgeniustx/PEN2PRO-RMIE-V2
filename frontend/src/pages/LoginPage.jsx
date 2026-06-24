@@ -74,10 +74,54 @@ export default function LoginPage() {
     }
   }
 
+  const SIDE_FEATURES = [
+    { tier: "Free Forever", icon: "🗺️", desc: "Get a real AI business blueprint — startup costs, 7/30/90-day plan, and outreach strategy. No credit card." },
+    { tier: "Pro — $249/mo", icon: "📊", desc: "Full roadmap, sales scripts, credit readiness checklist, PDF export, and unlimited AI refinements." },
+    { tier: "Elite — $499/mo", icon: "🚀", desc: "Financial projections, funding partner network, done-with-you guidance, and vendor resource center." },
+    { tier: "Founders Lifetime", icon: "⚡", desc: "One-time access to everything — forever. 200 spots. Lock in your price before they're gone." },
+  ];
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
+      <div className="flex min-h-[calc(100vh-80px)] items-stretch">
+
+        {/* Side Panel */}
+        <div className="hidden lg:flex lg:w-[420px] xl:w-[480px] shrink-0 flex-col justify-between border-r border-[#1A2235] px-10 py-14" style={{ background: "#0A0F1E" }}>
+          <div>
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#FF8A00]">
+              ⚡ PEN2PRO RMIE Platform
+            </div>
+            <h2 className="mt-4 font-display text-2xl font-black leading-tight text-white">
+              Build your business roadmap.<br />
+              <span style={{ background: "linear-gradient(90deg,#D4A017,#FF8A00)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                Save your blueprint. Upgrade when ready.
+              </span>
+            </h2>
+            <p className="mt-3 text-sm text-slate-500 leading-relaxed">
+              PEN2PRO is the AI-powered Rapid Monetization Intelligence Engine for entrepreneurs, veterans, returning citizens, and working-class builders.
+            </p>
+            <div className="mt-8 space-y-4">
+              {SIDE_FEATURES.map((f) => (
+                <div key={f.tier} className="flex gap-3 rounded-xl border border-[#1A2D50] bg-[#080C14] p-4">
+                  <span className="mt-0.5 text-xl shrink-0">{f.icon}</span>
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-wide text-[#D4A017]">{f.tier}</p>
+                    <p className="mt-1 text-xs leading-relaxed text-slate-400">{f.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-8 rounded-xl border border-[#1A2D50] bg-[#080C14] p-4">
+            <p className="text-xs text-slate-500 leading-relaxed">
+              PEN2PRO does not guarantee income, funding approval, or credit results. Results depend on individual effort and market conditions.
+            </p>
+          </div>
+        </div>
+
+        {/* Form Panel */}
+        <div className="flex flex-1 items-center justify-center px-4 py-16">
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8">
@@ -231,6 +275,7 @@ export default function LoginPage() {
             </div>
           </div>
         </div>
+        </div> {/* closes Form Panel flex-1 wrapper */}
       </div>
       <Footer />
     </div>
