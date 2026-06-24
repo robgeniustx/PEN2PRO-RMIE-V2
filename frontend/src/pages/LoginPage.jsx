@@ -74,25 +74,61 @@ export default function LoginPage() {
     }
   }
 
+  const TIER_BENEFITS = [
+    { icon: "🗺️", name: "Free Roadmap", desc: "Start your business blueprint instantly. No credit card. No commitment." },
+    { icon: "⚡", name: "Pro Strategy Tools", desc: "Full 90-day plan, branding, outreach scripts, credit readiness, PDF export." },
+    { icon: "🏆", name: "Elite Execution", desc: "Financial projections, funding resources, done-with-you guidance, priority support." },
+    { icon: "♾️", name: "Legacy Founder", desc: "Lifetime access. One payment. First 200 founders only." },
+  ];
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
-              P2P
+      <div className="flex min-h-[calc(100vh-80px)] items-start justify-center px-4 py-12 lg:items-center">
+        <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-10 lg:gap-16 items-start lg:items-center">
+
+          {/* Left Side Panel */}
+          <div className="flex-1 min-w-0">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#1A2235] bg-[#0F1520] px-3 py-1.5 text-xs font-bold uppercase tracking-widest" style={{ color: "#D4A017" }}>
+              ⚡ PEN2PRO RMIE
             </div>
-            <h1 className="font-display text-3xl font-bold text-white">
-              {tab === "login" ? "Welcome back" : "Create your account"}
-            </h1>
-            <p className="mt-2 text-sm text-slate-400">
-              {tab === "login"
-                ? "Sign in to access your PEN2PRO dashboard"
-                : "Start building your business roadmap today"}
+            <h2 className="font-display text-3xl font-black leading-tight text-white md:text-4xl">
+              Build your business roadmap.<br />
+              <span style={{ color: "#D4A017" }}>Save your blueprint.</span><br />
+              Upgrade when ready.
+            </h2>
+            <p className="mt-4 text-slate-400 leading-relaxed text-sm md:text-base">
+              PEN2PRO gives every type of builder — veterans, returning citizens, working-class entrepreneurs, and first-time founders — the structure, strategy, and tools to go from idea to income.
             </p>
+            <div className="mt-8 space-y-4">
+              {TIER_BENEFITS.map((t) => (
+                <div key={t.name} className="flex items-start gap-3 rounded-xl border border-[#1A2235] bg-[#0F1520] px-4 py-3">
+                  <span className="text-xl mt-0.5 shrink-0">{t.icon}</span>
+                  <div>
+                    <p className="text-sm font-bold text-white">{t.name}</p>
+                    <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">{t.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
+
+          {/* Right Form Column */}
+          <div className="w-full lg:w-[420px] shrink-0">
+            {/* Header */}
+            <div className="text-center mb-6">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl gradient-gold text-base font-black text-[#080C14]">
+                P2P
+              </div>
+              <h1 className="font-display text-2xl font-bold text-white">
+                {tab === "login" ? "Welcome back" : "Create your account"}
+              </h1>
+              <p className="mt-1.5 text-sm text-slate-400">
+                {tab === "login"
+                  ? "Sign in to access your PEN2PRO dashboard"
+                  : "Start building your business roadmap today"}
+              </p>
+            </div>
 
           {/* Card */}
           <div className="rounded-2xl border border-[#1A2235] p-8" style={{ background: "#0F1520" }}>
@@ -229,6 +265,7 @@ export default function LoginPage() {
                 Join the waitlist
               </Link>
             </div>
+          </div>
           </div>
         </div>
       </div>
