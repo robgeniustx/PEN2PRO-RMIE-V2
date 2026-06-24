@@ -9,6 +9,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const isSignup = location.pathname === "/signup";
+  const from = location.state?.from?.pathname || "/dashboard";
 
   const [tab, setTab] = useState(isSignup ? "register" : "login");
   const [loading, setLoading] = useState(false);
@@ -19,8 +20,8 @@ export default function LoginPage() {
 
   useEffect(() => {
     const token = localStorage.getItem("pen2pro_token");
-    if (token) navigate("/dashboard");
-  }, [navigate]);
+    if (token) navigate(from, { replace: true });
+  }, [navigate, from]);
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -36,7 +37,7 @@ export default function LoginPage() {
       if (!res.ok) throw new Error(data.detail || "Login failed");
       localStorage.setItem("pen2pro_token", data.access_token);
       localStorage.setItem("pen2pro_user", JSON.stringify({ name: data.name, tier: data.tier, email: loginForm.email }));
-      navigate("/dashboard");
+      navigate(from, { replace: true });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -66,7 +67,7 @@ export default function LoginPage() {
       if (!res.ok) throw new Error(data.detail || "Registration failed");
       localStorage.setItem("pen2pro_token", data.access_token);
       localStorage.setItem("pen2pro_user", JSON.stringify({ name: data.name, tier: data.tier, email: registerForm.email }));
-      navigate("/dashboard");
+      navigate(from, { replace: true });
     } catch (err) {
       setError(err.message);
     } finally {

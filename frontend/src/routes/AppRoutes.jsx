@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import ProtectedRoute from "../components/layout/ProtectedRoute";
 
 // ── Existing pages ──
 import HomePage from "../pages/HomePage";
@@ -70,9 +71,9 @@ export default function AppRoutes() {
       <Route path="/credit-readiness" element={<CreditReadinessPage />} />
       <Route path="/affiliate" element={<AffiliatePage />} />
 
-      {/* ── Dashboard ── */}
-      <Route path="/dashboard" element={<DashboardWorkspacePage />} />
-      <Route path="/dashboard/:moduleKey" element={<DashboardWorkspacePage />} />
+      {/* ── Dashboard (auth-protected) ── */}
+      <Route path="/dashboard" element={<ProtectedRoute><DashboardWorkspacePage /></ProtectedRoute>} />
+      <Route path="/dashboard/:moduleKey" element={<ProtectedRoute><DashboardWorkspacePage /></ProtectedRoute>} />
 
       {/* ── P2P Command Center ── */}
       <Route path="/command-center" element={<CommandCenterPage />} />
@@ -115,12 +116,12 @@ export default function AppRoutes() {
       {/* ── Domain Finder ── */}
       <Route path="/domain-search" element={<DomainSearchPage />} />
 
-      {/* ── Admin ── */}
-      <Route path="/admin" element={<AdminDashboardPage />} />
-      <Route path="/admin/waitlist" element={<AdminWaitlistPage />} />
-      <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
-      <Route path="/admin/feature-usage" element={<AdminFeatureUsagePage />} />
-      <Route path="/admin/conversions" element={<AdminConversionsPage />} />
+      {/* ── Admin (auth-protected, admin-only) ── */}
+      <Route path="/admin" element={<ProtectedRoute adminOnly><AdminDashboardPage /></ProtectedRoute>} />
+      <Route path="/admin/waitlist" element={<ProtectedRoute adminOnly><AdminWaitlistPage /></ProtectedRoute>} />
+      <Route path="/admin/analytics" element={<ProtectedRoute adminOnly><AdminAnalyticsPage /></ProtectedRoute>} />
+      <Route path="/admin/feature-usage" element={<ProtectedRoute adminOnly><AdminFeatureUsagePage /></ProtectedRoute>} />
+      <Route path="/admin/conversions" element={<ProtectedRoute adminOnly><AdminConversionsPage /></ProtectedRoute>} />
 
       {/* ── Tier Plan Pages ── */}
       <Route path="/pro" element={<ProPage />} />
