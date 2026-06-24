@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { createCheckoutSession } from "../api/stripeApi";
@@ -57,11 +57,10 @@ const WHO_PRO_IS_FOR = [
 ];
 
 export default function ProPage() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleCheckout = async () => {
-    setError("");
     setLoading(true);
     try {
       const result = await createCheckoutSession({ tier: "pro" });
@@ -69,9 +68,9 @@ export default function ProPage() {
         window.location.href = result.checkout_url;
         return;
       }
-      setError(result?.error || "Checkout is not yet live. Join the waitlist to get notified when Pro opens.");
+      navigate("/waitlist?tier=pro");
     } catch {
-      setError("Unable to start checkout. Join the waitlist to get early access.");
+      navigate("/waitlist?tier=pro");
     } finally {
       setLoading(false);
     }
@@ -140,11 +139,6 @@ export default function ProPage() {
               Join Pro Waitlist
             </Link>
           </div>
-          {error && (
-            <p className="mt-4 rounded-xl border border-yellow-500/30 bg-yellow-500/10 px-4 py-3 text-sm text-yellow-200">
-              {error}
-            </p>
-          )}
           <p className="mt-4 text-xs text-slate-500">No long-term contracts. Cancel anytime. 30-day access.</p>
         </div>
       </section>

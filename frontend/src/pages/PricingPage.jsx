@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { createCheckoutSession } from "../api/stripeApi";
@@ -144,15 +144,13 @@ function CountBox({ val, label }) {
 }
 
 function PlanCard({ plan }) {
-  const [checkoutError, setCheckoutError] = useState("");
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const isFeatured = plan.id === "pro";
   const isFounders = plan.id === "founders";
 
   const handlePlanClick = async () => {
-    setCheckoutError("");
-
     if (plan.id === "free" || !plan.stripe_tier) {
       window.location.href = "/starter";
       return;
@@ -168,10 +166,9 @@ function PlanCard({ plan }) {
         return;
       }
 
-      setCheckoutError(result?.error || "Checkout is not configured yet.");
-    } catch (error) {
-      console.error("Pricing checkout error:", error);
-      setCheckoutError("Unable to start checkout. Please try again.");
+      navigate(`/waitlist?tier=${plan.stripe_tier}`);
+    } catch {
+      navigate(`/waitlist?tier=${plan.stripe_tier}`);
     } finally {
       setLoading(false);
     }
@@ -249,11 +246,6 @@ function PlanCard({ plan }) {
         {loading ? "Starting Checkout..." : plan.cta || "Get Started"}
       </button>
 
-      {checkoutError ? (
-        <p className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-200">
-          {checkoutError}
-        </p>
-      ) : null}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { createCheckoutSession } from "../api/stripeApi";
@@ -56,12 +56,11 @@ function CountBox({ val, label }) {
 }
 
 export default function FoundersPage() {
+  const navigate = useNavigate();
   const t = useCountdown();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleCheckout = async () => {
-    setError("");
     setLoading(true);
     try {
       const result = await createCheckoutSession({ tier: "founders" });
@@ -69,9 +68,9 @@ export default function FoundersPage() {
         window.location.href = result.checkout_url;
         return;
       }
-      setError(result?.error || "Checkout is not yet live. Join the founders waitlist to be first.");
+      navigate("/waitlist?tier=founders");
     } catch {
-      setError("Unable to start checkout. Join the waitlist to claim your spot.");
+      navigate("/waitlist?tier=founders");
     } finally {
       setLoading(false);
     }
@@ -152,11 +151,6 @@ export default function FoundersPage() {
               Join Founders Waitlist
             </Link>
           </div>
-          {error && (
-            <p className="mt-4 rounded-xl border border-yellow-500/30 bg-yellow-500/10 px-4 py-3 text-sm text-yellow-200">
-              {error}
-            </p>
-          )}
         </div>
       </section>
 

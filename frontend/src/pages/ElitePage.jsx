@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { createCheckoutSession } from "../api/stripeApi";
@@ -59,11 +59,10 @@ const ELITE_INCLUDES_PRO = [
 ];
 
 export default function ElitePage() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleCheckout = async () => {
-    setError("");
     setLoading(true);
     try {
       const result = await createCheckoutSession({ tier: "elite" });
@@ -71,9 +70,9 @@ export default function ElitePage() {
         window.location.href = result.checkout_url;
         return;
       }
-      setError(result?.error || "Checkout is not yet live. Join the waitlist to get notified when Elite opens.");
+      navigate("/waitlist?tier=elite");
     } catch {
-      setError("Unable to start checkout. Join the waitlist to get early access.");
+      navigate("/waitlist?tier=elite");
     } finally {
       setLoading(false);
     }
@@ -142,11 +141,6 @@ export default function ElitePage() {
               Join Elite Waitlist
             </Link>
           </div>
-          {error && (
-            <p className="mt-4 rounded-xl border border-yellow-500/30 bg-yellow-500/10 px-4 py-3 text-sm text-yellow-200">
-              {error}
-            </p>
-          )}
           <p className="mt-4 text-xs text-slate-500">Includes everything in Pro. Cancel anytime.</p>
         </div>
       </section>
