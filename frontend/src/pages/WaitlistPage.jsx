@@ -7,9 +7,9 @@ const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 const INTERESTS = [
   "Free Roadmap",
-  "Pro Plan ($47/mo)",
-  "Elite Plan ($97/mo)",
-  "Founders Lifetime ($497)",
+  "Pro Plan ($249/mo)",
+  "Elite Plan ($499/mo)",
+  "Founders Lifetime ($1,899)",
   "Affiliate Partner",
   "Funding Help",
   "Credit Repair Help",
@@ -82,7 +82,7 @@ export default function WaitlistPage() {
 
   const [status, setStatus]     = useState("idle"); // idle | loading | success | error
   const [errorMsg, setErrorMsg] = useState("");
-  const cd = useCountdown("2026-06-15T09:00:00");
+  const cd = useCountdown("2026-08-01T00:00:00");
 
   const handle = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -133,9 +133,9 @@ export default function WaitlistPage() {
             </div>
             <h1 className="font-display text-4xl font-black text-white mb-3">You're In.</h1>
             <p className="text-base leading-7 text-slate-400 mb-8">
-              <strong className="text-white">{form.name || "Welcome"}</strong>, your spot is secured for the
-              PEN2PRO launch on{" "}
-              <strong style={{ color: "#D4A017" }}>June 15, 2026</strong>.
+              <strong className="text-white">{form.name || "Welcome"}</strong>, your Founders spot is secured.
+              Lock in your pricing before the offer closes{" "}
+              <strong style={{ color: "#D4A017" }}>August 1, 2026</strong>.
               {refParam && (
                 <span className="block mt-2 text-xs text-slate-600">
                   Referred by: <span className="text-slate-400 font-semibold">{refParam}</span>
@@ -147,8 +147,8 @@ export default function WaitlistPage() {
               <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">What Happens Next</p>
               <ul className="space-y-3">
                 {[
-                  "Confirmation details are saved — watch for our June 15 email",
-                  "Founding members get first access + pricing locked forever",
+                  "Confirmation saved — you'll receive a welcome email shortly",
+                  "Founding members get full platform access + pricing locked forever",
                   "Start your free roadmap right now while you wait",
                   "Share your referral link to earn affiliate commissions at launch",
                 ].map((item) => (
@@ -204,7 +204,7 @@ export default function WaitlistPage() {
               style={{ borderColor: "rgba(212,160,23,0.3)", background: "rgba(212,160,23,0.08)" }}>
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
               <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4A017" }}>
-                Waitlist Open — Limited Founding Spots
+                Platform Live — Founders Offer Closes August 1
               </span>
             </div>
 
@@ -214,14 +214,15 @@ export default function WaitlistPage() {
             </h1>
 
             <p className="mt-5 text-base leading-7 text-slate-400">
-              PEN2PRO officially launches <strong className="text-white">June 15, 2026</strong>. Founding members
-              lock in their pricing for life, get first access, and receive done-with-you launch support
-              that won't be available after launch.
+              PEN2PRO is now live. Founding members who join before{" "}
+              <strong className="text-white">August 1, 2026</strong> lock in their pricing for life, get full
+              platform access, and receive done-with-you onboarding support that won't be available after the
+              Founders offer closes.
             </p>
 
             {/* Countdown */}
             <div className="mt-8">
-              <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-500">Launch In</p>
+              <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-500">Founders Offer Closes In</p>
               <div className="flex items-center gap-2">
                 <CBox v={cd.d} l="Days" />
                 <span className="text-xl font-black opacity-40" style={{ color: "#D4A017" }}>:</span>
@@ -345,7 +346,7 @@ export default function WaitlistPage() {
 
                 <button type="submit" disabled={status === "loading"}
                   className="w-full rounded-xl py-4 text-sm font-black text-[#080C14] btn-gold disabled:opacity-60 disabled:cursor-not-allowed">
-                  {status === "loading" ? "Securing Your Spot..." : "🔒 Secure My Spot — June 15 Launch"}
+                  {status === "loading" ? "Securing Your Spot..." : "🔒 Secure My Founders Spot"}
                 </button>
               </form>
 
