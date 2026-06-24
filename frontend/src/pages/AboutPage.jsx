@@ -38,6 +38,14 @@ const MISSION_POINTS = [
 ];
 
 const PERSONAL_STATEMENT = [
+  { body: "After coming home from prison, Robert tried to rebuild his life the way people are told to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give him a chance." },
+  { body: "More than once, he earned the opportunity. The interviews went well. The job offers came.", emphasis: true },
+  { body: "Then the background checks followed.", callout: true },
+  { body: "The offers were rescinded." },
+  { body: "That kind of rejection can break a person. For a day, it almost did. After moping, frustration, and asking why doors kept closing even after they had looked open — Robert made a decision." },
+  { body: "He picked his head up and took off running.", callout: true },
+  { body: "If the system would not give him a path, he would build one. That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO." },
+  { body: "———", spacer: true },
   { body: "There was a time in my life when everything around me looked broken." },
   { body: "Opportunities were limited. Doors kept closing. Every mistake I made seemed to follow me longer than any good thing I had ever done. I carried frustration, anger, doubt, and the heavy feeling of knowing there was more inside of me than what the world could see on the surface." },
   { body: "During my incarceration, I was faced with a choice.", emphasis: true },
@@ -207,6 +215,10 @@ export default function AboutPage() {
 
           <div className="space-y-6 text-[1.05rem] leading-[1.85] text-slate-300">
             {PERSONAL_STATEMENT.map((item) => {
+              if (item.spacer) {
+                return <hr key={item.body} className="border-[#1A2D50] my-4" />;
+              }
+
               if (item.list) {
                 return (
                   <div key={item.body} className="space-y-2">
