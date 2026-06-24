@@ -1025,6 +1025,28 @@ button { cursor: pointer; font-family: inherit; }
   transform: translateY(-1px);
 }
 
+.gradient-gold {
+  background: linear-gradient(135deg, #D4A017 0%, #FF8A00 100%);
+}
+
+.btn-outline {
+  border: 1px solid rgba(212, 160, 23, 0.35);
+  border-radius: 10px;
+  background: transparent;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.btn-outline:hover {
+  border-color: rgba(212, 160, 23, 0.65);
+  color: #D4A017;
+}
+
+.glow-gold {
+  box-shadow: 0 0 26px rgba(212, 160, 23, 0.4);
+}
+.glow-gold:hover {
+  box-shadow: 0 0 42px rgba(212, 160, 23, 0.55);
+}
+
 .gradient-text {
   background: linear-gradient(90deg, #D4A017 0%, #FF8A00 60%, #D4A017 100%);
   -webkit-background-clip: text;
