@@ -3,7 +3,34 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
-const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+const API = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+
+const TIERS = [
+  {
+    name: "Free Roadmap",
+    color: "#1E88E5",
+    icon: "🗺️",
+    desc: "AI business roadmap, 7-day plan, and launch checklist at no cost.",
+  },
+  {
+    name: "Pro — $249/mo",
+    color: "#D4A017",
+    icon: "📊",
+    desc: "Full 90-day plan, sales scripts, branding, credit readiness, and PDF export.",
+  },
+  {
+    name: "Elite — $499/mo",
+    color: "#00C9B1",
+    icon: "🚀",
+    desc: "Advanced strategist guidance, financial projections, CRM, automations, and priority support.",
+  },
+  {
+    name: "Legacy Founder",
+    color: "#FF8A00",
+    icon: "⚡",
+    desc: "Lifetime access to everything. 200 spots. Lock in forever before the September launch.",
+  },
+];
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -77,8 +104,45 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-16">
+        <div className="w-full max-w-5xl">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+
+            {/* ── LEFT: Tier info panel ── */}
+            <div className="hidden lg:block">
+              <div className="mb-2 text-xs font-bold uppercase tracking-widest text-[#FF8A00]">PEN2PRO RMIE</div>
+              <h2 className="mb-2 font-display text-3xl font-black text-white leading-tight">
+                Build your business roadmap.<br />Save your blueprint.<br />Upgrade when ready.
+              </h2>
+              <p className="mb-8 text-sm text-slate-400 leading-7">
+                Start free. Every plan gives you a real roadmap — not just advice. Pro and Elite members get deeper strategy, stronger AI output, and execution support.
+              </p>
+              <div className="space-y-3">
+                {TIERS.map((t) => (
+                  <div
+                    key={t.name}
+                    className="flex items-start gap-4 rounded-2xl border border-[#1A2235] bg-[#0F1520] p-4"
+                  >
+                    <div
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg"
+                      style={{ background: t.color + "22" }}
+                    >
+                      {t.icon}
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-white">{t.name}</p>
+                      <p className="text-xs text-slate-500 leading-5 mt-0.5">{t.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 text-xs text-slate-600">
+                No credit card required for the free roadmap.
+              </div>
+            </div>
+
+            {/* ── RIGHT: Auth form ── */}
+            <div>
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
@@ -230,6 +294,8 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
+            </div>{/* end right */}
+          </div>{/* end grid */}
         </div>
       </div>
       <Footer />
