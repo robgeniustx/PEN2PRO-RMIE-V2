@@ -77,22 +77,83 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
-              P2P
+      <div className="flex min-h-[calc(100vh-80px)] items-start justify-center px-4 py-16">
+        <div className="w-full max-w-5xl grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start">
+
+          {/* Left: Tier Info Panel */}
+          <div className="hidden lg:flex flex-col justify-center">
+            <div className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#FF8A00]">
+              ⚡ PEN2PRO RMIE
             </div>
-            <h1 className="font-display text-3xl font-bold text-white">
-              {tab === "login" ? "Welcome back" : "Create your account"}
-            </h1>
-            <p className="mt-2 text-sm text-slate-400">
-              {tab === "login"
-                ? "Sign in to access your PEN2PRO dashboard"
-                : "Start building your business roadmap today"}
+            <h2 className="font-display text-3xl font-black text-white leading-tight mb-4">
+              Build your business roadmap. Save your blueprint. Upgrade when ready.
+            </h2>
+            <p className="text-slate-400 text-sm leading-relaxed mb-8">
+              PEN2PRO is the AI-powered Rapid Monetization Intelligence Engine built for entrepreneurs, veterans, returning citizens, and anyone ready to turn an idea into income.
             </p>
+            <div className="space-y-4">
+              {[
+                {
+                  tier: "Free Roadmap",
+                  color: "#D4A017",
+                  desc: "Start your 90-day business blueprint at no cost. Get a real plan — not generic advice.",
+                  path: "/starter",
+                  label: "Start Free",
+                },
+                {
+                  tier: "Pro — $249/mo",
+                  color: "#2d9cff",
+                  desc: "Full roadmap, branding support, credit readiness, outreach strategy, PDF export, and AI refinement.",
+                  path: "/pro",
+                  label: "Explore Pro",
+                },
+                {
+                  tier: "Elite — $499/mo",
+                  color: "#7C3AED",
+                  desc: "Advanced strategist guidance, financial projections, legal foundation, vendor integrations, and priority support.",
+                  path: "/elite",
+                  label: "Explore Elite",
+                },
+                {
+                  tier: "Legacy Founder",
+                  color: "#FF8A00",
+                  desc: "Lifetime access, founder recognition, and locked pricing before the public launch gates close.",
+                  path: "/founders",
+                  label: "Become a Founder",
+                },
+              ].map((t) => (
+                <Link
+                  key={t.tier}
+                  to={t.path}
+                  className="block rounded-xl border border-[#1A2D50] bg-[#0F1520] p-4 hover:border-opacity-80 transition-all group"
+                  style={{ borderColor: `${t.color}30` }}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <p className="text-xs font-bold uppercase tracking-widest" style={{ color: t.color }}>{t.tier}</p>
+                    <span className="text-xs text-slate-600 group-hover:text-slate-400 transition-colors">{t.label} →</span>
+                  </div>
+                  <p className="text-xs text-slate-400 leading-relaxed">{t.desc}</p>
+                </Link>
+              ))}
+            </div>
           </div>
+
+          {/* Right: Auth Form */}
+          <div>
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
+                P2P
+              </div>
+              <h1 className="font-display text-3xl font-bold text-white">
+                {tab === "login" ? "Welcome back" : "Create your account"}
+              </h1>
+              <p className="mt-2 text-sm text-slate-400">
+                {tab === "login"
+                  ? "Sign in to access your PEN2PRO dashboard"
+                  : "Start building your business roadmap today"}
+              </p>
+            </div>
 
           {/* Card */}
           <div className="rounded-2xl border border-[#1A2235] p-8" style={{ background: "#0F1520" }}>
@@ -152,13 +213,20 @@ export default function LoginPage() {
                     className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none"
                   />
                 </div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="btn-gold w-full py-3 text-sm font-bold"
-                >
-                  {loading ? "Signing in..." : "Sign In"}
-                </button>
+                <div className="flex items-center justify-between">
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="btn-gold flex-1 py-3 text-sm font-bold"
+                  >
+                    {loading ? "Signing in..." : "Sign In"}
+                  </button>
+                </div>
+                <div className="text-right mt-1">
+                  <a href="mailto:support@pen2pro.com?subject=Password Reset Request" className="text-xs text-slate-500 hover:text-[#D4A017] transition-colors">
+                    Forgot password?
+                  </a>
+                </div>
               </form>
             )}
 
@@ -230,8 +298,9 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
-        </div>
-      </div>
+          </div>{/* closes right column */}
+        </div>{/* closes grid wrapper */}
+      </div>{/* closes flex */}
       <Footer />
     </div>
   );
