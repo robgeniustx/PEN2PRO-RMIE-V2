@@ -38,6 +38,16 @@ const MISSION_POINTS = [
 ];
 
 const PERSONAL_STATEMENT = [
+  { body: "Robert Green did not create PEN2PRO from a comfortable office or a perfect path. He created it from pressure, rejection, discipline, and the refusal to stay stuck." },
+  { body: "After coming home from prison, Robert tried to rebuild his life the way people are told to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give him a chance. More than once, he earned the opportunity. The interviews went well. The job offers came.", emphasis: true },
+  { body: "Then the background checks followed.", callout: true },
+  { body: "The offers were rescinded." },
+  { body: "That kind of rejection can break a person. For a moment, it almost did." },
+  { body: "After a day of moping, frustration, and asking why doors kept closing after they had already looked open, Robert made a decision. He picked his head up and took off running.", emphasis: true },
+  { body: "If the system would not give him a path, he would build one." },
+  { body: "That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO." },
+  { body: "PEN2PRO is Robert's way of sharing the success, the heartbreak, the lessons, the failures, and the strategies with the world. It is built for people who need a real roadmap, not motivational fluff." },
+  { body: "—", emphasis: true },
   { body: "There was a time in my life when everything around me looked broken." },
   { body: "Opportunities were limited. Doors kept closing. Every mistake I made seemed to follow me longer than any good thing I had ever done. I carried frustration, anger, doubt, and the heavy feeling of knowing there was more inside of me than what the world could see on the surface." },
   { body: "During my incarceration, I was faced with a choice.", emphasis: true },
