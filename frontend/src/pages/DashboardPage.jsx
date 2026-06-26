@@ -130,11 +130,11 @@ export default function DashboardPage() {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="font-display text-lg font-bold text-white mb-1">
-                  Upgrade before the June 15 launch
+                  Unlock full Pro or Elite access
                 </h2>
                 <p className="text-sm text-slate-400">
                   Pro members get unlimited roadmaps, outreach automation, and credit/funding matching.
-                  Founders Lifetime is just $497 — limited to 200 spots.
+                  Founders Lifetime is $1,899 — limited to 200 spots.
                 </p>
               </div>
               <div className="flex gap-3">

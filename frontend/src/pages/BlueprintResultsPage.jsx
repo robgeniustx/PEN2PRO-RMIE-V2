@@ -175,14 +175,14 @@ export default function BlueprintResultsPage() {
             <div className="mb-4 text-4xl">🎯</div>
             <h2 className="font-display text-2xl font-black text-white mb-2">Your roadmap is ready.</h2>
             <p className="text-slate-400 text-sm mb-6">
-              Secure full Pro or Elite access before the June 15, 2026 launch and lock in early pricing.
+              Upgrade to Pro or Elite to unlock the full blueprint, outreach scripts, and execution tools.
             </p>
             <div className="flex flex-col gap-3">
               <Link to="/waitlist?tier=pro" className="btn-gold w-full py-3 text-sm font-bold">
-                Join Waitlist — Pro ($47/mo)
+                Upgrade to Pro — $249/mo
               </Link>
               <Link to="/waitlist?tier=elite" className="block w-full rounded-xl border border-[#D4A017] py-3 text-sm font-bold text-[#D4A017] hover:bg-[#D4A017]/10 transition-all">
-                Join Waitlist — Elite ($97/mo)
+                Upgrade to Elite — $499/mo
               </Link>
               <button
                 onClick={() => setShowModal(false)}
