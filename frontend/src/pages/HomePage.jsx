@@ -1,33 +1,7 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
-function useCountdown(target) {
-  const [t, setT] = useState({});
-  useEffect(() => {
-    const calc = () => {
-      const diff = new Date(target) - new Date();
-      if (diff <= 0) return setT({ d: 0, h: 0, m: 0, s: 0 });
-      setT({ d: Math.floor(diff / 86400000), h: Math.floor((diff % 86400000) / 3600000), m: Math.floor((diff % 3600000) / 60000), s: Math.floor((diff % 60000) / 1000) });
-    };
-    calc();
-    const id = setInterval(calc, 1000);
-    return () => clearInterval(id);
-  }, [target]);
-  return t;
-}
-
-function CountBox({ val, label }) {
-  return (
-    <div className="countdown-box flex flex-col items-center rounded-xl px-4 py-3 min-w-[70px]">
-      <span className="font-display text-3xl font-black tabular-nums leading-none" style={{ color: '#D4A017' }}>
-        {String(val ?? 0).padStart(2, "0")}
-      </span>
-      <span className="mt-1 text-[10px] font-bold uppercase tracking-widest text-slate-500">{label}</span>
-    </div>
-  );
-}
 
 const FEATURES = [
   { icon: "🗺️", title: "AI Business Roadmap", desc: "7-day, 30-day, and 90-day execution plans built for your idea, market, and budget — not generic advice." },
@@ -52,7 +26,6 @@ const TIERS = [
 ];
 
 export default function HomePage() {
-  const cd = useCountdown("2026-06-15T09:00:00");
 
   return (
     <div className="min-h-screen bg-[#080C14]">
@@ -88,19 +61,13 @@ export default function HomePage() {
           </div>
           <p className="mt-4 text-xs text-slate-600">No credit card required · Free roadmap in under 5 minutes</p>
 
-          {/* Countdown */}
-          <div className="mt-14 flex flex-col items-center">
-            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Official Launch Countdown — June 15, 2026</p>
-            <div className="flex items-center gap-3">
-              <CountBox val={cd.d} label="Days" />
-              <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
-              <CountBox val={cd.h} label="Hrs" />
-              <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
-              <CountBox val={cd.m} label="Min" />
-              <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
-              <CountBox val={cd.s} label="Sec" />
+          {/* Now Live Banner */}
+          <div className="mt-14 flex flex-col items-center gap-3">
+            <div className="inline-flex items-center gap-3 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-6 py-3.5">
+              <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-sm font-bold text-emerald-400">PEN2PRO is Live — Waitlist Members Get Priority Early Access</span>
             </div>
-            <p className="mt-3 text-xs text-slate-600">Founders pricing locks in when you join the waitlist today</p>
+            <p className="text-xs text-slate-600">Founders lifetime pricing is available now — limited to 200 spots</p>
           </div>
         </div>
       </section>
