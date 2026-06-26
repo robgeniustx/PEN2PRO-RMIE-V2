@@ -1044,3 +1044,26 @@ button { cursor: pointer; font-family: inherit; }
 .animate-fade-up         { animation: fadeUp 0.6s ease both; }
 .animate-fade-up-delay   { animation: fadeUp 0.6s 0.15s ease both; }
 .animate-fade-up-delay-2 { animation: fadeUp 0.6s 0.3s  ease both; }
+
+.gradient-gold {
+  background: linear-gradient(135deg, #D4A017 0%, #FF8A00 100%);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #1A2D50;
+  border-radius: 12px;
+  color: #94a3b8;
+  font-weight: 700;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.btn-outline:hover {
+  border-color: #D4A017;
+  color: #D4A017;
+}
+
+.glow-gold {
+  box-shadow: 0 0 32px rgba(212, 160, 23, 0.35);
+}
