@@ -7,9 +7,9 @@ const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 const INTERESTS = [
   "Free Roadmap",
-  "Pro Plan ($47/mo)",
-  "Elite Plan ($97/mo)",
-  "Founders Lifetime ($497)",
+  "Pro Plan ($249/mo)",
+  "Elite Plan ($499/mo)",
+  "Founders Lifetime ($1,899)",
   "Affiliate Partner",
   "Funding Help",
   "Credit Repair Help",
@@ -297,7 +297,7 @@ export default function WaitlistPage() {
                   </label>
                   <input type="text" name="name" value={form.name} onChange={handle}
                     placeholder="Your full name" required
-                    className="w-full rounded-xl px-4 py-3 text-sm" />
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none" />
                 </div>
 
                 <div>
@@ -306,7 +306,7 @@ export default function WaitlistPage() {
                   </label>
                   <input type="email" name="email" value={form.email} onChange={handle}
                     placeholder="you@yourbusiness.com" required
-                    className="w-full rounded-xl px-4 py-3 text-sm" />
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none" />
                 </div>
 
                 <div>
@@ -315,7 +315,7 @@ export default function WaitlistPage() {
                   </label>
                   <input type="tel" name="phone" value={form.phone} onChange={handle}
                     placeholder="(713) 555-0100"
-                    className="w-full rounded-xl px-4 py-3 text-sm" />
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none" />
                 </div>
 
                 <div>
@@ -323,7 +323,7 @@ export default function WaitlistPage() {
                     I'm Most Interested In
                   </label>
                   <select name="interest" value={form.interest} onChange={handle}
-                    className="w-full rounded-xl px-4 py-3 text-sm">
+                    className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white focus:border-[#D4A017] focus:outline-none">
                     {INTERESTS.map((i) => (
                       <option key={i} value={i}>{i}</option>
                     ))}
@@ -336,7 +336,7 @@ export default function WaitlistPage() {
                   </label>
                   <textarea name="business_idea" value={form.business_idea} onChange={handle}
                     placeholder="Describe your business idea in 1–2 sentences..."
-                    rows={3} className="w-full rounded-xl px-4 py-3 text-sm resize-none" />
+                    rows={3} className="w-full rounded-xl border border-[#1A2235] bg-[#080C14] px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-[#D4A017] focus:outline-none resize-none" />
                 </div>
 
                 {/* Hidden referral field — populated from ?ref= */}
