@@ -82,7 +82,7 @@ export default function WaitlistPage() {
 
   const [status, setStatus]     = useState("idle"); // idle | loading | success | error
   const [errorMsg, setErrorMsg] = useState("");
-  const cd = useCountdown("2026-06-15T09:00:00");
+  const cd = useCountdown("2026-08-01T00:00:00");
 
   const handle = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -107,7 +107,7 @@ export default function WaitlistPage() {
       } else {
         const data = await res.json().catch(() => ({}));
         if (res.status === 409) {
-          setErrorMsg("That email is already on the list. You're already in — we'll see you June 15!");
+          setErrorMsg("That email is already on the list. You're already in!");
           setStatus("error");
         } else {
           setErrorMsg(data.detail || "Something went wrong. Please try again.");
@@ -135,7 +135,7 @@ export default function WaitlistPage() {
             <p className="text-base leading-7 text-slate-400 mb-8">
               <strong className="text-white">{form.name || "Welcome"}</strong>, your spot is secured for the
               PEN2PRO launch on{" "}
-              <strong style={{ color: "#D4A017" }}>June 15, 2026</strong>.
+              <strong style={{ color: "#D4A017" }}>August 1, 2026</strong>.
               {refParam && (
                 <span className="block mt-2 text-xs text-slate-600">
                   Referred by: <span className="text-slate-400 font-semibold">{refParam}</span>
@@ -147,7 +147,7 @@ export default function WaitlistPage() {
               <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">What Happens Next</p>
               <ul className="space-y-3">
                 {[
-                  "Confirmation details are saved — watch for our June 15 email",
+                  "Confirmation details are saved — watch for your welcome email",
                   "Founding members get first access + pricing locked forever",
                   "Start your free roadmap right now while you wait",
                   "Share your referral link to earn affiliate commissions at launch",
