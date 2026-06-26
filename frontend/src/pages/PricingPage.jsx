@@ -261,7 +261,7 @@ function PlanCard({ plan }) {
 export default function PricingPage() {
   const t = useCountdown();
   const [pricing, setPricing] = useState({
-    launch_date: "June 15",
+    launch_date: "September 15",
     brand: "PEN2PRO",
     tagline: "From Idea to Income",
     plans: fallbackPlans,
@@ -284,7 +284,7 @@ export default function PricingPage() {
 
         if (active) {
           setPricing({
-            launch_date: data.launch_date || "June 15",
+            launch_date: data.launch_date || "September 15",
             brand: data.brand || "PEN2PRO",
             tagline: data.tagline || "From Idea to Income",
             plans: Array.isArray(data.plans) && data.plans.length ? data.plans : fallbackPlans,
