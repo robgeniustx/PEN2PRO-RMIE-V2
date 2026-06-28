@@ -179,10 +179,10 @@ export default function BlueprintResultsPage() {
             </p>
             <div className="flex flex-col gap-3">
               <Link to="/waitlist?tier=pro" className="btn-gold w-full py-3 text-sm font-bold">
-                Join Waitlist — Pro ($47/mo)
+                Join Waitlist — Pro
               </Link>
               <Link to="/waitlist?tier=elite" className="block w-full rounded-xl border border-[#D4A017] py-3 text-sm font-bold text-[#D4A017] hover:bg-[#D4A017]/10 transition-all">
-                Join Waitlist — Elite ($97/mo)
+                Join Waitlist — Elite
               </Link>
               <button
                 onClick={() => setShowModal(false)}

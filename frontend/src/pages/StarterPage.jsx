@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
@@ -256,6 +257,13 @@ export default function StarterPage() {
           </div>
         )}
 
+        {/* Trust line */}
+        <div className="mb-6 flex items-center justify-center gap-5 text-xs text-slate-500">
+          <span className="flex items-center gap-1"><span style={{ color: "#00C9B1" }}>✓</span> Free forever</span>
+          <span className="flex items-center gap-1"><span style={{ color: "#00C9B1" }}>✓</span> No credit card</span>
+          <span className="flex items-center gap-1"><span style={{ color: "#00C9B1" }}>✓</span> Ready in 30 seconds</span>
+        </div>
+
         {/* Card */}
         <div className="rounded-2xl border border-[#1A2235] p-8" style={{ background: "#0F1520" }}>
           {/* Step 1 */}
@@ -455,6 +463,7 @@ export default function StarterPage() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
