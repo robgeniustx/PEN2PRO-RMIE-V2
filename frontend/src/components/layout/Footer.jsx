@@ -59,15 +59,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Launch */}
+          {/* Founders CTA */}
           <div>
-            <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Launch Date</h4>
+            <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Founders Lifetime</h4>
             <div className="rounded-xl border p-4" style={{ borderColor: "rgba(255,138,0,0.3)", background: "#0D1528" }}>
-              <p className="text-xs font-bold uppercase tracking-wide" style={{ color: "#FF8A00" }}>Official Launch</p>
-              <p className="mt-1 text-lg font-black text-white">June 15, 2026</p>
-              <p className="mt-2 text-xs text-slate-500">Secure your spot now. Founding members get locked-in pricing for life.</p>
-              <Link to="/waitlist" className="mt-3 block rounded-lg px-4 py-2 text-center text-xs font-black text-[#0A0F1E] btn-gold">
-                Secure My Spot
+              <p className="text-xs font-bold uppercase tracking-wide" style={{ color: "#FF8A00" }}>Only 200 Spots · Closes Aug 1</p>
+              <p className="mt-1 text-lg font-black text-white">$1,899 — For Life</p>
+              <p className="mt-2 text-xs text-slate-500">Lock in lifetime access before the Founders offer closes. Price never offered again.</p>
+              <Link to="/founders" className="mt-3 block rounded-lg px-4 py-2 text-center text-xs font-black text-[#0A0F1E] btn-gold">
+                Claim Founders Spot
               </Link>
             </div>
           </div>
