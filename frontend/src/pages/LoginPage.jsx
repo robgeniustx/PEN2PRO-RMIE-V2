@@ -5,6 +5,33 @@ import Footer from "../components/layout/Footer";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
+const TIER_BENEFITS = [
+  {
+    tier: "Free Roadmap",
+    color: "#FF8A00",
+    icon: "🗺️",
+    desc: "Get a complete starter business blueprint — idea summary, target customer, revenue model, and 7-day action plan. No credit card.",
+  },
+  {
+    tier: "Pro — $249/mo",
+    color: "#2d9cff",
+    icon: "📊",
+    desc: "Full RMIE blueprint, 90-day execution plan, branding support, credit & funding checklist, PDF export, and AI refinement.",
+  },
+  {
+    tier: "Elite — $499/mo",
+    color: "#d4af37",
+    icon: "🧠",
+    desc: "Everything in Pro plus advanced strategy, financial projections, legal foundation, vendor & funding resource center, and priority support.",
+  },
+  {
+    tier: "Founders Lifetime",
+    color: "#d4af37",
+    icon: "♾️",
+    desc: "One payment, lifetime access. Every feature ever built — including P2P Command Center, Voice Agent, and Website Builder.",
+  },
+];
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -77,27 +104,79 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
-              P2P
+
+      <div className="mx-auto flex min-h-[calc(100vh-80px)] max-w-6xl items-stretch gap-0 px-4 py-12 md:py-20">
+
+        {/* ── LEFT: Tier Benefits Panel ── */}
+        <div className="hidden md:flex md:w-5/12 flex-col justify-center pr-12">
+
+          {/* Brand lockup */}
+          <div className="mb-4 flex items-center gap-2.5">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl shrink-0"
+              style={{ background: "linear-gradient(135deg, #0D47A1, #1E88E5)", boxShadow: "0 0 18px rgba(30,136,229,0.35)" }}>
+              <span className="text-lg leading-none">⚡</span>
             </div>
+            <span className="font-display text-2xl font-black tracking-tight">
+              <span style={{ color: "#FFFFFF" }}>PEN</span>
+              <span style={{ color: "#FF8A00" }}>2</span>
+              <span style={{ color: "#1E88E5" }}>PRO</span>
+            </span>
+          </div>
+
+          <h2 className="mb-3 font-display text-2xl font-black leading-snug text-white">
+            Build your business roadmap.<br />
+            Save your blueprint.<br />
+            Upgrade when ready.
+          </h2>
+          <p className="mb-8 text-sm text-slate-400 leading-relaxed">
+            PEN2PRO RMIE turns your idea into a real action plan — business structure, launch steps, credit readiness, and funding strategy — in minutes.
+          </p>
+
+          <div className="space-y-4">
+            {TIER_BENEFITS.map((b) => (
+              <div key={b.tier} className="flex items-start gap-3 rounded-xl border border-[#1A2235] bg-[#0F1520] p-4">
+                <span className="mt-0.5 shrink-0 text-xl">{b.icon}</span>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-widest mb-0.5" style={{ color: b.color }}>{b.tier}</p>
+                  <p className="text-xs text-slate-400 leading-relaxed">{b.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-6 text-xs text-slate-600">
+            No credit card required to start. Upgrade anytime.
+          </p>
+        </div>
+
+        {/* ── RIGHT: Auth Form ── */}
+        <div className="w-full md:w-7/12 flex flex-col justify-center md:border-l md:border-[#1A2235] md:pl-12">
+
+          {/* Mobile brand header */}
+          <div className="mb-8 text-center md:hidden">
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl"
+              style={{ background: "linear-gradient(135deg, #0D47A1, #1E88E5)" }}>
+              <span className="text-xl leading-none">⚡</span>
+            </div>
+            <h1 className="font-display text-2xl font-black text-white">PEN2PRO</h1>
+            <p className="mt-1 text-sm text-slate-400">Build your business roadmap. Save your blueprint.</p>
+          </div>
+
+          <div className="mb-6 hidden md:block">
             <h1 className="font-display text-3xl font-bold text-white">
               {tab === "login" ? "Welcome back" : "Create your account"}
             </h1>
             <p className="mt-2 text-sm text-slate-400">
               {tab === "login"
                 ? "Sign in to access your PEN2PRO dashboard"
-                : "Start building your business roadmap today"}
+                : "Start building your business roadmap today — free"}
             </p>
           </div>
 
           {/* Card */}
-          <div className="rounded-2xl border border-[#1A2235] p-8" style={{ background: "#0F1520" }}>
+          <div className="rounded-2xl border border-[#1A2235] p-7" style={{ background: "#0F1520" }}>
             {/* Tabs */}
-            <div className="mb-8 flex rounded-xl border border-[#1A2235] p-1" style={{ background: "#080C14" }}>
+            <div className="mb-7 flex rounded-xl border border-[#1A2235] p-1" style={{ background: "#080C14" }}>
               <button
                 onClick={() => { setTab("login"); setError(""); }}
                 className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${
@@ -122,14 +201,14 @@ export default function LoginPage() {
 
             {/* Error */}
             {error && (
-              <div className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+              <div className="mb-5 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
                 {error}
               </div>
             )}
 
             {/* Login Form */}
             {tab === "login" && (
-              <form onSubmit={handleLogin} className="space-y-5">
+              <form onSubmit={handleLogin} className="space-y-4">
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-slate-300">Email address</label>
                   <input
@@ -142,7 +221,12 @@ export default function LoginPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-300">Password</label>
+                  <div className="mb-1.5 flex items-center justify-between">
+                    <label className="text-sm font-medium text-slate-300">Password</label>
+                    <Link to="/waitlist" className="text-xs font-semibold hover:underline" style={{ color: "#D4A017" }}>
+                      Forgot password?
+                    </Link>
+                  </div>
                   <input
                     type="password"
                     required
@@ -159,12 +243,19 @@ export default function LoginPage() {
                 >
                   {loading ? "Signing in..." : "Sign In"}
                 </button>
+                <p className="text-center text-sm text-slate-500">
+                  No account yet?{" "}
+                  <button type="button" onClick={() => { setTab("register"); setError(""); }}
+                    className="font-semibold hover:underline" style={{ color: "#D4A017" }}>
+                    Create one free
+                  </button>
+                </p>
               </form>
             )}
 
             {/* Register Form */}
             {tab === "register" && (
-              <form onSubmit={handleRegister} className="space-y-5">
+              <form onSubmit={handleRegister} className="space-y-4">
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-slate-300">Full name</label>
                   <input
@@ -219,19 +310,42 @@ export default function LoginPage() {
                 <p className="text-center text-xs text-slate-500">
                   By creating an account you agree to our Terms of Service and Privacy Policy.
                 </p>
+                <p className="text-center text-sm text-slate-500">
+                  Already have an account?{" "}
+                  <button type="button" onClick={() => { setTab("login"); setError(""); }}
+                    className="font-semibold hover:underline" style={{ color: "#D4A017" }}>
+                    Sign in
+                  </button>
+                </p>
               </form>
             )}
 
             {/* Waitlist link */}
-            <div className="mt-6 text-center text-sm text-slate-500">
+            <div className="mt-5 text-center text-sm text-slate-500">
               Not ready to sign up yet?{" "}
               <Link to="/waitlist" className="font-semibold" style={{ color: "#D4A017" }}>
                 Join the waitlist
               </Link>
             </div>
           </div>
+
+          {/* Tier quick links — mobile only */}
+          <div className="mt-6 grid grid-cols-3 gap-2 md:hidden">
+            {[
+              { label: "Free Roadmap", href: "/starter", color: "#FF8A00" },
+              { label: "Pro Plan", href: "/pro", color: "#2d9cff" },
+              { label: "Founders", href: "/founders", color: "#d4af37" },
+            ].map((l) => (
+              <Link key={l.href} to={l.href}
+                className="rounded-lg border border-[#1A2235] px-2 py-2.5 text-center text-xs font-semibold transition-colors hover:bg-[#0F1520]"
+                style={{ color: l.color }}>
+                {l.label}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
+
       <Footer />
     </div>
   );
