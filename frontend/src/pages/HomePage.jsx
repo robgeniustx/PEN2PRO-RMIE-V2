@@ -52,7 +52,7 @@ const TIERS = [
 ];
 
 export default function HomePage() {
-  const cd = useCountdown("2026-06-15T09:00:00");
+  const cd = useCountdown("2026-08-01T09:00:00");
 
   return (
     <div className="min-h-screen bg-[#080C14]">
