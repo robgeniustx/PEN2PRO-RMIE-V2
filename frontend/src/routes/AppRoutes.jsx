@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 // ── Existing pages ──
 import HomePage from "../pages/HomePage";
+import LegalPage from "../pages/LegalPage";
 import LoginPage from "../pages/LoginPage";
 import WaitlistPage from "../pages/WaitlistPage";
 import PricingPage from "../pages/PricingPage";
@@ -141,6 +142,11 @@ export default function AppRoutes() {
       <Route path="/contacts" element={<Navigate to="/dashboard/contacts" replace />} />
       <Route path="/lead-inbox" element={<Navigate to="/dashboard/lead-inbox" replace />} />
       <Route path="/pipeline" element={<Navigate to="/dashboard/pipeline" replace />} />
+
+      {/* ── Legal Pages ── */}
+      <Route path="/privacy" element={<LegalPage />} />
+      <Route path="/terms" element={<LegalPage />} />
+      <Route path="/disclaimer" element={<LegalPage />} />
 
       {/* ── 404 ── */}
       <Route path="*" element={<NotFoundPage />} />
