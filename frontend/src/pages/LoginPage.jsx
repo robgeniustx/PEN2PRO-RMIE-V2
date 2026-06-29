@@ -74,23 +74,66 @@ export default function LoginPage() {
     }
   }
 
+  const TIER_CARDS = [
+    { icon: "🗺️", name: "Free Roadmap", desc: "Start free. Get a real AI business blueprint — no credit card required.", color: "#64748B" },
+    { icon: "⚡", name: "Pro — $249/mo", desc: "Full roadmap, 90-day plan, outreach scripts, credit checklist, PDF export.", color: "#2d9cff" },
+    { icon: "🎯", name: "Elite — $499/mo", desc: "Everything in Pro plus financial projections, vendor resources, and priority strategy support.", color: "#00C9B1" },
+    { icon: "♾️", name: "Founders Lifetime", desc: "One-time payment. Lifetime access. Everything unlocked. 200 spots only.", color: "#D4A017" },
+  ];
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
-          {/* Header */}
-          <div className="text-center mb-8">
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-16">
+        <div className="w-full max-w-5xl grid gap-12 lg:grid-cols-2 lg:items-center">
+
+          {/* ── Left: Side Panel ── */}
+          <div className="hidden lg:block">
+            <div className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: "#FF8A00" }}>PEN2PRO RMIE</div>
+            <h2 className="font-display text-3xl font-black leading-tight text-white mb-4">
+              Build your business roadmap.<br />
+              <span style={{ color: "#D4A017" }}>Save your blueprint.</span><br />
+              Upgrade when ready.
+            </h2>
+            <p className="text-sm leading-7 text-slate-400 mb-8">
+              Every plan starts free. Your account saves your roadmap so you never lose your work. Upgrade to Pro, Elite, or Founders when you're ready to go deeper.
+            </p>
+
+            <div className="space-y-3">
+              {TIER_CARDS.map((t) => (
+                <div key={t.name} className="flex items-start gap-4 rounded-2xl border border-[#1A2235] bg-[#0F1520] p-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xl" style={{ background: `${t.color}15` }}>
+                    {t.icon}
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-white">{t.name}</p>
+                    <p className="text-xs leading-5 text-slate-400">{t.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 rounded-2xl border border-[#1A2235] bg-[#0F1520] p-5">
+              <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">What users are saying</p>
+              <p className="text-sm leading-7 text-slate-300 italic">
+                "I went from a napkin idea to a full LLC, business bank account, and my first $2,400 month in 47 days. PEN2PRO didn't give me motivation — it gave me a system."
+              </p>
+              <p className="mt-2 text-xs font-semibold text-slate-500">— Marcus T., Pressure Washing Owner, Houston TX</p>
+            </div>
+          </div>
+
+          {/* ── Right: Form ── */}
+          <div className="w-full">
+          {/* Mobile header */}
+          <div className="text-center mb-8 lg:hidden">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
               P2P
             </div>
-            <h1 className="font-display text-3xl font-bold text-white">
+            <h1 className="font-display text-2xl font-bold text-white">
               {tab === "login" ? "Welcome back" : "Create your account"}
             </h1>
             <p className="mt-2 text-sm text-slate-400">
-              {tab === "login"
-                ? "Sign in to access your PEN2PRO dashboard"
-                : "Start building your business roadmap today"}
+              Build your roadmap. Save your blueprint. Upgrade when ready.
             </p>
           </div>
 
@@ -217,7 +260,10 @@ export default function LoginPage() {
                   {loading ? "Creating account..." : "Create Account — Free"}
                 </button>
                 <p className="text-center text-xs text-slate-500">
-                  By creating an account you agree to our Terms of Service and Privacy Policy.
+                  By creating an account you agree to our{" "}
+                  <Link to="/terms" className="underline hover:text-slate-300">Terms of Service</Link>
+                  {" "}and{" "}
+                  <Link to="/privacy" className="underline hover:text-slate-300">Privacy Policy</Link>.
                 </p>
               </form>
             )}
@@ -229,6 +275,7 @@ export default function LoginPage() {
                 Join the waitlist
               </Link>
             </div>
+          </div>
           </div>
         </div>
       </div>
