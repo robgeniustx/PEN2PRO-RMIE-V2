@@ -77,8 +77,51 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-16">
+        <div className="w-full max-w-5xl grid gap-12 lg:grid-cols-[1fr_420px] lg:items-center">
+
+          {/* Tier Benefits Panel — desktop only */}
+          <div className="hidden lg:flex flex-col justify-center">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#1A2D50] bg-[#0F1520] px-4 py-1.5 text-xs font-bold text-[#FF8A00] uppercase tracking-widest">
+              ⚡ PEN2PRO RMIE
+            </div>
+            <h2 className="font-display text-3xl font-black text-white leading-tight mb-3">
+              Build your business roadmap.<br />
+              <span style={{ background: "linear-gradient(90deg, #1E88E5, #FF8A00)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                Save your blueprint. Upgrade when ready.
+              </span>
+            </h2>
+            <p className="text-slate-400 text-sm mb-8 leading-relaxed">
+              Sign in to access your roadmap, tracking, and business strategy engine — built for serious builders.
+            </p>
+            <div className="space-y-3">
+              {[
+                { icon: "🗺️", title: "Free Roadmap", desc: "AI-generated blueprint with 7-day action plan. No credit card required.", color: "#64748b" },
+                { icon: "📊", title: "Pro Strategy Tools", desc: "90-day execution plan, sales scripts, branding support, and credit readiness checklist.", color: "#D4A017" },
+                { icon: "⚡", title: "Elite Execution Support", desc: "Advanced guidance, financial projections, funding resources, and done-with-you strategy.", color: "#00C9B1" },
+                { icon: "🏆", title: "Legacy Founder Access", desc: "Lifetime access, Command Center, Voice Agent, Website Builder, and founder recognition.", color: "#FF8A00" },
+              ].map((t) => (
+                <div key={t.title} className="flex items-start gap-4 rounded-xl border border-[#1A2235] bg-[#0F1520] p-4">
+                  <div
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xl"
+                    style={{ background: `${t.color}18`, border: `1px solid ${t.color}40` }}
+                  >
+                    {t.icon}
+                  </div>
+                  <div>
+                    <p className="font-bold text-white text-sm">{t.title}</p>
+                    <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{t.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-6 text-xs text-slate-600">
+              PEN2PRO does not guarantee income, credit results, or funding approval. Results depend on individual effort.
+            </p>
+          </div>
+
+          {/* Form Column */}
+          <div className="w-full">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
@@ -229,6 +272,7 @@ export default function LoginPage() {
                 Join the waitlist
               </Link>
             </div>
+          </div>
           </div>
         </div>
       </div>
