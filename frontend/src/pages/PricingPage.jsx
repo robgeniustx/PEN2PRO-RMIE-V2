@@ -8,7 +8,7 @@ const API_BASE =
   import.meta.env.VITE_API_BASE_URL ||
   "http://127.0.0.1:8000";
 
-const LAUNCH_DATE = new Date("2026-06-15T00:00:00Z");
+const FOUNDERS_DEADLINE = new Date("2026-09-01T00:00:00Z");
 
 const fallbackPlans = [
   {
@@ -107,7 +107,7 @@ function useCountdown() {
 
   useEffect(() => {
     const calc = () => {
-      const diff = LAUNCH_DATE - Date.now();
+      const diff = FOUNDERS_DEADLINE - Date.now();
 
       if (diff <= 0) {
         setT({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -261,7 +261,7 @@ function PlanCard({ plan }) {
 export default function PricingPage() {
   const t = useCountdown();
   const [pricing, setPricing] = useState({
-    launch_date: "June 15",
+    launch_date: "Now Open",
     brand: "PEN2PRO",
     tagline: "From Idea to Income",
     plans: fallbackPlans,
@@ -284,7 +284,7 @@ export default function PricingPage() {
 
         if (active) {
           setPricing({
-            launch_date: data.launch_date || "June 15",
+            launch_date: data.launch_date || "Now Open",
             brand: data.brand || "PEN2PRO",
             tagline: data.tagline || "From Idea to Income",
             plans: Array.isArray(data.plans) && data.plans.length ? data.plans : fallbackPlans,
@@ -329,7 +329,7 @@ export default function PricingPage() {
       <section className="px-5 pb-16 pt-20 text-center">
         <div className="mx-auto max-w-4xl">
           <p className="mb-3 text-xs font-black uppercase tracking-[0.3em] text-[#5ab0ff]">
-            Launching {pricing.launch_date}
+            PEN2PRO Is Live — {pricing.launch_date}
           </p>
 
           <h1 className="mb-4 font-display text-4xl font-black leading-tight md:text-6xl">
@@ -456,6 +456,9 @@ export default function PricingPage() {
             This offer will not last long. We are only accepting 200 Founders.
           </p>
 
+          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-[#5ab0ff]">
+            Founders Pricing Closes In
+          </p>
           <div className="mb-6 flex justify-center gap-3">
             <CountBox val={t.days} label="Days" />
             <CountBox val={t.hours} label="Hours" />
