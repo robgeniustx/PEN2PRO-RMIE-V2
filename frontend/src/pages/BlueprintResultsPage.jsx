@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 
 const SAMPLE = {
   business_idea: "Pressure Washing Business",
@@ -528,6 +529,7 @@ export default function BlueprintResultsPage() {
 
       {/* Bottom padding for sticky bar */}
       <div className="h-20" />
+      <Footer />
     </div>
   );
 }
