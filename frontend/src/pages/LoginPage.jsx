@@ -77,7 +77,69 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
+      <div className="flex min-h-[calc(100vh-80px)]">
+
+        {/* ── Left side panel (desktop only) ── */}
+        <div className="hidden lg:flex flex-col justify-center px-12 py-20 border-r border-[#1A2235] shrink-0 w-[44%]" style={{ background: "#0F1520" }}>
+          <div className="max-w-sm">
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-[#1A2235] bg-[#080C14] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#D4A017]">
+              ⚡ PEN2PRO RMIE
+            </div>
+            <h2 className="mt-4 font-display text-3xl font-black leading-tight text-white">
+              Build your business roadmap. Save your blueprint. Upgrade when ready.
+            </h2>
+            <p className="mt-3 text-sm text-slate-400 leading-relaxed">
+              Sign in to access your PEN2PRO workspace and continue building.
+            </p>
+
+            <div className="mt-8 space-y-3">
+              {/* Free */}
+              <div className="rounded-xl border border-[#1A2235] bg-[#080C14] p-4">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Free Forever</p>
+                <p className="text-sm font-bold text-white">AI Business Roadmap</p>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  7/30/90-day plan, offer structure, startup checklist — no credit card.
+                </p>
+              </div>
+              {/* Pro */}
+              <div className="rounded-xl border border-[#2d9cff]/40 p-4" style={{ background: "#0c1829" }}>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#2d9cff] mb-1">Pro — $249/mo</p>
+                <p className="text-sm font-bold text-white">Full Strategy Tools</p>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Full blueprint, branding, outreach, credit readiness, PDF export.
+                </p>
+              </div>
+              {/* Elite */}
+              <div className="rounded-xl border border-[#d4af37]/40 p-4" style={{ background: "#130f03" }}>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#d4af37] mb-1">Elite — $499/mo</p>
+                <p className="text-sm font-bold text-white">Elite Execution Support</p>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Financial projections, done-with-you strategy, vendor &amp; funding center.
+                </p>
+              </div>
+              {/* Legacy Founder */}
+              <div className="rounded-xl border border-[#d4af37] p-4" style={{ background: "#15120a", boxShadow: "0 0 20px rgba(212,175,55,0.12)" }}>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#d4af37] mb-1">Legacy Founders — $1,899 for life</p>
+                <p className="text-sm font-bold text-white">Lifetime Platform Access</p>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Every feature, forever. 200 spots only — price locked at signup.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex gap-3">
+              <Link to="/starter" className="rounded-lg border border-[#1A2235] px-3 py-2 text-xs font-semibold text-slate-400 hover:text-white hover:border-[#D4A017]/50 transition">
+                Free Roadmap →
+              </Link>
+              <Link to="/pricing" className="rounded-lg border border-[#1A2235] px-3 py-2 text-xs font-semibold text-slate-400 hover:text-white hover:border-[#D4A017]/50 transition">
+                View Pricing →
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Right: form panel ── */}
+        <div className="flex flex-1 items-center justify-center px-4 py-20">
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8">
@@ -231,7 +293,8 @@ export default function LoginPage() {
             </div>
           </div>
         </div>
-      </div>
+        </div>{/* end right panel */}
+      </div>{/* end flex row */}
       <Footer />
     </div>
   );
