@@ -8,7 +8,7 @@ const API_BASE =
   import.meta.env.VITE_API_BASE_URL ||
   "http://127.0.0.1:8000";
 
-const LAUNCH_DATE = new Date("2026-06-15T00:00:00Z");
+const FOUNDERS_CLOSE_DATE = new Date("2026-09-15T00:00:00Z");
 
 const fallbackPlans = [
   {
@@ -107,7 +107,7 @@ function useCountdown() {
 
   useEffect(() => {
     const calc = () => {
-      const diff = LAUNCH_DATE - Date.now();
+      const diff = FOUNDERS_CLOSE_DATE - Date.now();
 
       if (diff <= 0) {
         setT({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -328,9 +328,12 @@ export default function PricingPage() {
 
       <section className="px-5 pb-16 pt-20 text-center">
         <div className="mx-auto max-w-4xl">
-          <p className="mb-3 text-xs font-black uppercase tracking-[0.3em] text-[#5ab0ff]">
-            Launching {pricing.launch_date}
-          </p>
+          <div className="mb-3 inline-flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-[#5ab0ff]">
+              Now Live — Founders Pricing Available
+            </p>
+          </div>
 
           <h1 className="mb-4 font-display text-4xl font-black leading-tight md:text-6xl">
             One AI Operating System For Your Entire Business
@@ -453,7 +456,7 @@ export default function PricingPage() {
 
           <p className="mx-auto mb-6 max-w-3xl text-slate-300">
             Everything you need to launch your business from idea to income and scale with a 10M strategist framework over the next 12 months.
-            This offer will not last long. We are only accepting 200 Founders.
+            This offer will not last long. Only 200 Founders spots — Founders window closes September 15.
           </p>
 
           <div className="mb-6 flex justify-center gap-3">
