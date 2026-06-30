@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
@@ -113,13 +113,14 @@ const SAMPLE_ROADMAP = {
 
 export default function StarterPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [loadingMsgIdx, setLoadingMsgIdx] = useState(0);
   const [error, setError] = useState("");
 
   const [form, setForm] = useState({
-    business_idea: "",
+    business_idea: searchParams.get("idea") || "",
     category: "",
     target_customer: "",
     budget: "",
@@ -129,6 +130,11 @@ export default function StarterPage() {
     name: "",
     email: "",
   });
+
+  useEffect(() => {
+    const idea = searchParams.get("idea");
+    if (idea) setForm(f => ({ ...f, business_idea: idea }));
+  }, [searchParams]);
 
   function update(field, val) {
     setForm(f => ({ ...f, [field]: val }));
