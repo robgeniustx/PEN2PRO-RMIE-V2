@@ -73,9 +73,9 @@ export default function AffiliatePage() {
               </p>
               <div className="space-y-3">
                 {[
-                  { label: "Pro Referral", value: "$14/mo recurring (30%)" },
-                  { label: "Elite Referral", value: "$29/mo recurring (30%)" },
-                  { label: "Founders Referral", value: "$149 one-time (30%)" },
+                  { label: "Pro Referral", value: "$74.70/mo recurring (30%)" },
+                  { label: "Elite Referral", value: "$149.70/mo recurring (30%)" },
+                  { label: "Founders Referral", value: "$569.70 one-time (30%)" },
                   { label: "Cookie Window", value: "90 days" },
                   { label: "Payout", value: "Monthly via PayPal or direct deposit" },
                 ].map((item, i) => (
