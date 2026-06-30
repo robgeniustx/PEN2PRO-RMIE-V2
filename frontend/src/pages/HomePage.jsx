@@ -46,13 +46,13 @@ const TESTIMONIALS = [
 
 const TIERS = [
   { name: "Free Forever", price: "$0", per: "", badge: "", borderColor: "#1A2235", features: ["1 AI Business Roadmap", "Basic strategy output", "Brand name suggestions", "LLC setup checklist", "Waitlist access"], cta: "Start Free Roadmap", href: "/starter", ctaClass: "border border-[#1A2235] text-slate-300 hover:border-yellow-500 hover:text-yellow-400" },
-  { name: "Pro", price: "$249", per: "/mo", badge: "Most Popular", borderColor: "#D4A017", features: ["Unlimited roadmaps", "Full 90-day execution plan", "Sales scripts & outreach", "Credit readiness checklist", "PDF/email export", "AI business refinement"], cta: "Upgrade to Pro", href: "/pricing", ctaClass: "border border-yellow-500/60 text-yellow-400" },
-  { name: "Elite", price: "$499", per: "/mo", badge: "Best Value", borderColor: "#00C9B1", features: ["Everything in Pro", "Financial projections", "Funding partner resources", "Done-with-you guidance", "Vendor & credit center", "White-glove strategy"], cta: "Upgrade to Elite", href: "/pricing", ctaClass: "border border-teal-400/60 text-teal-400" },
-  { name: "Founders Lifetime", price: "$1,899", per: " for life", badge: "200 Spots Only", borderColor: "#D4A017", features: ["Lifetime PEN2PRO access", "Everything in Elite", "P2P Command Center", "P2P AI Voice Agent", "Website Builder", "12-month 10M strategist framework"], cta: "Claim Founders Lifetime", href: "/pricing", ctaClass: "btn-gold text-[#080C14]" },
+  { name: "Pro", price: "$249", per: "/mo", badge: "Most Popular", borderColor: "#D4A017", features: ["Unlimited roadmaps", "Full 90-day execution plan", "Sales scripts & outreach", "Credit readiness checklist", "PDF/email export", "AI business refinement"], cta: "Upgrade to Pro", href: "/pro", ctaClass: "border border-yellow-500/60 text-yellow-400" },
+  { name: "Elite", price: "$499", per: "/mo", badge: "Best Value", borderColor: "#00C9B1", features: ["Everything in Pro", "Financial projections", "Funding partner resources", "Done-with-you guidance", "Vendor & credit center", "White-glove strategy"], cta: "Upgrade to Elite", href: "/elite", ctaClass: "border border-teal-400/60 text-teal-400" },
+  { name: "Founders Lifetime", price: "$1,899", per: " for life", badge: "200 Spots Only", borderColor: "#D4A017", features: ["Lifetime PEN2PRO access", "Everything in Elite", "P2P Command Center", "P2P AI Voice Agent", "Website Builder", "12-month 10M strategist framework"], cta: "Claim Founders Lifetime", href: "/founders", ctaClass: "btn-gold text-[#080C14]" },
 ];
 
 export default function HomePage() {
-  const cd = useCountdown("2026-06-15T09:00:00");
+  const cd = useCountdown("2026-08-01T09:00:00");
 
   return (
     <div className="min-h-screen bg-[#080C14]">
@@ -66,7 +66,7 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-4xl">
           <div className="animate-fade-up mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2" style={{ borderColor: 'rgba(212,160,23,0.3)', background: 'rgba(212,160,23,0.08)' }}>
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#D4A017' }}>Launching June 15, 2026 — Waitlist Open Now</span>
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#D4A017' }}>Now Live — Founders Pricing Closes August 1, 2026</span>
           </div>
 
           <h1 className="animate-fade-up-delay font-display text-5xl font-black leading-tight tracking-tight text-white md:text-7xl">
@@ -90,7 +90,7 @@ export default function HomePage() {
 
           {/* Countdown */}
           <div className="mt-14 flex flex-col items-center">
-            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Official Launch Countdown — June 15, 2026</p>
+            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Founders Pricing Closes — August 1, 2026</p>
             <div className="flex items-center gap-3">
               <CountBox val={cd.d} label="Days" />
               <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
@@ -100,7 +100,7 @@ export default function HomePage() {
               <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
               <CountBox val={cd.s} label="Sec" />
             </div>
-            <p className="mt-3 text-xs text-slate-600">Founders pricing locks in when you join the waitlist today</p>
+            <p className="mt-3 text-xs text-slate-600">Founders lifetime pricing locks forever on August 1 — claim your spot now</p>
           </div>
         </div>
       </section>
@@ -108,7 +108,7 @@ export default function HomePage() {
       {/* STATS */}
       <section className="border-y border-[#1A2235] bg-[#0F1520] px-5 py-8">
         <div className="mx-auto max-w-5xl grid grid-cols-2 gap-6 md:grid-cols-4 text-center">
-          {[["2,847+","Roadmaps Generated"],["$0","Required to Start"],["7 Days","To First Plan"],["June 15","Official Launch"]].map(([v,l]) => (
+          {[["2,847+","Roadmaps Generated"],["$0","Required to Start"],["7 Days","To First Plan"],["Now Live","Platform Open"]].map(([v,l]) => (
             <div key={l}>
               <p className="font-display text-3xl font-black" style={{ color: '#D4A017' }}>{v}</p>
               <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500">{l}</p>
@@ -238,7 +238,7 @@ export default function HomePage() {
               Generate My Free Roadmap →
             </Link>
             <Link to="/waitlist" className="rounded-2xl border border-[#1A2235] px-8 py-4 text-base font-semibold text-slate-400 hover:border-yellow-500 hover:text-yellow-400 transition">
-              Join Waitlist for June 15
+              Join the Waitlist
             </Link>
           </div>
         </div>

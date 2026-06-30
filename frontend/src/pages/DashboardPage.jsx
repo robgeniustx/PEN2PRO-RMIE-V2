@@ -58,6 +58,8 @@ export default function DashboardPage() {
     } catch { return null; }
   })();
 
+  const days = Math.max(0, Math.floor((new Date("2026-08-01T00:00:00Z") - new Date()) / 86400000));
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
@@ -98,9 +100,9 @@ export default function DashboardPage() {
               color: "#D4A017",
             },
             {
-              label: "Days Until Launch",
+              label: "Days Until Founders Close",
               value: days,
-              sub: "June 15, 2026 — PEN2PRO goes live",
+              sub: "Founders pricing closes August 1, 2026",
               color: "#00C9B1",
             },
             {
@@ -130,11 +132,11 @@ export default function DashboardPage() {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="font-display text-lg font-bold text-white mb-1">
-                  Upgrade before the June 15 launch
+                  Unlock the Full Platform
                 </h2>
                 <p className="text-sm text-slate-400">
                   Pro members get unlimited roadmaps, outreach automation, and credit/funding matching.
-                  Founders Lifetime is just $497 — limited to 200 spots.
+                  Founders Lifetime is $1,899 — limited to 200 spots. Founders pricing closes August 1.
                 </p>
               </div>
               <div className="flex gap-3">
