@@ -51,6 +51,14 @@ const PERSONAL_STATEMENT = [
   { body: "Your past may explain parts of your story, but it does not own your future.", emphasis: true },
   { body: "And the same energy used to survive difficult seasons can become the same energy used to build an extraordinary life.", emphasis: true },
   { body: "That realization became the foundation for everything that came after." },
+  { body: "After coming home, I tried to rebuild my life the way people tell you to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give you a chance." },
+  { body: "More than once, I earned the opportunity. The interviews went well. The job offers came." },
+  { body: "Then the background checks came back.", emphasis: true },
+  { body: "The offers were rescinded.", callout: true },
+  { body: "That kind of rejection can break a person. For a moment, it almost did. I spent a day moping — frustrated, asking why doors kept closing after they had already looked open." },
+  { body: "Then I picked my head up and took off running.", emphasis: true },
+  { body: "If the system was not going to hand me an opportunity, I was going to build one.", callout: true },
+  { body: "That decision became the foundation for business ownership, mentorship, authorship, community work, and eventually PEN2PRO." },
   { body: "I started studying business, strategy, branding, mindset, discipline, leadership, and personal growth. I became obsessed with understanding how successful people think, move, build, and create opportunities. I learned that wealth is not just money. Wealth is knowledge. Wealth is execution. Wealth is discipline. Wealth is believing in yourself long enough to keep going when nobody else can see what you see." },
   { body: "That journey started with XLR8 Pressure Washing and eventually led to XLR8 Trade Academy and PEN2PRO." },
   { body: "What began as a mission to rebuild my own life became a mission to help others rebuild theirs.", emphasis: true },
@@ -306,15 +314,21 @@ export default function AboutPage() {
           <p className="mb-10 text-slate-400">
             Start with a free roadmap. No credit card. No fluff. Just a real plan for your specific idea.
           </p>
-          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <Link to="/starter" className="rounded-xl px-8 py-3.5 text-sm font-black text-[#0A0F1E] btn-gold">
               Start Free Roadmap
             </Link>
             <Link to="/waitlist" className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
               Join the Waitlist
             </Link>
-            <Link to="/pricing" className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
-              Explore Plans
+            <Link to="/pro" className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
+              Explore Pro
+            </Link>
+            <Link to="/elite" className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
+              Explore Elite
+            </Link>
+            <Link to="/founders" className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
+              Become a Legacy Founder
             </Link>
           </div>
         </div>
