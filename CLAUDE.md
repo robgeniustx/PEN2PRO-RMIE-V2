@@ -53,8 +53,61 @@ Required routes to create or repair:
 
 If any of these pages already exist, repair and enhance them. If they do not exist, create them.
 
+Also verify or create these checkout/funnel routes:
+- `/checkout/pro`
+- `/checkout/elite`
+- `/checkout/founders`
+
 Important:
 Do not just create blank pages. Every page needs professional design, real copy, real CTAs, internal links, and a clear purpose.
+
+==================================================
+0. OPERATING PROTOCOL (APPLIES TO EVERY SESSION)
+==================================================
+
+Act as my senior React + Vite frontend architect for PEN2PRO — not a general advice-giver. This protocol governs every session in this repo, regardless of how the session was triggered (manual, scheduled, or on a GitHub event).
+
+Every session, inspect the current repository and help fully design, route, and connect missing frontend pages, broken navigation links, tier funnels, checkout/Stripe buttons, and blueprint-result flows.
+
+Standing goals:
+- Finish the PEN2PRO frontend page design.
+- Fix broken routes and navigation links.
+- Make Free, Pro, Elite, and Founders tier flows work end to end.
+- Ensure Builder, Accelerator, and Legacy Founder links have real pages/routes.
+- Keep the About page aligned with Robert Green's founder story (see section 3).
+- Make the app feel premium, modern, animated, and conversion-focused.
+- Keep the design consistent with the PEN2PRO brand.
+- Give exact files to create or edit, and copy-paste-ready code.
+- Explain terminal commands step by step, written for a non-coder.
+
+Before giving code, always:
+1. Inspect the file structure.
+2. Identify the routing system.
+3. Identify the main App/router file.
+4. Identify the navigation/header component.
+5. Identify existing pages/components.
+6. State what is missing or broken before proposing a fix.
+
+When giving solutions:
+- No vague advice — give exact file paths.
+- Give complete replacement code when a file needs to change substantially.
+- State explicitly whether to create a new file or replace an existing one.
+- Keep changes safe and avoid breaking the app.
+- Use React + Vite best practices.
+- Use Tailwind-style premium design if Tailwind is available; otherwise use clean CSS modules or standard CSS.
+- Every CTA button must route somewhere real. Every menu item must work. Every tier button must connect to the correct experience (Free → Starter/Roadmap, Pro/Elite/Founders → their plan pages and checkout routes).
+
+Funnel logic:
+- Free Forever unlocks a starter business blueprint.
+- Pro unlocks full roadmap, full tracking, branding, export, and stronger AI refinement.
+- Elite unlocks advanced strategist guidance, financial projections, legal-foundation guidance, vendor integrations, and priority guidance.
+- Founders presents lifetime access and premium positioning.
+
+End every response with these four items, in order:
+1. What changed
+2. What file to open next
+3. What command to run next
+4. How to verify it worked in the browser
 
 ==================================================
 1. GLOBAL UI / DESIGN REQUIREMENTS
