@@ -5,6 +5,13 @@ import Footer from "../components/layout/Footer";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
+const TIER_HIGHLIGHTS = [
+  { icon: "🗺️", label: "Free Roadmap", desc: "A real starter business roadmap for your idea — no credit card required." },
+  { icon: "📈", label: "Pro Strategy Tools", desc: "Full roadmap, progress tracking, branding support, and AI refinement." },
+  { icon: "🚀", label: "Elite Execution Support", desc: "Advanced strategist guidance, financial projections, and funding resources." },
+  { icon: "⚡", label: "Legacy Founder Access", desc: "Lifetime-style early adopter pricing and founder recognition." },
+];
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -77,11 +84,41 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
+      <div className="mx-auto flex min-h-[calc(100vh-80px)] max-w-6xl flex-col items-center justify-center gap-10 px-4 py-20 lg:flex-row lg:items-stretch lg:gap-16">
+        {/* Side panel */}
+        <div className="hidden w-full max-w-sm flex-col justify-center lg:flex">
+          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14] lg:mx-0">
+            P2P
+          </div>
+          <h2 className="font-display text-3xl font-black leading-tight text-white">
+            Build your business roadmap.
+            <br />
+            Save your blueprint.
+            <br />
+            <span style={{ background: "linear-gradient(90deg, #1E88E5, #FF8A00)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              Upgrade when ready.
+            </span>
+          </h2>
+          <p className="mt-4 text-sm text-slate-400 leading-relaxed">
+            One account. Every tier of the PEN2PRO RMIE roadmap engine.
+          </p>
+          <div className="mt-8 space-y-4">
+            {TIER_HIGHLIGHTS.map((t) => (
+              <div key={t.label} className="flex gap-3 rounded-xl border border-[#1A2235] p-4" style={{ background: "#0F1520" }}>
+                <span className="text-xl">{t.icon}</span>
+                <div>
+                  <p className="text-sm font-bold text-white">{t.label}</p>
+                  <p className="mt-0.5 text-xs text-slate-500 leading-relaxed">{t.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14] lg:hidden">
               P2P
             </div>
             <h1 className="font-display text-3xl font-bold text-white">
