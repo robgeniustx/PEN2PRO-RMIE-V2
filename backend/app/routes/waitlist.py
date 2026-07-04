@@ -2,20 +2,21 @@ import csv
 import io
 import os
 import re
-from datetime import datetime, timezone
 from typing import List, Optional
 
-from fastapi import APIRouter, Header, HTTPException, Query
+from fastapi import APIRouter, Depends, Header, HTTPException, Query
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
+from sqlalchemy import func
+from sqlalchemy.orm import Session
+
+from app.db import get_db
+from app.models.waitlist_entry import WaitlistEntry
 
 router = APIRouter()
 
-# In-memory store — swappable for MongoDB via DATABASE_URL
-_waitlist: List[dict] = []
 
-
-class WaitlistEntry(BaseModel):
+class WaitlistEntryIn(BaseModel):
     name: str
     email: str
     phone: Optional[str] = ""
@@ -44,26 +45,32 @@ def _extract_ref(source_url: str) -> str:
 # ─── Public endpoints ─────────────────────────────────────────────────────────
 
 @router.post("")
-async def join_waitlist(entry: WaitlistEntry):
-    # Duplicate check
-    emails_lower = [e["email"].lower() for e in _waitlist]
-    if entry.email.lower() in emails_lower:
+async def join_waitlist(entry: WaitlistEntryIn, db: Session = Depends(get_db)):
+    existing = db.query(WaitlistEntry).filter(func.lower(WaitlistEntry.email) == entry.email.lower()).first()
+    if existing:
         raise HTTPException(status_code=409, detail="Email already on waitlist")
 
-    # Auto-extract ref from source URL if not provided directly
     referral = entry.referral or _extract_ref(entry.source or "")
 
-    record = {
-        **entry.dict(),
-        "referral": referral,
-        "id": len(_waitlist) + 1,
-        "submitted_at": datetime.now(timezone.utc).isoformat(),
-    }
-    _waitlist.append(record)
+    record = WaitlistEntry(
+        name=entry.name,
+        email=entry.email,
+        phone=entry.phone or "",
+        business_idea=entry.business_idea or "",
+        interest=entry.interest or "Free Roadmap",
+        referral=referral,
+        source=entry.source or "",
+    )
+    db.add(record)
+    db.commit()
+    db.refresh(record)
+
+    position = db.query(func.count(WaitlistEntry.id)).scalar() or 0
+
     return {
         "success": True,
         "message": "You're on the waitlist! See you June 10, 2026.",
-        "position": len(_waitlist),
+        "position": position,
     }
 
 
@@ -77,41 +84,47 @@ async def get_waitlist(
     referral: Optional[str] = Query(None),
     page: int = Query(1, ge=1),
     per_page: int = Query(20, ge=1, le=100),
+    db: Session = Depends(get_db),
 ):
     _check_admin(x_admin_key)
-    results = _waitlist.copy()
+    q = db.query(WaitlistEntry)
 
     if interest:
-        results = [r for r in results if interest.lower() in r.get("interest", "").lower()]
+        q = q.filter(WaitlistEntry.interest.ilike(f"%{interest}%"))
     if referral:
-        results = [r for r in results if referral.lower() in r.get("referral", "").lower()]
+        q = q.filter(WaitlistEntry.referral.ilike(f"%{referral}%"))
     if search:
-        q = search.lower()
-        results = [r for r in results if q in r.get("name", "").lower() or q in r.get("email", "").lower()]
+        like = f"%{search}%"
+        q = q.filter((WaitlistEntry.name.ilike(like)) | (WaitlistEntry.email.ilike(like)))
 
-    results = sorted(results, key=lambda r: r["submitted_at"], reverse=True)
-    total = len(results)
-    start = (page - 1) * per_page
-    paginated = results[start : start + per_page]
+    total = q.count()
+    grand_total = db.query(func.count(WaitlistEntry.id)).scalar() or 0
+    rows = (
+        q.order_by(WaitlistEntry.submitted_at.desc())
+        .offset((page - 1) * per_page)
+        .limit(per_page)
+        .all()
+    )
 
     return {
-        "total": len(_waitlist),
+        "total": grand_total,
         "filtered": total,
         "page": page,
         "per_page": per_page,
         "total_pages": max(1, -(-total // per_page)),
-        "entries": paginated,
+        "entries": [r.as_dict() for r in rows],
     }
 
 
 @router.get("/admin/export")
-async def export_csv(x_admin_key: Optional[str] = Header(None)):
+async def export_csv(x_admin_key: Optional[str] = Header(None), db: Session = Depends(get_db)):
     _check_admin(x_admin_key)
+    rows = db.query(WaitlistEntry).order_by(WaitlistEntry.submitted_at.desc()).all()
     output = io.StringIO()
     fieldnames = ["id", "name", "email", "phone", "interest", "referral", "business_idea", "source", "submitted_at"]
     writer = csv.DictWriter(output, fieldnames=fieldnames, extrasaction="ignore")
     writer.writeheader()
-    writer.writerows(_waitlist)
+    writer.writerows([r.as_dict() for r in rows])
     output.seek(0)
     return StreamingResponse(
         iter([output.getvalue()]),
@@ -121,19 +134,22 @@ async def export_csv(x_admin_key: Optional[str] = Header(None)):
 
 
 @router.get("/admin/metrics")
-async def waitlist_metrics(x_admin_key: Optional[str] = Header(None)):
+async def waitlist_metrics(x_admin_key: Optional[str] = Header(None), db: Session = Depends(get_db)):
     _check_admin(x_admin_key)
+    rows = db.query(WaitlistEntry).all()
     by_interest: dict = {}
     by_referral: dict = {}
-    for entry in _waitlist:
-        k = entry.get("interest", "Unknown")
+    for entry in rows:
+        k = entry.interest or "Unknown"
         by_interest[k] = by_interest.get(k, 0) + 1
-        ref = entry.get("referral", "") or "direct"
+        ref = entry.referral or "direct"
         by_referral[ref] = by_referral.get(ref, 0) + 1
 
+    recent = sorted(rows, key=lambda r: r.submitted_at or 0, reverse=True)[:5]
+
     return {
-        "total_signups": len(_waitlist),
+        "total_signups": len(rows),
         "by_interest": by_interest,
         "by_referral": by_referral,
-        "recent_5": sorted(_waitlist, key=lambda r: r["submitted_at"], reverse=True)[:5],
+        "recent_5": [r.as_dict() for r in recent],
     }

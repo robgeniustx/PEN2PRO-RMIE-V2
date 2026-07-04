@@ -97,6 +97,14 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 app.add_middleware(CORSMiddleware, allow_origins=[FRONTEND_URL, BACKEND_URL, "http://localhost:5173", "http://localhost:3000", "https://pen2pro.com", "https://www.pen2pro.com"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
+
+@app.on_event("startup")
+def _create_tables():
+    from app.db import Base, engine
+    from app.models import waitlist_entry  # noqa: F401 — registers table with Base.metadata
+    Base.metadata.create_all(bind=engine)
+
+
 @app.get("/health")
 @app.get("/api/health")
 def health(): return {"status": "ok", "service": "PEN2PRO BusinessOS API", "version": "3.1.0"}

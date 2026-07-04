@@ -39,6 +39,7 @@ import ElitePage from "../pages/ElitePage";
 import FoundersPage from "../pages/FoundersPage";
 import BuilderPage from "../pages/BuilderPage";
 import AcceleratorPage from "../pages/AcceleratorPage";
+import { PrivacyPage, TermsPage, DisclaimerPage } from "../pages/LegalPage";
 
 export default function AppRoutes() {
   return (
@@ -135,8 +136,13 @@ export default function AppRoutes() {
       <Route path="/checkout/elite" element={<ElitePage />} />
       <Route path="/checkout/founders" element={<FoundersPage />} />
 
+      {/* ── Legal ── */}
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/disclaimer" element={<DisclaimerPage />} />
+
       {/* ── Aliases / Redirects ── */}
-      <Route path="/features" element={<Navigate to="/#features" replace />} />
+      <Route path="/features" element={<Navigate to="/" replace />} />
       <Route path="/crm" element={<Navigate to="/command-center" replace />} />
       <Route path="/contacts" element={<Navigate to="/dashboard/contacts" replace />} />
       <Route path="/lead-inbox" element={<Navigate to="/dashboard/lead-inbox" replace />} />
