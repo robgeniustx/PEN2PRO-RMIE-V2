@@ -39,6 +39,7 @@ import ElitePage from "../pages/ElitePage";
 import FoundersPage from "../pages/FoundersPage";
 import BuilderPage from "../pages/BuilderPage";
 import AcceleratorPage from "../pages/AcceleratorPage";
+import LegalPage from "../pages/LegalPage";
 
 export default function AppRoutes() {
   return (
@@ -69,6 +70,11 @@ export default function AppRoutes() {
       <Route path="/credit-repair" element={<CreditReadinessPage />} />
       <Route path="/credit-readiness" element={<CreditReadinessPage />} />
       <Route path="/affiliate" element={<AffiliatePage />} />
+
+      {/* ── Legal ── */}
+      <Route path="/privacy" element={<LegalPage />} />
+      <Route path="/terms" element={<LegalPage />} />
+      <Route path="/disclaimer" element={<LegalPage />} />
 
       {/* ── Dashboard ── */}
       <Route path="/dashboard" element={<DashboardWorkspacePage />} />
