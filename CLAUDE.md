@@ -530,6 +530,50 @@ Do not only explain. Make the code changes directly. Inspect the project structu
 Short First Message to Send Before Full Build
 Use this first so the agent does not overwrite files blindly:
 First inspect the current PEN2PRO project structure. Do not edit anything yet. Identify the frontend framework, router setup, page files, component structure, backend/API setup, and which links/routes are currently broken. Then give me the exact files that need to be created or modified for About, Sign In, Pro, Elite, Founders, Builder, Accelerator, Legacy Founder, Waitlist, and Admin.
+==================================================
+10. FRONTEND ARCHITECT OPERATING MODE (applies every session)
+==================================================
+
+Act as the senior React + Vite frontend architect for this repo, not a general advice-giver. This section governs HOW to work, on top of the WHAT in sections 1-9 above.
+
+Stack facts (verified in repo, keep current if it changes):
+- Frontend: `frontend/` — React 18 + Vite 5 + react-router-dom v6 + Tailwind CSS.
+- Router entry: `frontend/src/routes/AppRoutes.jsx` (mounted from `frontend/src/main.jsx`; `frontend/src/App.jsx` is currently empty/unused — don't assume routes live there).
+- Nav/layout: `frontend/src/components/layout/Navbar.jsx` and `Footer.jsx`.
+- Pages: `frontend/src/pages/*.jsx`.
+- Backend: `backend/`.
+
+Before proposing or writing any fix, in this order:
+1. Inspect the actual current file structure — don't assume prior findings are still accurate.
+2. Identify the routing file and confirm which routes exist vs. are missing (`frontend/src/routes/AppRoutes.jsx` is the source of truth today).
+3. Identify the nav/header/footer components and check every link target against real routes.
+4. Identify relevant existing pages/components before creating new ones — repair in place rather than duplicating.
+5. State plainly what is missing or broken before giving a fix.
+
+When giving solutions:
+- Give exact file paths, never vague advice.
+- Give complete replacement code (or precise diffs) when a file needs to change — no partial snippets that leave the file broken.
+- State explicitly whether to create a new file or edit an existing one.
+- Keep changes safe and scoped — don't refactor unrelated code while fixing a route or button.
+- Use Tailwind utility classes (already configured) for styling; only fall back to CSS modules/plain CSS if a specific file isn't using Tailwind.
+- Every CTA button and every nav/footer link must resolve to a real route defined in `AppRoutes.jsx` — no `href="#"` placeholders.
+- Explain terminal commands step by step, written for a non-coder (what to type, what it does, what output means success).
+
+Tier funnel logic to keep intact when touching pricing/checkout:
+- Free/Starter (`/starter`, `/roadmap`) → free blueprint preview, always accessible without login.
+- Pro (`/pro`, `/checkout/pro`) → full roadmap, tracking, branding, export, AI refinement.
+- Elite (`/elite`, `/checkout/elite`) → everything in Pro plus strategist guidance, financial projections, legal/vendor resources, priority support.
+- Founders/Legacy Founder (`/founders`, `/legacy-founder`, `/checkout/founders`) → lifetime/early-adopter positioning.
+- If real payments aren't wired up for a tier yet, the CTA must route to `/waitlist` (with the tier pre-filled as interest level) instead of a dead checkout link — never leave a button with no destination.
+
+End every substantive response in this repo with these four lines, in this order:
+1. What changed
+2. What file to open next
+3. What command to run next
+4. How to verify it worked in the browser
+
+On automation/triggers: this CLAUDE.md is the durable "instructions box" — it applies automatically to every session against this repo, whether started interactively, on a Schedule trigger, via a GitHub event trigger, or via the API, so it does not need to be re-pasted per session. Prefer a Schedule trigger for periodic health/regression sweeps (broken links, dead CTAs, console errors) and a GitHub event trigger (on push/PR) for automatic review of new frontend changes; configure both from the repo's Trigger settings in Claude Code on the web, since that configuration lives outside any tool available in-session.
+
 Cleaned-Up Founder Story Section
 Use this inside the About page:
 Robert Green did not create PEN2PRO from a perfect path. He created it from pressure, rejection, discipline, and the refusal to stay stuck.
