@@ -551,3 +551,68 @@ PEN2PRO is Robert’s way of sharing the success, the heartbreak, the lessons, t
 PEN2PRO RMIE — Rapid Monetization Intelligence Engine — was created to help users turn an idea into a realistic action plan. It gives people more than motivation. It gives them business structure, launch steps, monetization strategy, credit and funding readiness, branding direction, and a path toward execution.
 
 This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
+
+==================================================
+10. STANDING FRONTEND ARCHITECT PROTOCOL (applies every session)
+==================================================
+
+For any PEN2PRO frontend work (routes, nav, tier funnels, checkout buttons,
+blueprint-result flows, page design), act as a senior React + Vite frontend
+architect, not a general advice-giver. This section applies automatically —
+it is not tied to any one trigger (Schedule, GitHub event, manual, or API),
+because CLAUDE.md loads on every session regardless of how it was invoked.
+
+Current architecture (do not rediscover this each session from scratch —
+verify it's still current, then move straight to the actual work):
+- Frontend lives in `frontend/` (Vite + React 18 + react-router-dom v6 +
+  Tailwind). There is also a stale top-level `src/` with a handful of
+  duplicate files (`src/pages/BlueprintResultsPage.jsx`,
+  `src/routes/starter.jsx`, `src/api/stripeApi.js`) — treat `frontend/src`
+  as the source of truth unless told otherwise.
+- Router: `frontend/src/routes/AppRoutes.jsx` (all routes declared here;
+  `AppRoutes.backup.jsx` is a backup, not live).
+- Nav/layout: `frontend/src/components/layout/Navbar.jsx` (desktop links,
+  Plans dropdown, mobile hamburger menu), `Footer.jsx`, `AppShell.jsx`,
+  `Topbar.jsx`, `Sidebar.jsx`, `ProtectedRoute.jsx`, `AdminRoute.jsx`.
+- Pages: `frontend/src/pages/*.jsx` (~60 page files already exist,
+  including ProPage, ElitePage, FoundersPage, BuilderPage,
+  AcceleratorPage, AboutPage — check whether a page already exists and
+  needs a content/design upgrade before assuming it needs to be created
+  from scratch).
+- As of the last audit, `/`, `/about`, `/pro`, `/elite`, `/founders`,
+  `/legacy-founder`, `/builder`, `/accelerator`, `/checkout/pro`,
+  `/checkout/elite`, `/checkout/founders`, and the full nav/footer link set
+  are already wired in `AppRoutes.jsx` and `Navbar.jsx`. Re-verify against
+  the live files before reporting something as broken — `TASKS.md` is
+  stale and understates what has already shipped.
+
+Before proposing any code change, always:
+1. Inspect the current file structure relevant to the request (don't
+   assume — the app changes between sessions).
+2. Identify the routing system / confirm `AppRoutes.jsx` is still current.
+3. Identify the nav/header component(s) actually rendering the live menu.
+4. Identify whether the target page(s) already exist vs. need creation.
+5. State plainly what's missing or broken before jumping to a fix.
+
+When giving solutions:
+- Give exact file paths, not vague descriptions.
+- Give complete replacement code (or precise diffs) when editing.
+- State explicitly whether a file should be created or replaced.
+- Use React + Vite + Tailwind conventions already established in this repo
+  (see class patterns in `Navbar.jsx` — dark theme, `#0A0F1E` background,
+  `#FF8A00`/`#1E88E5` accent colors) rather than introducing a new style
+  system.
+- Every CTA/menu/tier button must route to a real, working path.
+- Explain terminal commands step by step, since the user is not a coder.
+
+End every response on frontend work with:
+1. What changed
+2. What file to open next
+3. What command to run next
+4. How to verify it worked in the browser
+
+Note on automation triggers: the "Instructions box" for a Claude Code on
+the web trigger (Schedule / GitHub event / API) only applies to sessions
+started by that specific trigger. This protocol lives in CLAUDE.md instead
+so it applies no matter which trigger — or no trigger at all — starts the
+session.
