@@ -18,6 +18,7 @@ import AdminFeatureUsagePage from "../pages/AdminFeatureUsagePage";
 import AdminConversionsPage from "../pages/AdminConversionsPage";
 import PaymentSuccessPage from "../pages/PaymentSuccessPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import LegalPage from "../pages/LegalPage";
 import VoiceAgentPage from "../pages/VoiceAgentPage";
 import WebsiteBuilderPage from "../pages/WebsiteBuilderPage";
 
@@ -143,6 +144,10 @@ export default function AppRoutes() {
       <Route path="/pipeline" element={<Navigate to="/dashboard/pipeline" replace />} />
 
       {/* ── 404 ── */}
+      <Route path="/privacy" element={<LegalPage slug="privacy" />} />
+      <Route path="/terms" element={<LegalPage slug="terms" />} />
+      <Route path="/disclaimer" element={<LegalPage slug="disclaimer" />} />
+
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
