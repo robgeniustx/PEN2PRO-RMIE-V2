@@ -40,6 +40,11 @@ import FoundersPage from "../pages/FoundersPage";
 import BuilderPage from "../pages/BuilderPage";
 import AcceleratorPage from "../pages/AcceleratorPage";
 
+// ── Legal pages ──
+import PrivacyPage from "../pages/PrivacyPage";
+import TermsPage from "../pages/TermsPage";
+import DisclaimerPage from "../pages/DisclaimerPage";
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -129,6 +134,11 @@ export default function AppRoutes() {
       <Route path="/legacy-founder" element={<FoundersPage />} />
       <Route path="/builder" element={<BuilderPage />} />
       <Route path="/accelerator" element={<AcceleratorPage />} />
+
+      {/* ── Legal ── */}
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/disclaimer" element={<DisclaimerPage />} />
 
       {/* ── Checkout Aliases ── */}
       <Route path="/checkout/pro" element={<ProPage />} />
