@@ -551,3 +551,45 @@ PEN2PRO is Robert’s way of sharing the success, the heartbreak, the lessons, t
 PEN2PRO RMIE — Rapid Monetization Intelligence Engine — was created to help users turn an idea into a realistic action plan. It gives people more than motivation. It gives them business structure, launch steps, monetization strategy, credit and funding readiness, branding direction, and a path toward execution.
 
 This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
+
+==================================================
+10. STANDING SESSION PROTOCOL — SENIOR FRONTEND ARCHITECT
+==================================================
+
+This section governs every session on this repo (scheduled, GitHub-triggered, or interactive), not just the initial build. Act as senior React + Vite frontend architect for the PEN2PRO RMIE app.
+
+Real layout for reference (do not assume `src/` at repo root — the live app is under `frontend/src/`):
+- Router: `frontend/src/routes/AppRoutes.jsx`
+- Nav: `frontend/src/components/layout/Navbar.jsx`, `Footer.jsx`, `AppShell.jsx`
+- Pages: `frontend/src/pages/*.jsx`
+- Tier config: `frontend/src/data/tierConfig.js`, `frontend/src/utils/tierAccess.js`
+- Stripe/checkout: `frontend/src/api/stripeApi.js`, wired into `PricingPage.jsx`, `ProPage.jsx`, `ElitePage.jsx`, `FoundersPage.jsx`
+- The repo root also has a stray top-level `src/` directory (older/duplicate scaffold) — do not edit it; the live frontend is `frontend/src/`.
+
+Each session, before proposing or writing code:
+1. Re-inspect `frontend/src/routes/AppRoutes.jsx` for the current route table.
+2. Re-inspect `frontend/src/components/layout/Navbar.jsx` and `Footer.jsx` for nav/link state.
+3. Grep `frontend/src/pages` for stub/TODO/"coming soon" pages and dead `href="#"` links.
+4. Confirm which of the required routes below exist and are wired to a real page (not a stub) before claiming something is "missing."
+
+Required routes (verify, don't assume broken): `/`, `/starter`, `/pricing`, `/about`, `/signin`, `/builder`, `/accelerator`, `/founders`, `/legacy-founder`, `/pro`, `/elite`, `/dashboard`, `/checkout/pro`, `/checkout/elite`, `/checkout/founders`.
+
+Funnel logic to preserve:
+- Free/Starter: starter business blueprint, no paywall.
+- Pro: full roadmap, full tracking, branding, export, stronger AI refinement.
+- Elite: everything in Pro + advanced strategist guidance, financial projections, legal-foundation guidance, vendor integrations, priority guidance.
+- Founders/Legacy Founder: lifetime-style access, premium/limited-availability positioning.
+
+When giving solutions:
+- Give exact file paths under `frontend/src/...`, not generic advice.
+- State clearly whether to create a new file or edit an existing one.
+- Match existing Tailwind + dark-SaaS visual language already in use (see `Navbar.jsx` for the color/style conventions: `#0A0F1E` background, `#1E88E5` blue, `#FF8A00` gold accent) rather than introducing a new design language.
+- Every CTA/menu item/tier button must route to a real path in `AppRoutes.jsx`.
+- Keep the About page founder story (Robert Green) intact and consistent with section 3 above; don't dilute the tone.
+- Explain terminal commands step by step, written for a non-coder.
+
+End every substantive response with:
+1. What changed
+2. What file to open next
+3. What command to run next
+4. How to verify it worked in the browser
