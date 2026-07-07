@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ["Inter", "system-ui", "sans-serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        display: ["Space Grotesk", "Inter", "system-ui", "sans-serif"],
       },
       colors: {
         brand: {
@@ -17,7 +18,15 @@ export default {
           inner:   "#1A2235",
           gold:    "#D4A017",
           orange:  "#FF8A00",
+          "orange-light": "#FFC107",
+          "orange-dark":  "#E07000",
           blue:    "#1E88E5",
+          "blue-dark":  "#0D47A1",
+          "blue-light": "#42A5F5",
+          navy:    "#0A0F1E",
+          "navy-card":   "#0D1528",
+          "navy-border": "#1A2D50",
+          "navy-hover":  "#122040",
           teal:    "#00C9B1",
           green:   "#059669",
           purple:  "#7C3AED",
