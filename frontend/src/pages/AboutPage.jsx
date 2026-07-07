@@ -38,6 +38,13 @@ const MISSION_POINTS = [
 ];
 
 const PERSONAL_STATEMENT = [
+  { body: "After coming home from prison, I tried to rebuild my life the way people are told to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give me a chance. More than once, I earned the opportunity. The interviews went well. The job offers came." },
+  { body: "Then the background checks followed.", emphasis: true },
+  { body: "The offers were rescinded.", emphasis: true },
+  { body: "That kind of rejection can break a person. For a moment, it almost did. After a day of moping, frustration, and asking why doors kept closing, I made a decision.", },
+  { body: "I picked my head up and took off running.", callout: true },
+  { body: "If the system would not give me a path, I would build one." },
+  { body: "That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO." },
   { body: "There was a time in my life when everything around me looked broken." },
   { body: "Opportunities were limited. Doors kept closing. Every mistake I made seemed to follow me longer than any good thing I had ever done. I carried frustration, anger, doubt, and the heavy feeling of knowing there was more inside of me than what the world could see on the surface." },
   { body: "During my incarceration, I was faced with a choice.", emphasis: true },
