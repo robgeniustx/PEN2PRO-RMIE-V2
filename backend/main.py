@@ -23,6 +23,17 @@ from app.routes.voice_agent_twilio import router as voice_agent_twilio_router
 from app.routes.website_builder import router as website_builder_router
 from app.routes.domain_search import router as domain_router
 from app.routes.dashboard import router as dashboard_router
+from app.routes.crm import router as crm_router
+from app.routes.leads import router as leads_router
+from app.routes.follow_ups import router as follow_ups_router
+from app.routes.social import router as social_router
+from app.routes.content import router as content_router
+from app.routes.website import router as website_router
+from app.routes.affiliate import router as affiliate_router
+from app.routes.ads import router as ads_router
+from app.routes.outreach import router as outreach_router
+from app.routes.intake import router as intake_router
+from app.routes.users import router as users_router
 
 try:
     from app.routes.customers import router as customers_router
@@ -249,6 +260,17 @@ app.include_router(voice_agent_twilio_router)
 app.include_router(website_builder_router, prefix="/api", tags=["Website Builder"])
 app.include_router(domain_router, prefix="/api", tags=["Domain Search"])
 app.include_router(dashboard_router)
+app.include_router(crm_router, prefix="/api/crm", tags=["CRM"])
+app.include_router(leads_router, prefix="/api/leads", tags=["Leads"])
+app.include_router(follow_ups_router, prefix="/api/follow-ups", tags=["Follow-Ups"])
+app.include_router(social_router, tags=["Social"])
+app.include_router(content_router, prefix="/api/content", tags=["Content"])
+app.include_router(website_router, prefix="/api/website", tags=["Website"])
+app.include_router(affiliate_router, prefix="/api/affiliate", tags=["Affiliate"])
+app.include_router(ads_router, prefix="/api/ads", tags=["Ads"])
+app.include_router(outreach_router, prefix="/api/outreach", tags=["Outreach"])
+app.include_router(intake_router, prefix="/api/intake", tags=["Intake"])
+app.include_router(users_router, prefix="/api/users", tags=["Users"])
 if _has_customers:
     app.include_router(customers_router, prefix="/api/customers", tags=["Customers"])
 
