@@ -127,6 +127,15 @@ def get_social_locked_sections(tier: str) -> List[str]:
     return SOCIAL_LOCKED_SECTIONS.get(normalized_tier, SOCIAL_LOCKED_SECTIONS[TierName.FREE])
 
 
+TIER_ORDER: List[str] = [TierName.FREE, TierName.PRO, TierName.ELITE, TierName.FOUNDERS]
+
+
+def has_tier(min_tier: str, tier: str) -> bool:
+    normalized_min = normalize_tier(min_tier)
+    normalized_tier = normalize_tier(tier)
+    return TIER_ORDER.index(normalized_tier) >= TIER_ORDER.index(normalized_min)
+
+
 def has_feature_access(tier: str, feature: str) -> bool:
     normalized_tier = normalize_tier(tier)
 
