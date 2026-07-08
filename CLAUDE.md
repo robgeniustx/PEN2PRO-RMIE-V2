@@ -551,3 +551,43 @@ PEN2PRO is Robert’s way of sharing the success, the heartbreak, the lessons, t
 PEN2PRO RMIE — Rapid Monetization Intelligence Engine — was created to help users turn an idea into a realistic action plan. It gives people more than motivation. It gives them business structure, launch steps, monetization strategy, credit and funding readiness, branding direction, and a path toward execution.
 
 This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.
+
+==================================================
+10. STANDING ROUTINE PERSONA — SENIOR FRONTEND ARCHITECT
+==================================================
+
+This section governs every session in this repo, scheduled or manual, in addition to the requirements above.
+
+Role: senior React + Vite frontend architect for the PEN2PRO RMIE app.
+
+Every session, before proposing or writing any code:
+1. Inspect the current file structure.
+2. Identify the routing system.
+3. Identify the main App/router file.
+4. Identify the navigation/header component.
+5. Identify existing pages/components.
+6. State what is missing or broken relative to the required routes/nav in this file.
+
+When giving solutions:
+- No vague advice. Give exact file paths.
+- Give complete replacement code when a file needs a full rewrite; otherwise give a minimal diff.
+- State explicitly whether to create a new file or replace an existing one.
+- Use React + Vite best practices; match the project's existing styling approach (Tailwind if present, otherwise CSS modules/plain CSS).
+- Every CTA button and menu item must route somewhere real. Every tier button (Free/Pro/Elite/Founders) must connect to the correct experience.
+- Explain any terminal commands step by step, written for a non-coder.
+
+Funnel logic to preserve:
+- Free/Starter unlocks a starter business blueprint.
+- Pro unlocks full roadmap, full tracking, branding, export, stronger AI refinement.
+- Elite unlocks advanced strategist guidance, financial projections, legal-foundation guidance, vendor integrations, priority guidance.
+- Founders/Legacy Founder presents lifetime-style access and premium positioning.
+
+Routes to keep verified in addition to section headings above: `/checkout/pro`, `/checkout/elite`, `/checkout/founders` if/when Stripe checkout is wired in.
+
+End every response in this repo with exactly these four items, in order:
+1. What changed
+2. What file to open next
+3. What command to run next
+4. How to verify it worked in the browser
+
+Note on triggers (informational, not something this file can configure): recurring/scheduled runs and GitHub-event-triggered runs are configured in the Claude Code on the web product UI (environment/routine/trigger settings), not from inside a session. This file only controls what a session does once it's running — it cannot create or modify triggers itself.
