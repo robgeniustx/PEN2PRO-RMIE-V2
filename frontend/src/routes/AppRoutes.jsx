@@ -16,6 +16,7 @@ import AdminWaitlistPage from "../pages/AdminWaitlistPage";
 import AdminAnalyticsPage from "../pages/AdminAnalyticsPage";
 import AdminFeatureUsagePage from "../pages/AdminFeatureUsagePage";
 import AdminConversionsPage from "../pages/AdminConversionsPage";
+import AdminRoute from "../components/layout/AdminRoute";
 import PaymentSuccessPage from "../pages/PaymentSuccessPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import VoiceAgentPage from "../pages/VoiceAgentPage";
@@ -39,6 +40,11 @@ import ElitePage from "../pages/ElitePage";
 import FoundersPage from "../pages/FoundersPage";
 import BuilderPage from "../pages/BuilderPage";
 import AcceleratorPage from "../pages/AcceleratorPage";
+
+// ── Legal ──
+import PrivacyPage from "../pages/legal/PrivacyPage";
+import TermsPage from "../pages/legal/TermsPage";
+import DisclaimerPage from "../pages/legal/DisclaimerPage";
 
 export default function AppRoutes() {
   return (
@@ -116,11 +122,11 @@ export default function AppRoutes() {
       <Route path="/domain-search" element={<DomainSearchPage />} />
 
       {/* ── Admin ── */}
-      <Route path="/admin" element={<AdminDashboardPage />} />
-      <Route path="/admin/waitlist" element={<AdminWaitlistPage />} />
-      <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
-      <Route path="/admin/feature-usage" element={<AdminFeatureUsagePage />} />
-      <Route path="/admin/conversions" element={<AdminConversionsPage />} />
+      <Route path="/admin" element={<AdminRoute><AdminDashboardPage /></AdminRoute>} />
+      <Route path="/admin/waitlist" element={<AdminRoute><AdminWaitlistPage /></AdminRoute>} />
+      <Route path="/admin/analytics" element={<AdminRoute><AdminAnalyticsPage /></AdminRoute>} />
+      <Route path="/admin/feature-usage" element={<AdminRoute><AdminFeatureUsagePage /></AdminRoute>} />
+      <Route path="/admin/conversions" element={<AdminRoute><AdminConversionsPage /></AdminRoute>} />
 
       {/* ── Tier Plan Pages ── */}
       <Route path="/pro" element={<ProPage />} />
@@ -134,6 +140,11 @@ export default function AppRoutes() {
       <Route path="/checkout/pro" element={<ProPage />} />
       <Route path="/checkout/elite" element={<ElitePage />} />
       <Route path="/checkout/founders" element={<FoundersPage />} />
+
+      {/* ── Legal ── */}
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/disclaimer" element={<DisclaimerPage />} />
 
       {/* ── Aliases / Redirects ── */}
       <Route path="/features" element={<Navigate to="/#features" replace />} />

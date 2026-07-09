@@ -80,4 +80,4 @@ services:
     rootDir: backend
     schedule: "0 6 * * 1"
     buildCommand: pip install -r requirements.txt
-    startCommand: python -m app.jobs.refresh_content_calendars
+    startCommand: python -m app.jobs.weekly_content_calendars

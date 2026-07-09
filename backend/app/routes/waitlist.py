@@ -62,7 +62,7 @@ async def join_waitlist(entry: WaitlistEntry):
     _waitlist.append(record)
     return {
         "success": True,
-        "message": "You're on the waitlist! See you June 10, 2026.",
+        "message": "You're on the waitlist! See you June 15, 2026.",
         "position": len(_waitlist),
     }
 
