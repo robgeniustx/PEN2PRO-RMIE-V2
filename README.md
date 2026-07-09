@@ -1,7 +1,5 @@
 # PEN2PRO RMIE Live
-codex/implement-phase-9-for-autonomous-agent-operations
 
-HEAD
 Phase 9 implemented Autonomous Agent Operations foundation (safe draft mode).
 
 ## Local setup
