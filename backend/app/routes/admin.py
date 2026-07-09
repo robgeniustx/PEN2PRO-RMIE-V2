@@ -10,6 +10,7 @@ from app.services.analytics_service import (
     get_admin_metrics,
     get_conversion_summary,
     get_feature_usage_summary,
+    get_funnel_summary,
     get_module_usage_summary,
     get_recent_activity,
 )
@@ -59,6 +60,12 @@ async def admin_conversions():
 async def admin_recent_activity():
     _guard()
     return get_recent_activity()
+
+
+@router.get("/funnel")
+async def admin_funnel():
+    _guard()
+    return get_funnel_summary()
 
 
 # ─── Waitlist endpoints (at /api/admin/waitlist + /api/admin/waitlist-metrics) ─

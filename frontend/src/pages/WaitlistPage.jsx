@@ -46,8 +46,54 @@ function CBox({ v, l }) {
   );
 }
 
+const PENDING_KEY = "pen2pro_waitlist_pending";
+
+function queuePendingSubmission(entry) {
+  try {
+    const existing = JSON.parse(localStorage.getItem(PENDING_KEY) || "[]");
+    existing.push({ ...entry, queued_at: new Date().toISOString() });
+    localStorage.setItem(PENDING_KEY, JSON.stringify(existing));
+  } catch {
+    // localStorage unavailable — nothing more we can do client-side
+  }
+}
+
+async function flushPendingSubmissions() {
+  let queued;
+  try {
+    queued = JSON.parse(localStorage.getItem(PENDING_KEY) || "[]");
+  } catch {
+    return;
+  }
+  if (!queued.length) return;
+
+  const stillPending = [];
+  for (const entry of queued) {
+    try {
+      const res = await fetch(`${API}/api/waitlist`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(entry),
+      });
+      if (!res.ok && res.status !== 409) stillPending.push(entry);
+    } catch {
+      stillPending.push(entry);
+    }
+  }
+  try {
+    localStorage.setItem(PENDING_KEY, JSON.stringify(stillPending));
+  } catch {
+    // ignore
+  }
+}
+
 export default function WaitlistPage() {
   const [params] = useSearchParams();
+
+  // Best-effort retry of any leads that failed to reach the backend earlier
+  useEffect(() => {
+    flushPendingSubmissions();
+  }, []);
 
   // Pull ?tier= and ?ref= from URL
   const tierParam  = params.get("tier")  || "";
@@ -115,7 +161,10 @@ export default function WaitlistPage() {
         }
       }
     } catch {
-      // Backend offline — still show success (offline-tolerant)
+      // Backend unreachable — queue the lead locally so it isn't lost, then
+      // still show success (offline-tolerant UX); flushPendingSubmissions()
+      // retries it next time the waitlist page loads.
+      queuePendingSubmission(form);
       setStatus("success");
     }
   };
