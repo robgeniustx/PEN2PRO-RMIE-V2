@@ -7,7 +7,10 @@ class ActivityLogCreate(BaseModel):
     description: str
     metadata: str | None = None
 
-class ActivityLogResponse(ActivityLogCreate):
+class ActivityLogResponse(BaseModel):
     id: int
+    action_type: str
+    description: str
+    extra_metadata: str | None = None
     created_at: datetime
     class Config: from_attributes = True
