@@ -17,6 +17,9 @@ import AdminAnalyticsPage from "../pages/AdminAnalyticsPage";
 import AdminFeatureUsagePage from "../pages/AdminFeatureUsagePage";
 import AdminConversionsPage from "../pages/AdminConversionsPage";
 import PaymentSuccessPage from "../pages/PaymentSuccessPage";
+import PrivacyPage from "../pages/PrivacyPage";
+import TermsPage from "../pages/TermsPage";
+import DisclaimerPage from "../pages/DisclaimerPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import VoiceAgentPage from "../pages/VoiceAgentPage";
 import WebsiteBuilderPage from "../pages/WebsiteBuilderPage";
@@ -134,6 +137,11 @@ export default function AppRoutes() {
       <Route path="/checkout/pro" element={<ProPage />} />
       <Route path="/checkout/elite" element={<ElitePage />} />
       <Route path="/checkout/founders" element={<FoundersPage />} />
+
+      {/* ── Legal ── */}
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/disclaimer" element={<DisclaimerPage />} />
 
       {/* ── Aliases / Redirects ── */}
       <Route path="/features" element={<Navigate to="/#features" replace />} />
