@@ -142,7 +142,7 @@ export default function HomePage() {
       </section>
 
       {/* FEATURES */}
-      <section className="bg-[#0F1520] px-5 py-20">
+      <section id="features" className="bg-[#0F1520] px-5 py-20">
         <div className="mx-auto max-w-5xl">
           <div className="mb-12 text-center">
             <p className="mb-2 text-xs font-bold uppercase tracking-widest text-teal-400">Platform Features</p>
