@@ -35,6 +35,9 @@ from app.routes import (
     dashboard,
     ads,
 )
+from app.db import Base, engine
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="PEN2PRO RMIE API",
