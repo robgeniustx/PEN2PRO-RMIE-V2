@@ -40,12 +40,20 @@ import FoundersPage from "../pages/FoundersPage";
 import BuilderPage from "../pages/BuilderPage";
 import AcceleratorPage from "../pages/AcceleratorPage";
 
+// ── Legal pages ──
+import PrivacyPolicyPage from "../pages/PrivacyPolicyPage";
+import TermsPage from "../pages/TermsPage";
+import DisclaimerPage from "../pages/DisclaimerPage";
+
 export default function AppRoutes() {
   return (
     <Routes>
       {/* ── Public / Marketing ── */}
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/privacy" element={<PrivacyPolicyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/disclaimer" element={<DisclaimerPage />} />
       <Route path="/businessos" element={<BusinessOSPage />} />
       <Route path="/rmie" element={<RMIEPage />} />
       <Route path="/pricing" element={<PricingPage />} />
