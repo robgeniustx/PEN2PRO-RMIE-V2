@@ -2,7 +2,13 @@ import client from './client'
 import { mockAdminMetrics } from '../data/mockAdminMetrics'
 
 const safeGet = async (path, fallback) => {
-  try { const { data } = await client.get(path); return data } catch { return fallback }
+  try {
+    const adminKey = sessionStorage.getItem('pen2pro_admin_key') || ''
+    const { data } = await client.get(path, { headers: { 'x-admin-key': adminKey } })
+    return data
+  } catch {
+    return fallback
+  }
 }
 export const getAdminMetrics = () => safeGet('/admin/metrics', mockAdminMetrics)
 export const getFeatureUsageSummary = () => safeGet('/admin/feature-usage', mockAdminMetrics.top_features)
