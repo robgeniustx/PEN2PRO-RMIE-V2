@@ -117,6 +117,21 @@ def normalize_tier(tier: str) -> str:
     return aliases.get(clean_tier, TierName.FREE)
 
 
+TIER_ORDER: List[str] = [
+    TierName.FREE.value,
+    TierName.PRO.value,
+    TierName.ELITE.value,
+    TierName.FOUNDERS.value,
+]
+
+
+def has_tier(required_tier: str, user_tier: str) -> bool:
+    """True if user_tier meets or exceeds required_tier in the tier hierarchy."""
+    required = normalize_tier(required_tier)
+    actual = normalize_tier(user_tier)
+    return TIER_ORDER.index(actual) >= TIER_ORDER.index(required)
+
+
 def get_tier_features(tier: str) -> List[str]:
     normalized_tier = normalize_tier(tier)
     return TIER_FEATURES.get(normalized_tier, TIER_FEATURES[TierName.FREE])
