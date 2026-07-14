@@ -23,6 +23,7 @@ import WebsiteBuilderPage from "../pages/WebsiteBuilderPage";
 
 // ── Phase 1 pages ──
 import AboutPage from "../pages/AboutPage";
+import LegalPage from "../pages/LegalPage";
 import BusinessOSPage from "../pages/BusinessOSPage";
 import RMIEPage from "../pages/RMIEPage";
 import CommandCenterPage from "../pages/CommandCenterPage";
@@ -51,6 +52,9 @@ export default function AppRoutes() {
       <Route path="/pricing" element={<PricingPage />} />
       <Route path="/waitlist" element={<WaitlistPage />} />
       <Route path="/payment-success" element={<PaymentSuccessPage />} />
+      <Route path="/privacy" element={<LegalPage slug="privacy" />} />
+      <Route path="/terms" element={<LegalPage slug="terms" />} />
+      <Route path="/disclaimer" element={<LegalPage slug="disclaimer" />} />
 
       {/* ── Auth ── */}
       <Route path="/login" element={<LoginPage />} />
