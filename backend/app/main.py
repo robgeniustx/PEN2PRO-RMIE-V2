@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.db import Base, engine
+from app.models.base import Base as ModelsBase
+import app.models  # noqa: F401 — registers every model with its Base's metadata
+
 from app.routes import (
     health,
     auth,
@@ -35,6 +39,9 @@ from app.routes import (
     dashboard,
     ads,
 )
+
+Base.metadata.create_all(bind=engine)
+ModelsBase.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="PEN2PRO RMIE API",
