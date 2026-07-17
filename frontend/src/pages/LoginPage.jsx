@@ -5,6 +5,13 @@ import Footer from "../components/layout/Footer";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
+const TIER_PANEL = [
+  { icon: "🗺️", title: "Free Roadmap", desc: "A real starter blueprint for your idea — no credit card required." },
+  { icon: "📈", title: "Pro Strategy Tools", desc: "Full roadmap, progress tracking, branding support, and AI refinement." },
+  { icon: "🚀", title: "Elite Execution Support", desc: "Advanced strategist guidance, financial projections, and priority support." },
+  { icon: "👑", title: "Legacy Founder Access", desc: "Lifetime-style early access and founder recognition on the platform." },
+];
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -77,7 +84,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
+      <div className="mx-auto flex min-h-[calc(100vh-80px)] max-w-5xl flex-col items-center justify-center gap-12 px-4 py-20 lg:flex-row lg:items-start">
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8">
@@ -85,7 +92,9 @@ export default function LoginPage() {
               P2P
             </div>
             <h1 className="font-display text-3xl font-bold text-white">
-              {tab === "login" ? "Welcome back" : "Create your account"}
+              Build your business roadmap.
+              <br />
+              Save your blueprint. Upgrade when ready.
             </h1>
             <p className="mt-2 text-sm text-slate-400">
               {tab === "login"
@@ -230,6 +239,28 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
+        </div>
+
+        {/* Tier explainer side panel */}
+        <div className="w-full max-w-md rounded-2xl border border-[#1A2235] p-8" style={{ background: "#0F1520" }}>
+          <h2 className="font-display text-lg font-bold text-white mb-1">What you get with PEN2PRO</h2>
+          <p className="text-sm text-slate-500 mb-6">One account. Upgrade whenever you're ready.</p>
+          <div className="space-y-5">
+            {TIER_PANEL.map((t) => (
+              <div key={t.title} className="flex gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg" style={{ background: "#080C14" }}>
+                  {t.icon}
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-white">{t.title}</p>
+                  <p className="text-xs text-slate-500 mt-0.5">{t.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Link to="/pricing" className="btn-outline mt-6 block w-full py-2.5 text-center text-xs font-bold">
+            Compare Plans
+          </Link>
         </div>
       </div>
       <Footer />

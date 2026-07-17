@@ -166,6 +166,11 @@ export default function AffiliatePage() {
             All tools listed are independently reviewed. Prices and terms are subject to change — verify with the vendor before purchasing.
           </p>
         </div>
+        <div className="mb-10 rounded-xl border border-[#1A2235] p-4" style={{ background: "#0F1520" }}>
+          <p className="text-xs text-slate-500 leading-6">
+            PEN2PRO does not guarantee credit repair results, funding approval, loan approval, or business success. The platform provides education, strategy, organization, and readiness tools.
+          </p>
+        </div>
       </div>
 
       <Footer />
