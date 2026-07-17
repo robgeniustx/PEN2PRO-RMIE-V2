@@ -26,7 +26,7 @@ class AutomationService:
         result=generate_structured_agent_output("Automation safety", {"command": c.command_text})
         c.status="completed"; c.result_payload=json.dumps(result)
         self.db.add(AgentRun(agent_name=c.agent_name,status="completed",input_payload=c.command_text,output_payload=c.result_payload))
-        self.log_activity("agent_command_run", f"Ran command {c.id}", c.result_payload)
+        self.log_activity("agent_command_run", f"Ran command {c.id}", meta_data=c.result_payload)
         self.db.commit(); self.db.refresh(c); return c
     def cancel_agent_command(self,cid): c=self.get_agent_command(cid); c.status="cancelled"; self.db.commit(); return c
     def create_approval_request(self,data): obj=AgentApproval(**data.model_dump(exclude_none=True)); self.db.add(obj); self.db.commit(); self.db.refresh(obj); return obj
@@ -37,7 +37,7 @@ class AutomationService:
     def list_tasks(self,status=None,source=None): q=self.db.query(Task); q=q.filter(Task.status==status) if status else q; q=q.filter(Task.source==source) if source else q; return q.all()
     def update_task(self,tid,data): t=self.db.query(Task).filter(Task.id==tid).first(); [setattr(t,k,v) for k,v in data.model_dump(exclude_none=True).items()]; self.db.commit(); self.db.refresh(t); return t
     def complete_task(self,tid): t=self.db.query(Task).filter(Task.id==tid).first(); t.status="completed"; t.completed_at=datetime.utcnow(); self.db.commit(); return t
-    def log_activity(self,action_type,description,metadata=None): l=ActivityLog(action_type=action_type,description=description,metadata=metadata); self.db.add(l); return l
+    def log_activity(self,action_type,description,meta_data=None): l=ActivityLog(action_type=action_type,description=description,meta_data=meta_data); self.db.add(l); return l
     def list_activity_logs(self): return self.db.query(ActivityLog).order_by(ActivityLog.id.desc()).all()
     def generate_daily_report(self,data=None):
         completed=self.list_tasks(status="completed"); pending=self.list_tasks(status="todo")+self.list_tasks(status="in_progress")
