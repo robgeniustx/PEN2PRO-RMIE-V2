@@ -5,6 +5,13 @@ import Footer from "../components/layout/Footer";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
+const TIERS = [
+  { label: "Free Roadmap", desc: "Start your business blueprint — target customer, offer, and a 7-day action plan.", path: "/starter" },
+  { label: "Pro", desc: "Full roadmap, progress tracking, branding support, PDF export, and AI refinement.", path: "/pro" },
+  { label: "Elite", desc: "Advanced strategist guidance, financial projections, and funding/credit resources.", path: "/elite" },
+  { label: "Legacy Founder", desc: "Lifetime-style early access with founder recognition and premium roadmap logic.", path: "/founders" },
+];
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -78,7 +85,8 @@ export default function LoginPage() {
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
       <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+        <div className="grid w-full max-w-5xl gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
+        <div className="w-full max-w-md mx-auto lg:mx-0">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
@@ -230,6 +238,30 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
+        </div>
+
+        {/* Side panel — tier explainer */}
+        <div className="hidden rounded-2xl border border-[#1A2235] p-8 lg:block" style={{ background: "#0F1520" }}>
+          <h2 className="font-display text-2xl font-bold text-white">
+            Build your business roadmap.<br />Save your blueprint.<br />
+            <span style={{ color: "#D4A017" }}>Upgrade when ready.</span>
+          </h2>
+          <p className="mt-3 text-sm leading-6 text-slate-400">
+            One account, four ways to grow — from your first free roadmap to full Legacy Founder access.
+          </p>
+          <div className="mt-6 space-y-4">
+            {TIERS.map((t) => (
+              <Link
+                key={t.path}
+                to={t.path}
+                className="block rounded-xl border border-[#1A2235] p-4 transition-colors hover:border-[#D4A017]/50 hover:bg-[#1A2235]/40"
+              >
+                <p className="text-sm font-bold text-white">{t.label}</p>
+                <p className="mt-1 text-xs leading-5 text-slate-500">{t.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
         </div>
       </div>
       <Footer />
