@@ -636,7 +636,7 @@ def _build_sample_response(
             "current_tier": req.tier,
             "recommended_tier": "pro" if req.tier == "free" else ("elite" if req.tier == "pro" else "founders"),
             "reason": "Get full outreach automation, financial projections, vendor introductions, and done-with-you launch support.",
-            "cta": "Upgrade before June 10 to lock in founding member pricing.",
+            "cta": "Upgrade before June 15 to lock in founding member pricing.",
             "cta_url": "/pricing",
         },
     }

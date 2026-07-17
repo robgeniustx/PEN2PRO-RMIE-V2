@@ -124,7 +124,7 @@ _SAMPLE = {
         "Skipping liability insurance — one property damage claim without it ends the business.",
         "No follow-up system — 80% of sales require 5+ touchpoints. Most stop at 1.",
     ],
-    "upgrade_note": "This roadmap gives you the foundation. Pro members get full outreach automation, financial projections, AI-refined marketing copy, and credit/funding resource matching. Elite members get done-with-you strategy sessions, vendor introductions, and launch support. Upgrade to Pro or Elite before the June 10 launch to lock in founding member pricing.",
+    "upgrade_note": "This roadmap gives you the foundation. Pro members get full outreach automation, financial projections, AI-refined marketing copy, and credit/funding resource matching. Elite members get done-with-you strategy sessions, vendor introductions, and launch support. Upgrade to Pro or Elite before the June 15 launch to lock in founding member pricing.",
 }
 
 
