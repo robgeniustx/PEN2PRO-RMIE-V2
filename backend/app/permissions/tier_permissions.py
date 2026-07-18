@@ -148,3 +148,13 @@ def has_feature_access(tier: str, feature: str) -> bool:
 
 def require_feature_access(tier: str, feature: str) -> bool:
     return has_feature_access(tier, feature)
+
+
+TIER_ORDER: List[str] = [TierName.FREE, TierName.PRO, TierName.ELITE, TierName.FOUNDERS]
+
+
+def has_tier(required_tier: str, actual_tier: str | None) -> bool:
+    """Return True if actual_tier meets or exceeds required_tier in the plan hierarchy."""
+    required = normalize_tier(required_tier)
+    actual = normalize_tier(actual_tier)
+    return TIER_ORDER.index(actual) >= TIER_ORDER.index(required)
