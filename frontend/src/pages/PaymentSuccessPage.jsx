@@ -6,7 +6,7 @@ import Footer from "../components/layout/Footer";
 const TIER_INFO = {
   founders: {
     name: "Founders Lifetime",
-    price: "$497 one-time",
+    price: "$1,899 one-time",
     color: "#D4A017",
     next: [
       "Check your email for your PEN2PRO confirmation and receipt.",
@@ -16,7 +16,7 @@ const TIER_INFO = {
   },
   pro: {
     name: "Pro",
-    price: "$47/mo",
+    price: "$249/mo",
     color: "#00C9B1",
     next: [
       "Check your email for your confirmation and account activation details.",
@@ -26,7 +26,7 @@ const TIER_INFO = {
   },
   elite: {
     name: "Elite",
-    price: "$97/mo",
+    price: "$499/mo",
     color: "#D4A017",
     next: [
       "Check your email for your confirmation and Elite member details.",
