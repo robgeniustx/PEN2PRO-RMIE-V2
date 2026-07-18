@@ -1,7 +1,12 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 
 export default function NotFoundPage() {
+  useEffect(() => {
+    document.title = "Page Not Found | PEN2PRO";
+  }, []);
+
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
