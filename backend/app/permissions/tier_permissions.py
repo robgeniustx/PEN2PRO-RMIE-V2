@@ -148,3 +148,18 @@ def has_feature_access(tier: str, feature: str) -> bool:
 
 def require_feature_access(tier: str, feature: str) -> bool:
     return has_feature_access(tier, feature)
+
+
+TIER_RANK: Dict[str, int] = {
+    TierName.FREE: 0,
+    TierName.PRO: 1,
+    TierName.ELITE: 2,
+    TierName.FOUNDERS: 3,
+}
+
+
+def has_tier(min_tier: str, tier: str) -> bool:
+    """Return True if `tier` meets or exceeds `min_tier` in the plan hierarchy."""
+    normalized_min = normalize_tier(min_tier)
+    normalized_tier = normalize_tier(tier)
+    return TIER_RANK[normalized_tier] >= TIER_RANK[normalized_min]

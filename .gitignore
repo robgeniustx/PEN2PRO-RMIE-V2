@@ -33,3 +33,6 @@ frontend/.env.local
 
 # Local frontend env files
 frontend/.env.local
+
+# Local SQLite dev database
+backend/*.db
