@@ -1,8 +1,7 @@
 from sqlalchemy import Column, DateTime, Integer, String, Text
 from sqlalchemy.sql import func
-from sqlalchemy.orm import declarative_base
 
-Base = declarative_base()
+from app.db import Base
 
 
 class DocumentRecord(Base):

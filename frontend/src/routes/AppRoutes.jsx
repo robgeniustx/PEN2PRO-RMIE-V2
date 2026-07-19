@@ -17,6 +17,7 @@ import AdminAnalyticsPage from "../pages/AdminAnalyticsPage";
 import AdminFeatureUsagePage from "../pages/AdminFeatureUsagePage";
 import AdminConversionsPage from "../pages/AdminConversionsPage";
 import PaymentSuccessPage from "../pages/PaymentSuccessPage";
+import LegalPage from "../pages/LegalPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import VoiceAgentPage from "../pages/VoiceAgentPage";
 import WebsiteBuilderPage from "../pages/WebsiteBuilderPage";
@@ -51,6 +52,9 @@ export default function AppRoutes() {
       <Route path="/pricing" element={<PricingPage />} />
       <Route path="/waitlist" element={<WaitlistPage />} />
       <Route path="/payment-success" element={<PaymentSuccessPage />} />
+      <Route path="/privacy" element={<LegalPage />} />
+      <Route path="/terms" element={<LegalPage />} />
+      <Route path="/disclaimer" element={<LegalPage />} />
 
       {/* ── Auth ── */}
       <Route path="/login" element={<LoginPage />} />
