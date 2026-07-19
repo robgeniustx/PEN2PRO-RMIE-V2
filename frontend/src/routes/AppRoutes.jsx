@@ -23,6 +23,7 @@ import WebsiteBuilderPage from "../pages/WebsiteBuilderPage";
 
 // ── Phase 1 pages ──
 import AboutPage from "../pages/AboutPage";
+import LegalPage from "../pages/LegalPage";
 import BusinessOSPage from "../pages/BusinessOSPage";
 import RMIEPage from "../pages/RMIEPage";
 import CommandCenterPage from "../pages/CommandCenterPage";
@@ -141,6 +142,11 @@ export default function AppRoutes() {
       <Route path="/contacts" element={<Navigate to="/dashboard/contacts" replace />} />
       <Route path="/lead-inbox" element={<Navigate to="/dashboard/lead-inbox" replace />} />
       <Route path="/pipeline" element={<Navigate to="/dashboard/pipeline" replace />} />
+
+      {/* ── Legal ── */}
+      <Route path="/privacy" element={<LegalPage />} />
+      <Route path="/terms" element={<LegalPage />} />
+      <Route path="/disclaimer" element={<LegalPage />} />
 
       {/* ── 404 ── */}
       <Route path="*" element={<NotFoundPage />} />
