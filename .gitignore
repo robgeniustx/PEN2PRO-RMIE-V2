@@ -7,23 +7,13 @@ backend/generated_audio/
 generated_audio/
 __pycache__/
 *.pyc
-.env
-frontend/.env
-backend/.env
-
-__pycache__/
 *.py[cod]
 main
 .DS_Store
 **/.DS_Store
 .env
-backend/.env
 frontend/.env
-.DS_Store
-**/.DS_Store
-.env
 backend/.env
-frontend/.env
 
 # Local frontend runtime files
 frontend/.local/
@@ -31,5 +21,5 @@ frontend/.local/
 # Local frontend env files
 frontend/.env.local
 
-# Local frontend env files
-frontend/.env.local
+# Local SQLite database (created at runtime by app/db.py)
+*.db
