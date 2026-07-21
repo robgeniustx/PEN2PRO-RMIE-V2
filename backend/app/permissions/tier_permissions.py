@@ -148,3 +148,13 @@ def has_feature_access(tier: str, feature: str) -> bool:
 
 def require_feature_access(tier: str, feature: str) -> bool:
     return has_feature_access(tier, feature)
+
+
+TIER_RANK: List[str] = [TierName.FREE, TierName.PRO, TierName.ELITE, TierName.FOUNDERS]
+
+
+def has_tier(min_tier: str, user_tier: str) -> bool:
+    """True if user_tier is at or above min_tier in the FREE < PRO < ELITE < FOUNDERS hierarchy."""
+    required_rank = TIER_RANK.index(normalize_tier(min_tier))
+    user_rank = TIER_RANK.index(normalize_tier(user_tier))
+    return user_rank >= required_rank
