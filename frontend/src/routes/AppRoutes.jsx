@@ -11,6 +11,7 @@ import DashboardWorkspacePage from "../pages/DashboardWorkspacePage";
 import FundingReadinessPage from "../pages/FundingReadinessPage";
 import CreditReadinessPage from "../pages/CreditReadinessPage";
 import AffiliatePage from "../pages/AffiliatePage";
+import { PrivacyPage, TermsPage, DisclaimerPage } from "../pages/LegalPage";
 import AdminDashboardPage from "../pages/AdminDashboardPage";
 import AdminWaitlistPage from "../pages/AdminWaitlistPage";
 import AdminAnalyticsPage from "../pages/AdminAnalyticsPage";
@@ -69,6 +70,9 @@ export default function AppRoutes() {
       <Route path="/credit-repair" element={<CreditReadinessPage />} />
       <Route path="/credit-readiness" element={<CreditReadinessPage />} />
       <Route path="/affiliate" element={<AffiliatePage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/disclaimer" element={<DisclaimerPage />} />
 
       {/* ── Dashboard ── */}
       <Route path="/dashboard" element={<DashboardWorkspacePage />} />
