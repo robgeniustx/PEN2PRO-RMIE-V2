@@ -40,6 +40,13 @@ const MISSION_POINTS = [
 const PERSONAL_STATEMENT = [
   { body: "There was a time in my life when everything around me looked broken." },
   { body: "Opportunities were limited. Doors kept closing. Every mistake I made seemed to follow me longer than any good thing I had ever done. I carried frustration, anger, doubt, and the heavy feeling of knowing there was more inside of me than what the world could see on the surface." },
+  { body: "After coming home from prison, I tried to rebuild my life the way people tell you to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give you a chance." },
+  { body: "More than once, I earned the opportunity. The interviews went well. The job offers came." },
+  { body: "Then the background checks followed.", emphasis: true },
+  { body: "The offers were rescinded.", emphasis: true },
+  { body: "That kind of rejection can break a person. For a moment, it almost did. I had a day of moping, frustration, and asking why doors kept closing on opportunities I had already earned." },
+  { body: "Then I made a decision. I picked my head up and took off running.", callout: true },
+  { body: "If the system was not going to hand me an opportunity, I would build one." },
   { body: "During my incarceration, I was faced with a choice.", emphasis: true },
   { body: "I could accept the labels placed on me and become another statistic, or I could rebuild myself from the inside out." },
   { body: "That process was not easy. Real change never is." },
@@ -94,7 +101,7 @@ export default function AboutPage() {
       el.setAttribute("content", content);
     };
 
-    setMeta("description", "PEN2PRO was built by Robert Green from struggle, pressure, discipline, rebuilding, and vision. A second-chance engine that turns ideas into real business roadmaps for entrepreneurs, veterans, returning citizens, and working-class builders.");
+    setMeta("description", "PEN2PRO was built by Robert Green after job offers were rescinded following background checks. A second-chance engine that turns ideas into real business roadmaps for entrepreneurs, veterans, returning citizens, and working-class builders.");
     setMeta("keywords", "PEN2PRO, RMIE, AI business roadmap, business plan for returning citizens, veteran entrepreneur, free business roadmap, business funding guidance, AI business plan generator, Houston entrepreneur, business plan generator, second chance business, business roadmap tool, Rapid Monetization Intelligence Engine, small business roadmap, entrepreneur tools for returning citizens, business plan for veterans, business startup guide");
     setMeta("author", "Robert Earl Green Jr.");
     setMeta("robots", "index, follow");
