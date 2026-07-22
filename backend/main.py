@@ -6,6 +6,9 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from app.db import Base, engine
+from app.models.waitlist_signup import WaitlistSignup  # noqa: F401 — registers table on Base.metadata
+
 from app.routes.stripe_routes import router as stripe_router
 from app.routes.admin import router as admin_router
 from app.routes.analytics import router as analytics_router
@@ -93,6 +96,13 @@ def strategist_response(req: BusinessRequest, elite: bool = False):
 
 
 app = FastAPI(title="PEN2PRO BusinessOS API", version="3.1.0", description="PEN2PRO RMIE", docs_url="/api/docs", redoc_url="/api/redoc")
+
+
+@app.on_event("startup")
+def _create_tables():
+    Base.metadata.create_all(bind=engine)
+
+
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 app.add_middleware(CORSMiddleware, allow_origins=[FRONTEND_URL, BACKEND_URL, "http://localhost:5173", "http://localhost:3000", "https://pen2pro.com", "https://www.pen2pro.com"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])

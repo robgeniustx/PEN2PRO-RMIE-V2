@@ -3,8 +3,9 @@ import io
 import os
 from typing import Optional
 
-from fastapi import APIRouter, Header, HTTPException, Query
+from fastapi import APIRouter, Depends, Header, HTTPException, Query
 from fastapi.responses import StreamingResponse
+from sqlalchemy.orm import Session
 
 from app.services.analytics_service import (
     get_admin_metrics,
@@ -14,10 +15,25 @@ from app.services.analytics_service import (
     get_recent_activity,
 )
 
-# Import shared waitlist store
-from app.routes.waitlist import _waitlist, _check_admin
+from app.db import get_db
+from app.models.waitlist_signup import WaitlistSignup
+from app.routes.waitlist import _check_admin
 
 router = APIRouter()
+
+
+def _serialize_signup(row: WaitlistSignup) -> dict:
+    return {
+        "id": row.id,
+        "name": row.name,
+        "email": row.email,
+        "phone": row.phone or "",
+        "business_idea": row.business_idea or "",
+        "interest": row.interest,
+        "referral": row.referral or "",
+        "source": row.source or "",
+        "submitted_at": row.created_at.isoformat() if row.created_at else None,
+    }
 
 
 def _guard():
@@ -71,6 +87,7 @@ async def admin_get_waitlist(
     search: Optional[str] = Query(None),
     page: int = Query(1, ge=1),
     per_page: int = Query(20, ge=1, le=100),
+    db: Session = Depends(get_db),
 ):
     """
     GET /api/admin/waitlist
@@ -78,52 +95,57 @@ async def admin_get_waitlist(
     Requires X-Admin-Key header (if ADMIN_ACCESS_KEY env var is set).
     """
     _check_admin(x_admin_key)
-    results = list(_waitlist)
+    q = db.query(WaitlistSignup)
 
     if interest:
-        results = [r for r in results if interest.lower() in r.get("interest", "").lower()]
+        q = q.filter(WaitlistSignup.interest.ilike(f"%{interest}%"))
     if referral:
-        results = [r for r in results if referral.lower() in r.get("referral", "").lower()]
+        q = q.filter(WaitlistSignup.referral.ilike(f"%{referral}%"))
     if search:
-        q = search.lower()
-        results = [r for r in results if q in r.get("name", "").lower() or q in r.get("email", "").lower()]
+        like = f"%{search}%"
+        q = q.filter((WaitlistSignup.name.ilike(like)) | (WaitlistSignup.email.ilike(like)))
 
-    results = sorted(results, key=lambda r: r["submitted_at"], reverse=True)
-    total = len(results)
-    start = (page - 1) * per_page
-    paginated = results[start : start + per_page]
+    total = q.count()
+    total_all = db.query(WaitlistSignup).count()
+    rows = (
+        q.order_by(WaitlistSignup.created_at.desc())
+        .offset((page - 1) * per_page)
+        .limit(per_page)
+        .all()
+    )
 
     return {
-        "total": len(_waitlist),
+        "total": total_all,
         "filtered": total,
         "page": page,
         "per_page": per_page,
         "total_pages": max(1, -(-total // per_page)),
-        "entries": paginated,
+        "entries": [_serialize_signup(r) for r in rows],
     }
 
 
 @router.get("/waitlist/export")
-async def admin_waitlist_export(x_admin_key: Optional[str] = Header(None)):
+async def admin_waitlist_export(x_admin_key: Optional[str] = Header(None), db: Session = Depends(get_db)):
     """
     GET /api/admin/waitlist/export
     Returns full waitlist as downloadable CSV.
     """
     _check_admin(x_admin_key)
+    rows = db.query(WaitlistSignup).order_by(WaitlistSignup.created_at.desc()).all()
     output = io.StringIO()
     writer = csv.writer(output)
     writer.writerow(["ID", "Name", "Email", "Phone", "Interest", "Referral", "Business Idea", "Source", "Submitted"])
-    for entry in sorted(_waitlist, key=lambda r: r["submitted_at"], reverse=True):
+    for entry in rows:
         writer.writerow([
-            entry.get("id", ""),
-            entry.get("name", ""),
-            entry.get("email", ""),
-            entry.get("phone", ""),
-            entry.get("interest", ""),
-            entry.get("referral", ""),
-            entry.get("business_idea", ""),
-            entry.get("source", ""),
-            entry.get("submitted_at", ""),
+            entry.id,
+            entry.name,
+            entry.email,
+            entry.phone or "",
+            entry.interest,
+            entry.referral or "",
+            entry.business_idea or "",
+            entry.source or "",
+            entry.created_at.isoformat() if entry.created_at else "",
         ])
     output.seek(0)
     return StreamingResponse(
@@ -134,24 +156,27 @@ async def admin_waitlist_export(x_admin_key: Optional[str] = Header(None)):
 
 
 @router.get("/waitlist-metrics")
-async def admin_waitlist_metrics(x_admin_key: Optional[str] = Header(None)):
+async def admin_waitlist_metrics(x_admin_key: Optional[str] = Header(None), db: Session = Depends(get_db)):
     """
     GET /api/admin/waitlist-metrics
     Returns totals, breakdown by interest, breakdown by referral source.
     """
     _check_admin(x_admin_key)
+    rows = db.query(WaitlistSignup).all()
+
     by_interest: dict = {}
     by_referral: dict = {}
-
-    for entry in _waitlist:
-        k = entry.get("interest", "Unknown")
+    for entry in rows:
+        k = entry.interest or "Unknown"
         by_interest[k] = by_interest.get(k, 0) + 1
-        ref = entry.get("referral", "") or "direct"
+        ref = entry.referral or "direct"
         by_referral[ref] = by_referral.get(ref, 0) + 1
 
+    recent = sorted(rows, key=lambda r: r.created_at or 0, reverse=True)[:5]
+
     return {
-        "total_signups": len(_waitlist),
+        "total_signups": len(rows),
         "by_interest": by_interest,
         "by_referral": by_referral,
-        "recent_5": sorted(_waitlist, key=lambda r: r["submitted_at"], reverse=True)[:5],
+        "recent_5": [_serialize_signup(r) for r in recent],
     }
