@@ -77,13 +77,40 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="mx-auto grid min-h-[calc(100vh-80px)] max-w-5xl items-center gap-10 px-4 py-20 md:grid-cols-2">
+
+        {/* Side panel */}
+        <div className="order-2 md:order-1">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14] md:mx-0">
+            P2P
+          </div>
+          <h1 className="font-display text-3xl font-black leading-tight text-white md:text-4xl">
+            Build your business roadmap. Save your blueprint. Upgrade when ready.
+          </h1>
+          <p className="mt-4 text-sm text-slate-400">
+            One account gives you a home for every plan you generate — start free, and unlock deeper strategy as you grow.
+          </p>
+          <div className="mt-8 space-y-4">
+            {[
+              { tier: "Free Roadmap", desc: "A real starter blueprint — idea summary, offer, and a 7-day action plan." },
+              { tier: "Pro Strategy Tools", desc: "Full roadmap, progress tracking, branding, PDF export, and AI refinement." },
+              { tier: "Elite Execution Support", desc: "Financial projections, funding/credit resources, and priority guidance." },
+              { tier: "Legacy Founder Access", desc: "Lifetime-style early access and premium roadmap logic." },
+            ].map((t) => (
+              <div key={t.tier} className="flex gap-3 rounded-xl border border-[#1A2235] bg-[#0F1520] p-4">
+                <span className="mt-0.5 text-[#D4A017]">✓</span>
+                <div>
+                  <p className="text-sm font-bold text-white">{t.tier}</p>
+                  <p className="mt-0.5 text-xs text-slate-400">{t.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="order-1 w-full max-w-md md:order-2 md:mx-0 md:justify-self-end">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
-              P2P
-            </div>
             <h1 className="font-display text-3xl font-bold text-white">
               {tab === "login" ? "Welcome back" : "Create your account"}
             </h1>
@@ -142,7 +169,12 @@ export default function LoginPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-300">Password</label>
+                  <div className="mb-1.5 flex items-center justify-between">
+                    <label className="block text-sm font-medium text-slate-300">Password</label>
+                    <Link to="/forgot-password" className="text-xs font-semibold" style={{ color: "#D4A017" }}>
+                      Forgot password?
+                    </Link>
+                  </div>
                   <input
                     type="password"
                     required

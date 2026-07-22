@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 // ── Existing pages ──
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import WaitlistPage from "../pages/WaitlistPage";
 import PricingPage from "../pages/PricingPage";
 import StarterPage from "../pages/StarterPage";
@@ -56,6 +57,7 @@ export default function AppRoutes() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signin" element={<LoginPage />} />
       <Route path="/signup" element={<LoginPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
       {/* ── RMIE Roadmap Flow ── */}
       <Route path="/starter" element={<StarterPage />} />
