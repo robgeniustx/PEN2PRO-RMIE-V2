@@ -33,3 +33,6 @@ frontend/.env.local
 
 # Local frontend env files
 frontend/.env.local
+
+# Runtime data persisted on disk (may contain user PII)
+backend/app/data/runtime/

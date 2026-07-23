@@ -1,8 +1,10 @@
 import csv
 import io
+import json
 import os
 import re
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import List, Optional
 
 from fastapi import APIRouter, Header, HTTPException, Query
@@ -11,8 +13,26 @@ from pydantic import BaseModel
 
 router = APIRouter()
 
-# In-memory store — swappable for MongoDB via DATABASE_URL
-_waitlist: List[dict] = []
+# Persisted to disk so signups survive a backend restart — swappable for a
+# real database via DATABASE_URL later.
+_STORE_PATH = Path(__file__).resolve().parent.parent / "data" / "runtime" / "waitlist.json"
+
+
+def _load_waitlist() -> List[dict]:
+    if _STORE_PATH.exists():
+        try:
+            return json.loads(_STORE_PATH.read_text())
+        except (json.JSONDecodeError, OSError):
+            return []
+    return []
+
+
+def _save_waitlist() -> None:
+    _STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    _STORE_PATH.write_text(json.dumps(_waitlist, indent=2))
+
+
+_waitlist: List[dict] = _load_waitlist()
 
 
 class WaitlistEntry(BaseModel):
@@ -60,6 +80,7 @@ async def join_waitlist(entry: WaitlistEntry):
         "submitted_at": datetime.now(timezone.utc).isoformat(),
     }
     _waitlist.append(record)
+    _save_waitlist()
     return {
         "success": True,
         "message": "You're on the waitlist! See you June 10, 2026.",

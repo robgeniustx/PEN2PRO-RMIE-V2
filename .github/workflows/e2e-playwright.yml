@@ -19,16 +19,13 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install frontend dependencies
+      - name: Install root test dependencies
         run: npm install
-        working-directory: frontend
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
-        working-directory: frontend
 
       - name: Run Playwright smoke tests
         run: npx playwright test --config=playwright.config.js
-        working-directory: .
         env:
           FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
