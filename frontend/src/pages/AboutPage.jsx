@@ -38,23 +38,21 @@ const MISSION_POINTS = [
 ];
 
 const PERSONAL_STATEMENT = [
-  { body: "There was a time in my life when everything around me looked broken." },
-  { body: "Opportunities were limited. Doors kept closing. Every mistake I made seemed to follow me longer than any good thing I had ever done. I carried frustration, anger, doubt, and the heavy feeling of knowing there was more inside of me than what the world could see on the surface." },
-  { body: "During my incarceration, I was faced with a choice.", emphasis: true },
-  { body: "I could accept the labels placed on me and become another statistic, or I could rebuild myself from the inside out." },
-  { body: "That process was not easy. Real change never is." },
-  { body: "There were nights filled with regret, mornings filled with uncertainty, and moments when giving up felt easier than believing in a future I could not yet see. But even in that darkness, I held on to one thought:" },
-  { body: "Any effort toward something positive had to be better than where I was and what I had already experienced.", callout: true },
-  { body: "Even the smallest step forward meant something. Even a little progress was still progress. That mindset became the beginning of my transformation." },
-  { body: "Somewhere along the way, I realized something that changed my life:" },
-  { body: "Your environment does not have to define your destiny.", emphasis: true },
-  { body: "Your past may explain parts of your story, but it does not own your future.", emphasis: true },
-  { body: "And the same energy used to survive difficult seasons can become the same energy used to build an extraordinary life.", emphasis: true },
-  { body: "That realization became the foundation for everything that came after." },
-  { body: "I started studying business, strategy, branding, mindset, discipline, leadership, and personal growth. I became obsessed with understanding how successful people think, move, build, and create opportunities. I learned that wealth is not just money. Wealth is knowledge. Wealth is execution. Wealth is discipline. Wealth is believing in yourself long enough to keep going when nobody else can see what you see." },
+  { body: "PEN2PRO was not built from a comfortable office or a perfect path. It was built from pressure, rejection, discipline, and the refusal to stay stuck." },
+  { body: "After coming home from prison, I tried to rebuild my life the way people tell you to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give you a chance. More than once, I earned the opportunity. The interviews went well. The job offers came.", emphasis: true },
+  { body: "Then the background checks followed.", emphasis: true },
+  { body: "The offers were rescinded.", callout: true },
+  { body: "That kind of rejection can break a person. For a moment, it almost did." },
+  { body: "After a day of moping, frustration, and asking why doors kept closing, I made a decision.", emphasis: true },
+  { body: "I picked my head up and took off running.", callout: true },
+  { body: "If the system would not give me a path, I would build one.", emphasis: true },
+  { body: "That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO." },
+  { body: "I'm a service-connected veteran, a father, an entrepreneur, an author, a mentor, and a credible messenger before I'm anything else. Every one of those roles shaped how PEN2PRO was built." },
+  { body: "PEN2PRO is my way of sharing the success, the heartbreak, the lessons, the failures, and the strategies with the world. It is built for people with ideas but no structure. People with skills but no roadmap. People with ambition but limited resources. People who have been overlooked, underestimated, or counted out.", emphasis: true },
+  { body: "PEN2PRO RMIE — Rapid Monetization Intelligence Engine — was created to help you turn an idea into a realistic action plan. It gives you more than motivation. It gives you business structure, launch steps, monetization strategy, credit and funding readiness, branding direction, and a path toward execution." },
+  { body: "This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.", callout: true },
   { body: "That journey started with XLR8 Pressure Washing and eventually led to XLR8 Trade Academy and PEN2PRO." },
   { body: "What began as a mission to rebuild my own life became a mission to help others rebuild theirs.", emphasis: true },
-  { body: "The opportunities became limitless once I stopped allowing my past to define my future." },
   { body: "PEN2PRO was not created by someone who was handed every opportunity.", emphasis: true },
   { body: "It was built through struggle, pressure, setbacks, sacrifice, discipline, rebuilding, and vision. It was built by someone who knows what it feels like to be counted out, overlooked, judged, and underestimated." },
   { body: "And it was built for people who know they are capable of more but need direction, structure, strategy, tools, and belief to unlock what is already inside of them." },
@@ -244,7 +242,7 @@ export default function AboutPage() {
             <div>
               <p className="font-black text-white text-lg">Robert Earl Green Jr.</p>
               <p className="text-sm text-slate-400 mt-0.5">
-                Service-Connected Veteran · Entrepreneur · Author · Mentor
+                Service-Connected Veteran · Father · Entrepreneur · Author · Mentor · Credible Messenger
               </p>
               <p className="text-sm text-[#FF8A00] font-semibold mt-0.5">
                 Founder — PEN2PRO
