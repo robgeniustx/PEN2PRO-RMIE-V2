@@ -23,6 +23,9 @@ import WebsiteBuilderPage from "../pages/WebsiteBuilderPage";
 
 // ── Phase 1 pages ──
 import AboutPage from "../pages/AboutPage";
+import PrivacyPage from "../pages/PrivacyPage";
+import TermsPage from "../pages/TermsPage";
+import DisclaimerPage from "../pages/DisclaimerPage";
 import BusinessOSPage from "../pages/BusinessOSPage";
 import RMIEPage from "../pages/RMIEPage";
 import CommandCenterPage from "../pages/CommandCenterPage";
@@ -50,6 +53,9 @@ export default function AppRoutes() {
       <Route path="/rmie" element={<RMIEPage />} />
       <Route path="/pricing" element={<PricingPage />} />
       <Route path="/waitlist" element={<WaitlistPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/disclaimer" element={<DisclaimerPage />} />
       <Route path="/payment-success" element={<PaymentSuccessPage />} />
 
       {/* ── Auth ── */}
