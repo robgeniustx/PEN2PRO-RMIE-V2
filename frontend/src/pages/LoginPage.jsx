@@ -77,13 +77,53 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-16 md:py-20">
+        <div className="grid w-full max-w-5xl gap-10 md:grid-cols-[1fr_1.05fr] md:items-center">
+
+          {/* ── Left: brand + tier explainer ── */}
+          <div className="hidden md:block">
+            <Link to="/" className="mb-6 inline-flex items-center gap-2.5">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl shrink-0"
+                style={{ background: "linear-gradient(135deg, #0D47A1 0%, #1E88E5 100%)", boxShadow: "0 0 18px rgba(30,136,229,0.35)" }}>
+                <span className="text-[17px] leading-none">⚡</span>
+              </div>
+              <span className="font-display text-2xl font-black tracking-tight leading-none">
+                <span style={{ color: "#FFFFFF" }}>PEN</span>
+                <span style={{ color: "#FF8A00" }}>2</span>
+                <span style={{ color: "#1E88E5" }}>PRO</span>
+              </span>
+            </Link>
+            <h2 className="font-display text-3xl font-black leading-tight text-white mb-3">
+              Build your business roadmap.<br />Save your blueprint.<br />Upgrade when ready.
+            </h2>
+            <p className="text-sm leading-6 text-slate-400 mb-8">
+              One account, every tier. Start free and move up whenever you're ready for more strategy and
+              execution support.
+            </p>
+            <div className="space-y-4">
+              {[
+                ["Free Roadmap", "A real business roadmap — idea summary, offer, pricing, and a 7-day action plan.", "/starter"],
+                ["Pro", "Full roadmap access, progress tracking, branding support, and PDF export.", "/pro"],
+                ["Elite", "Advanced strategist guidance, financial projections, and funding/credit resources.", "/elite"],
+                ["Legacy Founder", "Lifetime access and founder recognition for early platform members.", "/founders"],
+              ].map(([label, body, path]) => (
+                <Link key={path} to={path} className="block rounded-xl border border-[#1A2235] p-4 transition hover:border-[#D4A017]/40" style={{ background: "#0F1520" }}>
+                  <p className="text-sm font-bold text-white mb-1">{label}</p>
+                  <p className="text-xs leading-5 text-slate-500">{body}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Right: form ── */}
+          <div className="w-full max-w-md mx-auto md:mx-0">
           {/* Header */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-8 md:hidden">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
               P2P
             </div>
+          </div>
+          <div className="text-center mb-8">
             <h1 className="font-display text-3xl font-bold text-white">
               {tab === "login" ? "Welcome back" : "Create your account"}
             </h1>
@@ -142,7 +182,16 @@ export default function LoginPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-300">Password</label>
+                  <div className="mb-1.5 flex items-center justify-between">
+                    <label className="block text-sm font-medium text-slate-300">Password</label>
+                    <a
+                      href="mailto:support@pen2pro.com?subject=Password%20reset%20request"
+                      className="text-xs font-semibold hover:opacity-80 transition"
+                      style={{ color: "#D4A017" }}
+                    >
+                      Forgot password?
+                    </a>
+                  </div>
                   <input
                     type="password"
                     required
@@ -217,7 +266,9 @@ export default function LoginPage() {
                   {loading ? "Creating account..." : "Create Account — Free"}
                 </button>
                 <p className="text-center text-xs text-slate-500">
-                  By creating an account you agree to our Terms of Service and Privacy Policy.
+                  By creating an account you agree to our{" "}
+                  <Link to="/terms" className="underline hover:text-slate-300">Terms of Service</Link> and{" "}
+                  <Link to="/privacy" className="underline hover:text-slate-300">Privacy Policy</Link>.
                 </p>
               </form>
             )}
@@ -229,6 +280,7 @@ export default function LoginPage() {
                 Join the waitlist
               </Link>
             </div>
+          </div>
           </div>
         </div>
       </div>

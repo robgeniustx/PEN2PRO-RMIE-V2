@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { getStripeSession } from "../api/stripeApi";
 
 const TIER_INFO = {
   founders: {
     name: "Founders Lifetime",
-    price: "$497 one-time",
+    price: "$1,899 one-time",
     color: "#D4A017",
     next: [
       "Check your email for your PEN2PRO confirmation and receipt.",
@@ -16,7 +17,7 @@ const TIER_INFO = {
   },
   pro: {
     name: "Pro",
-    price: "$47/mo",
+    price: "$249/mo",
     color: "#00C9B1",
     next: [
       "Check your email for your confirmation and account activation details.",
@@ -26,7 +27,7 @@ const TIER_INFO = {
   },
   elite: {
     name: "Elite",
-    price: "$97/mo",
+    price: "$499/mo",
     color: "#D4A017",
     next: [
       "Check your email for your confirmation and Elite member details.",
@@ -48,13 +49,21 @@ const TIER_INFO = {
 
 export default function PaymentSuccessPage() {
   const [params] = useSearchParams();
-  const tier = params.get("tier") || "default";
-  const info = TIER_INFO[tier] || TIER_INFO.default;
+  const sessionId = params.get("session_id");
+  const [tier, setTier] = useState(params.get("tier") || "default");
   const [show, setShow] = useState(false);
+  const info = TIER_INFO[tier] || TIER_INFO.default;
 
   useEffect(() => {
     setTimeout(() => setShow(true), 100);
   }, []);
+
+  useEffect(() => {
+    if (!sessionId) return;
+    getStripeSession(sessionId).then((data) => {
+      if (data?.tier && TIER_INFO[data.tier]) setTier(data.tier);
+    });
+  }, [sessionId]);
 
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
