@@ -7,9 +7,9 @@ const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 const INTERESTS = [
   "Free Roadmap",
-  "Pro Plan ($47/mo)",
-  "Elite Plan ($97/mo)",
-  "Founders Lifetime ($497)",
+  "Pro Plan ($249/mo)",
+  "Elite Plan ($499/mo)",
+  "Founders Lifetime ($1,899)",
   "Affiliate Partner",
   "Funding Help",
   "Credit Repair Help",
@@ -115,8 +115,8 @@ export default function WaitlistPage() {
         }
       }
     } catch {
-      // Backend offline — still show success (offline-tolerant)
-      setStatus("success");
+      setErrorMsg("We couldn't reach the server. Please check your connection and try again.");
+      setStatus("error");
     }
   };
 
