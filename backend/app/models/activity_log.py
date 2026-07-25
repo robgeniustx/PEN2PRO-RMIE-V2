@@ -9,5 +9,5 @@ class ActivityLog(Base):
     user_id: Mapped[int | None] = mapped_column(Integer, nullable=True)
     action_type: Mapped[str] = mapped_column(String(128))
     description: Mapped[str] = mapped_column(Text)
-    metadata: Mapped[str | None] = mapped_column(Text, nullable=True)
+    extra_metadata: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now())
