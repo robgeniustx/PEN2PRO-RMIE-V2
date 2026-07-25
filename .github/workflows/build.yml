@@ -55,3 +55,6 @@ jobs:
 
       - name: Check backend Python files
         run: python -m compileall .
+
+      - name: Import smoke test
+        run: python -c "from app.main import app; print(f'{len(app.routes)} routes loaded')"
