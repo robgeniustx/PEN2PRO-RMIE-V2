@@ -38,47 +38,21 @@ const MISSION_POINTS = [
 ];
 
 const PERSONAL_STATEMENT = [
-  { body: "There was a time in my life when everything around me looked broken." },
-  { body: "Opportunities were limited. Doors kept closing. Every mistake I made seemed to follow me longer than any good thing I had ever done. I carried frustration, anger, doubt, and the heavy feeling of knowing there was more inside of me than what the world could see on the surface." },
-  { body: "During my incarceration, I was faced with a choice.", emphasis: true },
-  { body: "I could accept the labels placed on me and become another statistic, or I could rebuild myself from the inside out." },
-  { body: "That process was not easy. Real change never is." },
-  { body: "There were nights filled with regret, mornings filled with uncertainty, and moments when giving up felt easier than believing in a future I could not yet see. But even in that darkness, I held on to one thought:" },
-  { body: "Any effort toward something positive had to be better than where I was and what I had already experienced.", callout: true },
-  { body: "Even the smallest step forward meant something. Even a little progress was still progress. That mindset became the beginning of my transformation." },
-  { body: "Somewhere along the way, I realized something that changed my life:" },
-  { body: "Your environment does not have to define your destiny.", emphasis: true },
-  { body: "Your past may explain parts of your story, but it does not own your future.", emphasis: true },
-  { body: "And the same energy used to survive difficult seasons can become the same energy used to build an extraordinary life.", emphasis: true },
-  { body: "That realization became the foundation for everything that came after." },
-  { body: "I started studying business, strategy, branding, mindset, discipline, leadership, and personal growth. I became obsessed with understanding how successful people think, move, build, and create opportunities. I learned that wealth is not just money. Wealth is knowledge. Wealth is execution. Wealth is discipline. Wealth is believing in yourself long enough to keep going when nobody else can see what you see." },
-  { body: "That journey started with XLR8 Pressure Washing and eventually led to XLR8 Trade Academy and PEN2PRO." },
-  { body: "What began as a mission to rebuild my own life became a mission to help others rebuild theirs.", emphasis: true },
-  { body: "The opportunities became limitless once I stopped allowing my past to define my future." },
-  { body: "PEN2PRO was not created by someone who was handed every opportunity.", emphasis: true },
-  { body: "It was built through struggle, pressure, setbacks, sacrifice, discipline, rebuilding, and vision. It was built by someone who knows what it feels like to be counted out, overlooked, judged, and underestimated." },
-  { body: "And it was built for people who know they are capable of more but need direction, structure, strategy, tools, and belief to unlock what is already inside of them." },
-  { body: "PEN2PRO is bigger than software.", emphasis: true },
-  { body: "It is proof that transformation is possible." },
-  { body: "It is proof that someone can come from hardship and still create something meaningful." },
-  { body: "It is proof that ideas can become income, pain can become purpose, and setbacks can become fuel for a completely different future." },
-  { body: "But none of this happens without commitment.", emphasis: true },
-  { body: "No app, system, mentor, course, or opportunity can change a person who is not willing to change themselves." },
-  { body: "The people who truly win are the ones who finally decide:" },
-  { body: "“I’m tired of surviving. I’m ready to build.”", callout: true },
-  { body: "They dedicate themselves to growth.\nThey stay disciplined when motivation disappears.\nThey keep learning when things get difficult.\nThey stop making excuses and start making progress.", list: true },
-  { body: "And over time, that consistency changes everything." },
-  { body: "The truth is, many people are only one decision away from a completely different life.", emphasis: true },
-  { body: "One decision to believe in themselves again.\nOne decision to stop letting fear control them.\nOne decision to stop living beneath their potential.\nOne decision to finally commit to becoming the person they were created to be.", list: true },
-  { body: "Your current chapter is not your final chapter.", emphasis: true },
-  { body: "No matter where you started.\nNo matter what people said about you.\nNo matter how many times life knocked you down.\nNo matter how long you have felt stuck.", list: true },
-  { body: "You still have purpose.\nYou still have value.\nYou still have greatness inside of you waiting to be activated.", list: true },
-  { body: "For those willing to commit to growth, discipline, execution, and transformation, PEN2PRO exists to help turn vision into reality." },
-  { body: "Because redemption is real.\nGrowth is real.\nSuccess is possible.", list: true },
-  { body: "And sometimes, the person the world counted out becomes the very person who inspires others to believe in themselves again." },
-  { body: "That is what PEN2PRO represents.", emphasis: true },
-  { body: "That is what my life represents.", emphasis: true },
-  { body: "And this is only the beginning.", callout: true },
+  { body: "I didn't create PEN2PRO from a comfortable office or a perfect path. I created it from pressure, rejection, discipline, and the refusal to stay stuck.", emphasis: true },
+  { body: "After coming home from prison, I tried to rebuild my life the way people tell you to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give you a chance." },
+  { body: "More than once, I earned the opportunity. The interviews went well. The job offers came." },
+  { body: "Then the background checks followed.", callout: true },
+  { body: "The offers were rescinded.", callout: true },
+  { body: "That kind of rejection can break a person. For a moment, it almost did." },
+  { body: "I had a day of moping — frustration, doubt, and the same question on repeat: why do doors keep closing after they've already looked open?" },
+  { body: "Then I picked my head up and took off running.", emphasis: true },
+  { body: "If the system wasn't going to hand me an opportunity, I was going to build one.", callout: true },
+  { body: "That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO." },
+  { body: "I'm a service-connected veteran, a father, an entrepreneur, an author, a mentor, and a credible messenger. PEN2PRO is my way of sharing the success, the heartbreak, the lessons, the failures, and the strategies with the world.", emphasis: true },
+  { body: "It's built for people with ideas but no structure.\nPeople with skills but no roadmap.\nPeople with ambition but limited resources.\nPeople who have been overlooked, underestimated, or counted out.", list: true },
+  { body: "PEN2PRO RMIE — Rapid Monetization Intelligence Engine — was created to help you turn an idea into a realistic action plan. Not just motivation. Business structure, launch steps, monetization strategy, credit and funding readiness, branding direction, and a path toward execution.", emphasis: true },
+  { body: "This is not just software.", emphasis: true },
+  { body: "This is a second-chance engine, a business builder, and a roadmap for anyone ready to stop waiting for permission.", callout: true },
 ];
 
 export default function AboutPage() {
@@ -306,15 +280,21 @@ export default function AboutPage() {
           <p className="mb-10 text-slate-400">
             Start with a free roadmap. No credit card. No fluff. Just a real plan for your specific idea.
           </p>
-          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <Link to="/starter" className="rounded-xl px-8 py-3.5 text-sm font-black text-[#0A0F1E] btn-gold">
-              Start Free Roadmap
+              Start Your Free Roadmap
             </Link>
             <Link to="/waitlist" className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
               Join the Waitlist
             </Link>
-            <Link to="/pricing" className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
-              Explore Plans
+            <Link to="/pro" className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
+              Explore Pro
+            </Link>
+            <Link to="/elite" className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
+              Explore Elite
+            </Link>
+            <Link to="/legacy-founder" className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
+              Become a Legacy Founder
             </Link>
           </div>
         </div>
