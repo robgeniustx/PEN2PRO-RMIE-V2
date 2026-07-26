@@ -1,6 +1,5 @@
 export { default as HomePage } from "./HomePage.jsx";
 export { default as LoginPage } from "./LoginPage.jsx";
-export { default as DashboardPage } from "./DashboardPage.jsx";
 export { default as LiveOperationsPage } from "./LiveOperationsPage.jsx";
 export { default as StarterPage } from "./StarterPage.jsx";
 export { default as BlueprintResultsPage } from "./BlueprintResultsPage.jsx";

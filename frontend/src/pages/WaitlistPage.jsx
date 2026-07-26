@@ -7,44 +7,13 @@ const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 const INTERESTS = [
   "Free Roadmap",
-  "Pro Plan ($47/mo)",
-  "Elite Plan ($97/mo)",
-  "Founders Lifetime ($497)",
+  "Pro Plan ($249/mo)",
+  "Elite Plan ($499/mo)",
+  "Founders Lifetime ($1,899)",
   "Affiliate Partner",
   "Funding Help",
   "Credit Repair Help",
 ];
-
-function useCountdown(target) {
-  const [t, setT] = useState({ d: 0, h: 0, m: 0, s: 0 });
-  useEffect(() => {
-    const calc = () => {
-      const diff = new Date(target) - new Date();
-      if (diff <= 0) return setT({ d: 0, h: 0, m: 0, s: 0 });
-      setT({
-        d: Math.floor(diff / 86400000),
-        h: Math.floor((diff % 86400000) / 3600000),
-        m: Math.floor((diff % 3600000) / 60000),
-        s: Math.floor((diff % 60000) / 1000),
-      });
-    };
-    calc();
-    const id = setInterval(calc, 1000);
-    return () => clearInterval(id);
-  }, [target]);
-  return t;
-}
-
-function CBox({ v, l }) {
-  return (
-    <span className="countdown-box flex flex-col items-center rounded-xl px-4 py-3 min-w-[58px]">
-      <span className="font-display text-2xl font-black tabular-nums leading-none" style={{ color: "#D4A017" }}>
-        {String(v ?? 0).padStart(2, "0")}
-      </span>
-      <span className="mt-1 text-[9px] font-bold uppercase tracking-widest text-slate-500">{l}</span>
-    </span>
-  );
-}
 
 export default function WaitlistPage() {
   const [params] = useSearchParams();
@@ -82,7 +51,6 @@ export default function WaitlistPage() {
 
   const [status, setStatus]     = useState("idle"); // idle | loading | success | error
   const [errorMsg, setErrorMsg] = useState("");
-  const cd = useCountdown("2026-06-15T09:00:00");
 
   const handle = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -107,7 +75,7 @@ export default function WaitlistPage() {
       } else {
         const data = await res.json().catch(() => ({}));
         if (res.status === 409) {
-          setErrorMsg("That email is already on the list. You're already in — we'll see you June 15!");
+          setErrorMsg("That email is already on the list. You're already in!");
           setStatus("error");
         } else {
           setErrorMsg(data.detail || "Something went wrong. Please try again.");
@@ -133,9 +101,8 @@ export default function WaitlistPage() {
             </div>
             <h1 className="font-display text-4xl font-black text-white mb-3">You're In.</h1>
             <p className="text-base leading-7 text-slate-400 mb-8">
-              <strong className="text-white">{form.name || "Welcome"}</strong>, your spot is secured for the
-              PEN2PRO launch on{" "}
-              <strong style={{ color: "#D4A017" }}>June 15, 2026</strong>.
+              <strong className="text-white">{form.name || "Welcome"}</strong>, you're on the list.
+              Our team will follow up with next steps based on what you're most interested in.
               {refParam && (
                 <span className="block mt-2 text-xs text-slate-600">
                   Referred by: <span className="text-slate-400 font-semibold">{refParam}</span>
@@ -147,10 +114,10 @@ export default function WaitlistPage() {
               <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">What Happens Next</p>
               <ul className="space-y-3">
                 {[
-                  "Confirmation details are saved — watch for our June 15 email",
-                  "Founding members get first access + pricing locked forever",
-                  "Start your free roadmap right now while you wait",
-                  "Share your referral link to earn affiliate commissions at launch",
+                  "Confirmation details are saved — watch your email for a follow-up",
+                  "Founders Lifetime members get pricing locked in forever",
+                  "Start your free roadmap right now — no need to wait",
+                  "Share your referral link to earn affiliate commissions",
                 ].map((item) => (
                   <li key={item} className="flex gap-3 text-sm text-slate-400">
                     <span className="font-bold text-teal-400 mt-0.5 shrink-0">✓</span>
@@ -204,34 +171,19 @@ export default function WaitlistPage() {
               style={{ borderColor: "rgba(212,160,23,0.3)", background: "rgba(212,160,23,0.08)" }}>
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
               <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4A017" }}>
-                Waitlist Open — Limited Founding Spots
+                PEN2PRO Is Live — Limited Founding Spots Remain
               </span>
             </div>
 
             <h1 className="font-display text-4xl font-black leading-tight text-white md:text-5xl">
-              Secure Your Spot.<br />
-              <span className="gradient-text">Launch June 15.</span>
+              Join the List.<br />
+              <span className="gradient-text">Get First Access.</span>
             </h1>
 
             <p className="mt-5 text-base leading-7 text-slate-400">
-              PEN2PRO officially launches <strong className="text-white">June 15, 2026</strong>. Founding members
-              lock in their pricing for life, get first access, and receive done-with-you launch support
-              that won't be available after launch.
+              PEN2PRO is live now. Join the waitlist to hear about new features first, lock in
+              Founders Lifetime pricing before spots run out, and get done-with-you launch support.
             </p>
-
-            {/* Countdown */}
-            <div className="mt-8">
-              <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-500">Launch In</p>
-              <div className="flex items-center gap-2">
-                <CBox v={cd.d} l="Days" />
-                <span className="text-xl font-black opacity-40" style={{ color: "#D4A017" }}>:</span>
-                <CBox v={cd.h} l="Hrs" />
-                <span className="text-xl font-black opacity-40" style={{ color: "#D4A017" }}>:</span>
-                <CBox v={cd.m} l="Min" />
-                <span className="text-xl font-black opacity-40" style={{ color: "#D4A017" }}>:</span>
-                <CBox v={cd.s} l="Sec" />
-              </div>
-            </div>
 
             {/* Benefits */}
             <div className="mt-10 space-y-3">
@@ -345,12 +297,12 @@ export default function WaitlistPage() {
 
                 <button type="submit" disabled={status === "loading"}
                   className="w-full rounded-xl py-4 text-sm font-black text-[#080C14] btn-gold disabled:opacity-60 disabled:cursor-not-allowed">
-                  {status === "loading" ? "Securing Your Spot..." : "🔒 Secure My Spot — June 15 Launch"}
+                  {status === "loading" ? "Securing Your Spot..." : "🔒 Secure My Spot"}
                 </button>
               </form>
 
               <p className="mt-4 text-center text-xs text-slate-600">
-                Launch updates only. No spam. Unsubscribe anytime.
+                Product updates only. No spam. Unsubscribe anytime.
               </p>
               <div className="mt-4 flex justify-center gap-5 text-xs text-slate-600">
                 <span>🔐 Secure</span><span>•</span>
