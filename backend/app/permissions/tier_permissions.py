@@ -99,6 +99,9 @@ SOCIAL_LOCKED_SECTIONS: Dict[str, List[str]] = {
 social_locked_sections = SOCIAL_LOCKED_SECTIONS
 
 
+TIER_ORDER: List[str] = [TierName.FREE, TierName.PRO, TierName.ELITE, TierName.FOUNDERS]
+
+
 def normalize_tier(tier: str) -> str:
     if not tier:
         return TierName.FREE
@@ -125,6 +128,11 @@ def get_tier_features(tier: str) -> List[str]:
 def get_social_locked_sections(tier: str) -> List[str]:
     normalized_tier = normalize_tier(tier)
     return SOCIAL_LOCKED_SECTIONS.get(normalized_tier, SOCIAL_LOCKED_SECTIONS[TierName.FREE])
+
+
+def has_tier(minimum_tier: str, tier: str) -> bool:
+    """Return True if `tier` meets or exceeds `minimum_tier` in the plan hierarchy."""
+    return TIER_ORDER.index(normalize_tier(tier)) >= TIER_ORDER.index(normalize_tier(minimum_tier))
 
 
 def has_feature_access(tier: str, feature: str) -> bool:
