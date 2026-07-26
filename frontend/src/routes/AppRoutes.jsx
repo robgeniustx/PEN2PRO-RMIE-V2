@@ -18,6 +18,7 @@ import AdminFeatureUsagePage from "../pages/AdminFeatureUsagePage";
 import AdminConversionsPage from "../pages/AdminConversionsPage";
 import PaymentSuccessPage from "../pages/PaymentSuccessPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import LegalPage from "../pages/LegalPage";
 import VoiceAgentPage from "../pages/VoiceAgentPage";
 import WebsiteBuilderPage from "../pages/WebsiteBuilderPage";
 
@@ -141,6 +142,11 @@ export default function AppRoutes() {
       <Route path="/contacts" element={<Navigate to="/dashboard/contacts" replace />} />
       <Route path="/lead-inbox" element={<Navigate to="/dashboard/lead-inbox" replace />} />
       <Route path="/pipeline" element={<Navigate to="/dashboard/pipeline" replace />} />
+
+      {/* ── Legal ── */}
+      <Route path="/privacy" element={<LegalPage type="privacy" />} />
+      <Route path="/terms" element={<LegalPage type="terms" />} />
+      <Route path="/disclaimer" element={<LegalPage type="disclaimer" />} />
 
       {/* ── 404 ── */}
       <Route path="*" element={<NotFoundPage />} />

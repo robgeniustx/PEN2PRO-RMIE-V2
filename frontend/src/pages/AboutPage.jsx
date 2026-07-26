@@ -38,8 +38,14 @@ const MISSION_POINTS = [
 ];
 
 const PERSONAL_STATEMENT = [
-  { body: "There was a time in my life when everything around me looked broken." },
-  { body: "Opportunities were limited. Doors kept closing. Every mistake I made seemed to follow me longer than any good thing I had ever done. I carried frustration, anger, doubt, and the heavy feeling of knowing there was more inside of me than what the world could see on the surface." },
+  { body: "PEN2PRO was not created from theory. It was built from lived experience.", emphasis: true },
+  { body: "After coming home from prison, I tried to rebuild my life the way people are told to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give you a chance. More than once, I earned the opportunity. The interviews went well. The job offers came." },
+  { body: "Then the background checks followed.", emphasis: true },
+  { body: "The offers were rescinded.", callout: true },
+  { body: "That kind of rejection can break a person. For a moment, it almost did." },
+  { body: "After a day of moping, frustration, and asking why doors kept closing, I made a decision. I picked my head up and took off running.", callout: true },
+  { body: "If the system would not give me a path, I would build one.", emphasis: true },
+  { body: "That decision became the foundation for everything that followed — business ownership, mentorship, authorship, community work, and now PEN2PRO." },
   { body: "During my incarceration, I was faced with a choice.", emphasis: true },
   { body: "I could accept the labels placed on me and become another statistic, or I could rebuild myself from the inside out." },
   { body: "That process was not easy. Real change never is." },
@@ -58,6 +64,7 @@ const PERSONAL_STATEMENT = [
   { body: "PEN2PRO was not created by someone who was handed every opportunity.", emphasis: true },
   { body: "It was built through struggle, pressure, setbacks, sacrifice, discipline, rebuilding, and vision. It was built by someone who knows what it feels like to be counted out, overlooked, judged, and underestimated." },
   { body: "And it was built for people who know they are capable of more but need direction, structure, strategy, tools, and belief to unlock what is already inside of them." },
+  { body: "This is not just software. This is a second-chance engine, a business builder, and a roadmap for people ready to stop waiting for permission.", emphasis: true },
   { body: "PEN2PRO is bigger than software.", emphasis: true },
   { body: "It is proof that transformation is possible." },
   { body: "It is proof that someone can come from hardship and still create something meaningful." },
