@@ -40,6 +40,13 @@ const MISSION_POINTS = [
 const PERSONAL_STATEMENT = [
   { body: "There was a time in my life when everything around me looked broken." },
   { body: "Opportunities were limited. Doors kept closing. Every mistake I made seemed to follow me longer than any good thing I had ever done. I carried frustration, anger, doubt, and the heavy feeling of knowing there was more inside of me than what the world could see on the surface." },
+  { body: "After coming home from prison, I tried to rebuild my life the way people are told to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give you a chance." },
+  { body: "More than once, I earned the opportunity. The interviews went well. The job offers came.", emphasis: true },
+  { body: "Then the background checks followed.", callout: true },
+  { body: "The offers were rescinded." },
+  { body: "That kind of rejection can break a person. For a moment, it almost did.", emphasis: true },
+  { body: "After a day of moping, frustration, and asking why doors kept closing, I made a decision. I picked my head up and took off running.", emphasis: true },
+  { body: "If the system would not give me a path, I would build one.", callout: true },
   { body: "During my incarceration, I was faced with a choice.", emphasis: true },
   { body: "I could accept the labels placed on me and become another statistic, or I could rebuild myself from the inside out." },
   { body: "That process was not easy. Real change never is." },
