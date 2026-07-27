@@ -39,6 +39,8 @@ import ElitePage from "../pages/ElitePage";
 import FoundersPage from "../pages/FoundersPage";
 import BuilderPage from "../pages/BuilderPage";
 import AcceleratorPage from "../pages/AcceleratorPage";
+import CheckoutRedirectPage from "../pages/CheckoutRedirectPage";
+import LegalPage from "../pages/LegalPage";
 
 export default function AppRoutes() {
   return (
@@ -130,10 +132,15 @@ export default function AppRoutes() {
       <Route path="/builder" element={<BuilderPage />} />
       <Route path="/accelerator" element={<AcceleratorPage />} />
 
-      {/* ── Checkout Aliases ── */}
-      <Route path="/checkout/pro" element={<ProPage />} />
-      <Route path="/checkout/elite" element={<ElitePage />} />
-      <Route path="/checkout/founders" element={<FoundersPage />} />
+      {/* ── Checkout (fires real Stripe checkout session, falls back to waitlist) ── */}
+      <Route path="/checkout/pro" element={<CheckoutRedirectPage tier="pro" />} />
+      <Route path="/checkout/elite" element={<CheckoutRedirectPage tier="elite" />} />
+      <Route path="/checkout/founders" element={<CheckoutRedirectPage tier="founders" />} />
+
+      {/* ── Legal ── */}
+      <Route path="/privacy" element={<LegalPage type="privacy" />} />
+      <Route path="/terms" element={<LegalPage type="terms" />} />
+      <Route path="/disclaimer" element={<LegalPage type="disclaimer" />} />
 
       {/* ── Aliases / Redirects ── */}
       <Route path="/features" element={<Navigate to="/#features" replace />} />
