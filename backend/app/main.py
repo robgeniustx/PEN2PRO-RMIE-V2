@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.db import Base, engine
+import app.models  # noqa: F401 — registers all ORM models on Base.metadata
+
 from app.routes import (
     health,
     auth,
@@ -41,6 +44,8 @@ app = FastAPI(
     description="Backend API for PEN2PRO — AI Business Development Ecosystem.",
     version="2.0.0",
 )
+
+Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     CORSMiddleware,
