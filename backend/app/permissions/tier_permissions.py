@@ -148,3 +148,18 @@ def has_feature_access(tier: str, feature: str) -> bool:
 
 def require_feature_access(tier: str, feature: str) -> bool:
     return has_feature_access(tier, feature)
+
+
+TIER_ORDER: List[str] = [
+    TierName.FREE,
+    TierName.PRO,
+    TierName.ELITE,
+    TierName.FOUNDERS,
+]
+
+
+def has_tier(min_tier: str, actual_tier: str) -> bool:
+    """Return True if actual_tier meets or exceeds min_tier in the tier hierarchy."""
+    min_normalized = normalize_tier(min_tier)
+    actual_normalized = normalize_tier(actual_tier)
+    return TIER_ORDER.index(actual_normalized) >= TIER_ORDER.index(min_normalized)
