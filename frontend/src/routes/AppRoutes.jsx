@@ -20,6 +20,10 @@ import PaymentSuccessPage from "../pages/PaymentSuccessPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import VoiceAgentPage from "../pages/VoiceAgentPage";
 import WebsiteBuilderPage from "../pages/WebsiteBuilderPage";
+import AdminRoute from "../components/layout/AdminRoute";
+import PrivacyPage from "../pages/PrivacyPage";
+import TermsPage from "../pages/TermsPage";
+import DisclaimerPage from "../pages/DisclaimerPage";
 
 // ── Phase 1 pages ──
 import AboutPage from "../pages/AboutPage";
@@ -115,12 +119,12 @@ export default function AppRoutes() {
       {/* ── Domain Finder ── */}
       <Route path="/domain-search" element={<DomainSearchPage />} />
 
-      {/* ── Admin ── */}
-      <Route path="/admin" element={<AdminDashboardPage />} />
-      <Route path="/admin/waitlist" element={<AdminWaitlistPage />} />
-      <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
-      <Route path="/admin/feature-usage" element={<AdminFeatureUsagePage />} />
-      <Route path="/admin/conversions" element={<AdminConversionsPage />} />
+      {/* ── Admin (gated by VITE_ADMIN_DASHBOARD_ENABLED) ── */}
+      <Route path="/admin" element={<AdminRoute><AdminDashboardPage /></AdminRoute>} />
+      <Route path="/admin/waitlist" element={<AdminRoute><AdminWaitlistPage /></AdminRoute>} />
+      <Route path="/admin/analytics" element={<AdminRoute><AdminAnalyticsPage /></AdminRoute>} />
+      <Route path="/admin/feature-usage" element={<AdminRoute><AdminFeatureUsagePage /></AdminRoute>} />
+      <Route path="/admin/conversions" element={<AdminRoute><AdminConversionsPage /></AdminRoute>} />
 
       {/* ── Tier Plan Pages ── */}
       <Route path="/pro" element={<ProPage />} />
