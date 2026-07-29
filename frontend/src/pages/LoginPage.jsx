@@ -77,17 +77,19 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="mx-auto flex min-h-[calc(100vh-80px)] max-w-6xl items-center gap-14 px-4 py-20 lg:grid lg:grid-cols-2">
+        <div className="w-full max-w-md mx-auto lg:mx-0">
           {/* Header */}
-          <div className="text-center mb-8">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
+          <div className="text-center mb-8 lg:text-left">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14] lg:mx-0">
               P2P
             </div>
-            <h1 className="font-display text-3xl font-bold text-white">
-              {tab === "login" ? "Welcome back" : "Create your account"}
+            <h1 className="font-display text-2xl font-bold text-white leading-snug md:text-3xl">
+              Build your business roadmap.
+              <br />
+              Save your blueprint. Upgrade when ready.
             </h1>
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-3 text-sm text-slate-400">
               {tab === "login"
                 ? "Sign in to access your PEN2PRO dashboard"
                 : "Start building your business roadmap today"}
@@ -159,6 +161,12 @@ export default function LoginPage() {
                 >
                   {loading ? "Signing in..." : "Sign In"}
                 </button>
+                <p className="text-center text-xs text-slate-500">
+                  Forgot your password?{" "}
+                  <Link to="/waitlist?ref=forgot-password" className="font-semibold" style={{ color: "#D4A017" }}>
+                    Contact support
+                  </Link>
+                </p>
               </form>
             )}
 
@@ -229,6 +237,38 @@ export default function LoginPage() {
                 Join the waitlist
               </Link>
             </div>
+          </div>
+        </div>
+
+        {/* Side panel — plan explainer */}
+        <div className="hidden lg:block">
+          <div className="rounded-2xl border border-[#1A2235] p-8" style={{ background: "#0F1520" }}>
+            <p className="mb-6 text-xs font-bold uppercase tracking-widest text-[#D4A017]">
+              What's inside PEN2PRO
+            </p>
+            <div className="space-y-5">
+              {[
+                { label: "Free Roadmap", desc: "A real starter blueprint for your idea — no credit card required." },
+                { label: "Pro Strategy Tools", desc: "Full roadmap, progress tracking, branding support, and AI refinement." },
+                { label: "Elite Execution Support", desc: "Advanced strategist guidance, financial projections, and funding resources." },
+                { label: "Legacy Founder Access", desc: "Early-adopter pricing, founder recognition, and priority platform access." },
+              ].map((item) => (
+                <div key={item.label} className="flex gap-3">
+                  <div className="mt-1 h-2 w-2 shrink-0 rounded-full" style={{ background: "#D4A017" }} />
+                  <div>
+                    <p className="text-sm font-bold text-white">{item.label}</p>
+                    <p className="text-sm text-slate-400">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Link
+              to="/pricing"
+              className="mt-8 inline-block text-sm font-semibold"
+              style={{ color: "#D4A017" }}
+            >
+              Compare all plans →
+            </Link>
           </div>
         </div>
       </div>
