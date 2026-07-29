@@ -39,3 +39,6 @@ export { default as ElitePage } from "./ElitePage.jsx";
 export { default as FoundersPage } from "./FoundersPage.jsx";
 export { default as BuilderPage } from "./BuilderPage.jsx";
 export { default as AcceleratorPage } from "./AcceleratorPage.jsx";
+export { default as PrivacyPage } from "./PrivacyPage.jsx";
+export { default as TermsPage } from "./TermsPage.jsx";
+export { default as DisclaimerPage } from "./DisclaimerPage.jsx";
