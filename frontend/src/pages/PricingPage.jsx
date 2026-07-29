@@ -103,18 +103,19 @@ const standaloneTools = [
 ];
 
 function useCountdown() {
-  const [t, setT] = useState({});
+  const [t, setT] = useState({ live: false });
 
   useEffect(() => {
     const calc = () => {
       const diff = LAUNCH_DATE - Date.now();
 
       if (diff <= 0) {
-        setT({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setT({ live: true, days: 0, hours: 0, minutes: 0, seconds: 0 });
         return;
       }
 
       setT({
+        live: false,
         days: Math.floor(diff / 86400000),
         hours: Math.floor((diff % 86400000) / 3600000),
         minutes: Math.floor((diff % 3600000) / 60000),
@@ -329,7 +330,7 @@ export default function PricingPage() {
       <section className="px-5 pb-16 pt-20 text-center">
         <div className="mx-auto max-w-4xl">
           <p className="mb-3 text-xs font-black uppercase tracking-[0.3em] text-[#5ab0ff]">
-            Launching {pricing.launch_date}
+            {t.live ? "Now Live" : `Launching ${pricing.launch_date}`}
           </p>
 
           <h1 className="mb-4 font-display text-4xl font-black leading-tight md:text-6xl">
@@ -456,12 +457,20 @@ export default function PricingPage() {
             This offer will not last long. We are only accepting 200 Founders.
           </p>
 
-          <div className="mb-6 flex justify-center gap-3">
-            <CountBox val={t.days} label="Days" />
-            <CountBox val={t.hours} label="Hours" />
-            <CountBox val={t.minutes} label="Min" />
-            <CountBox val={t.seconds} label="Sec" />
-          </div>
+          {t.live ? (
+            <div className="mb-6 flex justify-center">
+              <span className="inline-flex items-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-5 py-3 text-sm font-black uppercase tracking-widest text-emerald-300">
+                Enrollment Open Now
+              </span>
+            </div>
+          ) : (
+            <div className="mb-6 flex justify-center gap-3">
+              <CountBox val={t.days} label="Days" />
+              <CountBox val={t.hours} label="Hours" />
+              <CountBox val={t.minutes} label="Min" />
+              <CountBox val={t.seconds} label="Sec" />
+            </div>
+          )}
 
           <div className="grid gap-2 text-sm text-slate-200 md:grid-cols-2">
             {[
