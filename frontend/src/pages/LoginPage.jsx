@@ -77,8 +77,41 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="mx-auto grid min-h-[calc(100vh-80px)] max-w-6xl items-center gap-12 px-4 py-20 lg:grid-cols-2">
+        {/* Side panel */}
+        <div className="hidden lg:block">
+          <p className="mb-3 text-sm font-bold uppercase tracking-widest" style={{ color: "#FF8A00" }}>
+            PEN2PRO RMIE
+          </p>
+          <h2 className="font-display text-4xl font-black leading-tight text-white">
+            Build your business roadmap.<br />Save your blueprint.<br />
+            <span className="gradient-text">Upgrade when ready.</span>
+          </h2>
+          <p className="mt-4 max-w-md text-slate-400 leading-7">
+            One account. Every tier grows with you — from a free starter roadmap to full
+            execution support.
+          </p>
+          <div className="mt-8 space-y-4">
+            {[
+              { tier: "Free Roadmap", desc: "A real business blueprint — idea summary, offer, and a 7-day action plan.", path: "/starter" },
+              { tier: "Pro", desc: "Full roadmap, progress tracking, branding support, and PDF export.", path: "/pro" },
+              { tier: "Elite", desc: "Advanced strategist guidance, financial projections, and funding resources.", path: "/elite" },
+              { tier: "Legacy Founder", desc: "Lifetime-style early access and founder recognition.", path: "/founders" },
+            ].map((t) => (
+              <Link
+                key={t.path}
+                to={t.path}
+                className="block rounded-xl border border-[#1A2235] px-5 py-4 transition hover:border-[#D4A017]/50"
+                style={{ background: "#0F1520" }}
+              >
+                <p className="text-sm font-black text-white">{t.tier}</p>
+                <p className="mt-1 text-xs text-slate-500 leading-6">{t.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div className="mx-auto w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
