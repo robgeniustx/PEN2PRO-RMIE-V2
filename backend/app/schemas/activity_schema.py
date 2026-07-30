@@ -5,7 +5,7 @@ from pydantic import BaseModel
 class ActivityLogCreate(BaseModel):
     action_type: str
     description: str
-    metadata: str | None = None
+    activity_metadata: str | None = None
 
 class ActivityLogResponse(ActivityLogCreate):
     id: int
