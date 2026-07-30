@@ -77,13 +77,54 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="mx-auto grid min-h-[calc(100vh-80px)] max-w-6xl items-center gap-12 px-4 py-20 lg:grid-cols-[1fr_1fr]">
+        {/* Side panel — plan overview */}
+        <div className="order-2 hidden lg:order-1 lg:block">
+          <p className="text-sm font-bold uppercase tracking-widest" style={{ color: "#D4A017" }}>
+            PEN2PRO RMIE
+          </p>
+          <h2 className="mt-2 font-display text-3xl font-black leading-tight text-white">
+            Build your business roadmap.
+            <br />
+            Save your blueprint.
+            <br />
+            Upgrade when ready.
+          </h2>
+          <p className="mt-4 max-w-md text-sm leading-7 text-slate-400">
+            One account, every tier. Start free and move up as your business grows — nothing you build gets lost along the way.
+          </p>
+
+          <div className="mt-8 space-y-4">
+            {[
+              { name: "Free Roadmap", desc: "A real starter roadmap — idea summary, offer, 7-day action plan.", path: "/starter", color: "#64748B" },
+              { name: "Pro", desc: "Full roadmap, progress tracking, branding, export, AI refinement.", path: "/pro", color: "#1E88E5" },
+              { name: "Elite", desc: "Advanced strategist guidance, financial projections, funding & credit resources.", path: "/elite", color: "#D4A017" },
+              { name: "Legacy Founder", desc: "Lifetime-style early access and founder recognition.", path: "/founders", color: "#FF8A00" },
+            ].map((t) => (
+              <Link
+                key={t.path}
+                to={t.path}
+                className="flex items-start gap-3 rounded-xl border border-[#1A2235] p-4 transition hover:border-[#2A3B5C]"
+                style={{ background: "#0F1520" }}
+              >
+                <span className="mt-1 h-2 w-2 shrink-0 rounded-full" style={{ background: t.color }} />
+                <span>
+                  <span className="block text-sm font-bold text-white">{t.name}</span>
+                  <span className="block text-xs leading-5 text-slate-500">{t.desc}</span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div className="order-1 w-full max-w-md justify-self-center lg:order-2 lg:justify-self-start">
           {/* Header */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-8 lg:hidden">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
               P2P
             </div>
+          </div>
+          <div className="text-center mb-8">
             <h1 className="font-display text-3xl font-bold text-white">
               {tab === "login" ? "Welcome back" : "Create your account"}
             </h1>
@@ -217,7 +258,9 @@ export default function LoginPage() {
                   {loading ? "Creating account..." : "Create Account — Free"}
                 </button>
                 <p className="text-center text-xs text-slate-500">
-                  By creating an account you agree to our Terms of Service and Privacy Policy.
+                  By creating an account you agree to our{" "}
+                  <Link to="/terms" className="underline hover:text-slate-300">Terms of Service</Link> and{" "}
+                  <Link to="/privacy" className="underline hover:text-slate-300">Privacy Policy</Link>.
                 </p>
               </form>
             )}
