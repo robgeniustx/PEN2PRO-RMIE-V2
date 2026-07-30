@@ -217,7 +217,10 @@ export default function LoginPage() {
                   {loading ? "Creating account..." : "Create Account — Free"}
                 </button>
                 <p className="text-center text-xs text-slate-500">
-                  By creating an account you agree to our Terms of Service and Privacy Policy.
+                  By creating an account you agree to our{" "}
+                  <Link to="/terms" className="underline hover:text-slate-300">Terms of Service</Link>{" "}
+                  and{" "}
+                  <Link to="/privacy" className="underline hover:text-slate-300">Privacy Policy</Link>.
                 </p>
               </form>
             )}
