@@ -39,6 +39,7 @@ import ElitePage from "../pages/ElitePage";
 import FoundersPage from "../pages/FoundersPage";
 import BuilderPage from "../pages/BuilderPage";
 import AcceleratorPage from "../pages/AcceleratorPage";
+import LegalPage from "../pages/LegalPage";
 
 export default function AppRoutes() {
   return (
@@ -134,6 +135,11 @@ export default function AppRoutes() {
       <Route path="/checkout/pro" element={<ProPage />} />
       <Route path="/checkout/elite" element={<ElitePage />} />
       <Route path="/checkout/founders" element={<FoundersPage />} />
+
+      {/* ── Legal ── */}
+      <Route path="/privacy" element={<LegalPage variant="privacy" />} />
+      <Route path="/terms" element={<LegalPage variant="terms" />} />
+      <Route path="/disclaimer" element={<LegalPage variant="disclaimer" />} />
 
       {/* ── Aliases / Redirects ── */}
       <Route path="/features" element={<Navigate to="/#features" replace />} />
