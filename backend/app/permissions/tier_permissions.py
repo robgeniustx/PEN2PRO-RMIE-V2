@@ -127,6 +127,19 @@ def get_social_locked_sections(tier: str) -> List[str]:
     return SOCIAL_LOCKED_SECTIONS.get(normalized_tier, SOCIAL_LOCKED_SECTIONS[TierName.FREE])
 
 
+_TIER_ORDER: Dict[str, int] = {
+    TierName.FREE: 0,
+    TierName.PRO: 1,
+    TierName.ELITE: 2,
+    TierName.FOUNDERS: 3,
+}
+
+
+def has_tier(required_tier: str, user_tier: str | None) -> bool:
+    """True if user_tier meets or exceeds required_tier in the plan hierarchy."""
+    return _TIER_ORDER[normalize_tier(user_tier)] >= _TIER_ORDER[normalize_tier(required_tier)]
+
+
 def has_feature_access(tier: str, feature: str) -> bool:
     normalized_tier = normalize_tier(tier)
 
