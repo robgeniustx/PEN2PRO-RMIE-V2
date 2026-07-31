@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.db import Base, engine
+from app import models  # noqa: F401 - ensures all models are registered on Base before create_all
 from app.routes import (
     health,
     auth,
@@ -41,6 +43,11 @@ app = FastAPI(
     description="Backend API for PEN2PRO — AI Business Development Ecosystem.",
     version="2.0.0",
 )
+
+# Create SQL tables for the SQLAlchemy-backed modules (CRM, tasks, activity log, etc.)
+# on startup. There is no Alembic migration setup yet, so this keeps a fresh SQLite/
+# Postgres database usable out of the box.
+Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     CORSMiddleware,
