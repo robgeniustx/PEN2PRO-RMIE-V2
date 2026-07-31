@@ -1,6 +1,17 @@
+import os
+from datetime import datetime, timedelta, timezone
+
 from fastapi import APIRouter
 
 router = APIRouter(tags=["Pricing"])
+
+_raw_launch_date = os.environ.get("LAUNCH_DATE")
+if _raw_launch_date:
+    _launch_dt = datetime.fromisoformat(_raw_launch_date).replace(tzinfo=timezone.utc)
+else:
+    _launch_dt = datetime.now(timezone.utc) + timedelta(days=60)
+
+LAUNCH_DATE_LABEL = _launch_dt.strftime("%B %-d, %Y")
 
 
 PLANS = [
@@ -91,7 +102,7 @@ PLANS = [
 def get_pricing():
     return {
         "status": "ok",
-        "launch_date": "June 15",
+        "launch_date": LAUNCH_DATE_LABEL,
         "brand": "PEN2PRO",
         "tagline": "From Idea to Income",
         "plans": PLANS,

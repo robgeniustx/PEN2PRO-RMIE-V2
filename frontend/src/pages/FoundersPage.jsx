@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { createCheckoutSession } from "../api/stripeApi";
-
-const LAUNCH_DATE = new Date("2026-08-01T00:00:00Z");
+import { LAUNCH_DATE } from "../utils/constants";
 
 const FOUNDERS_FEATURES = [
   { icon: "♾️", title: "Lifetime Platform Access", body: "One payment. No subscriptions. No renewals. Access to PEN2PRO for life — including all future features added to the platform." },
