@@ -23,12 +23,32 @@ from app.routes.voice_agent_twilio import router as voice_agent_twilio_router
 from app.routes.website_builder import router as website_builder_router
 from app.routes.domain_search import router as domain_router
 from app.routes.dashboard import router as dashboard_router
+from app.routes.crm import router as crm_router
+from app.routes.leads import router as leads_router
+from app.routes.follow_ups import router as follow_ups_router
+from app.routes.tasks import router as tasks_router
+from app.routes.automation import router as automation_router
+from app.routes.activity import router as activity_router
+from app.routes.content import router as content_router
+from app.routes.outreach import router as outreach_router
+from app.routes.intake import router as intake_router
+from app.routes.users import router as users_router
+from app.routes.affiliate import router as affiliate_router
+from app.routes.website import router as website_router
+from app.routes.ads import router as ads_router
+from app.routes.social import router as social_router
 
 try:
     from app.routes.customers import router as customers_router
     _has_customers = True
 except ImportError:
     _has_customers = False
+
+from app.db import Base as _OrmBase, engine as _orm_engine
+# Tasks/Activity/Automation/Analytics routes read and write these tables directly
+# via SQLAlchemy sessions; without this they hit "no such table" errors, since the
+# project has no migration tooling (no Alembic) wired up.
+_OrmBase.metadata.create_all(bind=_orm_engine)
 
 
 class BusinessRequest(BaseModel):
@@ -251,6 +271,24 @@ app.include_router(domain_router, prefix="/api", tags=["Domain Search"])
 app.include_router(dashboard_router)
 if _has_customers:
     app.include_router(customers_router, prefix="/api/customers", tags=["Customers"])
+
+# CRM / automation / content engines (added: these routers exist under app/routes
+# but were never wired into the deployed entrypoint, so their frontend pages were
+# silently falling back to mock data in production)
+app.include_router(crm_router, prefix="/api/crm", tags=["CRM"])
+app.include_router(leads_router, prefix="/api/leads", tags=["Leads"])
+app.include_router(follow_ups_router, prefix="/api/follow-ups", tags=["Follow-Ups"])
+app.include_router(tasks_router, prefix="/api/tasks", tags=["Tasks"])
+app.include_router(automation_router, prefix="/api/automation", tags=["Automation"])
+app.include_router(activity_router, prefix="/api/activity", tags=["Activity"])
+app.include_router(content_router, prefix="/api/content", tags=["Content"])
+app.include_router(outreach_router, prefix="/api/outreach", tags=["Outreach"])
+app.include_router(intake_router, prefix="/api/intake", tags=["Intake"])
+app.include_router(users_router, prefix="/api/users", tags=["Users"])
+app.include_router(affiliate_router, prefix="/api/affiliate", tags=["Affiliate"])
+app.include_router(website_router, prefix="/api/website", tags=["Website"])
+app.include_router(ads_router, prefix="/api/ads", tags=["Ads"])
+app.include_router(social_router, tags=["Social"])  # prefix already baked into social_router
 
 from app.routes.blueprints import BlueprintRequest, _SAMPLE, _call_openai
 @app.post("/api/roadmap")

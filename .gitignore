@@ -5,6 +5,7 @@ backend/.venv/
 backend/.local/
 backend/generated_audio/
 generated_audio/
+backend/*.db
 __pycache__/
 *.pyc
 .env

@@ -36,6 +36,11 @@ from app.routes import (
     ads,
 )
 
+from app.db import Base as _OrmBase, engine as _orm_engine
+# No Alembic/migration tooling exists yet; create ORM-backed tables at boot so
+# tasks/activity/automation/analytics routes don't hit "no such table" errors.
+_OrmBase.metadata.create_all(bind=_orm_engine)
+
 app = FastAPI(
     title="PEN2PRO RMIE API",
     description="Backend API for PEN2PRO — AI Business Development Ecosystem.",
@@ -73,12 +78,12 @@ app.include_router(blueprints.router, prefix="/api/blueprints", tags=["Blueprint
 app.include_router(intake.router, prefix="/api/intake", tags=["Intake"])
 app.include_router(outreach.router, prefix="/api/outreach", tags=["Outreach"])
 app.include_router(content.router, prefix="/api/content", tags=["Content"])
-app.include_router(social.router, prefix="/api/social", tags=["Social"])
+app.include_router(social.router, tags=["Social"])
 app.include_router(ads.router, prefix="/api/ads", tags=["Ads"])
 app.include_router(affiliate.router, prefix="/api/affiliate", tags=["Affiliate"])
 app.include_router(website.router, prefix="/api/website", tags=["Website"])
-app.include_router(website_builder.router, prefix="/api/website-builder", tags=["Website Builder"])
-app.include_router(domain_search.router, prefix="/api/domains", tags=["Domains"])
+app.include_router(website_builder.router, prefix="/api", tags=["Website Builder"])
+app.include_router(domain_search.router, prefix="/api", tags=["Domains"])
 app.include_router(credit.router, prefix="/api/credit", tags=["Credit"])
 app.include_router(funding.router, prefix="/api/funding", tags=["Funding"])
 
@@ -90,12 +95,12 @@ app.include_router(follow_ups.router, prefix="/api/follow-ups", tags=["Follow-Up
 app.include_router(tasks.router, prefix="/api/tasks", tags=["Tasks"])
 app.include_router(automation.router, prefix="/api/automation", tags=["Automation"])
 app.include_router(activity.router, prefix="/api/activity", tags=["Activity"])
-app.include_router(dashboard.router, prefix="/api/dashboard", tags=["Dashboard"])
+app.include_router(dashboard.router, tags=["Dashboard"])
 
 # Voice & command center
 app.include_router(voice.router, prefix="/api/voice", tags=["Voice"])
-app.include_router(voice_agent.router, prefix="/api/voice-agent", tags=["Voice Agent"])
-app.include_router(command_center.router, prefix="/api/command-center", tags=["Command Center"])
+app.include_router(voice_agent.router, prefix="/api", tags=["Voice Agent"])
+app.include_router(command_center.router, prefix="/api", tags=["Command Center"])
 
 
 @app.get("/")
