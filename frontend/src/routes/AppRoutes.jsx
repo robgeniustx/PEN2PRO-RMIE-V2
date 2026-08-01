@@ -20,6 +20,9 @@ import PaymentSuccessPage from "../pages/PaymentSuccessPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import VoiceAgentPage from "../pages/VoiceAgentPage";
 import WebsiteBuilderPage from "../pages/WebsiteBuilderPage";
+import PrivacyPage from "../pages/PrivacyPage";
+import TermsPage from "../pages/TermsPage";
+import DisclaimerPage from "../pages/DisclaimerPage";
 
 // ── Phase 1 pages ──
 import AboutPage from "../pages/AboutPage";
@@ -51,6 +54,9 @@ export default function AppRoutes() {
       <Route path="/pricing" element={<PricingPage />} />
       <Route path="/waitlist" element={<WaitlistPage />} />
       <Route path="/payment-success" element={<PaymentSuccessPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/disclaimer" element={<DisclaimerPage />} />
 
       {/* ── Auth ── */}
       <Route path="/login" element={<LoginPage />} />
