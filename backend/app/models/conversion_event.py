@@ -17,5 +17,5 @@ class ConversionEvent(Base):
     amount = Column(Float, nullable=True)
     currency = Column(String(10), nullable=True)
     stripe_session_id = Column(String(255), nullable=True)
-    metadata = Column(JSON, nullable=True)
+    event_metadata = Column(JSON, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)

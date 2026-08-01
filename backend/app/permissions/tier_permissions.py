@@ -98,6 +98,8 @@ SOCIAL_LOCKED_SECTIONS: Dict[str, List[str]] = {
 # This name is required by backend/app/services/social_service.py
 social_locked_sections = SOCIAL_LOCKED_SECTIONS
 
+TIER_ORDER: List[str] = [TierName.FREE, TierName.PRO, TierName.ELITE, TierName.FOUNDERS]
+
 
 def normalize_tier(tier: str) -> str:
     if not tier:
@@ -148,3 +150,8 @@ def has_feature_access(tier: str, feature: str) -> bool:
 
 def require_feature_access(tier: str, feature: str) -> bool:
     return has_feature_access(tier, feature)
+
+
+def has_tier(min_tier: str, tier: str) -> bool:
+    """Return True if `tier` meets or exceeds `min_tier` in the free < pro < elite < founders hierarchy."""
+    return TIER_ORDER.index(normalize_tier(tier)) >= TIER_ORDER.index(normalize_tier(min_tier))
