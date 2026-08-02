@@ -148,3 +148,15 @@ def has_feature_access(tier: str, feature: str) -> bool:
 
 def require_feature_access(tier: str, feature: str) -> bool:
     return has_feature_access(tier, feature)
+
+
+TIER_RANK: Dict[str, int] = {
+    TierName.FREE: 0,
+    TierName.PRO: 1,
+    TierName.ELITE: 2,
+    TierName.FOUNDERS: 3,
+}
+
+
+def has_tier(min_tier: str, actual_tier: str) -> bool:
+    return TIER_RANK.get(normalize_tier(actual_tier), 0) >= TIER_RANK.get(normalize_tier(min_tier), 0)
