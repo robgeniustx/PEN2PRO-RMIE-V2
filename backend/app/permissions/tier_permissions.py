@@ -117,6 +117,18 @@ def normalize_tier(tier: str) -> str:
     return aliases.get(clean_tier, TierName.FREE)
 
 
+TIER_RANK: Dict[str, int] = {
+    TierName.FREE: 0,
+    TierName.PRO: 1,
+    TierName.ELITE: 2,
+    TierName.FOUNDERS: 3,
+}
+
+
+def has_tier(min_tier: str, tier: str) -> bool:
+    return TIER_RANK[normalize_tier(tier)] >= TIER_RANK[normalize_tier(min_tier)]
+
+
 def get_tier_features(tier: str) -> List[str]:
     normalized_tier = normalize_tier(tier)
     return TIER_FEATURES.get(normalized_tier, TIER_FEATURES[TierName.FREE])
