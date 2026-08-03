@@ -46,6 +46,13 @@ const PERSONAL_STATEMENT = [
   { body: "There were nights filled with regret, mornings filled with uncertainty, and moments when giving up felt easier than believing in a future I could not yet see. But even in that darkness, I held on to one thought:" },
   { body: "Any effort toward something positive had to be better than where I was and what I had already experienced.", callout: true },
   { body: "Even the smallest step forward meant something. Even a little progress was still progress. That mindset became the beginning of my transformation." },
+  { body: "When I came home, I tried to rebuild my life the way people tell you to rebuild it — apply for jobs, show up professionally, interview well, and wait for somebody to give you a chance." },
+  { body: "More than once, I earned the opportunity. The interviews went well. The job offers came.", emphasis: true },
+  { body: "Then the background checks followed, and the offers were rescinded." },
+  { body: "Doors that had already looked open closed again, one after another.", callout: true },
+  { body: "That kind of rejection can break a person. For a moment, it almost did. I spent a full day moping — frustrated, angry, asking why I kept doing everything right and still getting shut out." },
+  { body: "Then I picked my head up and took off running.", emphasis: true },
+  { body: "If the system was not going to hand me an opportunity, I was going to build one.", callout: true },
   { body: "Somewhere along the way, I realized something that changed my life:" },
   { body: "Your environment does not have to define your destiny.", emphasis: true },
   { body: "Your past may explain parts of your story, but it does not own your future.", emphasis: true },
@@ -306,15 +313,21 @@ export default function AboutPage() {
           <p className="mb-10 text-slate-400">
             Start with a free roadmap. No credit card. No fluff. Just a real plan for your specific idea.
           </p>
-          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <Link to="/starter" className="rounded-xl px-8 py-3.5 text-sm font-black text-[#0A0F1E] btn-gold">
               Start Free Roadmap
             </Link>
             <Link to="/waitlist" className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
               Join the Waitlist
             </Link>
-            <Link to="/pricing" className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
-              Explore Plans
+            <Link to="/pro" className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
+              Explore Pro
+            </Link>
+            <Link to="/elite" className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
+              Explore Elite
+            </Link>
+            <Link to="/founders" className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
+              Become a Legacy Founder
             </Link>
           </div>
         </div>
