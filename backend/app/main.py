@@ -98,6 +98,60 @@ app.include_router(voice_agent.router, prefix="/api/voice-agent", tags=["Voice A
 app.include_router(command_center.router, prefix="/api/command-center", tags=["Command Center"])
 
 
+@app.on_event("startup")
+def _create_database_tables():
+    """Create tables for every SQLAlchemy model on app startup.
+
+    The model modules are split across several disconnected `Base` registries
+    (app.db.Base, app.models.base.Base, and a few models that declare their
+    own standalone Base). Each one needs its own create_all() call against the
+    shared engine — importing the modules here also registers their classes.
+    """
+    from app.db import Base as _DbBase, engine as _engine
+    from app.models.base import Base as _SharedModelsBase
+    from app.models.credit_profile import Base as _CreditProfileBase
+    from app.models.document_record import Base as _DocumentRecordBase
+    from app.models.funding_readiness import Base as _FundingReadinessBase
+
+    # Force-import every module that registers a model on app.db.Base
+    from app.models import (  # noqa: F401
+        activity_log,
+        agent_approval,
+        agent_command,
+        agent_run,
+        analytics_event,
+        conversion_event,
+        daily_report,
+        feature_usage,
+        task,
+        landing_page,
+        seo_asset,
+        website_project,
+    )
+    # Force-import every module that registers a model on app.models.base.Base
+    from app.models import (  # noqa: F401
+        brand_voice,
+        customer,
+        deal,
+        follow_up,
+        lead,
+        social_calendar,
+        social_post,
+        affiliate_funnel,
+        affiliate_link,
+        affiliate_niche,
+    )
+
+    for base in (
+        _DbBase,
+        _SharedModelsBase,
+        _CreditProfileBase,
+        _DocumentRecordBase,
+        _FundingReadinessBase,
+    ):
+        base.metadata.create_all(bind=_engine)
+
+
 @app.get("/")
 def root():
     return {
