@@ -31,5 +31,8 @@ frontend/.local/
 # Local frontend env files
 frontend/.env.local
 
+# Local SQLite dev database
+backend/*.db
+
 # Local frontend env files
 frontend/.env.local

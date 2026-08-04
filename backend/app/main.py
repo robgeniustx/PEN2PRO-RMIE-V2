@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.db import Base, engine
+import app.models  # noqa: F401 — registers all models on Base.metadata
+
 from app.routes import (
     health,
     auth,
@@ -96,6 +99,11 @@ app.include_router(dashboard.router, prefix="/api/dashboard", tags=["Dashboard"]
 app.include_router(voice.router, prefix="/api/voice", tags=["Voice"])
 app.include_router(voice_agent.router, prefix="/api/voice-agent", tags=["Voice Agent"])
 app.include_router(command_center.router, prefix="/api/command-center", tags=["Command Center"])
+
+
+@app.on_event("startup")
+def create_tables():
+    Base.metadata.create_all(bind=engine)
 
 
 @app.get("/")
