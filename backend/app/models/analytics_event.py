@@ -13,5 +13,5 @@ class AnalyticsEvent(Base):
     event_category = Column(String(50), nullable=True, index=True)
     tier = Column(String(20), nullable=True, index=True)
     page_path = Column(String(255), nullable=True)
-    metadata = Column(JSON, nullable=True)
+    extra_metadata = Column("metadata", JSON, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
