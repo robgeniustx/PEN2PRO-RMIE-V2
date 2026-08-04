@@ -37,7 +37,7 @@ class AutomationService:
     def list_tasks(self,status=None,source=None): q=self.db.query(Task); q=q.filter(Task.status==status) if status else q; q=q.filter(Task.source==source) if source else q; return q.all()
     def update_task(self,tid,data): t=self.db.query(Task).filter(Task.id==tid).first(); [setattr(t,k,v) for k,v in data.model_dump(exclude_none=True).items()]; self.db.commit(); self.db.refresh(t); return t
     def complete_task(self,tid): t=self.db.query(Task).filter(Task.id==tid).first(); t.status="completed"; t.completed_at=datetime.utcnow(); self.db.commit(); return t
-    def log_activity(self,action_type,description,metadata=None): l=ActivityLog(action_type=action_type,description=description,metadata=metadata); self.db.add(l); return l
+    def log_activity(self,action_type,description,metadata=None): l=ActivityLog(action_type=action_type,description=description,extra_metadata=metadata); self.db.add(l); return l
     def list_activity_logs(self): return self.db.query(ActivityLog).order_by(ActivityLog.id.desc()).all()
     def generate_daily_report(self,data=None):
         completed=self.list_tasks(status="completed"); pending=self.list_tasks(status="todo")+self.list_tasks(status="in_progress")
