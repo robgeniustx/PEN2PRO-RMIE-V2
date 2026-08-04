@@ -10,7 +10,7 @@ class AnalyticsEventCreate(BaseModel):
     tier: Optional[str] = None
     page_path: Optional[str] = None
     session_id: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    event_metadata: Optional[Dict[str, Any]] = None
 
 
 class AnalyticsEventResponse(BaseModel):
@@ -19,7 +19,7 @@ class AnalyticsEventResponse(BaseModel):
     event_category: Optional[str] = None
     tier: Optional[str] = None
     page_path: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    event_metadata: Optional[Dict[str, Any]] = None
     created_at: datetime
 
 
@@ -39,7 +39,7 @@ class ConversionEventCreate(BaseModel):
     currency: Optional[str] = None
     stripe_session_id: Optional[str] = None
     session_id: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    event_metadata: Optional[Dict[str, Any]] = None
 
 
 class AdminMetricsResponse(BaseModel):

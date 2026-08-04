@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app import models  # noqa: F401 — registers all tables on Base.metadata
+from app.db import Base, engine
+
 from app.routes import (
     health,
     auth,
@@ -41,6 +44,11 @@ app = FastAPI(
     description="Backend API for PEN2PRO — AI Business Development Ecosystem.",
     version="2.0.0",
 )
+
+
+@app.on_event("startup")
+def create_sql_tables():
+    Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     CORSMiddleware,
