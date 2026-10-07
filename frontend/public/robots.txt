@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /command-center/
+Disallow: /api/
+
+Sitemap: https://pen2pro.com/sitemap.xml
