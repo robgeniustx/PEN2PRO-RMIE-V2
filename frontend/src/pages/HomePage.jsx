@@ -1,33 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-
-function useCountdown(target) {
-  const [t, setT] = useState({});
-  useEffect(() => {
-    const calc = () => {
-      const diff = new Date(target) - new Date();
-      if (diff <= 0) return setT({ d: 0, h: 0, m: 0, s: 0 });
-      setT({ d: Math.floor(diff / 86400000), h: Math.floor((diff % 86400000) / 3600000), m: Math.floor((diff % 3600000) / 60000), s: Math.floor((diff % 60000) / 1000) });
-    };
-    calc();
-    const id = setInterval(calc, 1000);
-    return () => clearInterval(id);
-  }, [target]);
-  return t;
-}
-
-function CountBox({ val, label }) {
-  return (
-    <div className="countdown-box flex flex-col items-center rounded-xl px-4 py-3 min-w-[70px]">
-      <span className="font-display text-3xl font-black tabular-nums leading-none" style={{ color: '#D4A017' }}>
-        {String(val ?? 0).padStart(2, "0")}
-      </span>
-      <span className="mt-1 text-[10px] font-bold uppercase tracking-widest text-slate-500">{label}</span>
-    </div>
-  );
-}
 
 const FEATURES = [
   { icon: "🗺️", title: "AI Business Roadmap", desc: "7-day, 30-day, and 90-day execution plans built for your idea, market, and budget — not generic advice." },
@@ -52,8 +26,6 @@ const TIERS = [
 ];
 
 export default function HomePage() {
-  const cd = useCountdown("2026-06-15T09:00:00");
-
   return (
     <div className="min-h-screen bg-[#080C14]">
       <Navbar />
@@ -88,20 +60,6 @@ export default function HomePage() {
           </div>
           <p className="mt-4 text-xs text-slate-600">No credit card required · Free roadmap in under 5 minutes</p>
 
-          {/* Countdown */}
-          <div className="mt-14 flex flex-col items-center">
-            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Official Launch Countdown — June 15, 2026</p>
-            <div className="flex items-center gap-3">
-              <CountBox val={cd.d} label="Days" />
-              <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
-              <CountBox val={cd.h} label="Hrs" />
-              <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
-              <CountBox val={cd.m} label="Min" />
-              <span className="text-2xl font-black opacity-40" style={{ color: '#D4A017' }}>:</span>
-              <CountBox val={cd.s} label="Sec" />
-            </div>
-            <p className="mt-3 text-xs text-slate-600">Founders pricing locks in when you join the waitlist today</p>
-          </div>
         </div>
       </section>
 
@@ -219,6 +177,32 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FROM THE FOUNDER — DAY ONE BEGINS */}
+      <section className="px-5 py-20">
+        <div className="mx-auto max-w-5xl">
+          <div className="grid gap-8 rounded-3xl border border-[#1A2235] bg-[#0F1520] p-8 md:grid-cols-[1fr_auto] md:items-center md:p-12">
+            <div>
+              <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#D4A017' }}>From the Founder</p>
+              <h2 className="font-display text-3xl font-black text-white md:text-4xl">Day One Begins</h2>
+              <p className="mt-4 leading-7 text-slate-400">
+                From the shadows of incarceration to entrepreneurial success — Robert's story.
+                The book behind the PEN2PRO mission: proof that day one can start anywhere.
+              </p>
+            </div>
+            <div>
+              <a
+                href="https://www.amazon.com/s?k=Day+One+Begins+Robert+E.+Green+Jr."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-gold glow-gold inline-block whitespace-nowrap rounded-2xl px-8 py-4 text-base font-black text-[#080C14]"
+              >
+                Available on Amazon &rarr;
+              </a>
+            </div>
           </div>
         </div>
       </section>

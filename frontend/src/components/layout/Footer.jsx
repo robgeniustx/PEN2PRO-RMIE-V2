@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-[#1A2D50] bg-[#0A0F1E]">
       <div className="mx-auto max-w-7xl px-5 py-14">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-5">
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">
@@ -57,6 +57,21 @@ export default function Footer() {
                 <li key={path}><Link to={path} className="text-sm text-slate-500 hover:text-[#FF8A00] transition-colors">{label}</Link></li>
               ))}
             </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Contact</h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="mailto:frompen2pro@gmail.com" className="text-sm text-slate-500 hover:text-[#FF8A00] transition-colors break-all">
+                  frompen2pro@gmail.com
+                </a>
+              </li>
+            </ul>
+            <p className="mt-4 text-xs leading-6 text-slate-600">
+              Questions about the platform, your roadmap, or your plan — reach out anytime.
+            </p>
           </div>
 
           {/* Launch */}
