@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { createCheckoutSession } from "../api/stripeApi";
-
-const LAUNCH_DATE = new Date("2026-08-01T00:00:00Z");
 
 const FOUNDERS_FEATURES = [
   { icon: "♾️", title: "Lifetime Platform Access", body: "One payment. No subscriptions. No renewals. Access to PEN2PRO for life — including all future features added to the platform." },
@@ -15,48 +13,11 @@ const FOUNDERS_FEATURES = [
   { icon: "🌐", title: "Website Builder", body: "Build your business website with AI-generated copy, landing pages, contact forms, and domain guidance." },
   { icon: "💳", title: "Funding & Credit Readiness", body: "Full funding readiness tools, credit profile strategy, document vault, tradeline guidance, and lender preparation resources." },
   { icon: "📊", title: "12-Month 10M Strategist Framework", body: "A structured 12-month business scaling framework built for founders who want to build toward a $10M-level business structure." },
-  { icon: "🏆", title: "Founder Recognition", body: "Legacy Founder badge, early supporter recognition, and priority placement when community features launch." },
+  { icon: "🏆", title: "Founder Recognition", body: "Legacy Founder badge, early supporter recognition, and priority placement as community features roll out." },
   { icon: "🔓", title: "First Access to New Features", body: "Founders get every new feature first — before general release, before Pro, before Elite." },
 ];
 
-function useCountdown() {
-  const [t, setT] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
-  useEffect(() => {
-    const calc = () => {
-      const diff = LAUNCH_DATE - Date.now();
-      if (diff <= 0) {
-        setT({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        return;
-      }
-      setT({
-        days: Math.floor(diff / 86400000),
-        hours: Math.floor((diff % 86400000) / 3600000),
-        minutes: Math.floor((diff % 3600000) / 60000),
-        seconds: Math.floor((diff % 60000) / 1000),
-      });
-    };
-    calc();
-    const id = setInterval(calc, 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  return t;
-}
-
-function CountBox({ val, label }) {
-  return (
-    <div className="min-w-[72px] rounded-xl border border-[#2a2010] bg-[#15120a] px-4 py-3 text-center">
-      <p className="font-display text-2xl font-black text-[#d4af37]">
-        {String(val ?? 0).padStart(2, "0")}
-      </p>
-      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">{label}</p>
-    </div>
-  );
-}
-
 export default function FoundersPage() {
-  const t = useCountdown();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -69,9 +30,9 @@ export default function FoundersPage() {
         window.location.href = result.checkout_url;
         return;
       }
-      setError(result?.error || "Checkout is not yet live. Join the founders waitlist to be first.");
+      setError(result?.error || "Checkout is not available right now. Please try again shortly or contact support.");
     } catch {
-      setError("Unable to start checkout. Join the waitlist to claim your spot.");
+      setError("Unable to start checkout. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -124,15 +85,9 @@ export default function FoundersPage() {
 
           {/* Urgency */}
           <div className="mb-8 rounded-2xl border border-[#2a2010] bg-[#15120a] p-6">
-            <p className="mb-1 text-xs font-bold uppercase tracking-widest text-[#d4af37]">Founders Offer Closing</p>
-            <p className="mb-4 text-sm text-slate-400">Only 200 spots available. This price will never be offered again.</p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <CountBox val={t.days} label="Days" />
-              <CountBox val={t.hours} label="Hours" />
-              <CountBox val={t.minutes} label="Min" />
-              <CountBox val={t.seconds} label="Sec" />
-            </div>
-            <p className="mt-4 font-display text-3xl font-black text-white">
+            <p className="mb-1 text-xs font-bold uppercase tracking-widest text-[#d4af37]">Limited Founders Offer</p>
+            <p className="mb-4 text-sm text-slate-400">Capped at 200 Founders accounts. Once they are claimed, this lifetime price closes.</p>
+            <p className="font-display text-3xl font-black text-white">
               $1,899 <span className="text-lg font-normal text-slate-400">for life</span>
             </p>
           </div>
@@ -146,10 +101,10 @@ export default function FoundersPage() {
               {loading ? "Starting Checkout..." : "Claim Founders Lifetime — $1,899"}
             </button>
             <Link
-              to="/waitlist?tier=founders"
+              to="/pricing"
               className="rounded-xl border border-[#2a2010] px-8 py-3.5 text-sm font-semibold text-[#d4af37] hover:text-white hover:border-[#d4af37] transition-colors"
             >
-              Join Founders Waitlist
+              Compare All Plans
             </Link>
           </div>
           {error && (
@@ -186,13 +141,13 @@ export default function FoundersPage() {
       <section className="px-5 py-20 border-t border-[#1A2D50]">
         <div className="mx-auto max-w-3xl">
           <div className="mb-4 text-center text-xs font-bold uppercase tracking-widest text-[#FF8A00]">Why Founders?</div>
-          <h2 className="mb-6 text-center font-display text-3xl font-black md:text-4xl">This Is the Last Time This Price Exists</h2>
+          <h2 className="mb-6 text-center font-display text-3xl font-black md:text-4xl">A Lifetime Price For Early Believers</h2>
           <div className="space-y-5 text-slate-300 leading-relaxed">
             <p>
-              PEN2PRO is not finished — it is launching. The platform is actively being built, features are being added, and the roadmap is aggressive. The Founders offer is designed for early believers who want to lock in access before the price increases with each release.
+              PEN2PRO is still being built. The platform is actively growing, features are being added, and the roadmap is aggressive. The Founders offer is designed for early believers who want to lock in access before the price increases with each release.
             </p>
             <p>
-              When the Pro plan goes live at $249/month and Elite at $499/month, Founders members will already have everything — for life — at a fraction of the cost.
+              Pro is $249/month and Elite is $499/month. Founders members get everything in both, for life, for one payment.
             </p>
             <p className="border-l-4 border-[#d4af37] pl-5 text-lg font-bold text-white">
               200 spots. One price. No recurring fees. No exceptions.
@@ -226,10 +181,10 @@ export default function FoundersPage() {
               {loading ? "Starting Checkout..." : "Claim Founders Lifetime — $1,899"}
             </button>
             <Link
-              to="/waitlist?tier=founders"
+              to="/pricing"
               className="rounded-xl border border-[#2a2010] px-8 py-3.5 text-sm font-semibold text-[#d4af37] hover:border-[#d4af37] transition-colors"
             >
-              Join the Waitlist Instead
+              View All Plans
             </Link>
           </div>
           <p className="mt-5 text-xs text-slate-500">

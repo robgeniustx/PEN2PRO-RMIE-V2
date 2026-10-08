@@ -71,9 +71,9 @@ export default function ElitePage() {
         window.location.href = result.checkout_url;
         return;
       }
-      setError(result?.error || "Checkout is not yet live. Join the waitlist to get notified when Elite opens.");
+      setError(result?.error || "Checkout is not available right now. Please try again shortly or contact support.");
     } catch {
-      setError("Unable to start checkout. Join the waitlist to get early access.");
+      setError("Unable to start checkout. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -136,10 +136,10 @@ export default function ElitePage() {
               {loading ? "Starting Checkout..." : "Upgrade to Elite — $499/mo"}
             </button>
             <Link
-              to="/waitlist?tier=elite"
+              to="/pricing"
               className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors"
             >
-              Join Elite Waitlist
+              Compare All Plans
             </Link>
           </div>
           {error && (

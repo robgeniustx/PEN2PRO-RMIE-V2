@@ -126,8 +126,8 @@ export default function CommandCenterPage() {
             <Link to="/pricing" className="rounded-xl px-8 py-4 text-base font-black text-[#0A0F1E] btn-gold">
               See Pricing
             </Link>
-            <Link to="/waitlist" className="rounded-xl border border-[#1A2D50] px-8 py-4 text-base font-semibold text-slate-300 hover:text-white transition-colors">
-              Join the Waitlist
+            <Link to="/pricing" className="rounded-xl border border-[#1A2D50] px-8 py-4 text-base font-semibold text-slate-300 hover:text-white transition-colors">
+              View Pricing
             </Link>
           </div>
           <div className="mt-8 flex justify-center gap-8 text-sm text-slate-500">

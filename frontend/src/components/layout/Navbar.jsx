@@ -8,11 +8,12 @@ const NAV_LINKS = [
   { label: "Builder",     path: "/builder" },
   { label: "Accelerator", path: "/accelerator" },
   { label: "Pricing",     path: "/pricing" },
-  { label: "Waitlist",    path: "/waitlist" },
+  { label: "$100 Plan",   path: "/strategist" },
 ];
 
 const PLANS_DROPDOWN = [
   { label: "Free Roadmap",   path: "/starter" },
+  { label: "$100 Strategist Plan", path: "/strategist" },
   { label: "Pro",            path: "/pro" },
   { label: "Elite",          path: "/elite" },
   { label: "Legacy Founder", path: "/founders" },

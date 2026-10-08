@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: "class",
   content: [
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -7,7 +8,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ["Inter", "system-ui", "sans-serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        display: ["Space Grotesk", "Inter", "sans-serif"],
       },
       colors: {
         brand: {
@@ -21,6 +23,14 @@ export default {
           teal:    "#00C9B1",
           green:   "#059669",
           purple:  "#7C3AED",
+          "orange-light": "#FFC107",
+          "orange-dark":  "#E07000",
+          "blue-dark":    "#0D47A1",
+          "blue-light":   "#42A5F5",
+          navy:           "#0A0F1E",
+          "navy-card":    "#0D1528",
+          "navy-border":  "#1A2D50",
+          "navy-hover":   "#122040",
         },
       },
       animation: {

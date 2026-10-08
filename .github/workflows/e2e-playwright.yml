@@ -3,6 +3,8 @@ name: Playwright E2E Test
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -19,16 +21,28 @@ jobs:
         with:
           node-version: 20
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install backend dependencies
+        run: pip install -r backend/requirements.txt
+
       - name: Install frontend dependencies
         run: npm install
+        working-directory: frontend
+
+      - name: Build frontend (includes internal link check)
+        run: npm run build
         working-directory: frontend
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
         working-directory: frontend
 
-      - name: Run Playwright smoke tests
-        run: npx playwright test --config=playwright.config.js
-        working-directory: .
+      - name: Run Playwright tests (starts API and preview server itself)
+        run: npx playwright test
+        working-directory: frontend
         env:
-          FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+          CI: "true"

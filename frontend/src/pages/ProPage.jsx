@@ -69,9 +69,9 @@ export default function ProPage() {
         window.location.href = result.checkout_url;
         return;
       }
-      setError(result?.error || "Checkout is not yet live. Join the waitlist to get notified when Pro opens.");
+      setError(result?.error || "Checkout is not available right now. Please try again shortly or contact support.");
     } catch {
-      setError("Unable to start checkout. Join the waitlist to get early access.");
+      setError("Unable to start checkout. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -134,10 +134,10 @@ export default function ProPage() {
               {loading ? "Starting Checkout..." : "Upgrade to Pro — $249/mo"}
             </button>
             <Link
-              to="/waitlist?tier=pro"
+              to="/pricing"
               className="rounded-xl border border-[#1A2D50] px-8 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors"
             >
-              Join Pro Waitlist
+              Compare All Plans
             </Link>
           </div>
           {error && (

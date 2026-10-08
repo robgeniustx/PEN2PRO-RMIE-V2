@@ -33,3 +33,8 @@ frontend/.env.local
 
 # Local frontend env files
 frontend/.env.local
+
+# Frontend tooling output
+frontend/.vite/
+frontend/test-results/
+frontend/playwright-report/

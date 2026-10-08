@@ -575,8 +575,8 @@ export default function VoiceAgentPage() {
           <Link to="/starter" style={{ background: "linear-gradient(135deg, #FF8A00, #FFC107)", color: "#0A0F1E", fontWeight: 800, padding: "13px 28px", borderRadius: 12, textDecoration: "none", fontSize: "0.92rem" }}>
             Start Free Roadmap →
           </Link>
-          <Link to="/waitlist" style={{ background: "transparent", border: "1.5px solid #1A2D50", color: "#94A3B8", fontWeight: 600, padding: "13px 28px", borderRadius: 12, textDecoration: "none", fontSize: "0.92rem" }}>
-            Join Waitlist
+          <Link to="/pricing" style={{ background: "transparent", border: "1.5px solid #1A2D50", color: "#94A3B8", fontWeight: 600, padding: "13px 28px", borderRadius: 12, textDecoration: "none", fontSize: "0.92rem" }}>
+            View Pricing
           </Link>
         </div>
       </div>

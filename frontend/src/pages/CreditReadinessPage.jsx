@@ -252,7 +252,7 @@ export default function CreditReadinessPage() {
           <h2 className="font-display text-2xl font-bold text-white mb-3">Get your full credit roadmap</h2>
           <p className="text-slate-400 mb-6">Pro members get AI-matched funding resources and a personalized credit-building plan.</p>
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Link to="/waitlist" className="btn-gold px-8 py-3 text-sm font-bold">Join Waitlist — Free</Link>
+            <Link to="/starter" className="btn-gold px-8 py-3 text-sm font-bold">Start Free Roadmap</Link>
             <Link to="/funding" className="btn-outline px-8 py-3 text-sm font-bold">Check Funding Readiness →</Link>
           </div>
         </div>

@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 // ── Existing pages ──
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
-import WaitlistPage from "../pages/WaitlistPage";
 import PricingPage from "../pages/PricingPage";
 import StarterPage from "../pages/StarterPage";
 import BlueprintResultsPage from "../pages/BlueprintResultsPage";
@@ -12,7 +11,6 @@ import FundingReadinessPage from "../pages/FundingReadinessPage";
 import CreditReadinessPage from "../pages/CreditReadinessPage";
 import AffiliatePage from "../pages/AffiliatePage";
 import AdminDashboardPage from "../pages/AdminDashboardPage";
-import AdminWaitlistPage from "../pages/AdminWaitlistPage";
 import AdminAnalyticsPage from "../pages/AdminAnalyticsPage";
 import AdminFeatureUsagePage from "../pages/AdminFeatureUsagePage";
 import AdminConversionsPage from "../pages/AdminConversionsPage";
@@ -39,6 +37,11 @@ import ElitePage from "../pages/ElitePage";
 import FoundersPage from "../pages/FoundersPage";
 import BuilderPage from "../pages/BuilderPage";
 import AcceleratorPage from "../pages/AcceleratorPage";
+import StrategistPage from "../pages/StrategistPage";
+import StrategistPlaybookPage from "../pages/StrategistPlaybookPage";
+import LegalPage from "../pages/LegalPage";
+import ProtectedRoute from "../components/layout/ProtectedRoute";
+import AdminRoute from "../components/layout/AdminRoute";
 
 export default function AppRoutes() {
   return (
@@ -49,7 +52,9 @@ export default function AppRoutes() {
       <Route path="/businessos" element={<BusinessOSPage />} />
       <Route path="/rmie" element={<RMIEPage />} />
       <Route path="/pricing" element={<PricingPage />} />
-      <Route path="/waitlist" element={<WaitlistPage />} />
+      <Route path="/privacy" element={<LegalPage doc="privacy" />} />
+      <Route path="/terms" element={<LegalPage doc="terms" />} />
+      <Route path="/disclaimer" element={<LegalPage doc="disclaimer" />} />
       <Route path="/payment-success" element={<PaymentSuccessPage />} />
 
       {/* ── Auth ── */}
@@ -71,8 +76,8 @@ export default function AppRoutes() {
       <Route path="/affiliate" element={<AffiliatePage />} />
 
       {/* ── Dashboard ── */}
-      <Route path="/dashboard" element={<DashboardWorkspacePage />} />
-      <Route path="/dashboard/:moduleKey" element={<DashboardWorkspacePage />} />
+      <Route path="/dashboard" element={<ProtectedRoute><DashboardWorkspacePage /></ProtectedRoute>} />
+      <Route path="/dashboard/:moduleKey" element={<ProtectedRoute><DashboardWorkspacePage /></ProtectedRoute>} />
 
       {/* ── P2P Command Center ── */}
       <Route path="/command-center" element={<CommandCenterPage />} />
@@ -115,14 +120,16 @@ export default function AppRoutes() {
       {/* ── Domain Finder ── */}
       <Route path="/domain-search" element={<DomainSearchPage />} />
 
-      {/* ── Admin ── */}
-      <Route path="/admin" element={<AdminDashboardPage />} />
-      <Route path="/admin/waitlist" element={<AdminWaitlistPage />} />
-      <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
-      <Route path="/admin/feature-usage" element={<AdminFeatureUsagePage />} />
-      <Route path="/admin/conversions" element={<AdminConversionsPage />} />
+      {/* ── Admin (key-protected) ── */}
+      <Route path="/admin" element={<AdminRoute><AdminDashboardPage /></AdminRoute>} />
+      <Route path="/admin/analytics" element={<AdminRoute><AdminAnalyticsPage /></AdminRoute>} />
+      <Route path="/admin/feature-usage" element={<AdminRoute><AdminFeatureUsagePage /></AdminRoute>} />
+      <Route path="/admin/conversions" element={<AdminRoute><AdminConversionsPage /></AdminRoute>} />
+      <Route path="/admin/waitlist" element={<Navigate to="/admin" replace />} />
 
       {/* ── Tier Plan Pages ── */}
+      <Route path="/strategist" element={<StrategistPage />} />
+      <Route path="/strategist/playbook" element={<StrategistPlaybookPage />} />
       <Route path="/pro" element={<ProPage />} />
       <Route path="/elite" element={<ElitePage />} />
       <Route path="/founders" element={<FoundersPage />} />
@@ -136,11 +143,15 @@ export default function AppRoutes() {
       <Route path="/checkout/founders" element={<FoundersPage />} />
 
       {/* ── Aliases / Redirects ── */}
+      <Route path="/waitlist" element={<Navigate to="/starter" replace />} />
       <Route path="/features" element={<Navigate to="/#features" replace />} />
       <Route path="/crm" element={<Navigate to="/command-center" replace />} />
       <Route path="/contacts" element={<Navigate to="/dashboard/contacts" replace />} />
       <Route path="/lead-inbox" element={<Navigate to="/dashboard/lead-inbox" replace />} />
       <Route path="/pipeline" element={<Navigate to="/dashboard/pipeline" replace />} />
+      <Route path="/customers" element={<Navigate to="/dashboard/contacts" replace />} />
+      <Route path="/follow-ups" element={<Navigate to="/dashboard/lead-inbox" replace />} />
+      <Route path="/outreach" element={<Navigate to="/dashboard/campaigns" replace />} />
 
       {/* ── 404 ── */}
       <Route path="*" element={<NotFoundPage />} />

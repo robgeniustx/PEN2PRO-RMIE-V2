@@ -17,8 +17,11 @@ jobs:
       - name: Check pricing route
         run: curl -f "${{ secrets.BACKEND_URL }}/api/pricing"
 
+      - name: Check Strategist Plan outline route
+        run: curl -f "${{ secrets.BACKEND_URL }}/api/strategist/outline"
+
       - name: Check backend docs route
-        run: curl -f "${{ secrets.BACKEND_URL }}/docs"
+        run: curl -f "${{ secrets.BACKEND_URL }}/api/docs"
 
       - name: Report RMIE route status
         run: |

@@ -34,7 +34,7 @@ export default function Footer() {
                 ["Builder", "/builder"],
                 ["Accelerator", "/accelerator"],
                 ["Pricing", "/pricing"],
-                ["Waitlist", "/waitlist"],
+                ["$100 Strategist Plan", "/strategist"],
                 ["Sign In", "/login"],
               ].map(([label, path]) => (
                 <li key={path}><Link to={path} className="text-sm text-slate-500 hover:text-[#FF8A00] transition-colors">{label}</Link></li>
@@ -59,15 +59,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Launch */}
+          {/* Get started */}
           <div>
-            <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Launch Date</h4>
+            <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">Start Today</h4>
             <div className="rounded-xl border p-4" style={{ borderColor: "rgba(255,138,0,0.3)", background: "#0D1528" }}>
-              <p className="text-xs font-bold uppercase tracking-wide" style={{ color: "#FF8A00" }}>Official Launch</p>
-              <p className="mt-1 text-lg font-black text-white">June 15, 2026</p>
-              <p className="mt-2 text-xs text-slate-500">Secure your spot now. Founding members get locked-in pricing for life.</p>
-              <Link to="/waitlist" className="mt-3 block rounded-lg px-4 py-2 text-center text-xs font-black text-[#0A0F1E] btn-gold">
-                Secure My Spot
+              <p className="text-xs font-bold uppercase tracking-wide" style={{ color: "#FF8A00" }}>Free Roadmap</p>
+              <p className="mt-1 text-lg font-black text-white">Idea to income plan</p>
+              <p className="mt-2 text-xs text-slate-500">Answer a few questions and get a personalized 7/30/90-day business roadmap. No credit card.</p>
+              <Link to="/starter" className="mt-3 block rounded-lg px-4 py-2 text-center text-xs font-black text-[#0A0F1E] btn-gold">
+                Start Free Roadmap
               </Link>
             </div>
           </div>

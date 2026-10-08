@@ -2,36 +2,48 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { getStripeSession } from "../api/stripeApi";
 
 const TIER_INFO = {
+  strategist: {
+    name: "$100 Strategist Plan",
+    price: "$100 one-time",
+    color: "#00C9B1",
+    next: [
+      "Check your email for your Stripe receipt.",
+      "Open your step-by-step Strategist Plan and start with Step 1.",
+      "Bookmark the playbook page. Your purchase unlocks it on this device.",
+    ],
+    cta: { label: "Open My Strategist Plan", to: "/strategist/playbook" },
+  },
   founders: {
     name: "Founders Lifetime",
-    price: "$497 one-time",
+    price: "$1,899 one-time",
     color: "#D4A017",
     next: [
       "Check your email for your PEN2PRO confirmation and receipt.",
-      "You'll receive early access to all platform features starting June 15, 2026.",
-      "Join the Founders-only community for insider updates and direct access to the PEN2PRO team.",
+      "Create or sign in to your account with the same email you used at checkout.",
+      "Start with a new roadmap, then explore the dashboard.",
     ],
   },
   pro: {
     name: "Pro",
-    price: "$47/mo",
+    price: "$249/mo",
     color: "#00C9B1",
     next: [
-      "Check your email for your confirmation and account activation details.",
-      "Pro access unlocks fully on June 15, 2026 — unlimited roadmaps, outreach automation, and more.",
-      "In the meantime, generate a free roadmap and start planning your launch.",
+      "Check your email for your confirmation and receipt.",
+      "Create or sign in to your account with the same email you used at checkout.",
+      "Generate a roadmap and work through the 7/30/90-day plan.",
     ],
   },
   elite: {
     name: "Elite",
-    price: "$97/mo",
+    price: "$499/mo",
     color: "#D4A017",
     next: [
       "Check your email for your confirmation and Elite member details.",
-      "Elite access — including done-with-you strategy sessions — activates June 15, 2026.",
-      "Reach out to our team at support@pen2pro.com with any questions.",
+      "Create or sign in to your account with the same email you used at checkout.",
+      "Reach out to support@pen2pro.com with any questions.",
     ],
   },
   default: {
@@ -40,21 +52,31 @@ const TIER_INFO = {
     color: "#D4A017",
     next: [
       "Check your email for your confirmation and receipt.",
-      "Your access activates on June 15, 2026 at launch.",
-      "Generate a free business roadmap while you wait.",
+      "Create or sign in to your account with the same email you used at checkout.",
+      "Generate a business roadmap to get started.",
     ],
   },
 };
 
 export default function PaymentSuccessPage() {
   const [params] = useSearchParams();
-  const tier = params.get("tier") || "default";
+  const sessionId = params.get("session_id");
+  const [tier, setTier] = useState(params.get("tier") || "default");
   const info = TIER_INFO[tier] || TIER_INFO.default;
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setShow(true), 100);
+    const id = setTimeout(() => setShow(true), 100);
+    return () => clearTimeout(id);
   }, []);
+
+  // Look up what was actually purchased from the Stripe session.
+  useEffect(() => {
+    if (!sessionId) return;
+    getStripeSession(sessionId).then((session) => {
+      if (session?.tier && TIER_INFO[session.tier]) setTier(session.tier);
+    });
+  }, [sessionId]);
 
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
@@ -103,7 +125,12 @@ export default function PaymentSuccessPage() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col gap-3">
-              <Link to="/dashboard" className="btn-gold block w-full py-3 text-sm font-bold text-center">
+              {info.cta && (
+                <Link to={`${info.cta.to}${sessionId ? `?session_id=${sessionId}` : ""}`} className="btn-gold block w-full py-3 text-sm font-bold text-center">
+                  {info.cta.label}
+                </Link>
+              )}
+              <Link to="/dashboard" className={`${info.cta ? "btn-outline" : "btn-gold"} block w-full py-3 text-sm font-bold text-center`}>
                 Go to Dashboard
               </Link>
               <Link to="/starter" className="btn-outline block w-full py-3 text-sm font-bold text-center">

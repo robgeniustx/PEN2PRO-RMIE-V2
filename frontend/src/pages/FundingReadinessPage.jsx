@@ -280,10 +280,10 @@ export default function FundingReadinessPage() {
         {/* CTA */}
         <div className="text-center">
           <h2 className="font-display text-2xl font-bold text-white mb-3">Ready to take the next step?</h2>
-          <p className="text-slate-400 mb-6">Join the PEN2PRO waitlist and get matched with funding resources when we launch.</p>
+          <p className="text-slate-400 mb-6">Start your free roadmap and see which funding path fits where your business is today.</p>
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Link to="/waitlist" className="btn-gold px-8 py-3 text-sm font-bold">
-              Join Waitlist — Free
+            <Link to="/starter" className="btn-gold px-8 py-3 text-sm font-bold">
+              Start Free Roadmap
             </Link>
             <Link to="/credit-repair" className="btn-outline px-8 py-3 text-sm font-bold">
               Build Business Credit →

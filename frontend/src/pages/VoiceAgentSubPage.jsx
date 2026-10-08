@@ -238,7 +238,7 @@ export default function VoiceAgentSubPage() {
               <div className="voice-panel" key={plan}>
                 <h2>{plan}</h2>
                 <p className="voice-muted">Call answering, lead capture, summaries, and CRM-ready workflows. Live carrier/voice provider setup requires Twilio, Vapi, Retell, or equivalent.</p>
-                <Link className="voice-link-button" to="/waitlist?interest=AI%20Voice%20Agent">Join Waitlist</Link>
+                <Link className="voice-link-button" to="/pricing">View Pricing</Link>
               </div>
             ))}
           </section>

@@ -6,9 +6,9 @@ from app.routes import (
     auth,
     users,
     stripe_routes,
+    strategist,
     pricing,
     agents,
-    waitlist,
     admin,
     analytics,
     blueprints,
@@ -61,7 +61,7 @@ app.include_router(auth.router, prefix="/api/auth", tags=["Auth"])
 app.include_router(users.router, prefix="/api/users", tags=["Users"])
 app.include_router(stripe_routes.router, prefix="/api/stripe", tags=["Stripe"])
 app.include_router(pricing.router, prefix="/api/pricing", tags=["Pricing"])
-app.include_router(waitlist.router, prefix="/api/waitlist", tags=["Waitlist"])
+app.include_router(strategist.router, prefix="/api/strategist", tags=["Strategist Plan"])
 app.include_router(analytics.router, prefix="/api/analytics", tags=["Analytics"])
 app.include_router(admin.router, prefix="/api/admin", tags=["Admin"])
 
