@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { getStripeSession } from "../api/stripeApi";
+import { claimPurchase, isSignedIn, rememberPendingClaim } from "../api/authApi";
 
 const TIER_INFO = {
   strategist: {
@@ -70,12 +71,25 @@ export default function PaymentSuccessPage() {
     return () => clearTimeout(id);
   }, []);
 
-  // Look up what was actually purchased from the Stripe session.
+  const [claim, setClaim] = useState(sessionId ? (isSignedIn() ? "claiming" : "needs-account") : "none");
+  const [claimError, setClaimError] = useState("");
+
+  // Link the purchase to the signed-in account (this unlocks the plan). If nobody is signed in yet,
+  // remember the checkout so it is linked as soon as they create an account or sign in.
   useEffect(() => {
     if (!sessionId) return;
+    let active = true;
     getStripeSession(sessionId).then((session) => {
-      if (session?.tier && TIER_INFO[session.tier]) setTier(session.tier);
+      if (active && session?.tier && TIER_INFO[session.tier]) setTier(session.tier);
     });
+    if (isSignedIn()) {
+      claimPurchase(sessionId)
+        .then((session) => { if (active) { setTier(session.purchased); setClaim("done"); } })
+        .catch((error) => { if (active) { setClaim("error"); setClaimError(error.message); } });
+    } else {
+      rememberPendingClaim(sessionId);
+    }
+    return () => { active = false; };
   }, [sessionId]);
 
   return (
@@ -122,6 +136,27 @@ export default function PaymentSuccessPage() {
                 ))}
               </ul>
             </div>
+
+            {claim === "claiming" && <p className="mb-4 text-sm text-slate-400">Unlocking your plan…</p>}
+            {claim === "done" && (
+              <p role="status" className="mb-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300">
+                Your plan is unlocked on your account.
+              </p>
+            )}
+            {claim === "error" && (
+              <p role="alert" className="mb-4 rounded-xl border border-yellow-500/30 bg-yellow-500/10 px-4 py-3 text-sm text-yellow-200">
+                {claimError || "We could not link this purchase yet."} Email support@pen2pro.com with your receipt and we will fix it.
+              </p>
+            )}
+            {claim === "needs-account" && (
+              <div className="mb-6 rounded-xl border border-[#D4A017]/40 bg-[#D4A017]/10 p-4 text-left">
+                <p className="mb-3 text-sm font-semibold text-white">One more step: attach this purchase to your account.</p>
+                <div className="flex gap-3">
+                  <Link to="/signup" className="btn-gold flex-1 py-2.5 text-center text-sm font-bold">Create Account</Link>
+                  <Link to="/login" className="btn-outline flex-1 py-2.5 text-center text-sm font-bold">Sign In</Link>
+                </div>
+              </div>
+            )}
 
             {/* CTA Buttons */}
             <div className="flex flex-col gap-3">

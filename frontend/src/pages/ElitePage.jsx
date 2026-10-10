@@ -8,17 +8,17 @@ const ELITE_FEATURES = [
   {
     icon: "🧠",
     title: "Advanced Strategist Guidance",
-    body: "Go beyond templates. Elite gives you advanced scenario planning, pivot strategies, competitor intelligence, and done-with-you business strategy built around your market.",
+    body: "Go beyond templates. Elite includes the Strategist plan builder: pick your occupation and get a 12-week path to your revenue goal with weekly targets, capacity checks, and proof checkpoints.",
   },
   {
     icon: "📈",
-    title: "Financial Projections",
-    body: "12-month revenue projection model, break-even analysis, pricing strategy calculator, and funding gap analysis — so you know your numbers before you present them.",
+    title: "Revenue Math & Price Scenarios",
+    body: "See how many customers, hours and outreach messages it takes to reach your goal, how your price changes the answer, and where your capacity breaks, before you commit.",
   },
   {
     icon: "🏛️",
     title: "Legal Foundation Checklist",
-    body: "Company formation, operating agreement templates, trademark basics, intellectual property guidance, and business structure recommendations by industry.",
+    body: "Step-by-step guidance on choosing a structure, forming an LLC, getting an EIN, licenses and insurance, and trademark basics. General education, not legal advice.",
   },
   {
     icon: "🤝",
@@ -27,13 +27,13 @@ const ELITE_FEATURES = [
   },
   {
     icon: "📋",
-    title: "Advanced CRM & Pipeline Tools",
-    body: "Full CRM access with lead scoring, pipeline management, follow-up automation, deal tracking, and customer lifecycle management.",
+    title: "CRM & Pipeline Workspace",
+    body: "Track leads and deals through a pipeline, log contacts, and export your records. Everything saves to your account.",
   },
   {
-    icon: "⚡",
-    title: "Automation Workflows",
-    body: "Set up automated follow-ups, appointment reminders, lead nurture sequences, and outreach campaigns without writing a single line of code.",
+    icon: "🧮",
+    title: "Verification Ledger",
+    body: "Every milestone in your plan comes with the proof that counts: paid invoices and bank deposits, so you can tell real progress from busy work.",
   },
   {
     icon: "🎯",
@@ -43,7 +43,7 @@ const ELITE_FEATURES = [
   {
     icon: "🚀",
     title: "Priority Support",
-    body: "Elite members get priority response on support requests, dedicated onboarding resources, and first access to new features before general release.",
+    body: "Elite members get priority responses on support requests by email.",
   },
 ];
 
@@ -53,8 +53,7 @@ const ELITE_INCLUDES_PRO = [
   "Business branding support",
   "Credit & funding readiness checklist",
   "Outreach strategy & sales scripts",
-  "PDF & email export",
-  "Progress tracking",
+  "PDF export & saved roadmaps",
   "Advanced AI refinement",
 ];
 
@@ -121,7 +120,7 @@ export default function ElitePage() {
             </span>
           </h1>
           <p className="mx-auto mb-6 max-w-2xl text-lg text-slate-400 leading-relaxed">
-            Elite goes beyond Pro. Get advanced strategist guidance, financial projections, legal foundation tools, a full vendor and funding resource center, advanced automation, and priority support.
+            Elite goes beyond Pro. Get the Strategist plan builder, revenue and price scenarios, legal foundation guidance, a vendor and funding resource center, a CRM and pipeline workspace, and priority support.
           </p>
           <div className="mb-8">
             <span className="font-display text-5xl font-black text-white">$499</span>

@@ -38,6 +38,7 @@ import FoundersPage from "../pages/FoundersPage";
 import BuilderPage from "../pages/BuilderPage";
 import AcceleratorPage from "../pages/AcceleratorPage";
 import StrategistPage from "../pages/StrategistPage";
+import MyRoadmapsPage from "../pages/MyRoadmapsPage";
 import StrategistPlaybookPage from "../pages/StrategistPlaybookPage";
 import LegalPage from "../pages/LegalPage";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
@@ -74,6 +75,8 @@ export default function AppRoutes() {
       <Route path="/credit-repair" element={<CreditReadinessPage />} />
       <Route path="/credit-readiness" element={<CreditReadinessPage />} />
       <Route path="/affiliate" element={<AffiliatePage />} />
+
+      <Route path="/my-roadmaps" element={<ProtectedRoute><MyRoadmapsPage /></ProtectedRoute>} />
 
       {/* ── Dashboard ── */}
       <Route path="/dashboard" element={<ProtectedRoute><DashboardWorkspacePage /></ProtectedRoute>} />

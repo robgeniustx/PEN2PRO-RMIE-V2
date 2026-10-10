@@ -4,6 +4,7 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, Header, HTTPException
 
+from app import store
 from app.services.analytics_service import (
     get_admin_metrics,
     get_conversion_summary,
@@ -34,7 +35,20 @@ router = APIRouter(dependencies=[Depends(_guard)])
 
 @router.get("/metrics")
 async def admin_metrics():
-    return get_admin_metrics()
+    data = get_admin_metrics()
+    # Account, purchase and lead numbers come from the database, never from demo data.
+    data["total_users"] = store.count_users()
+    data["active_tier_counts"] = store.tier_counts()
+    data["total_roadmaps_saved"] = store.count_roadmaps()
+    data["total_starter_leads"] = store.count_starter_leads()
+    data["total_checkouts_completed"] = store.completed_checkouts()
+    data["estimated_revenue"] = store.revenue_total()
+    return data
+
+
+@router.get("/starter-leads")
+async def admin_starter_leads():
+    return {"leads": store.list_starter_leads()}
 
 
 @router.get("/feature-usage")

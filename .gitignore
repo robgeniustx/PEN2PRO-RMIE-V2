@@ -38,3 +38,6 @@ frontend/.env.local
 frontend/.vite/
 frontend/test-results/
 frontend/playwright-report/
+
+# Local database (see app/store.py)
+backend/data/

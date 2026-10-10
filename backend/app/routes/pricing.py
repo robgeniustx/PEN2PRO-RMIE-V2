@@ -31,6 +31,7 @@ PLANS = [
         "stripe_tier": "strategist",
         "features": [
             "15-step start-your-business playbook",
+            "Strategist: 12-week path to your revenue goal for your occupation",
             "Offer, pricing, and validation worksheets",
             "LLC, EIN, banking, license, and tax checklist",
             "Sales scripts and a first-10-customers plan",

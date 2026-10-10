@@ -7,6 +7,7 @@ import { createCheckoutSession } from "../api/stripeApi";
 import { fetchStrategistOutline, fetchStrategistSample, getStoredStrategistSession } from "../api/strategistApi";
 
 const INCLUDED = [
+  { icon: "🎯", title: "Your $10K-a-month path", body: "Pick your occupation and the strategist works out how many customers, hours and outreach messages it takes, flags where your numbers don't fit, and gives you a 12-week plan with weekly targets and proof checkpoints. It is arithmetic on your own numbers, not a promise." },
   { icon: "🧭", title: "15 steps, in order", body: "From choosing the right idea to your first 10 customers and a 90-day operating plan. Nothing to figure out about what comes next." },
   { icon: "🧾", title: "Legal and money setup", body: "Sole proprietor or LLC, free EIN, business bank account, licenses, insurance, and tax set-aside, explained in plain English." },
   { icon: "💬", title: "Scripts you can use today", body: "First message, discovery call, follow-up, price objection, and review request. Copy, adjust, send." },
@@ -93,7 +94,7 @@ export default function StrategistPage() {
             Start your business, step by step.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-400">
-            A detailed, 15-step plan that takes you from "I have an idea" to paying customers: what to do, in what order, what it costs, and what to avoid. Built from real experience, not theory.
+            A detailed 15-step plan from "I have an idea" to paying customers, plus a strategist that builds a 12-week path to $10K a month for your occupation, with weekly targets and proof you can check against your bank statement.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             {purchased ? (

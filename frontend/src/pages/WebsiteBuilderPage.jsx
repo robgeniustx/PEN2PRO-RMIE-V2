@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 import { generateWebsiteBuilder } from "../api/websiteApi";
 
 import WebsiteBuilderForm from "../components/website/WebsiteBuilderForm";
@@ -19,15 +22,16 @@ export default function WebsiteBuilderPage() {
       const result = await generateWebsiteBuilder(payload);
       setData(result);
     } catch (err) {
-      console.error("Website builder error:", err);
-      setError("Something went wrong while generating your website plan.");
+      setError(err.status === 401 ? "signin" : err.message || "Something went wrong while generating your website plan.");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-4 space-y-6">
+    <div className="min-h-screen bg-[#080C14] text-white">
+      <Navbar />
+      <div className="mx-auto max-w-5xl space-y-6 p-4 py-10">
       <div>
         <h1 className="text-2xl font-bold text-blue-400">
           Website / Landing Page Builder
@@ -46,8 +50,10 @@ export default function WebsiteBuilderPage() {
       )}
 
       {error && (
-        <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-red-200">
-          {error}
+        <div role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-red-200">
+          {error === "signin" ? (
+            <>Sign in to generate your website plan. <Link to="/login" state={{ from: "/website-builder/editor" }} className="underline">Sign in or create a free account</Link>.</>
+          ) : error}
         </div>
       )}
 
@@ -59,6 +65,8 @@ export default function WebsiteBuilderPage() {
           <BrandKitCard brand={data.brand_direction} />
         </div>
       )}
+      </div>
+      <Footer />
     </div>
   );
 }

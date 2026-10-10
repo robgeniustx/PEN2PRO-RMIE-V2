@@ -1,23 +1,16 @@
 # PEN2PRO Production Testing Checklist
 
-## Automated checks
+## Automated checks (run locally; no CI workflows run on pull requests)
 
-- **Build Check** (`.github/workflows/build.yml`): frontend build, which first runs `npm run check:links` so any internal link without a matching route fails the build, plus a backend compile check.
-- **Playwright E2E** (`frontend/tests/e2e`): starts the API and the built frontend itself, then verifies every required route renders, a crawl of every internal link, desktop and mobile navigation, the gated $100 Strategist Plan, the admin key gate, sign-up and the free roadmap flow.
-- **API Smoke Test** (`.github/workflows/api-smoke-test.yml`): checks the live backend after a deploy.
+- **Backend tests:** `cd backend && python -m pytest tests` covers sign-up and login, plan unlock from a confirmed payment (and from the Stripe webhook), plan downgrade on cancellation, per-user data privacy, saved roadmaps, the Strategist plan math and gating, admin key protection, rate limiting, owner-only voice agent data, and that production never serves demo data or a canned roadmap.
+- **Frontend build:** `cd frontend && npm run build` first runs `npm run check:links`, so any internal link without a matching route fails the build.
+- **Browser tests:** `cd frontend && npx playwright test` starts the API (with a fresh temporary database) and the built frontend, then checks every route, a crawl of every internal link, desktop and mobile navigation, the $100 Strategist Plan and builder, the admin gate, sign-up, plan unlock, saved roadmaps, PDF button, and dashboard records persisting across sign-out.
+- `.github/workflows/api-smoke-test.yml` checks the live backend after a push to `main`.
 
-## Run locally
+## Verify by hand before launch (needs your real accounts)
 
-```
-cd frontend
-npm install
-npm run build
-npx playwright test        # needs python deps from backend/requirements.txt
-```
-
-## Still verify by hand before launch
-
-- Real Stripe checkout for the $100 Strategist Plan, Pro, Elite and Founders (test mode first), including opening the playbook after payment.
-- Stripe webhook delivery to `/api/stripe/webhook`.
-- Roadmap generation with a real `OPENAI_API_KEY`.
-- AI Voice Agent Twilio call flow.
+- Stripe, in test mode first: buy the $100 Strategist Plan, Pro, Elite and Founders. Confirm the plan unlocks on the success page and also via the webhook if you close the page early. Cancel a subscription and confirm the plan drops back to free.
+- Webhook delivery to `/api/stripe/webhook` with `STRIPE_WEBHOOK_SECRET` set.
+- Roadmap generation, Pro "Refine with AI", and the Website Builder with a real `OPENAI_API_KEY`.
+- Voice Agent: needs your Twilio and ElevenLabs credentials and webhook URLs (see `docs/ENVIRONMENT_VARIABLES.md`).
+- After a Render deploy, create an account, redeploy, and confirm you can still sign in (this proves the persistent disk is mounted).

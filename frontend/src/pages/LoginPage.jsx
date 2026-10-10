@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { claimPendingPurchase, saveSession } from "../api/authApi";
 
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
@@ -40,9 +41,10 @@ export default function LoginPage() {
         body: JSON.stringify({ email: loginForm.email, password: loginForm.password }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || "Login failed");
-      localStorage.setItem("pen2pro_token", data.access_token);
-      localStorage.setItem("pen2pro_user", JSON.stringify({ name: data.name, tier: data.tier, email: loginForm.email }));
+      if (!res.ok) throw new Error(Array.isArray(data.detail) ? data.detail.map((d) => d.msg).join(". ") : data.detail || "Login failed");
+      saveSession(data);
+      await claimPendingPurchase();
+      window.dispatchEvent(new Event("pen2pro-auth"));
       navigate(destination);
     } catch (err) {
       setError(err.message);
@@ -70,9 +72,10 @@ export default function LoginPage() {
         body: JSON.stringify({ name: registerForm.name, email: registerForm.email, password: registerForm.password }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || "Registration failed");
-      localStorage.setItem("pen2pro_token", data.access_token);
-      localStorage.setItem("pen2pro_user", JSON.stringify({ name: data.name, tier: data.tier, email: registerForm.email }));
+      if (!res.ok) throw new Error(Array.isArray(data.detail) ? data.detail.map((d) => d.msg).join(". ") : data.detail || "Registration failed");
+      saveSession(data);
+      await claimPendingPurchase();
+      window.dispatchEvent(new Event("pen2pro-auth"));
       navigate(destination);
     } catch (err) {
       setError(err.message);

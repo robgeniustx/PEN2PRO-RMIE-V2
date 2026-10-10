@@ -2,22 +2,15 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   createDashboardRecord,
-  dashboardExportUrl,
   deleteDashboardRecord,
+  downloadDashboardCsv,
   getDashboardModule,
   listDashboardModules,
 } from "../api/dashboardApi";
+import { getStoredUser, refreshUser, signOut } from "../api/authApi";
 import { DASHBOARD_NAV, normalizePlan, userCanAccess } from "../data/dashboardModules";
 
-function getStoredUser() {
-  try {
-    const stored = JSON.parse(localStorage.getItem("pen2pro_user") || "null");
-    if (stored) return stored;
-  } catch {
-    return null;
-  }
-  return { name: "Robert Green", email: "", tier: "free", role: "member" };
-}
+const guestUser = { name: "", email: "", tier: "free", role: "member" };
 
 function formatValue(value, type) {
   if (type === "money" && typeof value === "number") {
@@ -47,9 +40,9 @@ function Sidebar({ modules, activeKey, user }) {
     <aside className="p2p-sidebar">
       <Link to="/" className="p2p-brand">PEN2PRO</Link>
       <div className="p2p-user-card">
-        <div className="p2p-avatar">{(user?.name || "R").slice(0, 1).toUpperCase()}</div>
+        <div className="p2p-avatar">{(user?.name || "P").slice(0, 1).toUpperCase()}</div>
         <div>
-          <strong>{user?.name || "Robert Green"}</strong>
+          <strong>{user?.name || "Your account"}</strong>
           <span>{String(user?.role || "member").toLowerCase() === "admin" ? "Admin unlock" : `${normalizePlan(user?.tier)} plan`}</span>
         </div>
       </div>
@@ -123,7 +116,6 @@ function ModuleTable({ module, onDelete }) {
                 </td>
               ))}
               <td>
-                <button className="p2p-icon-button" type="button">Open</button>
                 {module.access?.unlocked && (
                   <button className="p2p-icon-button danger" type="button" onClick={() => onDelete(row.id)}>
                     Delete
@@ -162,7 +154,7 @@ function ModuleForm({ module, onCreate, busy }) {
   }
 
   return (
-    <form className="p2p-panel" onSubmit={handleSubmit}>
+    <form id="module-form" className="p2p-panel" onSubmit={handleSubmit}>
       <h3>{module.label} Form</h3>
       <div className="p2p-form-grid">
         {fields.map((field) => (
@@ -202,28 +194,6 @@ function PlanScope({ module }) {
         </article>
       ))}
     </section>
-  );
-}
-
-function ApiPanel({ module }) {
-  return (
-    <div className="p2p-panel">
-      <h3>API-Ready Structure</h3>
-      <div className="p2p-endpoints">
-        {Object.entries(module.endpoints || {}).map(([key, path]) => (
-          <div key={key}>
-            <span>{key}</span>
-            <code>{path}</code>
-          </div>
-        ))}
-      </div>
-      <pre>{JSON.stringify({
-        module: module.key,
-        required_plan: module.required_plan,
-        columns: module.columns,
-        form_schema: module.form_schema,
-      }, null, 2)}</pre>
-    </div>
   );
 }
 
@@ -289,6 +259,9 @@ function CommandSummary({ module, records }) {
 
 function CardGrid({ module, records, onDelete }) {
   const columns = module.columns || [];
+  if (!records.length) {
+    return <p className="p2p-muted">Nothing here yet. Add your first record with the form.</p>;
+  }
   return (
     <div className="p2p-card-grid">
       {records.map((row) => (
@@ -306,7 +279,6 @@ function CardGrid({ module, records, onDelete }) {
             ))}
           </div>
           <footer>
-            <button type="button">Open</button>
             {module.access?.unlocked && <button type="button" onClick={() => onDelete(row.id)}>Delete</button>}
           </footer>
         </article>
@@ -324,7 +296,7 @@ function PipelineBoard({ module, records, onDelete }) {
         return (
           <section key={stage}>
             <h3>{stage}<span>{stageRows.length}</span></h3>
-            {(stageRows.length ? stageRows : records.slice(0, 1)).map((row) => (
+            {stageRows.map((row) => (
               <article key={`${stage}-${row.id}`}>
                 <strong>{row.deal || row.name || row.customer || "Pipeline item"}</strong>
                 <p>{moneyValue(row.value || row.amount || row.balance)} · {row.probability || row.status || "ready"}</p>
@@ -345,7 +317,7 @@ function PaymentConsole({ module, records }) {
     <div className="p2p-payment-console">
       <article><span>Total tracked</span><strong>{moneyValue(total)}</strong></article>
       <article><span>Needs action</span><strong>{pending}</strong></article>
-      <article><span>Payment path</span><strong>Stripe + text-to-pay ready</strong></article>
+      <article><span>Collect payment</span><strong>Record payments here; send links from Stripe</strong></article>
       <article><span>Plan access</span><strong>{module.required_plan}+ customer payments</strong></article>
     </div>
   );
@@ -355,10 +327,10 @@ function VoiceConsole({ module }) {
   return (
     <div className="p2p-voice-console">
       {[
-        ["Provider", "Twilio + ElevenLabs"],
+        ["Needs", "Twilio and ElevenLabs accounts"],
         ["Pro mode", "P2P AI Voice (Basic)"],
         ["Elite mode", "Summaries, booking, CRM updates"],
-        ["Webhook", "/api/voice-agent/incoming"],
+        ["Status", "Set up in Voice Studio"],
       ].map(([label, value]) => (
         <article key={label}>
           <span>{label}</span>
@@ -416,7 +388,7 @@ export default function DashboardWorkspacePage() {
   const params = useParams();
   const navigate = useNavigate();
   const activeKey = params.moduleKey || "overview";
-  const [user, setUser] = useState(getStoredUser());
+  const [user, setUser] = useState(getStoredUser() || guestUser);
   const [modules, setModules] = useState(DASHBOARD_NAV.map((item) => ({
     key: item.key,
     label: item.label,
@@ -427,25 +399,38 @@ export default function DashboardWorkspacePage() {
   const [module, setModule] = useState(null);
   const [records, setRecords] = useState([]);
   const [notice, setNotice] = useState("");
+  const [loadError, setLoadError] = useState("");
   const [busy, setBusy] = useState(false);
 
+  // Ask the server who this is and what plan they have; it decides what is unlocked.
   useEffect(() => {
-    const nextUser = getStoredUser();
-    setUser(nextUser);
-    listDashboardModules(nextUser).then((payload) => setModules(payload.modules || []));
-  }, []);
+    let active = true;
+    refreshUser()
+      .then(() => active && setUser(getStoredUser() || guestUser))
+      .catch((error) => { if (active && error.status === 401) navigate("/login", { replace: true, state: { from: "/dashboard" } }); });
+    listDashboardModules()
+      .then((payload) => active && setModules(payload.modules || []))
+      .catch(() => {});
+    return () => { active = false; };
+  }, [navigate]);
 
   useEffect(() => {
     if (!DASHBOARD_NAV.some((item) => item.key === activeKey)) {
       navigate("/dashboard", { replace: true });
       return;
     }
-    getDashboardModule(activeKey, user).then((payload) => {
-      setModule(payload);
-      setRecords(payload.records || []);
-      setNotice("");
-    });
-  }, [activeKey, navigate, user]);
+    let active = true;
+    setLoadError("");
+    getDashboardModule(activeKey)
+      .then((payload) => {
+        if (!active) return;
+        setModule(payload);
+        setRecords(payload.records || []);
+        setNotice("");
+      })
+      .catch((error) => active && setLoadError(error.message || "Could not load this section."));
+    return () => { active = false; };
+  }, [activeKey, navigate, user.tier]);
 
   const activeModule = useMemo(() => module || { key: activeKey, label: "Dashboard", records: [], columns: [], actions: [], metrics: [] }, [module, activeKey]);
   const visibleModule = useMemo(() => ({ ...activeModule, records }), [activeModule, records]);
@@ -458,9 +443,9 @@ export default function DashboardWorkspacePage() {
     }
     setBusy(true);
     try {
-      const payload = await createDashboardRecord(activeModule.key, nextRecord, user);
+      const payload = await createDashboardRecord(activeModule.key, nextRecord);
       setRecords(payload.records || [payload.record, ...records]);
-      setNotice(`${activeModule.label} record saved to the Command Center backend.`);
+      setNotice(`${activeModule.label} record saved.`);
     } catch (error) {
       setNotice(error.message || "Unable to save this Command Center record.");
     } finally {
@@ -468,10 +453,18 @@ export default function DashboardWorkspacePage() {
     }
   }
 
+  async function exportCsv() {
+    try {
+      await downloadDashboardCsv(activeModule.key);
+    } catch (error) {
+      setNotice(error.message || "Could not export these records.");
+    }
+  }
+
   async function handleDelete(recordId) {
     setBusy(true);
     try {
-      const payload = await deleteDashboardRecord(activeModule.key, recordId, user);
+      const payload = await deleteDashboardRecord(activeModule.key, recordId);
       setRecords(payload.records || records.filter((record) => record.id !== recordId));
       setNotice(`${activeModule.label} record deleted.`);
     } catch (error) {
@@ -493,13 +486,16 @@ export default function DashboardWorkspacePage() {
           </div>
           <div className="p2p-top-actions">
             <Link to="/starter">New Blueprint</Link>
+            <Link to="/my-roadmaps">My Roadmaps</Link>
             <Link to="/pricing">Upgrade</Link>
+            <button type="button" onClick={() => { signOut(); navigate("/"); }}>Sign Out</button>
           </div>
         </header>
 
         <AccessBanner module={activeModule} user={user} />
         <PlanScope module={activeModule} />
-        {notice && <div className="p2p-inline-notice">{notice}</div>}
+        {notice && <div className="p2p-inline-notice" role="status">{notice}</div>}
+        {loadError && <div className="p2p-inline-notice" role="alert">{loadError}</div>}
         <CommandSummary module={activeModule} records={records} />
 
         <section className="p2p-metrics">
@@ -516,24 +512,25 @@ export default function DashboardWorkspacePage() {
         </section>
 
         <section className="p2p-actions-row">
-          {actionButtons.map((action) => (
+          {actionButtons.filter((action) => action.key.startsWith("create")).slice(0, 1).map((action) => (
             <button
               type="button"
               key={action.key}
-              onClick={() => setNotice(`${action.label} is wired as ${action.method} ${activeModule.endpoints?.create || activeModule.endpoints?.list || "/api/dashboard"}.`)}
+              onClick={() => document.getElementById("module-form")?.scrollIntoView({ behavior: "smooth", block: "center" })}
             >
-              {action.label}<span>{action.method}</span>
+              {action.label}
             </button>
           ))}
+          {actionButtons.some((action) => action.key.startsWith("export")) && (
+            <button type="button" onClick={exportCsv}>Export CSV</button>
+          )}
         </section>
 
         <section className="p2p-content-grid">
           <div className="p2p-panel wide">
             <div className="p2p-panel-head">
               <h2>{activeModule.label} Workspace</h2>
-              <a className="p2p-secondary" href={dashboardExportUrl(activeModule.key, user)}>
-                Export CSV
-              </a>
+              <button type="button" className="p2p-secondary" onClick={exportCsv}>Export CSV</button>
             </div>
             <ModuleExperience module={visibleModule} records={records} onDelete={handleDelete} />
           </div>
@@ -546,7 +543,6 @@ export default function DashboardWorkspacePage() {
             <h3>Table View</h3>
             <ModuleTable module={visibleModule} onDelete={handleDelete} />
           </div>
-          <ApiPanel module={activeModule} />
         </section>
       </main>
     </div>
