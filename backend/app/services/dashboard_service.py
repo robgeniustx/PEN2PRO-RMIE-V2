@@ -4,11 +4,10 @@ from copy import deepcopy
 from datetime import datetime, timezone
 import csv
 import io
-import json
-import os
-from pathlib import Path
 import uuid
 from typing import Any
+
+from app import store
 
 
 PLAN_RANK = {
@@ -616,88 +615,46 @@ DASHBOARD_MODULES = [
 ]
 
 
-STORE_PATH = Path(
-    os.getenv(
-        "DASHBOARD_RECORD_STORE",
-        str(Path(__file__).resolve().parents[2] / ".local" / "dashboard_records.json"),
-    )
-)
-
-
 def _module_by_key(module_key: str) -> dict[str, Any] | None:
     return next((item for item in DASHBOARD_MODULES if item["key"] == module_key), None)
 
 
-def _load_store() -> dict[str, list[dict[str, Any]]]:
-    if not STORE_PATH.exists():
-        return {}
-    try:
-        payload = json.loads(STORE_PATH.read_text())
-    except (OSError, json.JSONDecodeError):
-        return {}
-    return payload if isinstance(payload, dict) else {}
-
-
-def _save_store(store: dict[str, list[dict[str, Any]]]) -> None:
-    STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    STORE_PATH.write_text(json.dumps(store, indent=2, sort_keys=True))
-
-
-def get_module_records(module_key: str) -> list[dict[str, Any]]:
-    module = _module_by_key(module_key)
-    if not module:
+def get_module_records(owner: str, module_key: str) -> list[dict[str, Any]]:
+    """Records belong to the signed-in user. New accounts start empty; no demo rows are shown."""
+    if not _module_by_key(module_key):
         return []
-    store = _load_store()
-    return deepcopy(store.get(module_key) or module["records"])
+    return store.list_module_records(owner, module_key)
 
 
-def create_module_record(module_key: str, payload: dict[str, Any], user_plan: str = "free", user_role: str = "member") -> dict[str, Any] | None:
+def create_module_record(owner: str, module_key: str, payload: dict[str, Any], user_plan: str = "free", user_role: str = "member") -> dict[str, Any] | None:
     module = _module_by_key(module_key)
     if not module or not access_payload(module, user_plan, user_role)["unlocked"]:
         return None
-    store = _load_store()
-    records = store.get(module_key) or deepcopy(module["records"])
     record = _normalize_record(module_key, payload)
-    records.insert(0, record)
-    store[module_key] = records
-    _save_store(store)
+    store.insert_module_record(owner, module_key, record)
     return record
 
 
-def update_module_record(module_key: str, record_id: str, payload: dict[str, Any], user_plan: str = "free", user_role: str = "member") -> dict[str, Any] | None:
+def update_module_record(owner: str, module_key: str, record_id: str, payload: dict[str, Any], user_plan: str = "free", user_role: str = "member") -> dict[str, Any] | None:
     module = _module_by_key(module_key)
     if not module or not access_payload(module, user_plan, user_role)["unlocked"]:
         return None
-    store = _load_store()
-    records = store.get(module_key) or deepcopy(module["records"])
-    for index, record in enumerate(records):
-        if str(record.get("id")) == str(record_id):
-            records[index] = {**record, **payload, "updated_at": _now()}
-            store[module_key] = records
-            _save_store(store)
-            return records[index]
-    return None
+    safe = {k: v for k, v in payload.items() if k not in {"id", "created_at"}}
+    return store.update_module_record(owner, module_key, str(record_id), safe)
 
 
-def delete_module_record(module_key: str, record_id: str, user_plan: str = "free", user_role: str = "member") -> bool:
+def delete_module_record(owner: str, module_key: str, record_id: str, user_plan: str = "free", user_role: str = "member") -> bool:
     module = _module_by_key(module_key)
     if not module or not access_payload(module, user_plan, user_role)["unlocked"]:
         return False
-    store = _load_store()
-    records = store.get(module_key) or deepcopy(module["records"])
-    next_records = [record for record in records if str(record.get("id")) != str(record_id)]
-    if len(next_records) == len(records):
-        return False
-    store[module_key] = next_records
-    _save_store(store)
-    return True
+    return store.delete_module_record(owner, module_key, str(record_id))
 
 
-def export_module_csv(module_key: str) -> str | None:
+def export_module_csv(owner: str, module_key: str) -> str | None:
     module = _module_by_key(module_key)
     if not module:
         return None
-    records = get_module_records(module_key)
+    records = get_module_records(owner, module_key)
     columns = ["id", *[column["key"] for column in module["columns"]], "status", "created_at", "updated_at"]
     output = io.StringIO()
     writer = csv.DictWriter(output, fieldnames=list(dict.fromkeys(columns)), extrasaction="ignore")
@@ -754,12 +711,12 @@ def list_dashboard_modules(user_plan: str = "free", user_role: str = "member") -
     }
 
 
-def get_dashboard_module(module_key: str, user_plan: str = "free", user_role: str = "member") -> dict[str, Any] | None:
+def get_dashboard_module(module_key: str, user_plan: str = "free", user_role: str = "member", owner: str = "") -> dict[str, Any] | None:
     module = _module_by_key(module_key)
     if not module:
         return None
     result = deepcopy(module)
-    result["records"] = get_module_records(module_key)
+    result["records"] = get_module_records(owner, module_key) if owner else []
     result["access"] = access_payload(module, user_plan, user_role)
     result["metrics"] = result["metrics"] or module_metrics(result)
     return result
@@ -788,7 +745,7 @@ def module_metrics(module: dict[str, Any]) -> list[dict[str, Any]]:
     metrics = [
         {"label": "Records", "value": len(records)},
         {"label": "Required Plan", "value": module.get("required_plan", "free")},
-        {"label": "Live Store", "value": "Local JSON"},
+        {"label": "Storage", "value": "Saved to your account"},
     ]
     if money_total:
         metrics.insert(1, {"label": "Customer Value", "value": f"${money_total:,.0f}"})

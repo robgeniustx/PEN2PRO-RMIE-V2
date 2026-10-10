@@ -5,6 +5,7 @@ from typing import Any, Dict, Optional
 
 import stripe
 
+from app import store
 from app.models.payment import Payment
 from app.models.subscription import Subscription
 
@@ -100,6 +101,12 @@ def handle_checkout_completed(event: Dict[str, Any]):
         SUBSCRIPTIONS_BY_SESSION[session["id"]] = sub
         if sub.stripe_subscription_id:
             SUBSCRIPTIONS_BY_STRIPE_ID[sub.stripe_subscription_id] = sub
+
+        # Durable record + plan unlock, so access survives restarts even if the buyer never revisits the success page.
+        if payment.payment_status in {"paid", "no_payment_required"}:
+            store.record_purchase(session["id"], tier, payment.customer_email, session.get("subscription"), session.get("amount_total"))
+            if tier in store.PAID_TIERS and payment.customer_email:
+                store.upgrade_tier(payment.customer_email.lower(), tier)
     except Exception as exc:
         print(f"[stripe] checkout completion persistence warning: {exc}")
 
@@ -119,9 +126,19 @@ def handle_subscription_updated(event: Dict[str, Any]):
 
 def handle_subscription_deleted(event: Dict[str, Any]):
     obj = event["data"]["object"]
+    _downgrade_after_cancel(obj.get("id"))
     sub = SUBSCRIPTIONS_BY_STRIPE_ID.get(obj.get("id"))
     if not sub:
         return
     sub.status = "canceled"
     sub.updated_at = datetime.now(timezone.utc)
+
+def _downgrade_after_cancel(subscription_id: str) -> None:
+    purchase = store.purchase_by_subscription(subscription_id)
+    if not purchase or purchase["tier"] == "founders":
+        return
+    for email in {purchase.get("claimed_by"), purchase.get("email")} - {None}:
+        user = store.get_user(email)
+        if user and user["tier"] == purchase["tier"]:
+            store.set_tier(email, "free")
 # TODO stripe_service

@@ -7,9 +7,9 @@ import { createCheckoutSession } from "../api/stripeApi";
 const FOUNDERS_FEATURES = [
   { icon: "♾️", title: "Lifetime Platform Access", body: "One payment. No subscriptions. No renewals. Access to PEN2PRO for life — including all future features added to the platform." },
   { icon: "🗺️", title: "Full RMIE Blueprint Engine", body: "Complete RMIE roadmap generation with 7/30/90-day plans, monetization strategy, business foundation checklist, and launch execution support." },
-  { icon: "🧠", title: "Advanced Strategist Guidance", body: "Elite-level business strategy, financial projections, pivot planning, competitor analysis, and done-with-you execution support." },
-  { icon: "⚡", title: "P2P Command Center", body: "Full access to the AI-powered business command center — CRM, pipeline, automation, tasks, invoices, calendar, and operations." },
-  { icon: "📞", title: "P2P AI Voice Agent", body: "AI voice agent that makes and receives calls, qualifies leads, books appointments, and handles follow-ups on your behalf." },
+  { icon: "🧠", title: "Advanced Strategist Guidance", body: "The Strategist plan builder: a 12-week path to your revenue goal with weekly targets, capacity checks, price scenarios, and proof checkpoints." },
+  { icon: "⚡", title: "P2P Command Center", body: "A workspace for contacts, leads, pipeline, tasks, estimates and invoices. Records save to your account and export to CSV." },
+  { icon: "📞", title: "P2P AI Voice Agent", body: "AI voice agent for calls, lead capture and follow-ups. It runs on your own Twilio and ElevenLabs accounts, which you connect during setup." },
   { icon: "🌐", title: "Website Builder", body: "Build your business website with AI-generated copy, landing pages, contact forms, and domain guidance." },
   { icon: "💳", title: "Funding & Credit Readiness", body: "Full funding readiness tools, credit profile strategy, document vault, tradeline guidance, and lender preparation resources." },
   { icon: "📊", title: "12-Month 10M Strategist Framework", body: "A structured 12-month business scaling framework built for founders who want to build toward a $10M-level business structure." },

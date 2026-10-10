@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
+import { apiRequest, isSignedIn } from "../api/authApi";
+import RefinePanel from "../components/blueprint/RefinePanel";
 import Navbar from "../components/layout/Navbar";
 
 const SAMPLE = {
@@ -138,7 +140,7 @@ function Section({ id, title, children, defaultOpen = false }) {
         <h2 className="font-display text-base font-bold text-white">{title}</h2>
         <span className="text-[#D4A017] text-xl font-bold">{open ? "−" : "+"}</span>
       </button>
-      {open && <div className="px-6 pb-6">{children}</div>}
+      <div className={open ? "px-6 pb-6" : "hidden px-6 pb-6 print:block"}>{children}</div>
     </div>
   );
 }
@@ -151,7 +153,7 @@ export default function BlueprintResultsPage() {
 
   const state = location.state || {};
   const roadmap = state.roadmap || JSON.parse(localStorage.getItem("pen2pro_last_roadmap") || "null") || SAMPLE;
-  const isSample = state.isSample || roadmap.isSample || false;
+  const isSample = state.isSample || roadmap.isSample || roadmap.is_sample || false;
   const formData = state.formData || {};
 
   useEffect(() => {
@@ -163,6 +165,23 @@ export default function BlueprintResultsPage() {
   }, []);
 
   const r = roadmap;
+  const [saveState, setSaveState] = useState(state.savedId ? "saved" : "idle"); // idle | saving | saved | error
+  const [saveError, setSaveError] = useState("");
+
+  async function handleSave() {
+    setSaveState("saving");
+    setSaveError("");
+    try {
+      await apiRequest("/api/roadmaps", {
+        method: "POST",
+        body: { kind: "blueprint", title: r.business_idea || formData.business_idea || "My roadmap", data: r },
+      });
+      setSaveState("saved");
+    } catch (error) {
+      setSaveState("error");
+      setSaveError(error.message || "Could not save this roadmap.");
+    }
+  }
 
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
@@ -170,7 +189,7 @@ export default function BlueprintResultsPage() {
 
       {/* Upgrade Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70">
+        <div className="no-print fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70">
           <div className="w-full max-w-md rounded-2xl border border-[#D4A017] p-8 text-center" style={{ background: "#0F1520" }}>
             <div className="mb-4 text-4xl">🎯</div>
             <h2 className="font-display text-2xl font-black text-white mb-2">Your roadmap is ready.</h2>
@@ -203,9 +222,17 @@ export default function BlueprintResultsPage() {
         <div className="mb-8">
           {isSample && (
             <div className="mb-4 rounded-xl border border-[#D4A017]/30 bg-[#D4A017]/10 px-4 py-3 text-sm text-[#D4A017]">
-              <strong>Demo Roadmap</strong> — This is a sample. Submit your idea on the{" "}
+              <strong>Sample roadmap</strong> — This is an example, not a plan for your business. Submit your idea on the{" "}
               <Link to="/starter" className="underline">roadmap form</Link> to get your personalized plan.
             </div>
+          )}
+          {saveState === "saved" && !state.savedId && (
+            <div role="status" className="no-print mb-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300">
+              Saved to your account. <Link to="/my-roadmaps" className="underline">View My Roadmaps</Link>
+            </div>
+          )}
+          {saveState === "error" && (
+            <div role="alert" className="no-print mb-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">{saveError}</div>
           )}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -217,15 +244,34 @@ export default function BlueprintResultsPage() {
               </h1>
               {r.category && <p className="text-sm text-slate-500 mt-1">{r.category}</p>}
             </div>
-            <Link to="/starter" className="btn-outline px-5 py-2.5 text-sm font-bold whitespace-nowrap">
-              Generate New Roadmap
-            </Link>
+            <div className="no-print flex flex-wrap items-center gap-2">
+              {!isSample && (isSignedIn() ? (
+                <button
+                  type="button"
+                  onClick={handleSave}
+                  disabled={saveState === "saving" || saveState === "saved"}
+                  className="btn-gold px-5 py-2.5 text-sm font-bold whitespace-nowrap disabled:opacity-70"
+                >
+                  {saveState === "saving" ? "Saving..." : saveState === "saved" ? "Saved ✓" : "Save Roadmap"}
+                </button>
+              ) : (
+                <Link to="/login" state={{ from: "/results" }} className="btn-gold px-5 py-2.5 text-sm font-bold whitespace-nowrap">
+                  Sign in to Save
+                </Link>
+              ))}
+              <button type="button" onClick={() => window.print()} className="btn-outline px-5 py-2.5 text-sm font-bold whitespace-nowrap">
+                Download PDF
+              </button>
+              <Link to="/starter" className="btn-outline px-5 py-2.5 text-sm font-bold whitespace-nowrap">
+                Generate New Roadmap
+              </Link>
+            </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
           {/* Sidebar */}
-          <div className="hidden lg:block">
+          <div className="no-print hidden lg:block">
             <div className="sticky top-24 rounded-2xl border border-[#1A2235] p-4" style={{ background: "#0F1520" }}>
               <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Jump to section</p>
               <nav className="space-y-1">
@@ -494,6 +540,8 @@ export default function BlueprintResultsPage() {
               </div>
             </Section>
 
+            {!isSample && <RefinePanel roadmap={r} />}
+
             {/* Upgrade */}
             <Section id="upgrade" title="13. Next Steps — Go Further">
               <div className="rounded-xl border border-[#D4A017] bg-[#D4A017]/5 p-6">
@@ -516,7 +564,7 @@ export default function BlueprintResultsPage() {
       </div>
 
       {/* Bottom Sticky Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-[#1A2235] py-3 px-4" style={{ background: "#0F1520" }}>
+      <div className="no-print fixed bottom-0 left-0 right-0 z-40 border-t border-[#1A2235] py-3 px-4" style={{ background: "#0F1520" }}>
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3">
           <p className="hidden text-sm font-semibold text-white sm:block">
             Ready to start? Get the <span style={{ color: "#D4A017" }}>$100 step-by-step Strategist Plan</span>

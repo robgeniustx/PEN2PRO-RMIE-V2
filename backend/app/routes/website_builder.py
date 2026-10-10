@@ -6,17 +6,19 @@ import os
 import uuid
 from typing import Optional, Dict, Any
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 
+from datetime import datetime, timezone
+
+from app import ratelimit, store
+from app.auth_deps import current_user
 from app.services.niche_marketing_service import get_website_template, WEBSITE_TEMPLATES
 
 router = APIRouter(prefix="/website-builder", tags=["Website Builder"])
 
-# ---------------------------------------------------------------------------
-# In-memory website project store
-# ---------------------------------------------------------------------------
-_WEBSITES: Dict[str, dict] = {}
+# Website projects are saved per user in the database (module "website_projects").
+MODULE = "website_projects"
 
 
 # ---------------------------------------------------------------------------
@@ -66,7 +68,7 @@ class WebsiteCreate(BaseModel):
 
 
 @router.post("/websites")
-def create_website(payload: WebsiteCreate):
+def create_website(payload: WebsiteCreate, user: dict = Depends(current_user)):
     """Create a new website project using a niche template."""
     website_id = str(uuid.uuid4())
     template = get_website_template(payload.industry_id)
@@ -106,39 +108,42 @@ def create_website(payload: WebsiteCreate):
         "template": personalized_template,
         "status": "draft",
         "published": False,
-        "created_at": str(uuid.uuid4()),
+        "created_at": datetime.now(timezone.utc).isoformat(),
     }
-    _WEBSITES[website_id] = website
+    try:
+        store.insert_module_record(user["email"], MODULE, website)
+    except store.StoreLimit as exc:
+        raise HTTPException(status_code=413, detail=str(exc))
     return website
 
 
 @router.get("/websites")
-def list_websites():
-    return {"websites": list(_WEBSITES.values()), "total": len(_WEBSITES)}
+def list_websites(user: dict = Depends(current_user)):
+    sites = store.list_module_records(user["email"], MODULE)
+    return {"websites": sites, "total": len(sites)}
 
 
 @router.get("/websites/{website_id}")
-def get_website(website_id: str):
-    website = _WEBSITES.get(website_id)
+def get_website(website_id: str, user: dict = Depends(current_user)):
+    website = next((w for w in store.list_module_records(user["email"], MODULE) if w.get("id") == website_id), None)
     if not website:
         raise HTTPException(status_code=404, detail="Website not found")
     return website
 
 
 @router.patch("/websites/{website_id}")
-def update_website(website_id: str, payload: dict):
-    website = _WEBSITES.get(website_id)
+def update_website(website_id: str, payload: dict, user: dict = Depends(current_user)):
+    safe = {k: v for k, v in payload.items() if k not in {"id", "created_at"}}
+    website = store.update_module_record(user["email"], MODULE, website_id, safe)
     if not website:
         raise HTTPException(status_code=404, detail="Website not found")
-    website.update(payload)
     return website
 
 
 @router.delete("/websites/{website_id}")
-def delete_website(website_id: str):
-    if website_id not in _WEBSITES:
+def delete_website(website_id: str, user: dict = Depends(current_user)):
+    if not store.delete_module_record(user["email"], MODULE, website_id):
         raise HTTPException(status_code=404, detail="Website not found")
-    del _WEBSITES[website_id]
     return {"deleted": True}
 
 
@@ -155,7 +160,8 @@ class ContentRequest(BaseModel):
 
 
 @router.post("/generate-content")
-async def generate_content(payload: ContentRequest):
+async def generate_content(payload: ContentRequest, user: dict = Depends(current_user)):
+    ratelimit.check(f"content:{user['email']}", 30, 3600)
     """
     Generate website section content using OpenAI.
     Falls back to template-based content if API key is not set.

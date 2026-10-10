@@ -1,14 +1,22 @@
 import { mockWebsiteBuilder } from '../data/mockWebsiteBuilder';
+import { authHeaders } from './authApi';
 
 const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
 async function safePost(path, payload, fallback) {
   try {
-    const r = await fetch(`${API}${path}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    if (!r.ok) throw new Error('request failed');
-    return await r.json();
-  } catch {
-    return fallback;
+    const r = await fetch(`${API}${path}`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...authHeaders() }, body: JSON.stringify(payload) });
+    const body = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      const error = new Error(typeof body.detail === 'string' ? body.detail : 'Request failed');
+      error.status = r.status;
+      throw error;
+    }
+    return body;
+  } catch (error) {
+    // Sample output is for local development only. Visitors always see the real error.
+    if (import.meta.env.DEV && !error.status) return fallback;
+    throw error;
   }
 }
 

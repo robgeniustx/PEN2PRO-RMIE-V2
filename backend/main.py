@@ -4,6 +4,7 @@ from typing import Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from app.routes.stripe_routes import router as stripe_router
@@ -13,6 +14,9 @@ from app.routes.credit import router as credit_router
 from app.routes.funding import router as funding_router
 from app.routes.auth import router as auth_router
 from app.routes.strategist import router as strategist_router
+from app.routes.roadmaps import router as roadmaps_router
+from app.routes.website import router as website_router
+from app.routes.capture import router as capture_router
 from app.routes.blueprints import router as blueprints_router
 from app.routes.voice import router as voice_router
 from app.routes.agents import router as agents_router
@@ -103,7 +107,7 @@ def health(): return {"status": "ok", "service": "PEN2PRO BusinessOS API", "vers
 
 @app.get("/api/pricing")
 def get_pricing():
-    return {"plans": {"strategist": {"name": "$100 Strategist Plan", "price": "$100 one-time", "features": ["15-step start-your-business playbook", "Offer, pricing, and validation worksheets", "LLC, EIN, banking, license, and tax checklist", "Sales scripts and first-10-customers plan", "Credit and funding readiness steps", "30/60/90-day operating plan"]}, "free_forever": {"name": "Free Forever", "price": "$0/mo", "features": ["Starter RMIE blueprint", "Basic business roadmap preview", "Basic sales script", "Locked Pro, Elite, and Founders sections"]}, "pro": {"name": "RMIE Pro", "price": "$249/mo", "value": "$525/mo", "features": ["RMIE strategy engine", "Full business roadmap", "Website builder", "Domain search + affiliate link", "Unlimited websites & funnels", "Unlimited contacts", "Unlimited sales pipelines", "Full CRM dashboard", "Calendar & scheduling", "Payments & invoices", "Proposals & estimates", "Reputation management", "Multi-channel messaging", "Email marketing", "2-way text/email conversation", "Missed-call text-back", "Social media planner", "Branding boards", "Workflows & automations", "Up to 3 users", "P2P AI Voice (Basic)", "Niche marketing plan generator"]}, "elite": {"name": "RMIE Elite", "price": "$499/mo", "features": ["Everything in Pro", "Advanced RMIE strategy engine", "Advanced business plan generation", "Advanced niche marketing plans", "Unlimited domains & blogs", "Unlimited memberships & courses", "Unlimited video hosting", "Unlimited communities", "Unlimited certificates", "Expert nurture campaigns", "Advanced workflows & automations", "Advanced pipeline reporting", "AI follow-up & sales assistant", "AI content & funnel assistant", "AI review response assistant", "AI proposal/estimate generator", "AI profit/loss insight", "Up to 10 users", "Advanced P2P AI Voice Agent", "Call summaries & lead qualification", "Appointment booking via AI", "CRM updates from calls", "Text-to-pay", "Priority support"]}, "founders": {"name": "Founders Circle Lifetime Access", "price": "$1,899 one-time", "launch_note": "Limited to 200 founder accounts.", "features": ["Everything in Pro", "Everything in Elite", "Lifetime access", "Future feature access", "Founder-only roadmap", "Founder-level strategy", "Founder badge recognition", "Direct roadmap influence", "Private founder sessions"]}}}
+    return {"plans": {"strategist": {"name": "$100 Strategist Plan", "price": "$100 one-time", "features": ["15-step start-your-business playbook", "Strategist: 12-week path to your revenue goal for your occupation", "Offer, pricing, and validation worksheets", "LLC, EIN, banking, license, and tax checklist", "Sales scripts and first-10-customers plan", "Credit and funding readiness steps", "30/60/90-day operating plan"]}, "free_forever": {"name": "Free Forever", "price": "$0/mo", "features": ["Starter RMIE blueprint", "Basic business roadmap preview", "Basic sales script", "Locked Pro, Elite, and Founders sections"]}, "pro": {"name": "RMIE Pro", "price": "$249/mo", "value": "$525/mo", "features": ["RMIE strategy engine", "Full business roadmap", "Website builder", "Domain search + affiliate link", "Unlimited websites & funnels", "Unlimited contacts", "Unlimited sales pipelines", "Full CRM dashboard", "Calendar & scheduling", "Payments & invoices", "Proposals & estimates", "Reputation management", "Multi-channel messaging", "Email marketing", "2-way text/email conversation", "Missed-call text-back", "Social media planner", "Branding boards", "Workflows & automations", "Up to 3 users", "P2P AI Voice (Basic)", "Niche marketing plan generator"]}, "elite": {"name": "RMIE Elite", "price": "$499/mo", "features": ["Everything in Pro", "Advanced RMIE strategy engine", "Advanced business plan generation", "Advanced niche marketing plans", "Unlimited domains & blogs", "Unlimited memberships & courses", "Unlimited video hosting", "Unlimited communities", "Unlimited certificates", "Expert nurture campaigns", "Advanced workflows & automations", "Advanced pipeline reporting", "AI follow-up & sales assistant", "AI content & funnel assistant", "AI review response assistant", "AI proposal/estimate generator", "AI profit/loss insight", "Up to 10 users", "Advanced P2P AI Voice Agent", "Call summaries & lead qualification", "Appointment booking via AI", "CRM updates from calls", "Text-to-pay", "Priority support"]}, "founders": {"name": "Founders Circle Lifetime Access", "price": "$1,899 one-time", "launch_note": "Limited to 200 founder accounts.", "features": ["Everything in Pro", "Everything in Elite", "Lifetime access", "Future feature access", "Founder-only roadmap", "Founder-level strategy", "Founder badge recognition", "Direct roadmap influence", "Private founder sessions"]}}}
 
 @app.get("/api/rmie/pro/tools")
 def pro_tools(): return {"tier": "pro", "features": PRO_FEATURES}
@@ -231,6 +235,29 @@ def founders_roadmap(req:BusinessRequest): require_feature(req.tier or 'free','f
 @app.get('/api/founders/benefits')
 def founders_benefits(tier:str='free'): require_feature(tier,'future_features'); return {"benefits":["Lifetime full-system access","Founder-only roadmap","Future feature access"]}
 
+
+# Endpoints below return illustrative sample data only. In production they report "not connected"
+# rather than showing a customer fake contacts, invoices or appointments.
+DEMO_ONLY_PATHS = {
+    "/api/funnels", "/api/crm/dashboard", "/api/crm/contacts", "/api/crm/pipelines", "/api/calendar/scheduling",
+    "/api/payments/invoices", "/api/proposals-estimates", "/api/reputation", "/api/messaging/multichannel",
+    "/api/email-marketing/campaign", "/api/conversations", "/api/voice/missed-call-text-back", "/api/social/planner",
+    "/api/branding/board", "/api/workflows/automations", "/api/marketing/niche-plan", "/api/marketing/elite/niche-plan",
+    "/api/domains/elite", "/api/blogs/elite", "/api/memberships-courses", "/api/video-hosting", "/api/communities",
+    "/api/certificates", "/api/campaigns/expert-nurture", "/api/workflows/advanced", "/api/reports/pipeline-advanced",
+    "/api/ai/follow-up-sales-assistant", "/api/ai/content-funnel-assistant", "/api/ai/review-response-assistant",
+    "/api/ai/proposal-estimate-generator", "/api/voice-agent/call-summary", "/api/voice-agent/lead-qualification",
+    "/api/voice-agent/book-appointment", "/api/voice-agent/update-crm-from-call", "/api/payments/text-to-pay",
+    "/api/ai/profit-loss-insight", "/api/website-builder/generate", "/api/domain/search",
+}
+
+
+@app.middleware("http")
+async def block_demo_endpoints_in_production(request, call_next):
+    if os.getenv("ENVIRONMENT", "development").lower() == "production" and request.url.path in DEMO_ONLY_PATHS:
+        return JSONResponse(status_code=501, content={"detail": "This feature is not connected yet."})
+    return await call_next(request)
+
 # keep existing routers
 app.include_router(blueprints_router, prefix="/api/blueprints", tags=["RMIE"])
 app.include_router(stripe_router, prefix="/api/stripe", tags=["Stripe"])
@@ -240,6 +267,9 @@ app.include_router(credit_router, prefix="/api/credit", tags=["Credit"])
 app.include_router(funding_router, prefix="/api/funding", tags=["Funding"])
 app.include_router(auth_router, prefix="/api/auth", tags=["Auth"])
 app.include_router(strategist_router, prefix="/api/strategist", tags=["Strategist Plan"])
+app.include_router(roadmaps_router, prefix="/api/roadmaps", tags=["Roadmaps"])
+app.include_router(website_router, prefix="/api/website", tags=["Website"])
+app.include_router(capture_router, prefix="/api/starter", tags=["Starter"])
 app.include_router(voice_router, prefix="/api/voice", tags=["Voice Coach"])
 app.include_router(agents_router)
 app.include_router(rmie_knowledge_router, prefix="/api/rmie", tags=["RMIE Vector Knowledge"])
@@ -252,17 +282,10 @@ app.include_router(dashboard_router)
 if _has_customers:
     app.include_router(customers_router, prefix="/api/customers", tags=["Customers"])
 
-from app.routes.blueprints import BlueprintRequest, _SAMPLE, _call_openai
+from app.routes.blueprints import BlueprintRequest, generate_roadmap_for
 @app.post("/api/roadmap")
 async def roadmap_alias(req: BlueprintRequest):
-    if not os.getenv("OPENAI_API_KEY", ""):
-        result = copy.deepcopy(_SAMPLE)
-        result["business_idea"] = req.business_idea
-        result["category"] = req.category or req.industry_id or "General Business"
-        result["industry_id"] = req.industry_id or ""
-        result["is_sample"] = True
-        return result
-    return await _call_openai(req)
+    return await generate_roadmap_for(req)
 
 @app.get("/api/industries")
 def list_industries():

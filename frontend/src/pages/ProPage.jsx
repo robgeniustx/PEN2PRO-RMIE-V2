@@ -12,8 +12,8 @@ const PRO_FEATURES = [
   },
   {
     icon: "📊",
-    title: "Full Progress Tracking",
-    body: "Track every milestone, task, and launch step with visual progress indicators. Know exactly where you are and what to do next.",
+    title: "Command Center Workspace",
+    body: "Keep contacts, leads, tasks, estimates and invoices in one workspace that saves to your account, with CSV export. Records are yours and private to your login.",
   },
   {
     icon: "🎨",
@@ -22,13 +22,13 @@ const PRO_FEATURES = [
   },
   {
     icon: "📤",
-    title: "Email & PDF Export",
-    body: "Export your full roadmap as a branded PDF or email it directly. Share with partners, advisors, or lenders with one click.",
+    title: "PDF Export & Saved Roadmaps",
+    body: "Save roadmaps to your account and download any roadmap as a PDF to share with partners, advisors, or lenders.",
   },
   {
     icon: "🤖",
     title: "Advanced AI Refinement",
-    body: "Refine your roadmap with deeper AI prompts. Get industry-specific insights, competitor analysis, and targeted recommendations.",
+    body: "Ask the AI to rework any part of your roadmap: tighten the offer, rewrite the sales script, localize it to your city, or stress-test the pricing.",
   },
   {
     icon: "📣",
@@ -222,7 +222,7 @@ export default function ProPage() {
                   "Full RMIE blueprint",
                   "7 / 30 / 90-day action plan",
                   "Credit & funding checklist",
-                  "PDF & email export",
+                  "PDF export & saved roadmaps",
                   "Business branding support",
                   "Outreach strategy + sales scripts",
                   "Advanced AI refinement",

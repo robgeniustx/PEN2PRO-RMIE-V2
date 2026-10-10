@@ -1039,3 +1039,21 @@ button { cursor: pointer; font-family: inherit; }
 .animate-fade-up         { animation: fadeUp 0.6s ease both; }
 .animate-fade-up-delay   { animation: fadeUp 0.6s 0.15s ease both; }
 .animate-fade-up-delay-2 { animation: fadeUp 0.6s 0.3s  ease both; }
+
+
+/* Print / Save as PDF: light page, no site chrome, every section expanded. */
+@media print {
+  nav, footer, .no-print { display: none !important; }
+  html, body { background: #fff !important; }
+  body * {
+    color: #111 !important;
+    background: transparent !important;
+    border-color: #ccc !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    -webkit-text-fill-color: #111 !important;
+  }
+  a { text-decoration: underline; }
+  .min-h-screen { min-height: 0 !important; }
+  article, section, .rounded-2xl, .rounded-xl { break-inside: avoid; }
+}

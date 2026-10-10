@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import { signOut } from "../../api/authApi";
 
 const NAV_LINKS = [
   { label: "Home",        path: "/" },
@@ -29,6 +31,9 @@ const MOBILE_EXTRA = [
 ];
 
 export default function Navbar() {
+  const { signedIn } = useAuth();
+  const navigate = useNavigate();
+  const handleSignOut = () => { signOut(); navigate("/"); };
   const [open, setOpen] = useState(false);
   const [plansOpen, setPlansOpen] = useState(false);
   const plansRef = useRef(null);
@@ -126,12 +131,23 @@ export default function Navbar() {
 
         {/* CTA Buttons */}
         <div className="hidden items-center gap-3 md:flex shrink-0">
-          <Link
-            to="/login"
-            className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-400 transition hover:text-white btn-outline"
-          >
-            Sign In
-          </Link>
+          {signedIn ? (
+            <>
+              <Link to="/my-roadmaps" className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-300 transition hover:text-white btn-outline">
+                My Roadmaps
+              </Link>
+              <button type="button" onClick={handleSignOut} className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-400 transition hover:text-white">
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-400 transition hover:text-white btn-outline"
+            >
+              Sign In
+            </Link>
+          )}
           <Link
             to="/starter"
             className="rounded-xl px-5 py-2.5 text-sm font-black text-[#0A0F1E] btn-gold"
@@ -172,13 +188,24 @@ export default function Navbar() {
             ))}
           </div>
           <div className="flex flex-col gap-2 border-t border-[#1A2235] pt-4">
-            <Link
-              to="/login"
-              onClick={() => setOpen(false)}
-              className="rounded-lg border border-[#1A2235] px-4 py-3 text-center text-sm font-semibold text-slate-300"
-            >
-              Sign In
-            </Link>
+            {signedIn ? (
+              <>
+                <Link to="/my-roadmaps" onClick={() => setOpen(false)} className="rounded-lg border border-[#1A2235] px-4 py-3 text-center text-sm font-semibold text-slate-300">
+                  My Roadmaps
+                </Link>
+                <button type="button" onClick={() => { setOpen(false); handleSignOut(); }} className="rounded-lg border border-[#1A2235] px-4 py-3 text-center text-sm font-semibold text-slate-300">
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => setOpen(false)}
+                className="rounded-lg border border-[#1A2235] px-4 py-3 text-center text-sm font-semibold text-slate-300"
+              >
+                Sign In
+              </Link>
+            )}
             <Link
               to="/starter"
               onClick={() => setOpen(false)}

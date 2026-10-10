@@ -3,6 +3,8 @@ import { Link, useSearchParams } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import StepCard from "../components/strategist/StepCard";
+import PlanBuilder from "../components/strategist/PlanBuilder";
+import { claimPurchase, isSignedIn } from "../api/authApi";
 import { createCheckoutSession } from "../api/stripeApi";
 import {
   clearStrategistSession,
@@ -48,7 +50,11 @@ export default function StrategistPlaybookPage() {
     fetchStrategistPlaybook(sessionId)
       .then((playbook) => {
         if (!active) return;
-        if (sessionId) storeStrategistSession(sessionId);
+        if (sessionId) {
+          storeStrategistSession(sessionId);
+          // Link the purchase to the account so the plan opens on any device after signing in.
+          if (isSignedIn() && sessionId.startsWith("cs_")) claimPurchase(sessionId).catch(() => {});
+        }
         setData(playbook);
         setState("ready");
       })
@@ -146,6 +152,7 @@ export default function StrategistPlaybookPage() {
           </div>
           <div className="mt-6 flex flex-wrap gap-3">
             <button type="button" onClick={() => window.print()} className="btn-outline rounded-xl px-5 py-2.5 text-sm font-bold">Print / Save as PDF</button>
+            <a href="#plan-builder" className="btn-gold rounded-xl px-5 py-2.5 text-sm font-bold">Build my $10K plan</a>
             <a href="#scripts" className="btn-outline rounded-xl px-5 py-2.5 text-sm font-bold">Jump to scripts</a>
             <Link to="/starter" className="btn-outline rounded-xl px-5 py-2.5 text-sm font-bold">Generate a roadmap</Link>
           </div>
@@ -167,6 +174,7 @@ export default function StrategistPlaybookPage() {
         </nav>
 
         <div className="space-y-10">
+          <PlanBuilder sessionId={sessionId} />
           {data.phases.map((phase) => (
             <section key={phase.id}>
               <div className="mb-4 flex items-baseline justify-between gap-3">

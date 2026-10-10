@@ -7,7 +7,9 @@ import json
 from datetime import datetime, timezone
 from typing import Optional
 
-from fastapi import APIRouter, HTTPException, Request, Header, Query
+from fastapi import APIRouter, Depends, HTTPException, Request, Header, Query
+
+from app.auth_deps import owner_or_webhook
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
@@ -32,7 +34,7 @@ from app.services.voice_agent_service import (
 )
 import os
 
-router = APIRouter(prefix="/voice-agent", tags=["Voice Agent"])
+router = APIRouter(prefix="/voice-agent", tags=["Voice Agent"], dependencies=[Depends(owner_or_webhook)])
 
 TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN", "")
 

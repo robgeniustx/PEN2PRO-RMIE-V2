@@ -1,5 +1,7 @@
 from typing import Optional
 
+from app import store
+
 import stripe
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
@@ -64,6 +66,11 @@ async def stripe_webhook(request: Request):
 async def get_session_status(session_id: str):
     payment = PAYMENTS_BY_SESSION.get(session_id)
     if not payment:
+        # In-memory payment records vanish on restart; fall back to the durable purchase record.
+        saved = store.get_purchase(session_id)
+        if saved:
+            return {"session_id": session_id, "payment_status": "paid", "customer_email": saved.get("email"),
+                    "tier": saved["tier"], "mode": "payment"}
         return {
             "session_id": session_id,
             "payment_status": "unknown",

@@ -5,7 +5,9 @@ import pathlib
 import re
 from typing import Optional
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, Request
+
+from app import ratelimit
 from pydantic import BaseModel
 
 router = APIRouter()
@@ -365,13 +367,27 @@ async def _call_openai(req: BlueprintRequest) -> dict:
         return _customized_fallback(req, str(exc))
 
 
-@router.post("/generate")
-async def generate_blueprint(req: BlueprintRequest):
-    api_key = os.getenv("OPENAI_API_KEY", "")
-    if not api_key:
-        return _customized_fallback(req)
+def _require_real_roadmap(result: dict) -> dict:
+    """In production a canned sample must never be presented as a person's own roadmap."""
+    if result.get("is_sample") and os.getenv("ENVIRONMENT", "development").lower() == "production":
+        raise HTTPException(
+            status_code=503,
+            detail="Roadmap generation is temporarily unavailable. Please try again in a few minutes.",
+        )
+    return result
 
-    return await _call_openai(req)
+
+async def generate_roadmap_for(req: BlueprintRequest) -> dict:
+    if not os.getenv("OPENAI_API_KEY", ""):
+        return _require_real_roadmap(_customized_fallback(req))
+    return _require_real_roadmap(await _call_openai(req))
+
+
+@router.post("/generate")
+async def generate_blueprint(req: BlueprintRequest, request: Request):
+    # The free roadmap calls a paid AI model, so cap how often one visitor can trigger it.
+    ratelimit.check(f"roadmap:{ratelimit.client_ip(request)}", int(os.getenv("RATE_LIMIT_BLUEPRINT_PER_HOUR", "8")), 3600)
+    return await generate_roadmap_for(req)
 
 
 @router.get("/niche-preview/{industry_id}")

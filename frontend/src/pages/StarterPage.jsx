@@ -161,22 +161,34 @@ export default function StarterPage() {
       setLoadingMsgIdx(idx);
     }, 1800);
 
+    // Keep the contact details so the owner can follow up. This never blocks the roadmap.
+    fetch(`${API}/api/starter/capture`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: form.name, email: form.email, business_idea: form.business_idea, category: form.category }),
+    }).catch(() => {});
+
     try {
       const res = await fetch(`${API}/api/blueprints/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       clearInterval(msgInterval);
 
-      if (!res.ok) throw new Error(data.detail || "Generation failed");
+      if (!res.ok) throw new Error(typeof data.detail === "string" ? data.detail : "Generation failed");
 
       navigate("/results", { state: { roadmap: data, formData: form } });
-    } catch {
+    } catch (err) {
       clearInterval(msgInterval);
-      // Fallback: show sample roadmap so it never breaks
-      navigate("/results", { state: { roadmap: SAMPLE_ROADMAP, formData: form, isSample: true } });
+      // A canned example is only for local development. Visitors never get one presented as their own plan.
+      if (import.meta.env.DEV) {
+        navigate("/results", { state: { roadmap: SAMPLE_ROADMAP, formData: form, isSample: true } });
+        return;
+      }
+      setLoading(false);
+      setError(err.message && err.message !== "Failed to fetch" ? err.message : "We could not reach the server. Check your connection and try again.");
     }
   }
 
@@ -396,8 +408,8 @@ export default function StarterPage() {
           {step === 3 && (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <h2 className="font-display text-xl font-bold text-white mb-1">Almost there — where should we send your roadmap?</h2>
-                <p className="text-sm text-slate-500">Your roadmap is generated instantly and free. No credit card required.</p>
+                <h2 className="font-display text-xl font-bold text-white mb-1">Almost there — who is this roadmap for?</h2>
+                <p className="text-sm text-slate-500">Your roadmap is free and needs no credit card. We keep your name and email so we can follow up, and you can save the roadmap to an account.</p>
               </div>
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-slate-300">

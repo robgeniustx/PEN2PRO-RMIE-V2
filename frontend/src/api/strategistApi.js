@@ -1,4 +1,5 @@
 import client from './client'
+import { authHeaders } from './authApi'
 
 const SESSION_KEY = 'pen2pro_strategist_session'
 
@@ -18,5 +19,5 @@ export const fetchStrategistOutline = async () => (await client.get('/strategist
 export const fetchStrategistSample = async () => (await client.get('/strategist/sample')).data
 export const fetchStrategistPlaybook = async (sessionId) => {
   const query = sessionId ? `?session_id=${encodeURIComponent(sessionId)}` : ''
-  return (await client.get(`/strategist/playbook${query}`)).data
+  return (await client.get(`/strategist/playbook${query}`, { headers: authHeaders() })).data
 }

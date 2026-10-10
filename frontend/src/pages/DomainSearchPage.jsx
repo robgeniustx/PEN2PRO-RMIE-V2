@@ -4,7 +4,11 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { INDUSTRIES } from "../constants/industries";
 
-const DOMAIN_AFFILIATE_URL = import.meta.env.VITE_DOMAIN_AFFILIATE_URL || "https://namecheap.com";
+const DOMAIN_AFFILIATE_URL = import.meta.env.VITE_DOMAIN_AFFILIATE_URL || "";
+
+// Sends the visitor to the registrar's own search for that exact name, where real availability is shown.
+const registrarUrl = (domain) =>
+  DOMAIN_AFFILIATE_URL || `https://www.namecheap.com/domains/registration/results/?domain=${encodeURIComponent(domain)}`;
 
 function generateDomainSuggestions(name, industry) {
   if (!name) return [];
@@ -96,18 +100,18 @@ export default function DomainSearchPage() {
                       <span className="font-mono text-sm font-bold text-white">{d}</span>
                     </div>
                     <a
-                      href={DOMAIN_AFFILIATE_URL}
+                      href={registrarUrl(d)}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="sponsored noopener noreferrer"
                       className="rounded-lg px-3 py-1.5 text-xs font-black text-[#0A0F1E] btn-gold"
                     >
-                      Secure It →
+                      Check availability →
                     </a>
                   </div>
                 ))}
               </div>
               <p className="mt-4 text-xs text-slate-600">
-                * Domain availability is checked when you click "Secure It." Results shown are suggestions only.
+                * These are name ideas, not confirmed availability. The registrar shows whether each one is free and its price. PEN2PRO may earn a commission.
               </p>
             </div>
           )}

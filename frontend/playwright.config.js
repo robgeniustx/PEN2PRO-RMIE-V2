@@ -1,4 +1,9 @@
 import { defineConfig, devices } from "@playwright/test";
+import os from "node:os";
+import path from "node:path";
+
+// A fresh database for every run so tests never see old data.
+const DB_PATH = path.join(os.tmpdir(), `pen2pro-e2e-${Date.now()}.db`);
 
 const FRONTEND = "http://localhost:4173";
 const API = "http://localhost:8000";
@@ -24,6 +29,7 @@ export default defineConfig({
       reuseExistingServer: !process.env.CI,
       env: {
         ADMIN_ACCESS_KEY: "e2e-admin-key",
+        PEN2PRO_DB_PATH: DB_PATH,
         ALLOW_TEST_TIER_ACCESS: "true",
         ENVIRONMENT: "development",
         FRONTEND_URL: FRONTEND,

@@ -1,9 +1,15 @@
+import { authHeaders } from "./authApi";
+
 const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+
+const ownerKey = () => {
+  try { const k = sessionStorage.getItem("pen2pro_admin_key"); return k ? { "X-Admin-Key": k } : {}; } catch { return {}; }
+};
 
 async function request(path, options = {}, fallback = null) {
   try {
     const response = await fetch(`${API}${path}`, {
-      headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+      headers: { "Content-Type": "application/json", ...authHeaders(), ...ownerKey(), ...(options.headers || {}) },
       ...options,
     });
     if (!response.ok) throw new Error(`Voice Agent API failed: ${response.status}`);

@@ -6,7 +6,20 @@ services:
     rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    # Accounts, purchases, saved roadmaps and dashboard records live in a SQLite file on this disk.
+    # Persistent disks require a paid instance type (Starter or above) and limit the API to one instance.
+    plan: starter
+    disk:
+      name: pen2pro-data
+      mountPath: /var/data
+      sizeGB: 1
     envVars:
+      - key: PEN2PRO_DB_PATH
+        value: /var/data/pen2pro.db
+      - key: ADMIN_EMAILS
+        sync: false
+      - key: RATE_LIMIT_BLUEPRINT_PER_HOUR
+        value: "8"
       - key: FRONTEND_URL
         value: https://pen2pro.com
       - key: OPENAI_API_KEY
