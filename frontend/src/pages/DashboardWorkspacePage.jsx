@@ -251,7 +251,7 @@ const MODULE_INTENT = {
   integrations: { title: "Integration Hub", tone: "Connect Stripe, Twilio, OpenAI, email, calendars, domains, and automation systems." },
   settings: { title: "Workspace Settings", tone: "Configure business profile, security, notifications, timezone, and workspace defaults." },
   billing: { title: "Plan & Billing", tone: "Track plan access, subscription state, customer payments, and Founders lifetime status." },
-  admin: { title: "Owner Admin", tone: "Control waitlist, users, feature access, exports, and operating metrics." },
+  admin: { title: "Owner Admin", tone: "Control users, feature access, exports, and operating metrics." },
 };
 
 function FieldPreview({ module }) {

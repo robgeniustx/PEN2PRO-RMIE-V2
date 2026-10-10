@@ -102,8 +102,8 @@ export default function WebsiteBuilderLandingPage() {
             <Link to="/pricing" className="rounded-xl px-6 py-3 text-sm font-black text-[#0A0F1E] btn-gold">
               Upgrade to Elite
             </Link>
-            <Link to="/waitlist" className="rounded-xl border border-[#1A2D50] px-6 py-3 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
-              Join Waitlist
+            <Link to="/pricing" className="rounded-xl border border-[#1A2D50] px-6 py-3 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
+              View Pricing
             </Link>
           </div>
         </div>

@@ -17,10 +17,17 @@ export default function LoginPage() {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [registerForm, setRegisterForm] = useState({ name: "", email: "", password: "", confirm: "" });
 
+  const destination = location.state?.from || "/dashboard";
+
+  useEffect(() => {
+    setTab(location.pathname === "/signup" ? "register" : "login");
+    setError("");
+  }, [location.pathname]);
+
   useEffect(() => {
     const token = localStorage.getItem("pen2pro_token");
-    if (token) navigate("/dashboard");
-  }, [navigate]);
+    if (token) navigate(destination);
+  }, [navigate, destination]);
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -36,7 +43,7 @@ export default function LoginPage() {
       if (!res.ok) throw new Error(data.detail || "Login failed");
       localStorage.setItem("pen2pro_token", data.access_token);
       localStorage.setItem("pen2pro_user", JSON.stringify({ name: data.name, tier: data.tier, email: loginForm.email }));
-      navigate("/dashboard");
+      navigate(destination);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -66,7 +73,7 @@ export default function LoginPage() {
       if (!res.ok) throw new Error(data.detail || "Registration failed");
       localStorage.setItem("pen2pro_token", data.access_token);
       localStorage.setItem("pen2pro_user", JSON.stringify({ name: data.name, tier: data.tier, email: registerForm.email }));
-      navigate("/dashboard");
+      navigate(destination);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -77,15 +84,45 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Navbar />
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-20">
-        <div className="w-full max-w-md">
+      <div className="mx-auto grid min-h-[calc(100vh-80px)] max-w-6xl items-center gap-12 px-4 py-16 lg:grid-cols-2">
+        {/* Value panel */}
+        <aside className="order-2 lg:order-1">
+          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-[#D4A017]">PEN2PRO RMIE</p>
+          <h2 className="font-display text-3xl font-black leading-tight text-white md:text-4xl">
+            Build your business roadmap. Save your blueprint. Upgrade when ready.
+          </h2>
+          <p className="mt-4 text-slate-400 leading-7">
+            PEN2PRO is the Rapid Monetization Intelligence Engine: realistic roadmaps, launch strategy, and funding readiness for people turning ideas into income.
+          </p>
+          <ul className="mt-8 space-y-4">
+            {[
+              ["Free roadmap", "A personalized 7/30/90-day plan with a sales script and startup checklist. No credit card.", "/starter"],
+              ["Pro strategy tools", "Full roadmap depth, progress tracking, AI refinement, outreach, and export.", "/pro"],
+              ["Elite execution support", "Financial projections, resource center, and done-with-you guidance.", "/elite"],
+              ["Legacy Founder access", "Lifetime access to the whole platform. Limited to 200 founders.", "/founders"],
+            ].map(([title, body, to]) => (
+              <li key={title} className="flex gap-4 rounded-xl border border-[#1A2235] p-4" style={{ background: "#0F1520" }}>
+                <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full gradient-gold" />
+                <div>
+                  <Link to={to} className="font-bold text-white hover:text-[#D4A017]">{title}</Link>
+                  <p className="mt-1 text-sm text-slate-400">{body}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-6 text-sm text-slate-500">
+            Want the full start-your-business plan? See the <Link to="/strategist" className="font-semibold text-[#D4A017] hover:underline">$100 Strategist Plan</Link>.
+          </p>
+        </aside>
+
+        <div className="order-1 w-full max-w-md justify-self-center lg:order-2">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl gradient-gold text-xl font-black text-[#080C14]">
               P2P
             </div>
             <h1 className="font-display text-3xl font-bold text-white">
-              {tab === "login" ? "Welcome back" : "Create your account"}
+              {tab === "login" ? "Sign in to PEN2PRO" : "Create your account"}
             </h1>
             <p className="mt-2 text-sm text-slate-400">
               {tab === "login"
@@ -217,16 +254,16 @@ export default function LoginPage() {
                   {loading ? "Creating account..." : "Create Account — Free"}
                 </button>
                 <p className="text-center text-xs text-slate-500">
-                  By creating an account you agree to our Terms of Service and Privacy Policy.
+                  By creating an account you agree to our <Link to="/terms" className="underline hover:text-slate-300">Terms of Service</Link> and <Link to="/privacy" className="underline hover:text-slate-300">Privacy Policy</Link>.
                 </p>
               </form>
             )}
 
-            {/* Waitlist link */}
+            {/* Free roadmap link */}
             <div className="mt-6 text-center text-sm text-slate-500">
               Not ready to sign up yet?{" "}
-              <Link to="/waitlist" className="font-semibold" style={{ color: "#D4A017" }}>
-                Join the waitlist
+              <Link to="/starter" className="font-semibold" style={{ color: "#D4A017" }}>
+                Try the free roadmap first
               </Link>
             </div>
           </div>

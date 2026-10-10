@@ -17,6 +17,8 @@ services:
         sync: false
       - key: STRIPE_WEBHOOK_SECRET
         sync: false
+      - key: STRIPE_PRICE_STRATEGIST
+        sync: false
       - key: STRIPE_PRICE_PRO_MONTHLY
         sync: false
       - key: STRIPE_PRICE_ELITE_MONTHLY
@@ -43,6 +45,24 @@ services:
       - key: VITE_API_BASE_URL
         value: https://pen2pro-api.onrender.com
       - key: VITE_STRIPE_PUBLISHABLE_KEY
+        sync: false
+      - key: VITE_AFFILIATE_LLC_URL
+        sync: false
+      - key: VITE_AFFILIATE_BANKING_URL
+        sync: false
+      - key: VITE_AFFILIATE_CREDIT_URL
+        sync: false
+      - key: VITE_AFFILIATE_FUNDING_URL
+        sync: false
+      - key: VITE_AFFILIATE_DOMAIN_URL
+        sync: false
+      - key: VITE_AFFILIATE_BOOKKEEPING_URL
+        sync: false
+      - key: VITE_AFFILIATE_PAYMENT_URL
+        sync: false
+      - key: VITE_AFFILIATE_CRM_URL
+        sync: false
+      - key: VITE_AFFILIATE_INSURANCE_URL
         sync: false
       - key: VITE_ALLOW_TEST_TIER_ACCESS
         value: "false"
@@ -80,4 +100,4 @@ services:
     rootDir: backend
     schedule: "0 6 * * 1"
     buildCommand: pip install -r requirements.txt
-    startCommand: python -m app.jobs.refresh_content_calendars
+    startCommand: python -m app.jobs.weekly_content_calendars

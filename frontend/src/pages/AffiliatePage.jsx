@@ -14,19 +14,26 @@ const RESOURCES = [
   { name: "Divvy (BILL)", category: "Business Credit", desc: "Business Visa card with expense management. No personal guarantee.", url: "https://www.divvy.co" },
   { name: "Namecheap", category: "Domain / Website", desc: "Domain registration from $8.98/yr. Free WhoisGuard privacy.", url: import.meta.env.VITE_AFFILIATE_DOMAIN_URL || "https://www.namecheap.com" },
   { name: "Squarespace", category: "Domain / Website", desc: "Professional websites in a day. Best for service businesses.", url: "https://www.squarespace.com" },
-  { name: "Stripe", category: "Payment Processing", desc: "Accept payments online and in-person. 2.9% + 30¢ per transaction.", url: "https://stripe.com" },
+  { name: "Stripe", category: "Payment Processing", desc: "Accept payments online and in-person. 2.9% + 30¢ per transaction.", url: import.meta.env.VITE_AFFILIATE_PAYMENT_URL || "https://stripe.com" },
   { name: "Square", category: "Payment Processing", desc: "Free card reader, POS system, and invoicing for service businesses.", url: "https://squareup.com" },
   { name: "PayPal Business", category: "Payment Processing", desc: "Send invoices, accept cards and bank transfers.", url: "https://www.paypal.com/us/business" },
   { name: "Wave", category: "Bookkeeping", desc: "Free invoicing, accounting, and receipt scanning. Perfect for startups.", url: import.meta.env.VITE_AFFILIATE_BOOKKEEPING_URL || "https://www.waveapps.com" },
   { name: "QuickBooks", category: "Bookkeeping", desc: "Industry-standard accounting software. $30/mo Simple Start.", url: "https://quickbooks.intuit.com" },
   { name: "FreshBooks", category: "Bookkeeping", desc: "Invoicing-first accounting for service businesses. $17/mo.", url: "https://www.freshbooks.com" },
-  { name: "HubSpot CRM", category: "CRM", desc: "Free CRM for managing clients and deals. Scales to paid tiers.", url: "https://www.hubspot.com/products/crm" },
+  { name: "HubSpot CRM", category: "CRM", desc: "Free CRM for managing clients and deals. Scales to paid tiers.", url: import.meta.env.VITE_AFFILIATE_CRM_URL || "https://www.hubspot.com/products/crm" },
   { name: "GoHighLevel", category: "CRM", desc: "All-in-one CRM + marketing automation for agencies and service businesses.", url: "https://www.gohighlevel.com" },
   { name: "Mailchimp", category: "Email Marketing", desc: "Free email marketing up to 500 contacts. Drag-and-drop builder.", url: "https://mailchimp.com" },
   { name: "ConvertKit", category: "Email Marketing", desc: "Creator-focused email marketing. Free up to 1,000 subscribers.", url: "https://convertkit.com" },
-  { name: "Next Insurance", category: "Business Insurance", desc: "General liability from $400/yr. Apply in 5 minutes online.", url: "https://www.nextinsurance.com" },
+  { name: "Next Insurance", category: "Business Insurance", desc: "General liability from $400/yr. Apply in 5 minutes online.", url: import.meta.env.VITE_AFFILIATE_INSURANCE_URL || "https://www.nextinsurance.com" },
   { name: "Hiscox", category: "Business Insurance", desc: "Small business insurance specialists. BOP and GL policies.", url: "https://www.hiscox.com" },
 ];
+
+const FUNDING_RESOURCES = [
+  { name: "SBA Lender Match", category: "Funding Partners", desc: "Free U.S. Small Business Administration tool that connects you with SBA-approved lenders.", url: "https://www.sba.gov/funding-programs/loans/lender-match" },
+  { name: "Lendio", category: "Funding Partners", desc: "Loan marketplace that compares offers from multiple lenders with one application.", url: import.meta.env.VITE_AFFILIATE_FUNDING_URL || "https://www.lendio.com" },
+  { name: "Kiva", category: "Funding Partners", desc: "0% interest crowdfunded loans for small businesses and underserved entrepreneurs.", url: "https://www.kiva.org/borrow" },
+];
+RESOURCES.push(...FUNDING_RESOURCES);
 
 const CATEGORIES = [...new Set(RESOURCES.map(r => r.category))];
 
@@ -40,6 +47,7 @@ const CATEGORY_ICONS = {
   "CRM": "🤝",
   "Email Marketing": "📧",
   "Business Insurance": "🛡",
+  "Funding Partners": "💰",
 };
 
 export default function AffiliatePage() {
@@ -54,60 +62,36 @@ export default function AffiliatePage() {
             RESOURCES & PARTNERS
           </div>
           <h1 className="font-display text-4xl font-black text-white md:text-5xl mb-4">
-            Earn While You <span className="gradient-text">Build</span>
+            Tools To <span className="gradient-text">Build</span> Faster
           </h1>
           <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-            The exact tools used by serious founders — vetted, categorized, and ready to use. Plus, earn commissions when you refer PEN2PRO members.
+            The exact tools used by serious founders — vetted, categorized, and ready to use. Hand-picked for the steps in your roadmap.
           </p>
         </div>
       </div>
 
       <div className="mx-auto max-w-7xl px-5 py-16">
-        {/* Affiliate Partner Section */}
+        {/* Partner section */}
         <div className="mb-16 rounded-2xl border border-[#D4A017] p-8" style={{ background: "#D4A01708" }}>
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             <div>
-              <h2 className="font-display text-2xl font-bold text-white mb-4">Become a PEN2PRO Affiliate Partner</h2>
-              <p className="text-slate-400 text-sm leading-7 mb-6">
-                Refer other founders, veterans, and entrepreneurs to PEN2PRO and earn commissions on every upgrade. Our affiliate program launches June 15, 2026 alongside the full platform.
+              <h2 className="font-display text-2xl font-bold text-white mb-4">Partner With PEN2PRO</h2>
+              <p className="text-slate-400 text-sm leading-7 mb-4">
+                Are you a creator, coach, community leader, or business that serves entrepreneurs, veterans, or returning citizens? We work with partners who share our mission of giving people a real roadmap.
               </p>
-              <div className="space-y-3">
-                {[
-                  { label: "Pro Referral", value: "$14/mo recurring (30%)" },
-                  { label: "Elite Referral", value: "$29/mo recurring (30%)" },
-                  { label: "Founders Referral", value: "$149 one-time (30%)" },
-                  { label: "Cookie Window", value: "90 days" },
-                  { label: "Payout", value: "Monthly via PayPal or direct deposit" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center justify-between rounded-xl border border-[#1A2235] px-4 py-3" style={{ background: "#0F1520" }}>
-                    <span className="text-sm text-slate-400">{item.label}</span>
-                    <span className="text-sm font-bold" style={{ color: "#D4A017" }}>{item.value}</span>
-                  </div>
-                ))}
-              </div>
+              <p className="text-slate-400 text-sm leading-7">
+                Partner terms are set one-to-one. Email us with who you serve and how you would like to work together.
+              </p>
             </div>
-            <div>
-              <h3 className="font-display text-lg font-bold text-white mb-4">How It Works</h3>
-              <div className="space-y-4">
-                {[
-                  { step: "1", title: "Join the Waitlist", desc: "Sign up for the affiliate program through the waitlist. Affiliate access opens at launch." },
-                  { step: "2", title: "Get Your Link", desc: "We'll send you a unique referral link and affiliate dashboard login on June 15." },
-                  { step: "3", title: "Share with Your Network", desc: "Share your link on social media, in communities, or 1-on-1 with people who need this." },
-                  { step: "4", title: "Earn Every Month", desc: "Get paid recurring commissions as long as your referrals stay subscribed." },
-                ].map((s, i) => (
-                  <div key={i} className="flex gap-4">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full gradient-gold text-sm font-black text-[#080C14]">
-                      {s.step}
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-white">{s.title}</p>
-                      <p className="text-xs text-slate-500">{s.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <Link to="/waitlist?interest=affiliate" className="btn-gold mt-6 block w-full py-3 text-center text-sm font-bold">
-                Join Affiliate Waitlist
+            <div className="flex flex-col justify-center gap-3">
+              <a href="mailto:support@pen2pro.com?subject=PEN2PRO%20Partner%20Inquiry" className="btn-gold block w-full py-3 text-center text-sm font-bold">
+                Email Us About Partnering
+              </a>
+              <Link to="/signup" className="btn-outline block w-full py-3 text-center text-sm font-bold">
+                Create Free Account
+              </Link>
+              <Link to="/starter" className="text-center text-xs font-semibold text-slate-400 hover:text-white">
+                Or start with a free roadmap →
               </Link>
             </div>
           </div>
@@ -145,7 +129,7 @@ export default function AffiliatePage() {
                       <a
                         href={r.url}
                         target="_blank"
-                        rel="noopener noreferrer"
+                        rel="sponsored noopener noreferrer"
                         className="btn-outline block w-full py-2.5 text-center text-xs font-bold"
                       >
                         Learn More →

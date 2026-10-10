@@ -1,13 +1,26 @@
-codex/fix-screenshot-issue-in-frontend
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
 
+// Every backend route lives under /api, so callers may pass either '/admin/metrics' or '/api/admin/metrics'.
+const withApiPrefix = (path) => (path.startsWith('/api/') ? path : `/api${path}`)
+
+const adminHeaders = () => {
+  try {
+    const key = sessionStorage.getItem('pen2pro_admin_key')
+    return key ? { 'X-Admin-Key': key } : {}
+  } catch {
+    return {}
+  }
+}
+
 const request = async (path, options = {}) => {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const { headers, ...rest } = options
+  const response = await fetch(`${API_BASE_URL}${withApiPrefix(path)}`, {
+    ...rest,
     headers: {
       'Content-Type': 'application/json',
-      ...(options.headers || {}),
+      ...adminHeaders(),
+      ...(headers || {}),
     },
-    ...options,
   })
 
   const contentType = response.headers.get('content-type') || ''
@@ -35,27 +48,3 @@ const client = {
 }
 
 export default client
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-
-const client = {
-  get: async (path) => {
-    const res = await fetch(`${API_BASE_URL}/api${path}`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    return { data };
-  },
-  post: async (path, body) => {
-    const res = await fetch(`${API_BASE_URL}/api${path}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    return { data };
-  },
-};
-
-export default client;
-main

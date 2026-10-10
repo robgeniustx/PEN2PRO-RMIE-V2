@@ -21,6 +21,24 @@ PLANS = [
         ],
     },
     {
+        "id": "strategist",
+        "name": "$100 Strategist Plan",
+        "price": 100,
+        "display_price": "$100 one-time",
+        "billing_type": "one_time",
+        "description": "A detailed, step-by-step plan for starting your business, from idea to first paying customers.",
+        "cta": "Get the Strategist Plan",
+        "stripe_tier": "strategist",
+        "features": [
+            "15-step start-your-business playbook",
+            "Offer, pricing, and validation worksheets",
+            "LLC, EIN, banking, license, and tax checklist",
+            "Sales scripts and a first-10-customers plan",
+            "Credit and funding readiness steps",
+            "30/60/90-day operating plan",
+        ],
+    },
+    {
         "id": "pro",
         "name": "PEN2PRO Pro",
         "price": 249,
@@ -91,7 +109,6 @@ PLANS = [
 def get_pricing():
     return {
         "status": "ok",
-        "launch_date": "June 15",
         "brand": "PEN2PRO",
         "tagline": "From Idea to Income",
         "plans": PLANS,

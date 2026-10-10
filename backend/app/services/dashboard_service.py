@@ -144,7 +144,7 @@ DASHBOARD_MODULES = [
         ],
         [
             {"id": 201, "name": "Baytown property manager", "source": "Website", "interest": "Pressure washing bid", "score": 84, "status": "new"},
-            {"id": 202, "name": "Veteran founder", "source": "Waitlist", "interest": "Funding help", "score": 76, "status": "qualified"},
+            {"id": 202, "name": "Veteran founder", "source": "Website", "interest": "Funding help", "score": 76, "status": "qualified"},
         ],
         [
             {"key": "create_lead", "label": "Add Lead", "method": "POST"},
@@ -374,7 +374,7 @@ DASHBOARD_MODULES = [
         ],
         [
             {"id": 1201, "name": "Houston property manager outreach", "channel": "Email/SMS", "audience": "Commercial property", "status": "draft"},
-            {"id": 1202, "name": "Founder waitlist nurture", "channel": "Email", "audience": "Waitlist", "status": "active"},
+            {"id": 1202, "name": "New subscriber nurture", "channel": "Email", "audience": "Subscribers", "status": "active"},
         ],
         [{"key": "create_campaign", "label": "New Campaign", "method": "POST"}, {"key": "generate_copy", "label": "Generate Copy", "method": "POST"}],
         [{"key": "name", "label": "Campaign name", "type": "text", "required": True}, {"key": "channel", "label": "Channel", "type": "select", "options": ["Email", "SMS", "Social", "Outbound"], "required": True}],
@@ -580,7 +580,7 @@ DASHBOARD_MODULES = [
         ],
         [
             {"id": 2201, "plan": "Free Forever", "amount": 0, "renewal": "N/A", "status": "active"},
-            {"id": 2202, "plan": "Founders Lifetime", "amount": 497, "renewal": "Lifetime", "status": "waitlist"},
+            {"id": 2202, "plan": "Founders Lifetime", "amount": 497, "renewal": "Lifetime", "status": "pending"},
         ],
         [{"key": "upgrade", "label": "Upgrade", "method": "POST"}, {"key": "manage_billing", "label": "Manage Billing", "method": "POST"}],
         [{"key": "plan", "label": "Plan", "type": "select", "options": ["free", "pro", "elite", "founders"], "required": True}],
@@ -597,7 +597,7 @@ DASHBOARD_MODULES = [
         "Admin",
         "admin",
         "founders",
-        "Owner view of waitlist, metrics, users, feature access, and operating controls.",
+        "Owner view of metrics, users, feature access, and operating controls.",
         [
             {"key": "area", "label": "Area", "type": TEXT},
             {"key": "metric", "label": "Metric", "type": TEXT},
@@ -605,13 +605,13 @@ DASHBOARD_MODULES = [
             {"key": "action", "label": "Action", "type": TEXT},
         ],
         [
-            {"id": 2301, "area": "Waitlist", "metric": "Lead collection", "status": "active", "action": "Review signups"},
+            {"id": 2301, "area": "Accounts", "metric": "New signups", "status": "active", "action": "Review signups"},
             {"id": 2302, "area": "Access control", "metric": "Role override", "status": "active", "action": "Admin unlocks all"},
             {"id": 2303, "area": "Agent runs", "metric": "Operational readiness", "status": "draft", "action": "Add observability"},
         ],
-        [{"key": "view_waitlist", "label": "View Waitlist", "method": "GET"}, {"key": "export", "label": "Export", "method": "GET"}],
+        [{"key": "export", "label": "Export", "method": "GET"}],
         [],
-        {"list": "/api/admin/metrics", "waitlist": "/api/admin/waitlist"},
+        {"list": "/api/admin/metrics"},
     ),
 ]
 

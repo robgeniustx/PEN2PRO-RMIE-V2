@@ -41,11 +41,11 @@ export default function UpgradeModal({ open, onClose, requiredPlan = "Pro", feat
             View Plans & Upgrade
           </Link>
           <Link
-            to="/waitlist"
+            to="/pricing"
             onClick={onClose}
             className="block w-full rounded-xl border border-[#1A2D50] py-3 text-center text-sm font-semibold text-slate-300 hover:text-white transition-colors"
           >
-            Join the Waitlist
+            View Pricing
           </Link>
           <button
             onClick={onClose}

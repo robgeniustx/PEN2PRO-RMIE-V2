@@ -1,10 +1,12 @@
 
 Backend required:
-`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_PRO_MONTHLY`, `STRIPE_PRICE_ELITE_MONTHLY`, `STRIPE_PRICE_FOUNDERS_LIFETIME`, `FRONTEND_URL`, `ENVIRONMENT`, `ALLOW_TEST_TIER_ACCESS`.
+`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_STRATEGIST` (one-time $100 price), `STRIPE_PRICE_PRO_MONTHLY`, `STRIPE_PRICE_ELITE_MONTHLY`, `STRIPE_PRICE_FOUNDERS_LIFETIME`, `FRONTEND_URL`, `ENVIRONMENT`, `ALLOW_TEST_TIER_ACCESS`.
 
 Frontend required:
 `VITE_API_BASE_URL`, `VITE_STRIPE_PUBLISHABLE_KEY`, `VITE_ALLOW_TEST_TIER_ACCESS`.
 
+- `ADMIN_ACCESS_KEY` (backend, **required in production**): secret key for the admin dashboard, sent as the `X-Admin-Key` header. Admin endpoints return 403 in production when it is unset.
+- `VITE_AFFILIATE_LLC_URL`, `_BANKING_`, `_CREDIT_`, `_FUNDING_`, `_DOMAIN_`, `_BOOKKEEPING_`, `_PAYMENT_`, `_CRM_`, `_INSURANCE_` (frontend, optional): affiliate links for the resources page. Vite bakes these in at build time, so redeploy the frontend after changing them.
 - `ADMIN_DASHBOARD_ENABLED` (backend): enables admin endpoints in production.
 - `VITE_ADMIN_DASHBOARD_ENABLED` (frontend): enables admin routes in UI.
 

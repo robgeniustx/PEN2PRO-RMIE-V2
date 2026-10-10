@@ -57,7 +57,7 @@ const MODULE_COPY = {
   integrations: "Connected tools for email, SMS, calendar, payments, domains, and AI systems.",
   settings: "Business profile, preferences, notifications, security, and workspace defaults.",
   billing: "Plan, invoices, payment method, subscriptions, and Founders access.",
-  admin: "Owner view of waitlist, metrics, users, feature access, and operating controls.",
+  admin: "Owner view of metrics, users, feature access, and operating controls.",
 };
 
 const SAMPLE_ROWS = {
@@ -71,7 +71,7 @@ const SAMPLE_ROWS = {
   ],
   "lead-inbox": [
     { id: 201, name: "Baytown property manager", source: "Website", interest: "Pressure washing bid", score: 84, status: "new" },
-    { id: 202, name: "Veteran founder", source: "Waitlist", interest: "Funding help", score: 76, status: "qualified" },
+    { id: 202, name: "Veteran founder", source: "Website", interest: "Funding help", score: 76, status: "qualified" },
   ],
   pipeline: [
     { id: 301, deal: "Apartment complex exterior cleaning", stage: "proposal", value: 8200, probability: "55%" },

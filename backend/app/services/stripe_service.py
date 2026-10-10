@@ -28,6 +28,7 @@ def _is_configured() -> bool:
 
 def _get_price_id(tier: str) -> str:
     mapping = {
+        "strategist": os.getenv("STRIPE_PRICE_STRATEGIST", ""),
         "pro": os.getenv("STRIPE_PRICE_PRO_MONTHLY", ""),
         "elite": os.getenv("STRIPE_PRICE_ELITE_MONTHLY", ""),
         "founders": (
@@ -47,12 +48,17 @@ def create_checkout_session(tier: str, user_id: Optional[str] = None, customer_e
         raise StripeConfigError("Stripe is not configured. Add Stripe environment variables.")
 
     stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
-    mode = "payment" if tier == "founders" else "subscription"
+    mode = "payment" if tier in {"founders", "strategist"} else "subscription"
     frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
+    success_url = (
+        f"{frontend_url}/strategist/playbook?session_id={{CHECKOUT_SESSION_ID}}"
+        if tier == "strategist"
+        else f"{frontend_url}/payment-success?session_id={{CHECKOUT_SESSION_ID}}"
+    )
     session = stripe.checkout.Session.create(
         mode=mode,
         line_items=[{"price": _get_price_id(tier), "quantity": 1}],
-        success_url=f"{frontend_url}/payment-success?session_id={{CHECKOUT_SESSION_ID}}",
+        success_url=success_url,
         cancel_url=f"{frontend_url}/pricing?payment=cancelled",
         customer_email=customer_email,
         metadata={"tier": tier, "product": "PEN2PRO RMIE Live", "user_id": user_id or ""},

@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, timezone
 from typing import Any, Dict, List
 
@@ -16,6 +17,26 @@ MOCK_METRICS = {
     "conversion_summary": {"upgrade_click": 94, "checkout_started": 52, "checkout_completed": 31, "checkout_cancelled": 14},
     "funnel_summary": {"starter_visits": 430, "blueprint_generated": 312, "pricing_viewed": 210, "upgrade_clicked": 94, "checkout_started": 52, "checkout_completed": 31},
 }
+
+# Demo numbers are for local development only; production reports real (possibly empty) data.
+DEMO_MODE = os.getenv("ENVIRONMENT", "development") != "production"
+
+EMPTY_METRICS = {
+    "total_users": 0,
+    "total_blueprints": 0,
+    "total_events": 0,
+    "total_upgrade_clicks": 0,
+    "total_checkouts_started": 0,
+    "total_checkouts_completed": 0,
+    "estimated_revenue": 0.0,
+    "active_tier_counts": {"free": 0, "pro": 0, "elite": 0, "founders": 0, "strategist": 0},
+    "top_features": [],
+    "module_usage": [],
+    "recent_activity": [],
+    "conversion_summary": {"upgrade_click": 0, "checkout_started": 0, "checkout_completed": 0, "checkout_cancelled": 0},
+    "funnel_summary": {"starter_visits": 0, "blueprint_generated": 0, "pricing_viewed": 0, "upgrade_clicked": 0, "checkout_started": 0, "checkout_completed": 0},
+}
+BASELINE = MOCK_METRICS if DEMO_MODE else EMPTY_METRICS
 
 _EVENTS: List[Dict[str, Any]] = []
 _FEATURES: List[Dict[str, Any]] = []
@@ -48,11 +69,11 @@ def track_conversion_event(data):
 
 
 def get_feature_usage_summary():
-    return _FEATURES or MOCK_METRICS["top_features"]
+    return _FEATURES or BASELINE["top_features"]
 
 
 def get_module_usage_summary():
-    return MOCK_METRICS["module_usage"] if not _FEATURES else [{"module_name": f.get("module_name", "unknown"), "usage_count": 1} for f in _FEATURES]
+    return BASELINE["module_usage"] if not _FEATURES else [{"module_name": f.get("module_name", "unknown"), "usage_count": 1} for f in _FEATURES]
 
 
 def get_conversion_summary():
@@ -61,12 +82,12 @@ def get_conversion_summary():
         ctype = item.get("conversion_type")
         if ctype in summary:
             summary[ctype] += 1
-    return summary if _CONVERSIONS else MOCK_METRICS["conversion_summary"]
+    return summary if _CONVERSIONS else BASELINE["conversion_summary"]
 
 
 def get_funnel_summary():
     if not _EVENTS:
-        return MOCK_METRICS["funnel_summary"]
+        return BASELINE["funnel_summary"]
     names = [e.get("event_name") for e in _EVENTS]
     return {
         "starter_visits": names.count("starter_page_viewed"),
@@ -80,25 +101,25 @@ def get_funnel_summary():
 
 def get_recent_activity(limit=25):
     rows = list(reversed(_EVENTS[-limit:]))
-    return rows or MOCK_METRICS["recent_activity"]
+    return rows or BASELINE["recent_activity"]
 
 
 def get_tier_distribution():
-    return MOCK_METRICS["active_tier_counts"]
+    return BASELINE["active_tier_counts"]
 
 
 def get_revenue_summary():
     if not _CONVERSIONS:
-        return MOCK_METRICS["estimated_revenue"]
+        return BASELINE["estimated_revenue"]
     return sum(float(c.get("amount") or 0) for c in _CONVERSIONS if c.get("conversion_type") == "checkout_completed")
 
 
 def get_admin_metrics():
     return {
-        "total_users": MOCK_METRICS["total_users"],
-        "total_blueprints": len([e for e in _EVENTS if e.get("event_name") == "blueprint_generated"]) or MOCK_METRICS["total_blueprints"],
-        "total_events": len(_EVENTS) or MOCK_METRICS["total_events"],
-        "total_upgrade_clicks": len([e for e in _EVENTS if e.get("event_name") == "upgrade_clicked"]) or MOCK_METRICS["total_upgrade_clicks"],
+        "total_users": BASELINE["total_users"],
+        "total_blueprints": len([e for e in _EVENTS if e.get("event_name") == "blueprint_generated"]) or BASELINE["total_blueprints"],
+        "total_events": len(_EVENTS) or BASELINE["total_events"],
+        "total_upgrade_clicks": len([e for e in _EVENTS if e.get("event_name") == "upgrade_clicked"]) or BASELINE["total_upgrade_clicks"],
         "total_checkouts_started": get_conversion_summary().get("checkout_started", 0),
         "total_checkouts_completed": get_conversion_summary().get("checkout_completed", 0),
         "estimated_revenue": get_revenue_summary(),

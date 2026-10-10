@@ -1,35 +1,23 @@
 # PEN2PRO Production Testing Checklist
 
-## Required GitHub Actions
+## Automated checks
 
-- Build Check
-- API Smoke Test
-- Playwright E2E Test
+- **Build Check** (`.github/workflows/build.yml`): frontend build, which first runs `npm run check:links` so any internal link without a matching route fails the build, plus a backend compile check.
+- **Playwright E2E** (`frontend/tests/e2e`): starts the API and the built frontend itself, then verifies every required route renders, a crawl of every internal link, desktop and mobile navigation, the gated $100 Strategist Plan, the admin key gate, sign-up and the free roadmap flow.
+- **API Smoke Test** (`.github/workflows/api-smoke-test.yml`): checks the live backend after a deploy.
 
-## Status
+## Run locally
 
-- Build Check: PASS
-- API Smoke Test: PASS
-- Playwright E2E Test: PASS
+```
+cd frontend
+npm install
+npm run build
+npx playwright test        # needs python deps from backend/requirements.txt
+```
 
-## Current Test Coverage
+## Still verify by hand before launch
 
-- Frontend build
-- Backend compile check
-- Live backend API route check
-- Homepage route check
-- Starter route check
-- Pricing visibility check
-- Command Center route check
-- AI Voice Agent route check
-
-## Next Production Testing Areas
-
-- RMIE blueprint generation accuracy
-- Stripe checkout
-- Stripe webhook plan updates
-- Login/authentication
-- Admin bypass testing
-- Command Center user/package tracking
-- AI Voice Agent Twilio call flow
-- MongoDB save/retrieve testing
+- Real Stripe checkout for the $100 Strategist Plan, Pro, Elite and Founders (test mode first), including opening the playbook after payment.
+- Stripe webhook delivery to `/api/stripe/webhook`.
+- Roadmap generation with a real `OPENAI_API_KEY`.
+- AI Voice Agent Twilio call flow.
